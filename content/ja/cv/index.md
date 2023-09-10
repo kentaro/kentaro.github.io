@@ -1,5 +1,5 @@
 +++
-title = "自己紹介"
+title = "栗林健太郎"
 type = "blog"
 +++
 

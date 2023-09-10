@@ -8,7 +8,7 @@
 widget = "external_posts"  # See https://sourcethemes.com/academic/docs/page-builder/
 weight = 50  # Order that this section will appear.
 
-# title = "Recent Posts"
+title = "Recent Posts"
 # subtitle = "Read about my latest projects"
 
 [content]

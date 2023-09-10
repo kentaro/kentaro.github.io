@@ -8,7 +8,7 @@
 widget = "external_posts"  # See https://sourcethemes.com/academic/docs/page-builder/
 weight = 50  # Order that this section will appear.
 
-# title = "最近の制作"
+title = "最近の制作活動"
 # subtitle = "Lisez à propos de mes derniers projets"
 
 [content]

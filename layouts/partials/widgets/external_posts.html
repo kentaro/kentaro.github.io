@@ -1,0 +1,47 @@
+<section id="pages">
+  <div class="text-center w-full">
+    <h1 class="my-0 text-4xl sm:text-5xl md:text-6xl">
+      {{ .Title }}
+    </h1>
+    {{ with .Params.subtitle}}
+    <h2 class="font-light mt-0">{{ . }}</h2>
+    {{ end }}
+  </div>
+
+  {{ $items_type := .Params.content.page_type | default "post" }}
+  {{ $items_count := .Params.content.count }}
+
+  <div class="mt-8 flex flex-wrap justify-around">
+    {{ range $.Site.Data.feed.items }}
+    <div class="w-full md:w-1/2 lg:w-1/3 md:pl-4 lg:pl-6">
+      <a href="{{ .link }}" class="no-underline block">
+        <div class="mb-4 border border-primary-light dark:border-secondary-light rounded-md overflow-hidden">
+          {{/* A span is used instead a div for accessibility, <a> tag can't wrap div elements */}}
+            <span class="block">
+              {{ with .enclosure.url }}
+              <div class="h-48 overflow-hidden bg-cover bg-center" style="background-image: url('{{ . | absURL }}');">
+              </div>
+              {{ end }}
+              <div class="px-4 mt-3 mb-3">
+                <h2 class="m-0 inline-block overflow-ellipsis">{{ .title | emojify }}</h2>
+                <span class="block no-underline font-thin text-primary dark:text-primary-light -mt-2">
+                  {{ dateFormat "02/01/2006" .pub_date }}
+                </span>
+              </div>
+              <div class="px-4 mb-3 text-primary-dark overflow-ellipsis">
+                {{ with .description }}
+                {{ . | safeHTML | replaceRE "<[^>]*>" "" | replaceRE "続きをみる" "" | truncate 100 "..." }}
+                {{ else }}
+                {{ substr .Plain 0 256 }}
+                {{ end }}
+                <span class="text-xs mt-3 block no-underline">{{ i18n "read_more" }}...</span>
+              </div>
+            </span>
+        </div>
+      </a>
+    </div>
+    {{ else }}
+    {{ .Content }}
+    {{ end }}
+  </div>
+</section>

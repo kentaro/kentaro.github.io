@@ -31,4 +31,6 @@ hero_media = "/img/banner.jpg"
 
 # Kentaro Kuribayashi
 
+A Tokyo-based creator.
+
 A novel titled _Patterns_ is now on sale.

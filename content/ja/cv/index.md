@@ -69,7 +69,7 @@ type = "blog"
 
 #### 国際会議（査読付き論文）
 
-- **Kentaro Kuribayashi**, Yusuke Miyake, Kenji Rikitake, Kiyofumi Tanaka, Yoichi Shinoda, **Dynamic IoT Applications and Isomorphic IoT Systems Using WebAssembly**, IEEE WFIoT 2023 (to appear)
+- **Kentaro Kuribayashi**, Yusuke Miyake, Kenji Rikitake, Kiyofumi Tanaka, Yoichi Shinoda, **Dynamic IoT Applications and Isomorphic IoT Systems Using WebAssembly**, IEEE WFIoT 2023.
 
 #### 国内発表（査読付き論文）
 

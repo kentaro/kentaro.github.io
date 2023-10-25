@@ -259,7 +259,6 @@ type = "blog"
 
 #### Webメディア
 
-- [CTO×PM公開2on1 〜ペパボのプロダクトマネジメントについて〜｜ペパボHRブログ](https://hr.pepabo.com/interview/2023/10/20/9245), 2023年10月.
 - [【新連載・栗林健太郎氏】私がキャリア戦略をもたない理由と、結局は一番大事だと思う3つの考え方の話。 | レバテックラボ（レバテックLAB）](https://levtech.jp/media/article/column/detail_318/), 2023年10月.
 - [突然のエンジニアリングマネージャー転身。イチ技術者がGMOペパボ・取締役CTOに就くまでに学んだこと – Findy Engineer Lab – ファインディエンジニアラボ](https://engineer-lab.findy-code.io/inevitable-changes-in-career), 2020年2月
 - [時代をリードするエンジニア19人が推薦！ 若手エンジニアに薦めたい「座右の書」](https://employment.en-japan.com/engineerhub/entry/2017/10/27/110000#GMO%E3%83%9A%E3%83%91%E3%83%9C-%E6%A0%97%E6%9E%97%E5%81%A5%E5%A4%AA%E9%83%8E%E3%81%8C%E6%8E%A8%E8%96%A6%E8%B5%B7%E6%BA%90%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%8D%E3%83%83%E3%83%88), 2017年10月
@@ -268,6 +267,7 @@ type = "blog"
 
 ### 取材を受けた記事等
 
+- [CTO×PM公開2on1 〜ペパボのプロダクトマネジメントについて〜｜ペパボHRブログ](https://hr.pepabo.com/interview/2023/10/20/9245), 2023年10月.
 - [生成AIの導入に役立つ2種のOSS、使う際の注意点は？｜日経クロステック（xTECH）](https://xtech.nikkei.com/atcl/nxt/column/18/02480/060600002/), 2023年6月.
 - [「ChatGPT」などのAI（人工知能）はどんなもの？ ECビジネスに役立ちますか？ などの基礎情報を解説｜EC×AIの未来｜ネットショップ担当者フォーラム](https://netshop.impress.co.jp/node/10938), 2023年5月.
 - [ChatGPTの活用を広げるGMOペパボ、限定的だった使い方を変えたのは何か｜日経クロステック（xTECH）](https://xtech.nikkei.com/atcl/nxt/column/18/00001/07968/), 2023年4月.

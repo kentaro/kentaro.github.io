@@ -94,6 +94,7 @@ type = "blog"
 
 ##### 2023年
 
+- 栗林健太郎, 浅山広大, 中山慶祐, 能勢晃, [パネルディスカッション / 次世代CTOs vs あんちぽ ぶつかり稽古 2023](https://www.youtube.com/watch?v=BARrBO_8Om0&t=29410s), [GMO Developers Day 2023](https://developers.gmo.jp/developersday/), 2023年12月.
 - 今村雅幸, 緒方憲太郎, 栗林健太郎, パネルディスカッション / 特別講演「経営チーム CXOに何を求めるか」, [士業トップ×ITトップ 交流会](https://sigyo-it.connpass.com/event/279274/), 2023年6月.
 - 栗林健太郎, 豊濱吉庸, 山田尚史, 若井信一郎, パネルディスカッション / 「CTO, ITの最先端(ChatGPT、LLM、Web3.0、DX)」〜未来のIT、経営層は今何を学ぶべきなのか〜, [士業トップ×ITトップ 交流会](https://sigyo-it.connpass.com/event/279274/), 2023年6月.
 - 栗林健太郎他, 社外審査員, リクルートグループ内技術プレゼンイベント, 2023年6月.

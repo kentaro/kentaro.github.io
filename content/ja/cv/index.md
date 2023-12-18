@@ -260,6 +260,8 @@ type = "blog"
 
 #### Webメディア
 
+- [まずは「知らない」を知ることから。栗林流・キャリアの不確実性に向き合う読書法
+ | レバテックラボ（レバテックLAB）](https://levtech.jp/media/article/column/detail_355/), 2023年12月.
 - [エンジニアのリスキリングに「院進」は正しい選択か。 46歳の院生・栗林健太郎が語る就学の意義 | レバテックラボ（レバテックLAB）](https://levtech.jp/media/article/column/detail_334/), 2023年11月.
 - [【新連載・栗林健太郎氏】私がキャリア戦略をもたない理由と、結局は一番大事だと思う3つの考え方の話。 | レバテックラボ（レバテックLAB）](https://levtech.jp/media/article/column/detail_318/), 2023年10月.
 - [突然のエンジニアリングマネージャー転身。イチ技術者がGMOペパボ・取締役CTOに就くまでに学んだこと – Findy Engineer Lab – ファインディエンジニアラボ](https://engineer-lab.findy-code.io/inevitable-changes-in-career), 2020年2月

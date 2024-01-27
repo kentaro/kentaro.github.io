@@ -92,6 +92,10 @@ type = "blog"
 
 #### 国内
 
+##### 2024年
+
+- 栗林健太郎, [「始め方」の始め方](https://speakerdeck.com/kentaro/how-to-start-starting-things), [エンジニア作業飲み集会LT会#5「〇〇の始めかた」](https://x.com/VRENGAssoc/status/1750361421970567175), 2024年1月.
+
 ##### 2023年
 
 - 栗林健太郎, 浅山広大, 中山慶祐, 能勢晃, [パネルディスカッション / 次世代CTOs vs あんちぽ ぶつかり稽古 2023](https://www.youtube.com/watch?v=BARrBO_8Om0&t=29410s), [GMO Developers Day 2023](https://developers.gmo.jp/developersday/), 2023年12月.

@@ -94,7 +94,7 @@ type = "blog"
 
 ##### 2024年
 
-- 栗林健太郎, [「始め方」の始め方](https://speakerdeck.com/kentaro/how-to-start-starting-things), [エンジニア作業飲み集会LT会#5「〇〇の始めかた」](https://x.com/VRENGAssoc/status/1750361421970567175), 2024年1月.
+- 栗林健太郎, [「始め方」の始め方](https://speakerdeck.com/kentaro/how-to-start-starting-things) [[動画](https://youtu.be/prbLM8lg0Rg?si=vMh8cF9_FA1RF3-0&t=215)], [エンジニア作業飲み集会LT会#5「〇〇の始めかた」](https://x.com/VRENGAssoc/status/1750361421970567175), 2024年1月.
 
 ##### 2023年
 

@@ -94,6 +94,7 @@ type = "blog"
 
 ##### 2024年
 
+- 栗林健太郎他, [第5回（2023年）鹿児島キッズプログラミングコンテスト審査員](https://kpc.kagoshima-kids.com/award/2023award/), [鹿児島キッズプログラミングコンテスト](https://kpc.kagoshima-kids.com/), 2024年2月.
 - 栗林健太郎, [「始め方」の始め方](https://speakerdeck.com/kentaro/how-to-start-starting-things) [[動画](https://youtu.be/prbLM8lg0Rg?si=vMh8cF9_FA1RF3-0&t=215)], [エンジニア作業飲み集会LT会#5「〇〇の始めかた」](https://x.com/VRENGAssoc/status/1750361421970567175), 2024年1月.
 
 ##### 2023年
@@ -248,6 +249,7 @@ type = "blog"
 
 ##### 共著
 
+- 栗林健太郎・大原常徳・大聖寺谷一樹・山内修・齋藤和也・隆藤唯章・高瀬英希, 『Elixir実践入門──基本文法、Web開発、機械学習、IoT』, 技術評論社, 2024年, [ISBN 978-4-297-14014-4](https://gihyo.jp/book/2024/978-4-297-14014-4).
 - Roy Osherove著, 島田浩二訳, 『エラスティックリーダーシップ―自己組織化チームの育て方』, オライリー・ジャパン, 2017年, [ISBN 978-4-87311-802-4](https://www.oreilly.co.jp/books/9784873118024/).
 - 貝瀬岳志・原田勝信・和島史典・栗林健太郎・柴田博志・家永英治, 『スクラム実践入門 成果を生み出すアジャイルな開発プロセス』, 技術評論社, 2015年, [ISBN 978-4-7741-7236-1](http://gihyo.jp/book/2015/978-4-7741-7236-1).
 - 宮川達彦・伊藤直也他, 『Blog Hacks プロが教えるテクニック & ツール100選』, オライリー・ジャパン, 2004年, [ISBN 4-87311-174-9](http://www.oreilly.co.jp/books/4873111749/).

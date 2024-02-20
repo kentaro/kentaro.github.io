@@ -82,7 +82,7 @@ type = "blog"
 
 その他の研究実績については、[ペパボ研究所](https://rand.pepabo.com/)における[研究開発成果](https://rand.pepabo.com/archive/)、および、[Google Scholar](https://scholar.google.co.jp/citations?user=cGVPUbUAAAAJ)を参照のこと。
 
-### 口頭発表
+### 口頭発表・登壇等
 
 #### 国外
 
@@ -94,6 +94,8 @@ type = "blog"
 
 ##### 2024年
 
+- 栗林健太郎, 竹迫良範, 対談 / 「一人ひとりの力を引き出すエンジニア組織とは？」
+, [RECRUIT TECH CONFERENCE 2024 -技術で挑み、技術でつなぐ。](https://www.recruit.co.jp/special/engineer1day/), 2024年2月.
 - 栗林健太郎他, [第5回（2023年）鹿児島キッズプログラミングコンテスト審査員](https://kpc.kagoshima-kids.com/award/2023award/), [鹿児島キッズプログラミングコンテスト](https://kpc.kagoshima-kids.com/), 2024年2月.
 - 栗林健太郎, [「始め方」の始め方](https://speakerdeck.com/kentaro/how-to-start-starting-things) [[動画](https://youtu.be/prbLM8lg0Rg?si=vMh8cF9_FA1RF3-0&t=215)], [エンジニア作業飲み集会LT会#5「〇〇の始めかた」](https://x.com/VRENGAssoc/status/1750361421970567175), 2024年1月.
 

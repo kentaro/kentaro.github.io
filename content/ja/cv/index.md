@@ -268,7 +268,6 @@ type = "blog"
 
 #### Webメディア
 
-- [「インプットの怪物」あんちぽが語るエンジニア勉強論。終わりなき論争に終止符は打たれるのか | レバテックラボ（レバテックLAB）](https://levtech.jp/media/article/interview/detail_395/), 2024年2月.
 - [まずは「知らない」を知ることから。栗林流・キャリアの不確実性に向き合う読書法
  | レバテックラボ（レバテックLAB）](https://levtech.jp/media/article/column/detail_355/), 2023年12月.
 - [エンジニアのリスキリングに「院進」は正しい選択か。 46歳の院生・栗林健太郎が語る就学の意義 | レバテックラボ（レバテックLAB）](https://levtech.jp/media/article/column/detail_334/), 2023年11月.
@@ -280,6 +279,7 @@ type = "blog"
 
 ### 取材を受けた記事等
 
+- [「インプットの怪物」あんちぽが語るエンジニア勉強論。終わりなき論争に終止符は打たれるのか | レバテックラボ（レバテックLAB）](https://levtech.jp/media/article/interview/detail_395/), 2024年2月.
 - [CTO×PM公開2on1 〜ペパボのプロダクトマネジメントについて〜｜ペパボHRブログ](https://hr.pepabo.com/interview/2023/10/20/9245), 2023年10月.
 - [生成AIの導入に役立つ2種のOSS、使う際の注意点は？｜日経クロステック（xTECH）](https://xtech.nikkei.com/atcl/nxt/column/18/02480/060600002/), 2023年6月.
 - [「ChatGPT」などのAI（人工知能）はどんなもの？ ECビジネスに役立ちますか？ などの基礎情報を解説｜EC×AIの未来｜ネットショップ担当者フォーラム](https://netshop.impress.co.jp/node/10938), 2023年5月.

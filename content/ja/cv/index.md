@@ -311,6 +311,7 @@ type = "blog"
 ### 資格・検定
 
 - 情報処理安全確保支援士（[登録番号：013258](https://riss.ipa.go.jp/r?r=013258)）
+-　G検定（2024年3月）
 - Google Cloud Professional Machine Learning Engineer（2022年12月24日）
 - 第三級アマチュア無線技士（2022年12月25日）
 - 英語:

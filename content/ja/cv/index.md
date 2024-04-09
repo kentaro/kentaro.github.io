@@ -258,7 +258,7 @@ type = "blog"
 
 #### 商業誌
 
-- 栗林健太郎, 「プリンシプルは何ですか？」, _WEB+DB PRESS_, 総集編［Vol.1～136], 技術評論社, 2024年4月18日, [ISBN 978-4-297-14156-1].
+- 栗林健太郎, 「プリンシプルは何ですか？」, _WEB+DB PRESS_, 総集編 Vol.1～136, 技術評論社, 2024年4月18日, [ISBN 978-4-297-14156-1].
 - 栗林健太郎・吉本康貴・高岡佑輔・池田昭仁・黒瀧悠太・大和田純, 「作って学ぶWeb3 ブロックチェーン，スマートコントラクト，NFT」, _WEB+DB PRESS_, Vol.130, 技術評論社, 2022年8月24日, [ISBN 978-4-297-13000-8].(https://gihyo.jp/magazine/wdpress/archive/2022/vol130)
 - 栗林健太郎・高瀬英希・大聖寺谷一樹・山内修・隆藤唯章・齋藤和也, 「Elixirによる高速なWeb開発！作って学ぶPhoenix」, _WEB+DB PRESS_, Vol.127, 技術評論社, 2022年2月24日, [ISBN 978-4-297-12705-3](https://gihyo.jp/magazine/wdpress/archive/2022/vol127)
 - 栗林健太郎他「Vol.100記念企画2 TOPエンジニアを支える1冊」, _WEB+DB PRESS_, Vol.100, 技術評論社, [978-4-7741-9129-4](http://gihyo.jp/magazine/wdpress/archive/2017/vol100)

@@ -93,6 +93,12 @@ async function getEntries(): Promise<Entry[]> {
   });
 }
 
+const Y2KLoading = () => (
+  <div className="flex justify-center items-center h-screen">
+    <div className="y2k-loading"></div>
+  </div>
+);
+
 export default async function RSSAggregator() {
   const entries = await getEntries();
 
@@ -138,7 +144,7 @@ export default async function RSSAggregator() {
   };
 
   const EntryCard = ({ entry }: { entry: Entry }) => (
-    <Card className="mb-4 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <Card className="mb-4 overflow-hidden hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-purple-400 to-pink-500 border border-blue-300 rounded-lg transform hover:scale-105">
       <a href={entry.link} target="_blank" className="block">
         <div className="flex flex-col">
           <div className="relative w-full h-[200px] sm:h-[150px]">
@@ -148,16 +154,18 @@ export default async function RSSAggregator() {
               fill
               className="object-cover"
             />
+            <div className="absolute top-2 left-2 bg-gradient-to-r from-yellow-400 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-medium shadow-md animate-pulse">
+              {getJapaneseLabel(entry.type)}
+            </div>
           </div>
           <div className="p-4">
             <CardHeader className="p-0 mb-2">
-              <CardTitle className="flex items-center text-sm">
-                {tabIcons[entry.type]}
-                <span className="ml-2 line-clamp-2">{entry.title}</span>
+              <CardTitle className="text-lg font-semibold line-clamp-2 text-white neon-text">
+                {entry.title}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <p className="text-xs text-gray-500 flex items-center mt-2">
+              <p className="text-sm text-blue-200 flex items-center mt-2">
                 <Calendar className="mr-2 flex-shrink-0" size={14} />
                 <span className="truncate">{entry.date}</span>
               </p>
@@ -169,34 +177,37 @@ export default async function RSSAggregator() {
   );
 
   return (
-    <div className="w-full mx-auto font-noto-sans-jp">
-      <header className="bg-gradient-to-r from-gray-100 to-gray-200 py-12">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center">
-            <Image
-              src={(metadata.icons as { icon: string })?.icon || ""}
-              alt="Profile"
-              width={96}
-              height={96}
-              className="rounded-full border-2 border-gray-300 shadow-md mb-4 sm:mb-0 sm:mr-6"
-            />
-            <div className="text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-gray-800">栗林健太郎</h1>
-              <p className="text-lg sm:text-xl text-gray-600 mb-3">作家</p>
-              <div className="flex justify-center sm:justify-start space-x-3">
-                {bioLinks.map((link, index) => (
-                  <a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-gray-800 transition-colors duration-200"
-                  >
-                    {link.icon}
-                    <span className="sr-only">{link.label}</span>
-                  </a>
-                ))}
-              </div>
+    <div className="w-full mx-auto font-noto-sans-jp y2k-bg">
+      <header className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 py-16 relative overflow-hidden">
+        <div className="absolute inset-0 bg-opacity-20 bg-white background-noise"></div>
+        <div className="absolute inset-0 bg-grid-pattern"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex flex-col items-center text-center">
+            <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg mb-6 overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 animate-pulse"></div>
+              <Image
+                src={(metadata.icons as { icon: string })?.icon || ""}
+                alt="Profile"
+                width={120}
+                height={120}
+                className="object-cover w-full h-full relative z-10"
+              />
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-white text-shadow-neon animate-pulse y2k-rainbow-text">栗林健太郎</h1>
+            <p className="text-xl sm:text-2xl text-blue-100 mb-4 neon-text">作家</p>
+            <div className="flex justify-center space-x-4">
+              {bioLinks.map((link, index) => (
+                <a
+                  key={index}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-blue-200 transition-colors duration-200 transform hover:scale-110 animate-bounce"
+                >
+                  {link.icon}
+                  <span className="sr-only">{link.label}</span>
+                </a>
+              ))}
             </div>
           </div>
         </div>
@@ -204,39 +215,27 @@ export default async function RSSAggregator() {
 
       <div className="max-w-3xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
         <Tabs defaultValue="all" className="w-full">
-          <ScrollArea className="w-full mb-4 sm:mb-6">
-            <TabsList className="flex justify-center p-1 bg-gray-100 rounded-lg overflow-x-auto">
-              <TabsTrigger
-                value="all"
-                className="px-2 py-1 text-xs flex items-center whitespace-nowrap"
-              >
-                {tabIcons.all}
-                <span className="ml-1 hidden sm:inline">最新の制作物</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="profile"
-                className="px-2 py-1 text-xs flex items-center whitespace-nowrap"
-              >
-                {tabIcons.profile}
-                <span className="ml-1 hidden sm:inline">プロフィール</span>
-              </TabsTrigger>
-              {Object.entries(tabIcons).map(
-                ([key, icon]) =>
-                  key !== "all" &&
-                  key !== "profile" && (
-                    <TabsTrigger
-                      key={key}
-                      value={key}
-                      className="px-2 py-1 text-xs flex items-center whitespace-nowrap"
-                    >
-                      {icon}
-                      <span className="ml-1 hidden sm:inline">
-                        {getJapaneseLabel(key)}
-                      </span>
-                    </TabsTrigger>
-                  )
-              )}
-            </TabsList>
+          <ScrollArea className="w-full mb-6">
+            <div className="flex justify-center">
+              <TabsList className="inline-flex p-0.5 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-full shadow-inner">
+                {[
+                  { key: "all", label: "最新" },
+                  { key: "profile", label: "プロフィール" },
+                  ...Object.entries(tabIcons)
+                    .filter(([key]) => key !== "all" && key !== "profile")
+                    .map(([key]) => ({ key, label: getJapaneseLabel(key) }))
+                ].map(({ key, label }) => (
+                  <TabsTrigger
+                    key={key}
+                    value={key}
+                    className="px-2 py-1 text-xs font-medium flex items-center whitespace-nowrap rounded-full transition-all duration-200 hover:bg-white hover:bg-opacity-20 text-white"
+                  >
+                    {tabIcons[key]}
+                    <span className="ml-1 hidden sm:inline">{label}</span>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
           </ScrollArea>
 
           <TabsContent value="all">

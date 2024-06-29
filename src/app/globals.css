@@ -104,6 +104,15 @@
 
   .neon-text {
     animation: neon-glow 1.5s ease-in-out infinite alternate;
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 15px #fff,
+      0 0 20px #ff00de,
+      0 0 35px #ff00de,
+      0 0 40px #ff00de,
+      0 0 50px #ff00de,
+      0 0 75px #ff00de;
   }
 
   .y2k-bg {
@@ -239,12 +248,6 @@
     animation: card-background-animation 5s ease infinite;
   }
 
-  .card-animated-background {
-    background: linear-gradient(270deg, #ff00ff, #00ffff, #ff00ff);
-    background-size: 200% 200%;
-    animation: card-background-animation 5s ease infinite;
-  }
-
   @keyframes tab-glow {
     0%, 100% {
       text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #00ffff, 0 0 35px #00ffff, 0 0 40px #00ffff;
@@ -256,5 +259,58 @@
 
   .data-[state=active]:animate-tab-glow {
     animation: tab-glow 1.5s ease-in-out infinite alternate;
+  }
+
+  .streamer-bg {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .streamer-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M50 0 L100 50 L50 100 L0 50 Z' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E"),
+      linear-gradient(45deg, rgba(255,0,255,0.1) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(0,255,255,0.1) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(255,0,255,0.1) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(0,255,255,0.1) 75%);
+    background-size: 100px 100px, 20px 20px, 20px 20px, 20px 20px, 20px 20px;
+    background-position: 0 0, 0 0, 0 10px, 10px -10px, -10px 0px;
+    opacity: 0.1;
+    animation: streamer-bg-animation 20s linear infinite;
+    z-index: -1;
+  }
+
+  @keyframes streamer-bg-animation {
+    0% {
+      background-position: 0 0, 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+    100% {
+      background-position: 100px 100px, 50px 50px, 50px 60px, 60px 40px, 40px 50px;
+    }
+  }
+
+  .gaming-border {
+    border: 2px solid transparent;
+    background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
+    background-size: 200% 200%;
+    animation: gaming-border-animation 5s ease infinite;
+  }
+
+  @keyframes gaming-border-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 }

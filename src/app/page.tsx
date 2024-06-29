@@ -214,11 +214,11 @@ export default async function RSSAggregator() {
         </div>
       </header>
 
-      <div className="max-w-3xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+      <div className="max-w-3xl mx-auto px-2 sm:px-4 py-4 sm:py-8 streamer-bg relative">
         <Tabs defaultValue="all" className="w-full">
           <ScrollArea className="w-full mb-6">
             <div className="flex justify-center">
-              <TabsList className="inline-flex p-0.5 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-full shadow-inner">
+              <TabsList className="inline-flex p-0.5 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-full shadow-inner gaming-border">
                 {[
                   { key: "all", label: "最新" },
                   { key: "profile", label: "プロフィール" },
@@ -248,7 +248,7 @@ export default async function RSSAggregator() {
           </TabsContent>
 
           <TabsContent value="profile">
-            <Card className="mb-4 overflow-hidden">
+            <Card className="mb-4 overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardContent className="py-8">
                 <ReactMarkdown
                   components={{

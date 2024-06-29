@@ -169,163 +169,169 @@ export default async function RSSAggregator() {
   );
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-2 sm:px-4 py-4 sm:py-8 font-noto-sans-jp">
-      <div className="text-center mb-8 sm:mb-12">
-        <Image
-          src={(metadata.icons as { icon: string })?.icon || ""}
-          alt="Profile"
-          width={96}
-          height={96}
-          className="rounded-full mx-auto mb-4 sm:mb-6 border-4 border-gray-200 shadow-lg"
-        />
-        <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3">
-          栗林健太郎
-        </h1>
-        <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6">作家</p>
-        <div className="flex justify-center space-x-4">
-          {bioLinks.map((link, index) => (
-            <a
-              key={index}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
-            >
-              {link.icon}
-              <span className="sr-only">{link.label}</span>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <Tabs defaultValue="profile" className="w-full">
-        <ScrollArea className="w-full mb-4 sm:mb-6">
-          <TabsList className="flex justify-center p-1 bg-gray-100 rounded-lg overflow-x-auto">
-            <TabsTrigger
-              value="profile"
-              className="px-2 py-1 text-xs flex items-center whitespace-nowrap"
-            >
-              {tabIcons.profile}
-              <span className="ml-1 hidden sm:inline">プロフィール</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="all"
-              className="px-2 py-1 text-xs flex items-center whitespace-nowrap"
-            >
-              {tabIcons.all}
-              <span className="ml-1 hidden sm:inline">全て</span>
-            </TabsTrigger>
-            {Object.entries(tabIcons).map(
-              ([key, icon]) =>
-                key !== "all" &&
-                key !== "profile" && (
-                  <TabsTrigger
-                    key={key}
-                    value={key}
-                    className="px-2 py-1 text-xs flex items-center whitespace-nowrap"
-                  >
-                    {icon}
-                    <span className="ml-1 hidden sm:inline">
-                      {getJapaneseLabel(key)}
-                    </span>
-                  </TabsTrigger>
-                )
-            )}
-          </TabsList>
-        </ScrollArea>
-
-        <TabsContent value="profile">
-          <Card className="mb-4 overflow-hidden">
-            <CardContent className="py-8">
-              <ReactMarkdown
-                components={{
-                  h1: ({ node, ...props }) => (
-                    <h1
-                      className="text-4xl font-bold mb-8 text-gray-800 border-b-2 pb-4"
-                      {...props}
-                    />
-                  ),
-                  h2: ({ node, ...props }) => (
-                    <h2
-                      className="text-3xl font-semibold mt-10 mb-6 text-gray-700 border-l-4 border-gray-300 pl-4"
-                      {...props}
-                    />
-                  ),
-                  h3: ({ node, ...props }) => (
-                    <h3
-                      className="text-2xl font-medium mt-8 mb-4 text-gray-600"
-                      {...props}
-                    />
-                  ),
-                  h4: ({ node, ...props }) => (
-                    <h4
-                      className="text-xl font-medium mt-6 mb-3 text-gray-600"
-                      {...props}
-                    />
-                  ),
-                  p: ({ node, ...props }) => (
-                    <p
-                      className="mb-4 text-gray-600 leading-relaxed"
-                      {...props}
-                    />
-                  ),
-                  ul: ({ node, ...props }) => (
-                    <ul
-                      className="list-disc pl-5 mb-4 text-gray-600"
-                      {...props}
-                    />
-                  ),
-                  li: ({ node, ...props }) => (
-                    <li className="mb-2" {...props} />
-                  ),
-                  a: ({ node, ...props }) => (
-                    <a className="text-blue-600 hover:underline" {...props} />
-                  ),
-                  hr: ({ node, ...props }) => (
-                    <hr className="my-8 border-t border-gray-300" {...props} />
-                  ),
-                }}
-              >
-                {profileContent}
-              </ReactMarkdown>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="all">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {entries.map((entry) => (
-              <EntryCard key={entry.id} entry={entry} />
-            ))}
-          </div>
-        </TabsContent>
-
-        {Object.keys(tabIcons).map(
-          (type) =>
-            type !== "all" &&
-            type !== "profile" && (
-              <TabsContent key={type} value={type}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {entries
-                    .filter((entry) => entry.type === type)
-                    .map((entry) => (
-                      <EntryCard key={entry.id} entry={entry} />
-                    ))}
-                </div>
-                <div className="mt-4 text-center">
+    <div className="w-full mx-auto font-noto-sans-jp">
+      <header className="bg-gradient-to-r from-gray-100 to-gray-200 py-12">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center">
+            <Image
+              src={(metadata.icons as { icon: string })?.icon || ""}
+              alt="Profile"
+              width={96}
+              height={96}
+              className="rounded-full border-2 border-gray-300 shadow-md mb-4 sm:mb-0 sm:mr-6"
+            />
+            <div className="text-center sm:text-left">
+              <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-gray-800">栗林健太郎</h1>
+              <p className="text-lg sm:text-xl text-gray-600 mb-3">作家</p>
+              <div className="flex justify-center sm:justify-start space-x-3">
+                {bioLinks.map((link, index) => (
                   <a
-                    href={getArchiveUrl(type)}
+                    key={index}
+                    href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200"
+                    className="text-gray-600 hover:text-gray-800 transition-colors duration-200"
                   >
-                    {getJapaneseLabel(type)}の一覧を見る
+                    {link.icon}
+                    <span className="sr-only">{link.label}</span>
                   </a>
-                </div>
-              </TabsContent>
-            )
-        )}
-      </Tabs>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-3xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <Tabs defaultValue="all" className="w-full">
+          <ScrollArea className="w-full mb-4 sm:mb-6">
+            <TabsList className="flex justify-center p-1 bg-gray-100 rounded-lg overflow-x-auto">
+              <TabsTrigger
+                value="all"
+                className="px-2 py-1 text-xs flex items-center whitespace-nowrap"
+              >
+                {tabIcons.all}
+                <span className="ml-1 hidden sm:inline">最新の制作物</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="profile"
+                className="px-2 py-1 text-xs flex items-center whitespace-nowrap"
+              >
+                {tabIcons.profile}
+                <span className="ml-1 hidden sm:inline">プロフィール</span>
+              </TabsTrigger>
+              {Object.entries(tabIcons).map(
+                ([key, icon]) =>
+                  key !== "all" &&
+                  key !== "profile" && (
+                    <TabsTrigger
+                      key={key}
+                      value={key}
+                      className="px-2 py-1 text-xs flex items-center whitespace-nowrap"
+                    >
+                      {icon}
+                      <span className="ml-1 hidden sm:inline">
+                        {getJapaneseLabel(key)}
+                      </span>
+                    </TabsTrigger>
+                  )
+              )}
+            </TabsList>
+          </ScrollArea>
+
+          <TabsContent value="all">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {entries.map((entry) => (
+                <EntryCard key={entry.id} entry={entry} />
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="profile">
+            <Card className="mb-4 overflow-hidden">
+              <CardContent className="py-8">
+                <ReactMarkdown
+                  components={{
+                    h1: ({ node, ...props }) => (
+                      <h1
+                        className="text-4xl font-bold mb-8 text-gray-800 border-b-2 pb-4"
+                        {...props}
+                      />
+                    ),
+                    h2: ({ node, ...props }) => (
+                      <h2
+                        className="text-3xl font-semibold mt-10 mb-6 text-gray-700 border-l-4 border-gray-300 pl-4"
+                        {...props}
+                      />
+                    ),
+                    h3: ({ node, ...props }) => (
+                      <h3
+                        className="text-2xl font-medium mt-8 mb-4 text-gray-600"
+                        {...props}
+                      />
+                    ),
+                    h4: ({ node, ...props }) => (
+                      <h4
+                        className="text-xl font-medium mt-6 mb-3 text-gray-600"
+                        {...props}
+                      />
+                    ),
+                    p: ({ node, ...props }) => (
+                      <p
+                        className="mb-4 text-gray-600 leading-relaxed"
+                        {...props}
+                      />
+                    ),
+                    ul: ({ node, ...props }) => (
+                      <ul
+                        className="list-disc pl-5 mb-4 text-gray-600"
+                        {...props}
+                      />
+                    ),
+                    li: ({ node, ...props }) => (
+                      <li className="mb-2" {...props} />
+                    ),
+                    a: ({ node, ...props }) => (
+                      <a className="text-blue-600 hover:underline" {...props} />
+                    ),
+                    hr: ({ node, ...props }) => (
+                      <hr className="my-8 border-t border-gray-300" {...props} />
+                    ),
+                  }}
+                >
+                  {profileContent}
+                </ReactMarkdown>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {Object.keys(tabIcons).map(
+            (type) =>
+              type !== "all" &&
+              type !== "profile" && (
+                <TabsContent key={type} value={type}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {entries
+                      .filter((entry) => entry.type === type)
+                      .map((entry) => (
+                        <EntryCard key={entry.id} entry={entry} />
+                      ))}
+                  </div>
+                  <div className="mt-4 text-center">
+                    <a
+                      href={getArchiveUrl(type)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200"
+                    >
+                      {getJapaneseLabel(type)}の一覧を見る
+                    </a>
+                  </div>
+                </TabsContent>
+              )
+          )}
+        </Tabs>
+      </div>
     </div>
   );
 }

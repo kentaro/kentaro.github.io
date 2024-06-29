@@ -182,4 +182,79 @@
   .y2k-rainbow-text {
     animation: y2k-rainbow 5s linear infinite;
   }
+
+  @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+  .font-vt323 {
+    font-family: 'VT323', monospace;
+  }
+
+  .bg-stars {
+    background-image:
+      radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+      radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+      radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+      radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+    background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+    animation: stars 120s linear infinite;
+  }
+
+  @keyframes stars {
+    0% { background-position: 0 0, 40px 60px, 130px 270px, 70px 100px; }
+    100% { background-position: 550px 550px, 390px 410px, 380px 520px, 220px 250px; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .card-hover-effect {
+    transition: all 0.3s ease;
+  }
+
+  .card-hover-effect:hover {
+    transform: translateY(-5px) rotate(2deg);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-title-glow {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00de, 0 0 35px #ff00de, 0 0 40px #ff00de;
+  }
+
+  @keyframes card-background-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .card-animated-background {
+    background: linear-gradient(270deg, #ff00ff, #00ffff, #ff00ff);
+    background-size: 200% 200%;
+    animation: card-background-animation 5s ease infinite;
+  }
+
+  .card-animated-background {
+    background: linear-gradient(270deg, #ff00ff, #00ffff, #ff00ff);
+    background-size: 200% 200%;
+    animation: card-background-animation 5s ease infinite;
+  }
+
+  @keyframes tab-glow {
+    0%, 100% {
+      text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #00ffff, 0 0 35px #00ffff, 0 0 40px #00ffff;
+    }
+    50% {
+      text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 7px #fff, 0 0 10px #00ffff, 0 0 17px #00ffff, 0 0 20px #00ffff;
+    }
+  }
+
+  .data-[state=active]:animate-tab-glow {
+    animation: tab-glow 1.5s ease-in-out infinite alternate;
+  }
 }

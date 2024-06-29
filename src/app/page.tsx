@@ -144,65 +144,66 @@ export default async function RSSAggregator() {
   };
 
   const EntryCard = ({ entry }: { entry: Entry }) => (
-    <Card className="mb-4 overflow-hidden hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-purple-400 to-pink-500 border border-blue-300 rounded-lg transform hover:scale-105">
-      <a href={entry.link} target="_blank" className="block">
-        <div className="flex flex-col">
-          <div className="relative w-full h-[200px] sm:h-[150px]">
-            <Image
-              src={entry.image}
-              alt={entry.title || ""}
-              fill
-              className="object-cover"
-            />
-            <div className="absolute top-2 left-2 bg-gradient-to-r from-yellow-400 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-medium shadow-md animate-pulse">
-              {getJapaneseLabel(entry.type)}
-            </div>
+    <Card className="relative overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl bg-gradient-to-br from-purple-400 via-pink-500 to-yellow-500 card-hover-effect card-animated-background">
+      <a href={entry.link} target="_blank" rel="noopener noreferrer" className="block">
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 opacity-50"></div>
+          <Image
+            src={entry.image}
+            alt={entry.title || ""}
+            width={400}
+            height={200}
+            className="object-cover w-full h-48 brightness-110 contrast-110"
+          />
+          <div className="absolute top-2 left-2 bg-gradient-to-r from-yellow-400 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md animate-pulse">
+            {getJapaneseLabel(entry.type)}
           </div>
-          <div className="p-4">
-            <CardHeader className="p-0 mb-2">
-              <CardTitle className="text-lg font-semibold line-clamp-2 text-white neon-text">
-                {entry.title}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <p className="text-sm text-blue-200 flex items-center mt-2">
-                <Calendar className="mr-2 flex-shrink-0" size={14} />
-                <span className="truncate">{entry.date}</span>
-              </p>
-            </CardContent>
-          </div>
+        </div>
+        <div className="p-4 bg-opacity-75 bg-black">
+          <CardHeader className="p-0 mb-2">
+            <CardTitle className="text-lg font-bold line-clamp-2 text-white neon-text card-title-glow">
+              {entry.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <p className="text-sm text-blue-200 flex items-center mt-2">
+              <Calendar className="mr-2 flex-shrink-0 animate-spin" size={14} />
+              <span className="truncate">{entry.date}</span>
+            </p>
+          </CardContent>
         </div>
       </a>
     </Card>
   );
 
   return (
-    <div className="w-full mx-auto font-noto-sans-jp y2k-bg">
-      <header className="bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 py-16 relative overflow-hidden">
+    <div className="w-full mx-auto font-vt323 y2k-bg">
+      <header className="bg-gradient-to-r from-fuchsia-500 via-cyan-400 to-yellow-300 py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-opacity-20 bg-white background-noise"></div>
         <div className="absolute inset-0 bg-grid-pattern"></div>
+        <div className="absolute inset-0 bg-stars"></div>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col items-center text-center">
-            <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg mb-6 overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-600 animate-pulse"></div>
+            <div className="w-40 h-40 rounded-full border-4 border-white shadow-lg mb-6 overflow-hidden relative animate-pulse">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-600 animate-pulse"></div>
               <Image
                 src={(metadata.icons as { icon: string })?.icon || ""}
                 alt="Profile"
-                width={120}
-                height={120}
+                width={160}
+                height={160}
                 className="object-cover w-full h-full relative z-10"
               />
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-white text-shadow-neon animate-pulse y2k-rainbow-text">栗林健太郎</h1>
-            <p className="text-xl sm:text-2xl text-blue-100 mb-4 neon-text">作家</p>
-            <div className="flex justify-center space-x-4">
+            <h1 className="text-4xl sm:text-5xl font-bold mb-2 text-white text-shadow-neon animate-pulse y2k-rainbow-text">栗林健太郎</h1>
+            <p className="text-2xl sm:text-3xl text-blue-100 mb-4 neon-text animate-float">作家</p>
+            <div className="flex justify-center space-x-6">
               {bioLinks.map((link, index) => (
                 <a
                   key={index}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white hover:text-blue-200 transition-colors duration-200 transform hover:scale-110 animate-bounce"
+                  className="text-white hover:text-blue-200 transition-colors duration-200 transform hover:scale-125 animate-bounce"
                 >
                   {link.icon}
                   <span className="sr-only">{link.label}</span>
@@ -228,7 +229,7 @@ export default async function RSSAggregator() {
                   <TabsTrigger
                     key={key}
                     value={key}
-                    className="px-2 py-1 text-xs font-medium flex items-center whitespace-nowrap rounded-full transition-all duration-200 hover:bg-white hover:bg-opacity-20 text-white"
+                    className="px-2 py-1 text-xs font-medium flex items-center whitespace-nowrap rounded-full transition-all duration-200 hover:bg-white hover:bg-opacity-20 text-white data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-400 data-[state=active]:via-blue-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-md"
                   >
                     {tabIcons[key]}
                     <span className="ml-1 hidden sm:inline">{label}</span>

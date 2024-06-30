@@ -155,20 +155,22 @@ export default async function RSSAggregator() {
             height={200}
             className="object-cover w-full h-48 brightness-110 contrast-110"
           />
-          <div className="absolute top-2 left-2 bg-gradient-to-r from-yellow-400 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md animate-pulse">
+          <div className="absolute top-2 left-2 bg-gradient-to-r from-yellow-400 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md animate-pulse whitespace-nowrap">
             {getJapaneseLabel(entry.type)}
           </div>
         </div>
-        <div className="p-4 bg-opacity-75 bg-black">
+        <div className="p-4 bg-opacity-75 bg-gradient-to-r from-yellow-300 to-orange-400 flex flex-col justify-between h-full">
           <CardHeader className="p-0 mb-2">
-            <CardTitle className="text-lg font-bold line-clamp-2 text-white neon-text card-title-glow">
+            <CardTitle className="text-lg font-bold line-clamp-2 text-black neon-text card-title-glow">
               {entry.title}
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
-            <p className="text-sm text-blue-200 flex items-center mt-2">
-              <Calendar className="mr-2 flex-shrink-0 animate-spin" size={14} />
-              <span className="truncate">{entry.date}</span>
+          <CardContent className="p-0 mt-auto">
+            <p className="text-sm flex items-center mt-2">
+              <Calendar className="mr-2 flex-shrink-0 animate-spin text-purple-600" size={14} />
+              <span className="truncate bg-yellow-200 text-black px-2 py-1 rounded-full font-semibold">
+                {entry.date}
+              </span>
             </p>
           </CardContent>
         </div>

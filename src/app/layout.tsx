@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { siteConfig } from "@/config";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "栗林健太郎",
-  description: "作家・栗林健太郎のWebサイト",
+  title: siteConfig.title,
+  description: siteConfig.description,
   icons: {
-    icon: 'https://pbs.twimg.com/profile_images/1737743542724997120/ygmW433p_400x400.jpg',
+    icon: siteConfig.icon,
   },
 };
 

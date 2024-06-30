@@ -42,9 +42,9 @@ export const tabIcons = {
   profile: User,
   all: LayoutGrid,
   note: BookOpen,
-  listen: Headphones,
   zenn: Rss,
-  youtube: Youtube,
   speakerdeck: Presentation,
+  youtube: Youtube,
   soundcloud: Music,
+  listen: Headphones,
 };

@@ -197,7 +197,7 @@ export default async function RSSAggregator() {
               />
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold mb-2 text-white text-shadow-neon animate-pulse y2k-rainbow-text">栗林健太郎</h1>
-            <p className="text-2xl sm:text-3xl text-blue-100 mb-4 neon-text animate-float">作家</p>
+            <p className="text-2xl sm:text-3xl text-blue-100 my-4 animate-float">作家</p>
             <div className="flex justify-center space-x-6">
               {bioLinks.map((link, index) => (
                 <a

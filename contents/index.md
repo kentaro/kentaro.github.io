@@ -89,7 +89,7 @@
 
 #### 2024年
 
-- 栗林健太郎, 大島彰, 講演・パネルディスカッション / [大高生へのメッセージ](https://speakerdeck.com/kentaro/messages-to-current-students-014756aa-aa14-47cc-95ba-15ac91e99724)
+- 栗林健太郎, 大島彰, [講演・パネルディスカッション / 大高生へのメッセージ](https://speakerdeck.com/kentaro/messages-to-current-students-014756aa-aa14-47cc-95ba-15ac91e99724)
 , 令和6年度「大高未来塾」, 2024年7月.
 - 栗林健太郎, 竹迫良範, 対談 / 一人ひとりの力を引き出すエンジニア組織とは？
 , [RECRUIT TECH CONFERENCE 2024 -技術で挑み、技術でつなぐ。](https://www.recruit.co.jp/special/engineer1day/), 2024年2月.

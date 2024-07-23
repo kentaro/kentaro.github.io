@@ -89,7 +89,9 @@
 
 #### 2024年
 
-- 栗林健太郎, 竹迫良範, 対談 / 「一人ひとりの力を引き出すエンジニア組織とは？」
+- 栗林健太郎, 大島彰, 講演・パネルディスカッション / [大高生へのメッセージ](https://speakerdeck.com/kentaro/messages-to-current-students-014756aa-aa14-47cc-95ba-15ac91e99724)
+, 令和6年度「大高未来塾」, 2024年7月.
+- 栗林健太郎, 竹迫良範, 対談 / 一人ひとりの力を引き出すエンジニア組織とは？
 , [RECRUIT TECH CONFERENCE 2024 -技術で挑み、技術でつなぐ。](https://www.recruit.co.jp/special/engineer1day/), 2024年2月.
 - 栗林健太郎他, [第5回（2023年）鹿児島キッズプログラミングコンテスト審査員](https://kpc.kagoshima-kids.com/award/2023award/), [鹿児島キッズプログラミングコンテスト](https://kpc.kagoshima-kids.com/), 2024年2月.
 - 栗林健太郎, [「始め方」の始め方](https://speakerdeck.com/kentaro/how-to-start-starting-things) [[動画](https://youtu.be/prbLM8lg0Rg?si=vMh8cF9_FA1RF3-0&t=215)], [エンジニア作業飲み集会LT会#5「〇〇の始めかた」](https://x.com/VRENGAssoc/status/1750361421970567175), 2024年1月.

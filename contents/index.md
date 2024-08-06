@@ -277,6 +277,8 @@
 
 ## 取材を受けた記事等
 
+- [新しい視点と挑戦の重要性：GMOペパボ CTOが語るキャリア形成の秘訣 | Tech Keyperson](https://techkeyperson.biz/interview/kentaro-kuribayashi/), 2024年8月.
+- [「新たな事業成長の柱を築く」GMOペパボ CTOが語るテクノロジーと未来のビジョン | Cuval（クバル）](https://cuval.jp/interview/1437/), 2024年8月.
 - [「インプットの怪物」あんちぽが語るエンジニア勉強論。終わりなき論争に終止符は打たれるのか | レバテックラボ（レバテックLAB）](https://levtech.jp/media/article/interview/detail_395/), 2024年2月.
 - [CTO×PM公開2on1 〜ペパボのプロダクトマネジメントについて〜｜ペパボHRブログ](https://hr.pepabo.com/interview/2023/10/20/9245), 2023年10月.
 - [生成AIの導入に役立つ2種のOSS、使う際の注意点は？｜日経クロステック（xTECH）](https://xtech.nikkei.com/atcl/nxt/column/18/02480/060600002/), 2023年6月.

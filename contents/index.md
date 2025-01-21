@@ -91,7 +91,7 @@
 
 - 栗林健太郎, 成瀬允宣, 三村聡志, 石丸智輝, パネルディスカッション / あんちぽ ぶつかり稽古2024 エキスパート対談SP, [GMO Developers Day 2024](https://developers.gmo.jp/developersday/), 2024年11月.
 - 栗林健太郎, 藤川真一, 野崎弘幸, 松岡宏満, パネルディスカッション / エンジニアの事業貢献, [SAKURAJIMA HOUSE 2024](https://www.sakurajima-house.tech/), 2024年10月.
-- 栗林健太郎, 蜂須賀大貴, イシジマミキ, 古長克彦, パネルディスカッション / がんばったあなた・キャリアの分岐点, [R35. Meetup](https://cross-rel.connpass.com/event/329288/), 2024年10月.
+- 栗林健太郎, 蜂須賀大貴, イシジマミキ, 古長克彦, [パネルディスカッション / がんばったあなた・キャリアの分岐点](https://levtech.jp/media/article/column/detail_599/), [R35. Meetup](https://cross-rel.connpass.com/event/329288/), 2024年10月.
 - 栗林健太郎, [Bidirectional Quadratic Voting Leveraging Issue-Based Matching](https://speakerdeck.com/kentaro/bidirectional-quadratic-voting-leveraging-issue-based-matching)（スポンサーセッション）, [ETHTokyo'24](https://www.ethtokyo.com/), 2024年8月.
 - 栗林健太郎, 大島彰, [講演・パネルディスカッション / 大高生へのメッセージ](https://speakerdeck.com/kentaro/messages-to-current-students-014756aa-aa14-47cc-95ba-15ac91e99724)
 , 令和6年度「大高未来塾」, 2024年7月.

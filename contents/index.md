@@ -56,7 +56,8 @@ GMOペパボ株式会社取締役CTO / 一般社団法人日本CTO協会理事 /
 
 ### 学位論文
 
-- 栗林健太郎, [修士論文：IoTシステムの双方向データフローにおける設計と実装の複雑さを解消する手法の提案](https://dspace.jaist.ac.jp/dspace/handle/10119/17650), 修士（情報科学, 北陸先端科学技術大学院大学）, 2022年3月. \[[発表資料](https://speakerdeck.com/kentaro/masters-thesis-examination)\]
+- 栗林健太郎, 博士論文：IoTシステム開発の複雑さを低減するための統合的アーキテクチャ, 博士（情報科学, 北陸先端科学技術大学院大学）, 2025年3月. [発表資料](https://speakerdeck.com/kentaro/iotsisutemukai-fa-nofu-za-sawodi-jian-surutamenotong-he-de-akitekutiya)
+- 栗林健太郎, [修士論文：IoTシステムの双方向データフローにおける設計と実装の複雑さを解消する手法の提案](https://dspace.jaist.ac.jp/dspace/handle/10119/17650), 修士（情報科学, 北陸先端科学技術大学院大学）, 2022年3月. [発表資料](https://speakerdeck.com/kentaro/masters-thesis-examination)
 
 ### ジャーナル論文
 

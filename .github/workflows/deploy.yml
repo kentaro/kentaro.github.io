@@ -26,6 +26,10 @@ jobs:
           submodules: recursive
           token: ${{ secrets.OBSIDIAN_REPO_PAT }}
 
+      - name: Update submodules
+        run: |
+          git submodule update --remote --recursive
+
       - name: Detect package manager
         id: detect-package-manager
         run: |

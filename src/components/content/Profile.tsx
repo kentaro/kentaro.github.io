@@ -1,4 +1,4 @@
-import MarkdownRenderer from './MarkdownRenderer';
+import MarkdownRenderer from '@/components/content/MarkdownRenderer';
 
 type ProfileProps = {
   profileData: {

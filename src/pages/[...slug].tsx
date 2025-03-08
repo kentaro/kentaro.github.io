@@ -1,8 +1,8 @@
 import type { GetStaticPaths, GetStaticProps } from 'next';
-import { getAllMarkdownFiles, getMarkdownData } from '../lib/markdown';
-import Layout from '../components/layout/Layout';
-import SEO from '../components/common/SEO';
-import MarkdownRenderer from '../components/content/MarkdownRenderer';
+import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
+import Layout from '@/components/layout/Layout';
+import SEO from '@/components/common/SEO';
+import MarkdownRenderer from '@/components/content/MarkdownRenderer';
 
 type PostProps = {
   postData: {

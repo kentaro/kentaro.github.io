@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="container">
-        <p>© {currentYear} Kentaro Kuribayashi</p>
+        <p>© {currentYear} 栗林健太郎</p>
       </div>
     </footer>
   );

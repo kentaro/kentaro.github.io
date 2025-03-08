@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import Navigation from './Navigation';
+import Navigation from '@/components/layout/Navigation';
 
 export default function Header() {
   return (
     <header className="site-header">
       <div className="container">
         <Link href="/" className="site-title">
-          Kentaro Kuribayashi
+          栗林健太郎
         </Link>
         <Navigation />
       </div>

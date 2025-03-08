@@ -1,8 +1,8 @@
 import type { GetStaticPaths, GetStaticProps } from 'next';
-import { getAllMarkdownFiles, getMarkdownData } from '../../lib/markdown';
-import Layout from '../../components/layout/Layout';
-import SEO from '../../components/common/SEO';
-import PostList from '../../components/content/PostList';
+import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
+import Layout from '@/components/layout/Layout';
+import SEO from '@/components/common/SEO';
+import PostList from '@/components/content/PostList';
 import fs from 'node:fs';
 import path from 'node:path';
 

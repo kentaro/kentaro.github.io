@@ -1,4 +1,4 @@
-import PostCard from './PostCard';
+import PostCard from '@/components/content/PostCard';
 
 type Post = {
   slug: string;

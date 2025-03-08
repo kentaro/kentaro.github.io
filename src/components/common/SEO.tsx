@@ -9,13 +9,13 @@ type SEOProps = {
 };
 
 export default function SEO({
-  title = 'Kentaro Kuribayashi',
-  description = 'Kentaro Kuribayashのウェブサイト',
+  title = '栗林健太郎',
+  description = '栗林健太郎のウェブサイト',
   ogImage = '/og-image.jpg',
   ogType = 'website',
   twitterCard = 'summary_large_image',
 }: SEOProps) {
-  const fullTitle = title === 'Kentaro Kuribayashi' ? title : `${title} | Kentaro Kuribayashi`;
+  const fullTitle = title === '栗林健太郎' ? title : `${title} | 栗林健太郎`;
   
   return (
     <Head>

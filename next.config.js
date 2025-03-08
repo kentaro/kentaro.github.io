@@ -5,7 +5,7 @@ const nextConfig = {
   images: {
     unoptimized: true,  // GitHub Pagesで必要
   },
-  trailingSlash: true,  // 各ページに末尾のスラッシュを追加
+  trailingSlash: false,  // URLの末尾のスラッシュを削除
   distDir: 'build',     // 出力ディレクトリ
 };
 

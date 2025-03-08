@@ -3,7 +3,6 @@ import PostCard from '@/components/content/PostCard';
 type Post = {
   slug: string;
   title: string;
-  date?: string;
   excerpt?: string;
 };
 
@@ -25,7 +24,6 @@ export default function PostList({ posts, title, emptyMessage = '投稿があり
               key={post.slug}
               title={post.title}
               slug={post.slug}
-              date={post.date}
               excerpt={post.excerpt}
             />
           ))}

@@ -46,7 +46,7 @@ export default function Post({ postData }: PostProps) {
       <MarkdownRenderer
         title={postData.title || ''}
         contentHtml={postData.contentHtml || ''}
-        date={postData.date}
+        date={slugPath[0] === 'journal' ? null : postData.date}
       />
     </Layout>
   );

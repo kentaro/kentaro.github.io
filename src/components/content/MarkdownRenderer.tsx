@@ -24,7 +24,7 @@ export default function MarkdownRenderer({ title, contentHtml, date, children }:
               {title}
             </motion.h1>
           )}
-          {date && (
+          {date && !title?.match(/^\d{4}年\d{1,2}月\d{1,2}日/) && (
             <motion.div 
               className="text-center text-gray-600 mt-4"
               initial={{ opacity: 0 }}

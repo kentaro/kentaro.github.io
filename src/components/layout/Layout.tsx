@@ -1,19 +1,17 @@
 import type { ReactNode } from 'react';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import Header from './Header';
+import Footer from './Footer';
 
-type LayoutProps = {
+interface LayoutProps {
   children: ReactNode;
-};
+}
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="site-wrapper">
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="site-main">
-        <div className="container">
-          {children}
-        </div>
+      <main className="flex-grow pt-14">
+        {children}
       </main>
       <Footer />
     </div>

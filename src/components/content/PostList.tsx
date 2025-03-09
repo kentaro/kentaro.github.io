@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 type Post = {
   slug: string;
@@ -26,29 +27,62 @@ export default function PostList({ posts, title, emptyMessage = '投稿があり
   // 表示件数を制限
   const displayPosts = limit ? sortedPosts.slice(0, limit) : sortedPosts;
 
+  // アニメーション設定
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
+
   return (
     <div className="post-list">
       {title && <h2 className="section-title">{title}</h2>}
       
       {displayPosts.length > 0 ? (
-        <ul className="posts">
-          {displayPosts.map((post) => (
-            <li key={post.slug} className="post-item">
-              <Link href={`/${post.slug}`} className="post-link">
-                {post.title}
+        <motion.div 
+          className="posts-grid"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          {displayPosts.map((post, index) => (
+            <motion.div 
+              key={post.slug} 
+              className="post-card"
+              variants={item}
+              transition={{ duration: 0.3 }}
+            >
+              <Link href={`/${post.slug}`} className="post-card-inner">
+                <h3 className="post-card-title">{post.title}</h3>
+                
+                {post.date && !hideDate && (
+                  <div className="post-card-date">
+                    {new Date(post.date).toLocaleDateString('ja-JP', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </div>
+                )}
+                
+                {post.excerpt && (
+                  <p className="post-card-excerpt">{post.excerpt}</p>
+                )}
+                
+                <div className="post-card-more">続きを読む →</div>
               </Link>
-              {post.date && !hideDate && (
-                <span className="post-date">
-                  {new Date(post.date).toLocaleDateString('ja-JP', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </span>
-              )}
-            </li>
+            </motion.div>
           ))}
-        </ul>
+        </motion.div>
       ) : (
         <p className="empty-message">{emptyMessage}</p>
       )}

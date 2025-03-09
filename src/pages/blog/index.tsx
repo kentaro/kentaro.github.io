@@ -18,15 +18,24 @@ export default function BlogPage({ posts }: BlogPageProps) {
     <Layout>
       <SEO 
         title="ブログ"
-        description="ブログ記事の一覧"
+        description="栗林健太郎のブログ記事一覧。技術、マネジメント、読書などについての記事を掲載しています。"
       />
       
-      <h1 className="category-title">ブログ</h1>
+      <div className="page-header bg-gradient-to-br from-primary/10 to-accent2/10 py-12 md:py-16">
+        <div className="container">
+          <h1 className="text-3xl md:text-4xl font-bold text-center">ブログ</h1>
+          <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
+            技術、マネジメント、読書など、さまざまなトピックについての記事を掲載しています。
+          </p>
+        </div>
+      </div>
       
-      <PostList 
-        posts={posts}
-        emptyMessage="ブログ記事はまだありません"
-      />
+      <div className="py-12">
+        <PostList 
+          posts={posts}
+          emptyMessage="ブログ記事はまだありません"
+        />
+      </div>
     </Layout>
   );
 }

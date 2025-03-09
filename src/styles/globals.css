@@ -1,3 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-light text-dark font-sans;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
+  }
+  
+  a {
+    @apply text-primary transition-colors duration-200;
+  }
+  
+  a:hover {
+    @apply text-primary/80;
+  }
+  
+  code {
+    @apply font-code;
+  }
+}
+
+@layer components {
+  .container {
+    @apply px-3 sm:px-4 md:px-6 lg:px-8 mx-auto max-w-6xl;
+  }
+  
+  .btn {
+    @apply inline-flex items-center justify-center px-4 sm:px-6 py-2.5 sm:py-3 font-medium rounded-md transition-colors duration-200 text-sm sm:text-base;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary/90;
+  }
+  
+  .btn-secondary {
+    @apply bg-accent1 text-white hover:bg-accent1/90;
+  }
+  
+  .btn-accent {
+    @apply bg-accent2 text-white hover:bg-accent2/90;
+  }
+  
+  .section {
+    @apply py-10 sm:py-14 md:py-20;
+  }
+  
+  .section-title {
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 p-6 md:p-8;
+  }
+}
+
+/* レスポンシブブレークポイントはTailwindのデフォルト値を使用
+  sm: 640px
+  md: 768px
+  lg: 1024px
+  xl: 1280px
+  2xl: 1536px
+*/
+
 /* グローバルなスタイルを追加 */
 :root {
   --primary-color: #5cc7f5;
@@ -19,23 +91,8 @@ body {
   line-height: 1.6;
 }
 
-a {
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
 * {
   box-sizing: border-box;
-}
-
-.container {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 1rem;
 }
 
 /* レイアウト */
@@ -93,15 +150,6 @@ a:hover {
   text-align: center;
   color: #666;
   font-size: 0.9rem;
-}
-
-/* セクションタイトル */
-.section-title {
-  margin-top: 2.5rem;
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-  border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 0.5rem;
 }
 
 /* プロフィールセクション */
@@ -171,42 +219,137 @@ a:hover {
 
 /* マークダウンコンテンツ */
 .markdown-content {
-  line-height: 1.8;
+  @apply container py-8 md:py-12;
 }
 
 .content-title {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  @apply text-3xl md:text-4xl font-bold mb-8 text-center;
+}
+
+.markdown-content h1 {
+  @apply text-3xl font-bold mb-6 mt-8;
+}
+
+.markdown-content h2 {
+  @apply text-2xl font-bold mb-4 mt-8;
+}
+
+.markdown-content h3 {
+  @apply text-xl font-bold mb-3 mt-6;
+}
+
+.markdown-content h4 {
+  @apply text-lg font-bold mb-2 mt-4;
+}
+
+.markdown-content p {
+  @apply mb-4 leading-relaxed;
+}
+
+.markdown-content ul, .markdown-content ol {
+  @apply mb-4 pl-6;
+}
+
+.markdown-content ul {
+  @apply list-disc;
+}
+
+.markdown-content ol {
+  @apply list-decimal;
+}
+
+.markdown-content li {
+  @apply mb-2;
+}
+
+.markdown-content a {
+  @apply text-primary underline hover:text-primary/80;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-primary/30 pl-4 italic my-4;
 }
 
 .markdown-content img {
-  max-width: 100%;
-  height: auto;
+  @apply max-w-full h-auto my-6 rounded-lg mx-auto;
 }
 
 .markdown-content pre {
-  background-color: var(--light-gray);
-  padding: 1rem;
-  border-radius: 4px;
-  overflow-x: auto;
+  @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-4;
 }
 
 .markdown-content code {
-  background-color: var(--light-gray);
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-  font-size: 0.9em;
+  @apply font-mono text-sm;
 }
 
 .markdown-content pre code {
-  background-color: transparent;
-  padding: 0;
+  @apply text-sm;
 }
 
-/* エラーメッセージ */
+.markdown-content table {
+  @apply w-full border-collapse my-6;
+}
+
+.markdown-content th, .markdown-content td {
+  @apply border border-gray-300 p-2;
+}
+
+.markdown-content th {
+  @apply bg-gray-100;
+}
+
+/* Post List Styles */
+.post-list {
+  @apply container py-8;
+}
+
+.category-title {
+  @apply text-3xl md:text-4xl font-bold mb-8 text-center;
+}
+
+.posts-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.post-card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg border border-gray-100;
+}
+
+.post-card-inner {
+  @apply block p-6 h-full;
+}
+
+.post-card-title {
+  @apply text-xl font-bold mb-2 text-gray-800 hover:text-primary;
+}
+
+.post-card-date {
+  @apply text-sm text-gray-500 mb-3;
+}
+
+.post-card-excerpt {
+  @apply text-gray-600 text-sm mb-4 line-clamp-3;
+}
+
+.post-card-more {
+  @apply text-primary text-sm font-medium mt-auto;
+}
+
+.empty-message {
+  @apply text-center text-gray-500 py-8;
+}
+
+/* Error Message */
 .error-message {
-  text-align: center;
-  padding: 3rem 0;
+  @apply container py-16 text-center;
+}
+
+.error-message h1 {
+  @apply text-3xl font-bold mb-4;
+}
+
+.error-message p {
+  @apply text-gray-600;
 }
 
 /* レスポンシブ対応 */

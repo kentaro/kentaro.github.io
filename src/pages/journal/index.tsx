@@ -18,17 +18,26 @@ export default function JournalPage({ posts }: JournalPageProps) {
     <Layout>
       <SEO 
         title="日記"
-        description="日記の一覧"
+        description="栗林健太郎の日記。日々の活動や考えを記録しています。"
       />
       
-      <h1 className="category-title">日記</h1>
+      <div className="page-header bg-gradient-to-br from-accent1/10 to-accent2/10 py-12 md:py-16">
+        <div className="container">
+          <h1 className="text-3xl md:text-4xl font-bold text-center">日記</h1>
+          <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
+            日々の活動や考えを記録しています。最新の10件を表示しています。
+          </p>
+        </div>
+      </div>
       
-      <PostList 
-        posts={posts}
-        emptyMessage="日記はまだありません"
-        limit={10} // 直近10日分のみ表示
-        hideDate={true} // 日記の一覧では日付を表示しない
-      />
+      <div className="py-12">
+        <PostList 
+          posts={posts}
+          emptyMessage="日記はまだありません"
+          limit={10} // 直近10日分のみ表示
+          hideDate={false} // 日付を表示する
+        />
+      </div>
     </Layout>
   );
 }

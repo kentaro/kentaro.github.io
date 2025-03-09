@@ -10,18 +10,54 @@ export default function Navigation() {
   
   return (
     <nav className="main-nav">
-      <ul>
-        <li className={isActive('/') && !isActive('/blog') && !isActive('/journal') && !isActive('/profile') ? 'active' : ''}>
-          <Link href="/">ホーム</Link>
+      <ul className="flex items-center space-x-10">
+        <li>
+          <Link 
+            href="/" 
+            className={`py-2 font-medium transition-colors duration-200 ${
+              isActive('/') && !isActive('/blog') && !isActive('/journal') && !isActive('/profile') 
+                ? 'text-primary font-bold' 
+                : 'text-dark hover:text-primary'
+            }`}
+          >
+            ホーム
+          </Link>
         </li>
-        <li className={isActive('/profile') ? 'active' : ''}>
-          <Link href="/profile">プロフィール</Link>
+        <li>
+          <Link 
+            href="/profile" 
+            className={`py-2 font-medium transition-colors duration-200 ${
+              isActive('/profile') 
+                ? 'text-primary font-bold' 
+                : 'text-dark hover:text-primary'
+            }`}
+          >
+            プロフィール
+          </Link>
         </li>
-        <li className={isActive('/blog') ? 'active' : ''}>
-          <Link href="/blog">ブログ</Link>
+        <li>
+          <Link 
+            href="/blog" 
+            className={`py-2 font-medium transition-colors duration-200 ${
+              isActive('/blog') 
+                ? 'text-primary font-bold' 
+                : 'text-dark hover:text-primary'
+            }`}
+          >
+            ブログ
+          </Link>
         </li>
-        <li className={isActive('/journal') ? 'active' : ''}>
-          <Link href="/journal">日記</Link>
+        <li>
+          <Link 
+            href="/journal" 
+            className={`py-2 font-medium transition-colors duration-200 ${
+              isActive('/journal') 
+                ? 'text-primary font-bold' 
+                : 'text-dark hover:text-primary'
+            }`}
+          >
+            日記
+          </Link>
         </li>
       </ul>
     </nav>

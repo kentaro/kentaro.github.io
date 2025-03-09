@@ -46,6 +46,7 @@ export default function Post({ postData }: PostProps) {
       <MarkdownRenderer
         title={postData.title || ''}
         contentHtml={postData.contentHtml || ''}
+        date={postData.date}
       />
     </Layout>
   );

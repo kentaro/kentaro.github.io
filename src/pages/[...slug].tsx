@@ -12,11 +12,13 @@ type PostProps = {
     excerpt?: string;
     [key: string]: unknown;
   } | null;
+  isJournalPost: boolean;
 };
 
-export default function Post({ postData }: PostProps) {
+export default function Post({ postData, isJournalPost }: PostProps) {
   console.log('Rendering Post component:', { 
-    hasPostData: !!postData
+    hasPostData: !!postData,
+    isJournalPost
   });
   
   if (postData) {
@@ -46,7 +48,8 @@ export default function Post({ postData }: PostProps) {
       <MarkdownRenderer
         title={postData.title || ''}
         contentHtml={postData.contentHtml || ''}
-        date={slugPath[0] === 'journal' ? null : postData.date}
+        date={postData.date}
+        hideDate={isJournalPost}
       />
     </Layout>
   );
@@ -76,6 +79,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slugPath = params?.slug as string[];
   const slug = slugPath.join('/');
+  const isJournalPost = slugPath[0] === 'journal';
   
   console.log('Processing slug:', slug);
   
@@ -106,6 +110,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       postData,
+      isJournalPost,
     },
   };
 }; 

@@ -5,11 +5,12 @@ type MarkdownRendererProps = {
   title?: string;
   contentHtml: string;
   date?: string;
+  hideDate?: boolean;
   children?: ReactNode;
 };
 
 /* eslint-disable react/no-danger, @next/next/no-html-link-for-pages */
-export default function MarkdownRenderer({ title, contentHtml, date, children }: MarkdownRendererProps) {
+export default function MarkdownRenderer({ title, contentHtml, date, hideDate = false, children }: MarkdownRendererProps) {
   return (
     <>
       <div className="page-header bg-gradient-to-br from-primary/10 to-accent2/10 py-12 md:py-16">
@@ -24,7 +25,7 @@ export default function MarkdownRenderer({ title, contentHtml, date, children }:
               {title}
             </motion.h1>
           )}
-          {date && !title?.match(/^\d{4}年\d{1,2}月\d{1,2}日/) && (
+          {date && !hideDate && (
             <motion.div 
               className="text-center text-gray-600 mt-4"
               initial={{ opacity: 0 }}

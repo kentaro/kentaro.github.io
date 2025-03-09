@@ -12,6 +12,7 @@ module.exports = {
         accent1: '#00B8A9',    // アクセントカラー（緑）
         accent2: '#F6416C',    // アクセントカラー（紫）
         dark: '#1E293B',       // ダークカラー
+        'dark-light': '#2A3749', // ダークカラーの明るいバージョン
         light: '#F8FAFC',      // ライトカラー
       },
       fontFamily: {

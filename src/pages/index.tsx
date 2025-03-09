@@ -69,7 +69,7 @@ export default function Home() {
       </section>
       
       {/* プロフィールセクション */}
-      <section id="profile" className="section bg-white">
+      <section id="profile" className="pt-6 sm:pt-8 md:pt-12 pb-10 sm:pb-14 md:pb-20 bg-white">
         <div className="container">
           <h2 className="section-title">プロフィール</h2>
           
@@ -108,7 +108,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm sm:text-base">学歴・資格</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">1976年奄美大島生まれ。東京都立大学法学部卒業後、46歳で北陸先端科学技術大学院から博士号取得。IoTシステム基盤技術の研究で情報処理学会から優秀論文賞・優秀プレゼンテーション賞をW受賞。情報処理安全確保支援士、TOEIC 890点、G検定、Google Cloud Professional MLエンジニア資格保有。</p>
+                    <p className="text-gray-700 text-xs sm:text-sm">1976年奄美大島生まれ。東京都立大学法学部卒業後、48歳で北陸先端科学技術大学院から博士号取得。IoTシステム基盤技術の研究で情報処理学会から優秀論文賞・優秀プレゼンテーション賞をW受賞。情報処理安全確保支援士、TOEIC 890点、G検定、Google Cloud Professional MLエンジニア資格保有。</p>
                   </div>
                 </div>
                 

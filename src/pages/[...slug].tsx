@@ -45,6 +45,9 @@ export default function Post({ postData }: PostProps) {
 export const getStaticPaths: GetStaticPaths = async () => {
   const files = getAllMarkdownFiles();
   
+  // デバッグ用に出力
+  console.log('Generated paths:', JSON.stringify(files, null, 2));
+  
   const paths = files.map(({ slug }) => {
     // スラッグをパスのパラメータに変換
     return {
@@ -70,6 +73,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
       notFound: true,
     };
+  }
+
+  // Dateオブジェクトを文字列に変換
+  if (postData.date instanceof Date) {
+    postData.date = postData.date.toISOString();
+  } else if (postData.date === undefined) {
+    postData.date = null;
   }
 
   return {

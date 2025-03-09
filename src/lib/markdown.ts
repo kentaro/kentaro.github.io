@@ -84,6 +84,11 @@ export async function getMarkdownData(
 			}
 		}
 
+		// Dateオブジェクトを文字列に変換
+		if (date instanceof Date) {
+			date = date.toISOString();
+		}
+
 		// 抜粋を生成
 		const excerpt = data.excerpt || `${content.slice(0, 160).trim()}...`;
 
@@ -99,27 +104,6 @@ export async function getMarkdownData(
 		console.error(`Error processing markdown file for slug ${slug}:`, error);
 		return null;
 	}
-}
-
-// プロフィールデータを取得
-export async function getProfileData() {
-	const profilePath = path.join(process.cwd(), "contents/profile.md");
-
-	if (!fs.existsSync(profilePath)) {
-		return null;
-	}
-
-	const fileContents = fs.readFileSync(profilePath, "utf8");
-	const { data, content } = matter(fileContents);
-
-	const processedContent = await remark().use(html).process(content);
-	const contentHtml = processedContent.toString();
-
-	return {
-		title: data.title || "プロフィール",
-		contentHtml,
-		...data,
-	};
 }
 
 // カテゴリーの一覧を取得

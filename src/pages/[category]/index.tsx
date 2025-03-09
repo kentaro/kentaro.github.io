@@ -69,10 +69,19 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     .filter(({ slug }) => slug.startsWith(`${category}/`))
     .map(async ({ slug }) => {
       const data = await getMarkdownData(slug);
+      let date = data?.date;
+      
+      // Dateオブジェクトを文字列に変換
+      if (date instanceof Date) {
+        date = date.toISOString();
+      } else if (date === undefined) {
+        date = null;
+      }
+      
       return {
         slug,
         title: data?.title || slug.split('/').pop() || '',
-        date: data?.date,
+        date,
         excerpt: data?.excerpt,
       };
     });

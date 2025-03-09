@@ -11,8 +11,11 @@ export default function Navigation() {
   return (
     <nav className="main-nav">
       <ul>
-        <li className={isActive('/') && !isActive('/blog') && !isActive('/journal') ? 'active' : ''}>
+        <li className={isActive('/') && !isActive('/blog') && !isActive('/journal') && !isActive('/profile') ? 'active' : ''}>
           <Link href="/">ホーム</Link>
+        </li>
+        <li className={isActive('/profile') ? 'active' : ''}>
+          <Link href="/profile">プロフィール</Link>
         </li>
         <li className={isActive('/blog') ? 'active' : ''}>
           <Link href="/blog">ブログ</Link>

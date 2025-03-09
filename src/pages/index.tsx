@@ -1,32 +1,23 @@
 import type { GetStaticProps } from 'next';
-import { getProfileData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
-import Profile from '@/components/content/Profile';
 
-type HomeProps = {
-  profileData: {
-    title?: string;
-    contentHtml: string;
-  };
-};
-
-export default function Home({ profileData }: HomeProps) {
+export default function Home() {
   return (
     <Layout>
       <SEO />
       
-      <Profile profileData={profileData} />
+      <div className="home-container">
+        <h1>ようこそ</h1>
+        <p>このサイトでは、ブログ記事やジャーナルなどのコンテンツを公開しています。</p>
+        <p>メニューから各セクションにアクセスしてください。</p>
+      </div>
     </Layout>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const profileData = await getProfileData();
-
   return {
-    props: {
-      profileData: profileData || { title: 'プロフィール', contentHtml: '' },
-    },
+    props: {},
   };
 }; 

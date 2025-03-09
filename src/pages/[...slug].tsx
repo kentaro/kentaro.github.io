@@ -15,6 +15,15 @@ type PostProps = {
 };
 
 export default function Post({ postData }: PostProps) {
+  console.log('Rendering Post component:', { 
+    hasPostData: !!postData
+  });
+  
+  if (postData) {
+    console.log('Post data title:', postData.title);
+    console.log('Post data content length:', postData.contentHtml.length);
+  }
+  
   if (!postData) {
     return (
       <Layout>
@@ -29,14 +38,14 @@ export default function Post({ postData }: PostProps) {
   return (
     <Layout>
       <SEO 
-        title={postData.title}
-        description={postData.excerpt || `${postData.title}に関する記事`}
+        title={postData.title || ''}
+        description={postData.excerpt || `${postData.title || ''}に関する記事`}
         ogType="article"
       />
       
       <MarkdownRenderer
-        title={postData.title}
-        contentHtml={postData.contentHtml}
+        title={postData.title || ''}
+        contentHtml={postData.contentHtml || ''}
       />
     </Layout>
   );
@@ -67,7 +76,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slugPath = params?.slug as string[];
   const slug = slugPath.join('/');
   
+  console.log('Processing slug:', slug);
+  
+  // マークダウンファイルのデータを取得
   const postData = await getMarkdownData(slug);
+  
+  console.log('Post data for slug:', slug, postData ? 'found' : 'not found');
+  if (postData) {
+    console.log('Title:', postData.title);
+    console.log('Content length:', postData.contentHtml.length);
+  }
   
   if (!postData) {
     return {
@@ -75,9 +93,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
-  // Dateオブジェクトを文字列に変換
+  // 日付が確実に文字列または null になるようにする
   if (postData.date instanceof Date) {
     postData.date = postData.date.toISOString();
+  } else if (postData.date && typeof postData.date !== 'string') {
+    postData.date = String(postData.date);
   } else if (postData.date === undefined) {
     postData.date = null;
   }

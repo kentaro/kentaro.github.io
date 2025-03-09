@@ -3,6 +3,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
+import remarkGfm from "remark-gfm";
 
 // プロジェクトルートからのパスを取得
 const obsidianPublicDir = path.join(process.cwd(), "obsidian/public");
@@ -48,32 +49,43 @@ export async function getMarkdownData(
 	dirPath = obsidianPublicDir,
 ) {
 	try {
-		// スラグからファイルパスを構築
+		// スラッグからファイルパスを構築
 		const slugPath = `${slug}.md`;
 		const filePath = path.join(dirPath, slugPath);
 
+		console.log("Trying to read file:", filePath);
+
 		// ファイルの存在を確認
 		if (!fs.existsSync(filePath)) {
+			console.log("File does not exist:", filePath);
 			return null;
 		}
 
 		// ファイル内容を読み込む
 		const fileContents = fs.readFileSync(filePath, "utf8");
+		console.log("File contents length:", fileContents.length);
 
 		// front matterを解析
 		const { data, content } = matter(fileContents);
+		console.log("Front matter data:", data);
+		console.log("Content length:", content.length);
 
 		// contentをHTML化
-		const processedContent = await remark().use(html).process(content);
+		const processedContent = await remark()
+			.use(html, { sanitize: false })
+			.use(remarkGfm)
+			.process(content);
 		const contentHtml = processedContent.toString();
+		console.log("HTML content length:", contentHtml.length);
 
 		// ファイル名からタイトルを抽出
 		const filename = path.basename(filePath);
 		const title = data.title || filename.replace(/\.md$/, "");
 
-		// 日付をフォーマット (ファイルパスから抽出することも可能)
+		// 日付をフォーマット (フロントマターから優先的に取得)
 		let date = data.date;
 		if (!date) {
+			// フロントマターにdateがない場合はファイルパスから抽出
 			const pathSegments = slug.split("/");
 			// 例: journal/2025/03/2025年3月8日
 			if (
@@ -84,9 +96,20 @@ export async function getMarkdownData(
 			}
 		}
 
-		// Dateオブジェクトを文字列に変換
-		if (date instanceof Date) {
-			date = date.toISOString();
+		// 日付文字列をDateオブジェクトに変換してからISOString形式に統一
+		if (date) {
+			if (date instanceof Date) {
+				date = date.toISOString();
+			} else if (typeof date === "string") {
+				// YYYY-MM-DD形式の文字列をDateオブジェクトに変換
+				const dateObj = new Date(date);
+				if (!Number.isNaN(dateObj.getTime())) {
+					date = dateObj.toISOString();
+				}
+			} else {
+				// どのケースにも当てはまらない場合は文字列に変換
+				date = String(date);
+			}
 		}
 
 		// 抜粋を生成
@@ -104,26 +127,4 @@ export async function getMarkdownData(
 		console.error(`Error processing markdown file for slug ${slug}:`, error);
 		return null;
 	}
-}
-
-// カテゴリーの一覧を取得
-export function getCategories() {
-	const files = getAllMarkdownFiles();
-	const categories = files.reduce(
-		(acc, { slug }) => {
-			const category = slug.split("/")[0];
-			if (!acc[category]) {
-				acc[category] = {
-					name: category.charAt(0).toUpperCase() + category.slice(1),
-					slug: category,
-					count: 0,
-				};
-			}
-			acc[category].count++;
-			return acc;
-		},
-		{} as Record<string, { name: string; slug: string; count: number }>,
-	);
-
-	return Object.values(categories);
 }

@@ -3,6 +3,8 @@ import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import PostList from '@/components/content/PostList';
+import { FaRss } from 'react-icons/fa';
+import Link from 'next/link';
 
 type JournalPageProps = {
   posts: {
@@ -27,6 +29,12 @@ export default function JournalPage({ posts }: JournalPageProps) {
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
             日々の活動や考えを記録しています。最新の10件を表示しています。
           </p>
+          <div className="flex justify-center mt-4">
+            <Link href="/journal/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">
+              <FaRss className="mr-1" />
+              <span>RSS</span>
+            </Link>
+          </div>
         </div>
       </div>
       

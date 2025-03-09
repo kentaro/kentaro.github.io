@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 type SEOProps = {
   title?: string;
@@ -16,6 +17,15 @@ export default function SEO({
   twitterCard = 'summary_large_image',
 }: SEOProps) {
   const fullTitle = title === '栗林健太郎' ? title : `${title} | 栗林健太郎`;
+  const router = useRouter();
+  
+  // RSSフィードのリンクを決定
+  let rssLink = null;
+  if (router.pathname === '/blog' || router.pathname.startsWith('/blog/')) {
+    rssLink = '/blog/feed.xml';
+  } else if (router.pathname === '/journal' || router.pathname.startsWith('/journal/')) {
+    rssLink = '/journal/feed.xml';
+  }
   
   return (
     <Head>
@@ -38,6 +48,11 @@ export default function SEO({
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
+      
+      {/* RSS Feed */}
+      {rssLink && (
+        <link rel="alternate" type="application/rss+xml" title={`${title} RSS Feed`} href={rssLink} />
+      )}
       
       {/* Canonical */}
       <link rel="canonical" href="https://kentarokuribayashi.com" />

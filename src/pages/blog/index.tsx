@@ -3,6 +3,8 @@ import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import PostList from '@/components/content/PostList';
+import { FaRss } from 'react-icons/fa';
+import Link from 'next/link';
 
 type BlogPageProps = {
   posts: {
@@ -27,6 +29,12 @@ export default function BlogPage({ posts }: BlogPageProps) {
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
             技術、マネジメント、読書など、さまざまなトピックについての記事を掲載しています。
           </p>
+          <div className="flex justify-center mt-4">
+            <Link href="/blog/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">
+              <FaRss className="mr-1" />
+              <span>RSS</span>
+            </Link>
+          </div>
         </div>
       </div>
       

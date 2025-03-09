@@ -17,48 +17,53 @@ export default function Home() {
       
       {/* ヒーローセクション */}
       <section className="relative bg-gradient-to-br from-primary/10 to-accent2/10 py-8 sm:py-12 md:py-16 mt-14">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-center md:text-left"
-            >
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-dark">
-                <span className="text-primary">技術と知見</span>で<br className="hidden sm:block" />
-                未来を創造する
-              </h1>
-              <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-gray-700">
-                情報科学の博士号を持つCTOとして、最先端技術の知見を共有し、
-                エンジニアリングの未来を切り拓きます。
-              </p>
-              <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
-                <Link href="/profile" className="btn btn-primary">
-                  プロフィールを見る
-                </Link>
-                <Link href="/blog" className="btn btn-secondary">
-                  ブログを読む
-                </Link>
-              </div>
-            </motion.div>
+        <div className="container max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8">
+            <div className="md:flex-1 order-2 md:order-1">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-center md:text-left"
+              >
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 text-dark">
+                  <span className="text-primary">技術と知見</span>で<br className="hidden sm:block" />
+                  未来を創造する
+                </h1>
+                <p className="text-base sm:text-lg mb-5 sm:mb-6 text-gray-700 max-w-xl">
+                  異分野を横断する視点と経験。
+                  法学から情報科学へ、公務員からCTOへ。
+                  境界を越えて技術の新たな可能性を切り拓きます。
+                </p>
+                <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
+                  <Link href="/profile" className="btn btn-primary">
+                    プロフィールを見る
+                  </Link>
+                  <Link href="/blog" className="btn btn-secondary">
+                    ブログを読む
+                  </Link>
+                </div>
+              </motion.div>
+            </div>
             
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex justify-center mt-2 md:mt-0"
-            >
-              <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-full overflow-hidden border-4 border-white shadow-xl">
-                <Image
-                  src="https://pbs.twimg.com/profile_images/1893532407988367361/5EfifO80_400x400.jpg"
-                  alt="栗林健太郎"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </motion.div>
+            <div className="order-1 md:order-2 flex-shrink-0">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="flex justify-center"
+              >
+                <div className="relative w-40 h-40 sm:w-44 sm:h-44 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                  <Image
+                    src="https://pbs.twimg.com/profile_images/1893532407988367361/5EfifO80_400x400.jpg"
+                    alt="栗林健太郎"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -70,8 +75,16 @@ export default function Home() {
           
           <div className="grid grid-cols-1 gap-6 sm:gap-8">
             <div className="bg-gray-50 rounded-xl p-4 sm:p-6 md:p-8 shadow-sm">
-              <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary text-center">栗林健太郎</h3>
-              <p className="text-center text-xs sm:text-sm text-gray-600 mb-6">GMOペパボ株式会社取締役CTO / 一般社団法人日本CTO協会理事 / 博士（情報科学） / インターネット上では「あんちぽ」として知られる</p>
+              <h3 className="text-xl sm:text-2xl font-bold mb-3 text-primary text-center">栗林健太郎</h3>
+              <div className="bg-primary/5 py-3 px-4 rounded-lg mb-6 max-w-3xl mx-auto">
+                <p className="text-center text-sm sm:text-base text-gray-700 font-medium leading-relaxed">
+                  <span className="inline-block">GMOペパボ株式会社取締役CTO</span> <span className="text-primary/70 mx-1">/</span> 
+                  <span className="inline-block">一般社団法人日本CTO協会理事</span> <span className="text-primary/70 mx-1">/</span> 
+                  <span className="inline-block">博士（情報科学）</span>
+                  <br />
+                  <span className="inline-block">インターネット上では「あんちぽ」として知られる</span>
+                </p>
+              </div>
               
               <div className="space-y-3 sm:space-y-4 mb-6">
                 <div className="flex items-start">
@@ -83,7 +96,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm sm:text-base">職業・所属</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">GMOペパボ株式会社の取締役CTOおよび事業開発部部長として技術戦略を統括。ペパボ研究所長として研究開発にも携わる。一般社団法人日本CTO協会では理事を務める。</p>
+                    <p className="text-gray-700 text-xs sm:text-sm">GMOペパボ株式会社取締役CTO・事業開発部部長。奄美市役所からはてなを経て、現在はペパボで技術戦略を統括。ペパボ研究所長として研究開発を主導し、日本CTO協会理事として業界全体の発展にも貢献。技術と経営の両面から、クリエイターとユーザーを支えるサービスの成長を牽引。</p>
                   </div>
                 </div>
                 
@@ -95,7 +108,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm sm:text-base">学歴・資格</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">1976年生まれ。奄美大島出身。東京都立大学法学部政治学科卒業後、2025年に北陸先端科学技術大学院で博士（情報科学）を取得。情報処理安全確保支援士（登録番号：013258）の資格も保有。TOEIC 890点、G検定、Google Cloud Professional Machine Learning Engineer等の資格も取得。</p>
+                    <p className="text-gray-700 text-xs sm:text-sm">1976年奄美大島生まれ。東京都立大学法学部卒業後、46歳で北陸先端科学技術大学院から博士号取得。IoTシステム基盤技術の研究で情報処理学会から優秀論文賞・優秀プレゼンテーション賞をW受賞。情報処理安全確保支援士、TOEIC 890点、G検定、Google Cloud Professional MLエンジニア資格保有。</p>
                   </div>
                 </div>
                 
@@ -107,7 +120,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm sm:text-base">経歴</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">幼少期より高校卒業まで奄美大島で過ごす。奄美市役所を経て、2008年に株式会社はてなに入社。2012年にGMOペパボに転職し、技術基盤整備やサービス開発に従事。2014年から技術責任者、2015年に執行役員CTO、2017年に取締役CTOに就任。2023年より事業開発部部長も兼任。</p>
+                    <p className="text-gray-700 text-xs sm:text-sm">自作ブログがプログラミングの起点に。奄美市役所から2008年に株式会社はてなへ転身。2012年にGMOペパボに参画し、技術基盤整備とサービス開発に従事。2014年に技術責任者、2015年に執行役員CTO、2017年に取締役CTOへ。リーンプロセスやスクラムの導入など、開発プロセス改善にも注力。</p>
                   </div>
                 </div>
                 
@@ -119,7 +132,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm sm:text-base">趣味・活動</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">歴史、アート、思想等の人文系や情報科学等のジャンルを中心とした読書を好む。Web3では antipop.eth として活動。VRChat、ResoniteなどのソーシャルVRでも活動。その他、プログラミング、アート鑑賞、現代作家のうつわ、江戸前鮨、シーシャ、歌舞伎、落語、語学等を好む。</p>
+                    <p className="text-gray-700 text-xs sm:text-sm">年間200冊を読破する知の探究者。人文科学から情報科学まで幅広く学び続ける。アマチュア無線（JK1RZR）やWeb3（antipop.eth）など最新技術にも精通。VRChatなどのソーシャルVRでの活動や、歌舞伎・落語鑑賞、現代作家のうつわコレクション、江戸前鮨など、デジタルとアナログを行き来する多彩な趣味を持つ。</p>
                   </div>
                 </div>
                 

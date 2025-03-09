@@ -81,20 +81,37 @@ export async function generateRssFeed(type: "blog" | "journal") {
 		});
 	}
 
-	// publicディレクトリを確認・作成
+	// 2つの場所にRSSフィードを生成
+	// 1. publicディレクトリ（開発環境用）
 	const publicDir = path.join(process.cwd(), "public");
-	const typeDir = path.join(publicDir, type);
+	const publicTypeDir = path.join(publicDir, type);
 
 	if (!fs.existsSync(publicDir)) {
 		fs.mkdirSync(publicDir);
 	}
 
-	if (!fs.existsSync(typeDir)) {
-		fs.mkdirSync(typeDir);
+	if (!fs.existsSync(publicTypeDir)) {
+		fs.mkdirSync(publicTypeDir);
 	}
 
-	// RSSフィードを書き込み
-	fs.writeFileSync(path.join(typeDir, "feed.xml"), feed.rss2());
+	// RSSフィードを書き込み（開発環境用）
+	fs.writeFileSync(path.join(publicTypeDir, "feed.xml"), feed.rss2());
+
+	// 2. buildディレクトリ（本番環境用）
+	// Next.jsの出力ディレクトリにも同じファイルを生成
+	const buildDir = path.join(process.cwd(), "build");
+
+	// buildディレクトリが存在しない場合は作成しない（ビルド時に自動生成されるため）
+	if (fs.existsSync(buildDir)) {
+		const buildTypeDir = path.join(buildDir, type);
+
+		if (!fs.existsSync(buildTypeDir)) {
+			fs.mkdirSync(buildTypeDir, { recursive: true });
+		}
+
+		// RSSフィードを書き込み（本番環境用）
+		fs.writeFileSync(path.join(buildTypeDir, "feed.xml"), feed.rss2());
+	}
 
 	return recentPosts;
 }

@@ -2,7 +2,8 @@ import type { GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaTwitter, FaGithub, FaYoutube, FaFacebook } from 'react-icons/fa';
+import { FaTwitter, FaGithub, FaYoutube, FaFacebook, FaLinkedin } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
 import Layout from '../components/layout/Layout';
 import SEO from '../components/common/SEO';
 
@@ -70,7 +71,7 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-6 sm:gap-8">
             <div className="bg-gray-50 rounded-xl p-4 sm:p-6 md:p-8 shadow-sm">
               <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary text-center">栗林健太郎</h3>
-              <p className="text-center text-xs sm:text-sm text-gray-600 mb-6">GMOペパボ株式会社取締役CTO / 一般社団法人日本CTO協会理事 / 博士（情報科学） / 情報処理安全確保支援士 / インターネット上では「あんちぽ」として知られる</p>
+              <p className="text-center text-xs sm:text-sm text-gray-600 mb-6">GMOペパボ株式会社取締役CTO / 一般社団法人日本CTO協会理事 / 博士（情報科学） / インターネット上では「あんちぽ」として知られる</p>
               
               <div className="space-y-3 sm:space-y-4 mb-6">
                 <div className="flex items-start">
@@ -118,7 +119,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-800 text-sm sm:text-base">趣味・活動</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">読書家で年間約200冊を読破。歴史、アート、思想等の人文系や情報科学等のジャンルを中心に。Web3では antipop.eth として活動。アマチュア無線（JK1RZR）やデジタル簡易無線（とうきょうKK256）も趣味。その他、プログラミング、アート鑑賞、現代作家のうつわ、江戸前鮨、シーシャ、歌舞伎、落語、語学等を好む。</p>
+                    <p className="text-gray-700 text-xs sm:text-sm">歴史、アート、思想等の人文系や情報科学等のジャンルを中心とした読書を好む。Web3では antipop.eth として活動。VRChat、ResoniteなどのソーシャルVRでも活動。その他、プログラミング、アート鑑賞、現代作家のうつわ、江戸前鮨、シーシャ、歌舞伎、落語、語学等を好む。</p>
                   </div>
                 </div>
                 
@@ -160,13 +161,10 @@ export default function Home() {
                   <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">Elixir</span>
                   <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">IoT</span>
                   <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">分散システム</span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">機械学習</span>
+                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">AI技術</span>
                   <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">エンジニアリングマネジメント</span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">Web開発</span>
+                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">研究開発</span>
                   <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">リーンプロセス</span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">Ruby</span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">Perl</span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">PHP</span>
                   <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">技術戦略</span>
                   <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">組織開発</span>
                 </div>
@@ -191,7 +189,7 @@ export default function Home() {
             ぜひフォローして、最新情報をチェックしてください。
           </p>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
             {/* X (Twitter) */}
             <a 
               href="https://x.com/kentaro" 
@@ -238,7 +236,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">YouTube</h3>
               <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
-                技術解説や講演の動画を配信しています
+                音楽や動画作成等の趣味に関する動画を配信しています
               </p>
               <span className="text-primary font-medium text-sm sm:text-base">@kentarok</span>
             </a>
@@ -258,6 +256,40 @@ export default function Home() {
                 イベント情報やプロフェッショナルな活動を共有しています
               </p>
               <span className="text-primary font-medium text-sm sm:text-base">kentarok</span>
+            </a>
+            
+            {/* LinkedIn */}
+            <a 
+              href="https://www.linkedin.com/in/kentaro-kuribayashi" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
+            >
+              <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
+                <FaLinkedin className="w-6 h-6 sm:w-8 sm:h-8" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">LinkedIn</h3>
+              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
+                職歴やプロフェッショナルなネットワークを公開しています
+              </p>
+              <span className="text-primary font-medium text-sm sm:text-base">kentaro-kuribayashi</span>
+            </a>
+            
+            {/* メール */}
+            <a 
+              href="mailto:kentarok@gmail.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
+            >
+              <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
+                <MdEmail className="w-6 h-6 sm:w-8 sm:h-8" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">メール</h3>
+              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
+                お問い合わせやご連絡はこちらからどうぞ
+              </p>
+              <span className="text-primary font-medium text-sm sm:text-base">kentarok@gmail.com</span>
             </a>
           </div>
       </div>

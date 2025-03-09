@@ -35,7 +35,7 @@ export default function JournalPage({ posts }: JournalPageProps) {
           posts={posts}
           emptyMessage="日記はまだありません"
           limit={10} // 直近10日分のみ表示
-          hideDate={false} // 日付を表示する
+          hideDate={true} // 日付を表示しない
         />
       </div>
     </Layout>

@@ -13,9 +13,17 @@ type PostProps = {
     [key: string]: unknown;
   } | null;
   isJournalPost: boolean;
+  prevPost: {
+    slug: string;
+    title: string;
+  } | null;
+  nextPost: {
+    slug: string;
+    title: string;
+  } | null;
 };
 
-export default function Post({ postData, isJournalPost }: PostProps) {
+export default function Post({ postData, isJournalPost, prevPost, nextPost }: PostProps) {
   console.log('Rendering Post component:', { 
     hasPostData: !!postData,
     isJournalPost
@@ -49,7 +57,9 @@ export default function Post({ postData, isJournalPost }: PostProps) {
         title={postData.title || ''}
         contentHtml={postData.contentHtml || ''}
         date={postData.date}
-        hideDate={isJournalPost}
+        isJournalPost={isJournalPost}
+        prevPost={prevPost}
+        nextPost={nextPost}
       />
     </Layout>
   );
@@ -107,10 +117,68 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     postData.date = null;
   }
 
+  // 前後の日記を取得（日記ページの場合のみ）
+  let prevPost = null;
+  let nextPost = null;
+
+  if (isJournalPost) {
+    // 現在の日記の年月日を取得
+    const parts = slug.split('/');
+    if (parts.length >= 4) {
+      const year = parts[1];
+      const month = parts[2];
+      
+      // 同じ年月の日記を全て取得
+      const allFiles = getAllMarkdownFiles();
+      const monthPosts = allFiles
+        .filter(({ slug: postSlug }) => {
+          const postParts = postSlug.split('/');
+          return postParts.length >= 3 && 
+                 postParts[0] === 'journal' && 
+                 postParts[1] === year && 
+                 postParts[2] === month;
+        })
+        .map(({ slug: postSlug }) => {
+          // ファイル名から日付を抽出
+          const filename = postSlug.split('/').pop() || '';
+          const dayMatch = filename.match(/(\d{1,2})日/);
+          const day = dayMatch ? Number(dayMatch[1]) : 0;
+          
+          return {
+            slug: postSlug,
+            day,
+            filename
+          };
+        })
+        .sort((a, b) => a.day - b.day); // 日付順にソート
+      
+      // 現在の日記のインデックスを見つける
+      const currentIndex = monthPosts.findIndex(post => post.slug === slug);
+      
+      if (currentIndex > 0) {
+        // 前の日記
+        prevPost = {
+          slug: monthPosts[currentIndex - 1].slug,
+          title: monthPosts[currentIndex - 1].filename
+        };
+      }
+      
+      if (currentIndex < monthPosts.length - 1) {
+        // 次の日記
+        nextPost = {
+          slug: monthPosts[currentIndex + 1].slug,
+          title: monthPosts[currentIndex + 1].filename
+        };
+      }
+    }
+  }
+
   return {
     props: {
       postData,
       isJournalPost,
+      prevPost,
+      nextPost
     },
   };
 }; 

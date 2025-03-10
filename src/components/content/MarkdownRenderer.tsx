@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 type MarkdownRendererProps = {
   title?: string;
@@ -7,10 +9,28 @@ type MarkdownRendererProps = {
   date?: string;
   hideDate?: boolean;
   children?: ReactNode;
+  prevPost?: {
+    slug: string;
+    title: string;
+  } | null;
+  nextPost?: {
+    slug: string;
+    title: string;
+  } | null;
+  isJournalPost?: boolean;
 };
 
 /* eslint-disable react/no-danger, @next/next/no-html-link-for-pages */
-export default function MarkdownRenderer({ title, contentHtml, date, hideDate = false, children }: MarkdownRendererProps) {
+export default function MarkdownRenderer({ 
+  title, 
+  contentHtml, 
+  date, 
+  hideDate = false, 
+  children,
+  prevPost,
+  nextPost,
+  isJournalPost = false
+}: MarkdownRendererProps) {
   return (
     <>
       <div className="page-header bg-gradient-to-br from-primary/10 to-accent2/10 py-12 md:py-16">
@@ -52,6 +72,43 @@ export default function MarkdownRenderer({ title, contentHtml, date, hideDate = 
           {/* eslint-disable-next-line react/no-danger */}
           <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
           {children}
+          
+          {/* 日記の前後ナビゲーション */}
+          {isJournalPost && (prevPost || nextPost) && (
+            <div className="journal-navigation mt-8 pt-6 border-t border-gray-200">
+              <div className="flex justify-between items-center">
+                {prevPost ? (
+                  <Link 
+                    href={`/${prevPost.slug}`} 
+                    className="flex items-center text-primary hover:text-primary-dark transition-colors"
+                  >
+                    <FaArrowLeft className="mr-2" />
+                    <span>
+                      <span className="text-sm text-gray-500 block">前の日記</span>
+                      <span className="font-medium">{prevPost.title}</span>
+                    </span>
+                  </Link>
+                ) : (
+                  <div /> {/* 空のdivでレイアウトを保持 */}
+                )}
+                
+                {nextPost ? (
+                  <Link 
+                    href={`/${nextPost.slug}`} 
+                    className="flex items-center text-primary hover:text-primary-dark transition-colors text-right"
+                  >
+                    <span>
+                      <span className="text-sm text-gray-500 block">次の日記</span>
+                      <span className="font-medium">{nextPost.title}</span>
+                    </span>
+                    <FaArrowRight className="ml-2" />
+                  </Link>
+                ) : (
+                  <div /> {/* 空のdivでレイアウトを保持 */}
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </motion.article>
     </>

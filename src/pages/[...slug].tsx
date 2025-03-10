@@ -130,45 +130,125 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       
       // 同じ年月の日記を全て取得
       const allFiles = getAllMarkdownFiles();
-      const monthPosts = allFiles
-        .filter(({ slug: postSlug }) => {
-          const postParts = postSlug.split('/');
-          return postParts.length >= 3 && 
-                 postParts[0] === 'journal' && 
-                 postParts[1] === year && 
-                 postParts[2] === month;
-        })
-        .map(({ slug: postSlug }) => {
-          // ファイル名から日付を抽出
-          const filename = postSlug.split('/').pop() || '';
-          const dayMatch = filename.match(/(\d{1,2})日/);
-          const day = dayMatch ? Number(dayMatch[1]) : 0;
+      
+      // 全ての日記ファイルを取得
+      const journalFiles = allFiles.filter(({ slug: postSlug }) => 
+        postSlug.startsWith('journal/')
+      );
+      
+      // 日記ファイルを年月日でマッピング
+      const journalPostsByYearMonth: Record<string, {
+        slug: string;
+        day: number;
+        filename: string;
+        year: string;
+        month: string;
+        date: Date;
+      }[]> = {};
+      
+      for (const { slug: postSlug } of journalFiles) {
+        const postParts = postSlug.split('/');
+        if (postParts.length >= 4) {
+          const postYear = postParts[1];
+          const postMonth = postParts[2];
+          const yearMonthKey = `${postYear}-${postMonth}`;
           
-          return {
-            slug: postSlug,
-            day,
-            filename
-          };
-        })
-        .sort((a, b) => a.day - b.day); // 日付順にソート
-      
-      // 現在の日記のインデックスを見つける
-      const currentIndex = monthPosts.findIndex(post => post.slug === slug);
-      
-      if (currentIndex > 0) {
-        // 前の日記
-        prevPost = {
-          slug: monthPosts[currentIndex - 1].slug,
-          title: monthPosts[currentIndex - 1].filename
-        };
+          // ファイル名から日付を抽出
+          const filename = postParts[3];
+          const dayMatch = filename.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+          
+          if (dayMatch) {
+            const fileYear = dayMatch[1];
+            const fileMonth = dayMatch[2];
+            const fileDay = dayMatch[3];
+            
+            // 日付オブジェクトを作成
+            const date = new Date(
+              Number(fileYear),
+              Number(fileMonth) - 1, // JavaScriptの月は0始まり
+              Number(fileDay)
+            );
+            
+            if (!journalPostsByYearMonth[yearMonthKey]) {
+              journalPostsByYearMonth[yearMonthKey] = [];
+            }
+            
+            journalPostsByYearMonth[yearMonthKey].push({
+              slug: postSlug,
+              day: Number(fileDay),
+              filename,
+              year: postYear,
+              month: postMonth,
+              date
+            });
+          }
+        }
       }
       
-      if (currentIndex < monthPosts.length - 1) {
-        // 次の日記
-        nextPost = {
-          slug: monthPosts[currentIndex + 1].slug,
-          title: monthPosts[currentIndex + 1].filename
+      // 各月の日記を日付順にソート
+      for (const key in journalPostsByYearMonth) {
+        journalPostsByYearMonth[key].sort((a, b) => a.day - b.day);
+      }
+      
+      // 現在の年月の日記
+      const currentYearMonthKey = `${year}-${month}`;
+      const currentMonthPosts = journalPostsByYearMonth[currentYearMonthKey] || [];
+      
+      // 現在の日記のインデックスを見つける
+      const currentIndex = currentMonthPosts.findIndex(post => post.slug === slug);
+      
+      if (currentIndex > 0) {
+        // 同じ月内の前の日記
+        prevPost = {
+          slug: currentMonthPosts[currentIndex - 1].slug,
+          title: currentMonthPosts[currentIndex - 1].filename
         };
+      } else if (currentIndex === 0) {
+        // 月の最初の日記の場合、前月の最後の日記を探す
+        const currentDate = new Date(Number(year), Number(month) - 1, 1);
+        const prevMonth = new Date(currentDate);
+        prevMonth.setDate(0); // 前月の最終日
+        
+        const prevMonthYear = prevMonth.getFullYear().toString();
+        const prevMonthMonth = (prevMonth.getMonth() + 1).toString().padStart(2, '0');
+        const prevMonthKey = `${prevMonthYear}-${prevMonthMonth}`;
+        
+        const prevMonthPosts = journalPostsByYearMonth[prevMonthKey] || [];
+        if (prevMonthPosts.length > 0) {
+          // 前月の最後の日記
+          const lastPostOfPrevMonth = prevMonthPosts[prevMonthPosts.length - 1];
+          prevPost = {
+            slug: lastPostOfPrevMonth.slug,
+            title: lastPostOfPrevMonth.filename
+          };
+        }
+      }
+      
+      if (currentIndex < currentMonthPosts.length - 1) {
+        // 同じ月内の次の日記
+        nextPost = {
+          slug: currentMonthPosts[currentIndex + 1].slug,
+          title: currentMonthPosts[currentIndex + 1].filename
+        };
+      } else if (currentIndex === currentMonthPosts.length - 1) {
+        // 月の最後の日記の場合、翌月の最初の日記を探す
+        const currentDate = new Date(Number(year), Number(month) - 1, 1);
+        const nextMonth = new Date(currentDate);
+        nextMonth.setMonth(nextMonth.getMonth() + 1); // 翌月
+        
+        const nextMonthYear = nextMonth.getFullYear().toString();
+        const nextMonthMonth = (nextMonth.getMonth() + 1).toString().padStart(2, '0');
+        const nextMonthKey = `${nextMonthYear}-${nextMonthMonth}`;
+        
+        const nextMonthPosts = journalPostsByYearMonth[nextMonthKey] || [];
+        if (nextMonthPosts.length > 0) {
+          // 翌月の最初の日記
+          const firstPostOfNextMonth = nextMonthPosts[0];
+          nextPost = {
+            slug: firstPostOfNextMonth.slug,
+            title: firstPostOfNextMonth.filename
+          };
+        }
       }
     }
   }

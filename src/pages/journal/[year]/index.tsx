@@ -111,7 +111,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       journalFiles.map(({ slug }) => {
         const parts = slug.split('/');
         return parts.length >= 2 ? parts[1] : null;
-      }).filter(Boolean)
+      }).filter((year): year is string => year !== null)
     )
   );
 

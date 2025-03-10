@@ -111,7 +111,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   
   for (const { slug } of journalFiles) {
     const parts = slug.split('/');
-    if (parts.length >= 3) {
+    if (parts.length >= 3 && parts[1] && parts[2]) {
       const year = parts[1];
       const month = parts[2];
       

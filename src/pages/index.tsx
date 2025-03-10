@@ -90,73 +90,60 @@ export default function Home() {
                 <div className="flex items-start">
                   <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
-                      <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
-                      <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">職業・所属</h4>
-                    <p className="text-gray-700 text-sm sm:text-base">GMOペパボ株式会社取締役CTO・事業開発部部長。奄美市役所からはてなを経て、現在はペパボで技術戦略を統括。ペパボ研究所長として研究開発を主導し、日本CTO協会理事として業界全体の発展にも貢献。技術と経営の両面から、クリエイターとユーザーを支えるサービスの成長を牽引。</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="bg-primary/10 p-1.5 sm:p-2 rounded-full mr-2 sm:mr-3 mt-0.5 sm:mt-1 flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
                       <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base">学歴・資格</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">1976年奄美大島生まれ。東京都立大学法学部卒業後、48歳で北陸先端科学技術大学院から博士号取得。IoTシステム基盤技術の研究で情報処理学会から優秀論文賞・優秀プレゼンテーション賞をW受賞。情報処理安全確保支援士、TOEIC 890点、G検定、Google Cloud Professional MLエンジニア資格保有。</p>
+                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">学歴・資格</h4>
+                    <p className="text-gray-700 text-sm sm:text-base">1976年奄美大島生まれ。東京都立大学法学部卒業後、48歳で北陸先端科学技術大学院から博士号取得。IoTシステム基盤技術の研究で情報処理学会から優秀論文賞・優秀プレゼンテーション賞をW受賞。情報処理安全確保支援士、TOEIC 890点、G検定、Google Cloud Professional MLエンジニア資格保有。</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start">
-                  <div className="bg-primary/10 p-1.5 sm:p-2 rounded-full mr-2 sm:mr-3 mt-0.5 sm:mt-1 flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
+                  <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
                       <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base">経歴</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">自作ブログがプログラミングの起点に。奄美市役所から2008年に株式会社はてなへ転身。2012年にGMOペパボに参画し、技術基盤整備とサービス開発に従事。2014年に技術責任者、2015年に執行役員CTO、2017年に取締役CTOへ。リーンプロセスやスクラムの導入など、開発プロセス改善にも注力。</p>
+                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">経歴</h4>
+                    <p className="text-gray-700 text-sm sm:text-base">自作ブログがプログラミングの起点に。奄美市役所から2008年に株式会社はてなへ転身。2012年にGMOペパボに参画し、技術基盤整備とサービス開発に従事。2014年に技術責任者、2015年に執行役員CTO、2017年に取締役CTOへ。リーンプロセスやスクラムの導入など、開発プロセス改善にも注力。</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start">
-                  <div className="bg-primary/10 p-1.5 sm:p-2 rounded-full mr-2 sm:mr-3 mt-0.5 sm:mt-1 flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
+                  <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base">趣味・活動</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">年間200冊を読破する知の探究者。人文科学から情報科学まで幅広く学び続ける。アマチュア無線（JK1RZR）やWeb3（antipop.eth）など最新技術にも精通。VRChatなどのソーシャルVRでの活動や、歌舞伎・落語鑑賞、現代作家のうつわコレクション、江戸前鮨など、デジタルとアナログを行き来する多彩な趣味を持つ。</p>
+                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">趣味・活動</h4>
+                    <p className="text-gray-700 text-sm sm:text-base">年間200冊を読破する知の探究者。人文科学から情報科学まで幅広く学び続ける。アマチュア無線（JK1RZR）やWeb3（antipop.eth）など最新技術にも精通。VRChatなどのソーシャルVRでの活動や、歌舞伎・落語鑑賞、現代作家のうつわコレクション、江戸前鮨など、デジタルとアナログを行き来する多彩な趣味を持つ。</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start">
-                  <div className="bg-primary/10 p-1.5 sm:p-2 rounded-full mr-2 sm:mr-3 mt-0.5 sm:mt-1 flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
+                  <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
                       <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" />
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base">研究分野</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">IoTシステムの基盤技術、ElixirやErlang/OTPのIoTシステムへの応用について研究。ペパボ研究所では技術研究と実用化の架け橋となる活動を推進。情報処理学会優秀論文賞・優秀プレゼンテーション賞受賞。国際会議での発表実績あり。</p>
+                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">研究分野</h4>
+                    <p className="text-gray-700 text-sm sm:text-base">IoTシステムの基盤技術、ElixirやErlang/OTPのIoTシステムへの応用について研究。ペパボ研究所では技術研究と実用化の架け橋となる活動を推進。情報処理学会優秀論文賞・優秀プレゼンテーション賞受賞。国際会議での発表実績あり。</p>
                   </div>
                 </div>
                 
                 <div className="flex items-start">
-                  <div className="bg-primary/10 p-1.5 sm:p-2 rounded-full mr-2 sm:mr-3 mt-0.5 sm:mt-1 flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
+                  <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
                       <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base">執筆・講演</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">『Elixir実践入門』（共著）、『入門Puppet』（単著）など書籍の執筆。WEB+DB PRESSでの特集記事多数。国内外での講演多数（ElixirConf US、RedDotRubyConfなど）。GMO Developers Day、BIT VALLEYなどでのパネルディスカッション登壇多数。</p>
+                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">執筆・講演</h4>
+                    <p className="text-gray-700 text-sm sm:text-base">『Elixir実践入門』（共著）、『入門Puppet』（単著）など書籍の執筆。WEB+DB PRESSでの特集記事多数。国内外での講演多数（ElixirConf US、RedDotRubyConfなど）。GMO Developers Day、BIT VALLEYなどでのパネルディスカッション登壇多数。</p>
                   </div>
                 </div>
               </div>

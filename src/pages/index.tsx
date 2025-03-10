@@ -16,7 +16,7 @@ export default function Home() {
       />
       
       {/* ヒーローセクション */}
-      <section className="relative bg-gradient-to-br from-primary/10 to-accent2/10 py-8 sm:py-12 md:py-16 mt-14">
+      <section className="relative bg-gradient-to-br from-primary/10 to-accent2/10 py-8 sm:py-12 md:py-16">
         <div className="container max-w-4xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8">
             <div className="md:flex-1 order-2 md:order-1">

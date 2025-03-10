@@ -407,7 +407,7 @@ async function generateCombinedFeed() {
 		copyright: `All rights reserved ${new Date().getFullYear()}, ${AUTHOR_NAME}`,
 		updated: new Date(),
 		feedLinks: {
-			rss2: `${SITE_URL}/works/feed.xml`,
+			rss2: `${SITE_URL}/works/feed`,
 		},
 		author: {
 			name: AUTHOR_NAME,

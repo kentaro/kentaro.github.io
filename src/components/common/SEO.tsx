@@ -22,9 +22,9 @@ export default function SEO({
   // RSSフィードのリンクを決定
   let rssLink = null;
   if (router.pathname === '/blog' || router.pathname.startsWith('/blog/')) {
-    rssLink = '/blog/feed.xml';
+    rssLink = '/blog/feed';
   } else if (router.pathname === '/journal' || router.pathname.startsWith('/journal/')) {
-    rssLink = '/journal/feed.xml';
+    rssLink = '/journal/feed';
   }
   
   return (

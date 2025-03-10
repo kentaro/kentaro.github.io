@@ -50,7 +50,7 @@ export default function JournalPage({ years, recentPosts }: JournalPageProps) {
             栗林健太郎の日記。日々の活動や考えを記録しています。
           </p>
           <div className="flex justify-center mt-4">
-            <Link href="/journal/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">
+            <Link href="/journal/feed" className="inline-flex items-center text-primary hover:text-primary-dark">
               <FaRss className="mr-1" />
               <span>RSS</span>
             </Link>

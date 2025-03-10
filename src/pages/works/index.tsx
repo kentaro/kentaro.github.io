@@ -106,7 +106,7 @@ export default function WorksPage({ feedData }: WorksPageProps) {
             note、技術ブログ、スライド、動画、音楽、ポッドキャストなど、さまざまな形式でのアウトプットをまとめています。
           </p>
           <div className="flex justify-center mt-4">
-            <Link href="/works/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">
+            <Link href="/works/feed" className="inline-flex items-center text-primary hover:text-primary-dark">
               <FaRss className="mr-1" />
               <span>RSS</span>
             </Link>

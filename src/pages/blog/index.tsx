@@ -30,7 +30,7 @@ export default function BlogPage({ posts }: BlogPageProps) {
             技術、マネジメント、読書など、さまざまなトピックについての記事を掲載しています。
           </p>
           <div className="flex justify-center mt-4">
-            <Link href="/blog/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">
+            <Link href="/blog/feed" className="inline-flex items-center text-primary hover:text-primary-dark">
               <FaRss className="mr-1" />
               <span>RSS</span>
             </Link>

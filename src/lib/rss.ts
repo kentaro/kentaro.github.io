@@ -21,7 +21,7 @@ export async function generateRssFeed(type: "blog" | "journal") {
 		copyright: `All rights reserved ${new Date().getFullYear()}, 栗林健太郎`,
 		updated: new Date(),
 		feedLinks: {
-			rss2: `${SITE_URL}/${type}/feed.xml`,
+			rss2: `${SITE_URL}/${type}/feed`,
 		},
 		author: {
 			name: AUTHOR_NAME,

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaCalendarAlt } from 'react-icons/fa';
 
 type MarkdownRendererProps = {
   title?: string;
@@ -31,6 +31,16 @@ export default function MarkdownRenderer({
   nextPost,
   isJournalPost = false
 }: MarkdownRendererProps) {
+  // 日記ページの場合、日付から月と日を抽出
+  let month = '';
+  let day = '';
+  
+  if (isJournalPost && date) {
+    const dateObj = new Date(date);
+    month = String(dateObj.getMonth() + 1); // JavaScriptの月は0始まり
+    day = String(dateObj.getDate());
+  }
+  
   return (
     <>
       <div className="page-header">
@@ -57,6 +67,23 @@ export default function MarkdownRenderer({
                 month: 'long',
                 day: 'numeric'
               })}
+            </motion.div>
+          )}
+          
+          {isJournalPost && month && day && (
+            <motion.div 
+              className="text-center mt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Link 
+                href={`/journal/date/${month}/${day}`} 
+                className="inline-flex items-center text-primary hover:text-primary-dark"
+              >
+                <FaCalendarAlt className="mr-1" />
+                <span>この日の日記を全て見る</span>
+              </Link>
             </motion.div>
           )}
         </div>

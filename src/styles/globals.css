@@ -226,6 +226,11 @@ body {
   @apply container py-8 md:py-12;
 }
 
+/* 日記一覧ページ用のマークダウンコンテンツ */
+.journal-day-content .markdown-content {
+  @apply py-0 mb-0 border-0;
+}
+
 .content-title {
   @apply text-3xl md:text-4xl font-bold mb-8 text-center;
 }

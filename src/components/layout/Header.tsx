@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navigation from '@/components/layout/Navigation';
-import { FaBars, FaTimes, FaTwitter, FaGithub, FaYoutube, FaFacebook } from 'react-icons/fa';
+import { FaBars, FaTimes, FaTwitter, FaGithub, FaYoutube, FaFacebook, FaLinkedin } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -102,6 +103,11 @@ export default function Header() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/works" className="block py-2 text-dark hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+                    アウトプット
+                  </Link>
+                </li>
+                <li>
                   <Link href="/blog" className="block py-2 text-dark hover:text-primary" onClick={() => setIsMenuOpen(false)}>
                     ブログ
                   </Link>
@@ -121,11 +127,17 @@ export default function Header() {
                 <a href="https://github.com/kentaro" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-primary">
                   <FaGithub size={24} />
                 </a>
-                <a href="https://www.youtube.com/@kentarokuri" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-primary">
+                <a href="https://www.youtube.com/@kentarok" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-primary">
                   <FaYoutube size={24} />
                 </a>
-                <a href="https://facebook.com/kentaro.kuribayashi" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-primary">
+                <a href="https://facebook.com/kentarok" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-primary">
                   <FaFacebook size={24} />
+                </a>
+                <a href="https://www.linkedin.com/in/kentaro-kuribayashi" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-primary">
+                  <FaLinkedin size={24} />
+                </a>
+                <a href="mailto:kentarok@gmail.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-primary">
+                  <MdEmail size={24} />
                 </a>
               </div>
             </div>

@@ -25,7 +25,7 @@ export default function Footer() {
           </div>
           
           <p className="text-gray-300 text-sm md:text-base mt-2 md:mt-0">
-            © {currentYear} <span className="text-primary font-medium">栗林健太郎</span>. All rights reserved.
+            © {currentYear} <span className="text-gray-300 font-medium">栗林健太郎</span>. All rights reserved.
           </p>
         </div>
       </div>

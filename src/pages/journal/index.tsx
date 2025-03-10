@@ -60,12 +60,12 @@ export default function JournalPage({ years, recentPosts }: JournalPageProps) {
       
       <div className="py-12">
         <div className="container">
-          {/* 最新の日記10件 */}
+          {/* 最新の日記12件 */}
           <h2 className="section-title">最新の日記</h2>
           <PostList 
             posts={recentPosts} 
             emptyMessage="日記はまだありません"
-            limit={10}
+            limit={12}
           />
           
           {/* 年別アーカイブ */}
@@ -150,8 +150,8 @@ export const getStaticProps: GetStaticProps = async () => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
   
-  // 最新10件を取得
-  const recentPosts = sortedPosts.slice(0, 10);
+  // 最新12件を取得
+  const recentPosts = sortedPosts.slice(0, 12);
 
   return {
     props: {

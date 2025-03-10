@@ -36,11 +36,8 @@ export default function Home() {
                   境界を越えて技術の新たな可能性を切り拓きます。
                 </p>
                 <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
-                  <Link href="/profile" className="btn btn-primary">
+                  <Link href="/#profile" className="btn btn-primary">
                     プロフィールを見る
-                  </Link>
-                  <Link href="/blog" className="btn btn-secondary">
-                    ブログを読む
                   </Link>
                 </div>
               </motion.div>
@@ -292,7 +289,7 @@ export default function Home() {
               <span className="text-primary font-medium text-sm sm:text-base">kentarok@gmail.com</span>
             </a>
           </div>
-      </div>
+        </div>
       </section>
     </Layout>
   );

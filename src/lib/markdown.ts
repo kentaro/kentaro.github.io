@@ -159,12 +159,37 @@ export async function getMarkdownData(
 		if (!date) {
 			// フロントマターにdateがない場合はファイルパスから抽出
 			const pathSegments = slug.split("/");
+
 			// 例: journal/2025/03/2025年3月8日
 			if (
 				pathSegments.length >= 3 &&
 				!Number.isNaN(Number.parseInt(pathSegments[1], 10))
 			) {
-				date = `${pathSegments[1]}-${pathSegments[2]}-01`;
+				// ファイル名から日付を抽出（例: 2025年3月8日.md）
+				const filename = pathSegments[pathSegments.length - 1];
+				const dateMatch = filename.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+
+				if (dateMatch) {
+					// 日付形式に変換
+					const year = Number.parseInt(dateMatch[1], 10);
+					const month = Number.parseInt(dateMatch[2], 10);
+					const day = Number.parseInt(dateMatch[3], 10);
+
+					// 有効な日付かチェック
+					if (
+						!Number.isNaN(year) &&
+						!Number.isNaN(month) &&
+						!Number.isNaN(day)
+					) {
+						// 月と日が1桁の場合は0埋め
+						const monthStr = month.toString().padStart(2, "0");
+						const dayStr = day.toString().padStart(2, "0");
+						date = `${year}-${monthStr}-${dayStr}`;
+					}
+				} else {
+					// ファイル名から日付が抽出できない場合はディレクトリから推測
+					date = `${pathSegments[1]}-${pathSegments[2]}-01`;
+				}
 			}
 		}
 

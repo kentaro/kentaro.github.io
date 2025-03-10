@@ -60,6 +60,10 @@
   .card {
     @apply bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 p-6 md:p-8;
   }
+
+  .page-header {
+    @apply bg-gradient-to-br from-primary/10 to-accent2/10 pt-20 pb-12 md:pt-24 md:pb-16;
+  }
 }
 
 /* レスポンシブブレークポイントはTailwindのデフォルト値を使用

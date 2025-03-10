@@ -43,14 +43,14 @@ export default function JournalPage({ years, recentPosts }: JournalPageProps) {
         description="栗林健太郎の日記。日々の活動や考えを記録しています。"
       />
       
-      <div className="page-header bg-gradient-to-br from-accent1/10 to-accent2/10 py-12 md:py-16">
+      <div className="page-header">
         <div className="container">
           <h1 className="text-3xl md:text-4xl font-bold text-center">日記</h1>
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
-            栗林健太郎の日記。日々の活動や考えを記録しています。
+            日々の活動や考えを記録しています。年別に閲覧できます。
           </p>
           <div className="flex justify-center mt-4">
-            <Link href="/journal/feed" className="inline-flex items-center text-primary hover:text-primary-dark">
+            <Link href="/journal/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">
               <FaRss className="mr-1" />
               <span>RSS</span>
             </Link>

@@ -33,7 +33,7 @@ export default function MarkdownRenderer({
 }: MarkdownRendererProps) {
   return (
     <>
-      <div className="page-header bg-gradient-to-br from-primary/10 to-accent2/10 py-12 md:py-16">
+      <div className="page-header">
         <div className="container">
           {title && (
             <motion.h1 

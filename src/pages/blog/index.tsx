@@ -23,14 +23,14 @@ export default function BlogPage({ posts }: BlogPageProps) {
         description="栗林健太郎のブログ記事一覧。技術、マネジメント、読書などについての記事を掲載しています。"
       />
       
-      <div className="page-header bg-gradient-to-br from-primary/10 to-accent2/10 py-12 md:py-16">
+      <div className="page-header">
         <div className="container">
           <h1 className="text-3xl md:text-4xl font-bold text-center">ブログ</h1>
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
             技術、マネジメント、読書など、さまざまなトピックについての記事を掲載しています。
           </p>
           <div className="flex justify-center mt-4">
-            <Link href="/blog/feed" className="inline-flex items-center text-primary hover:text-primary-dark">
+            <Link href="/blog/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">
               <FaRss className="mr-1" />
               <span>RSS</span>
             </Link>

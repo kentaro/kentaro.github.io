@@ -44,7 +44,7 @@ export default function YearPage({ year, months }: YearPageProps) {
         description={`${year}年の栗林健太郎の日記アーカイブ。月別に閲覧できます。`}
       />
       
-      <div className="page-header bg-gradient-to-br from-accent1/10 to-accent2/10 py-12 md:py-16">
+      <div className="page-header">
         <div className="container">
           <div className="flex items-center justify-center mb-4">
             <Link href="/journal" className="inline-flex items-center text-primary hover:text-primary-dark">

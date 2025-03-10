@@ -89,7 +89,7 @@ export default function MarkdownRenderer({
                     </span>
                   </Link>
                 ) : (
-                  <div /> {/* 空のdivでレイアウトを保持 */}
+                  <div />
                 )}
                 
                 {nextPost ? (
@@ -104,7 +104,7 @@ export default function MarkdownRenderer({
                     <FaArrowRight className="ml-2" />
                   </Link>
                 ) : (
-                  <div /> {/* 空のdivでレイアウトを保持 */}
+                  <div />
                 )}
               </div>
             </div>

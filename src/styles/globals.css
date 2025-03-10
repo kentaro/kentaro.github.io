@@ -34,19 +34,19 @@
   }
   
   .btn {
-    @apply inline-flex items-center justify-center px-4 sm:px-6 py-2.5 sm:py-3 font-medium rounded-md transition-colors duration-200 text-sm sm:text-base;
+    @apply inline-flex items-center justify-center px-4 sm:px-6 py-2.5 sm:py-3 font-medium rounded-md transition-all duration-200 text-sm sm:text-base border border-transparent;
   }
   
   .btn-primary {
-    @apply bg-primary text-white hover:bg-primary/90;
+    @apply bg-primary text-white hover:bg-white hover:text-primary hover:shadow-md hover:border-primary;
   }
   
   .btn-secondary {
-    @apply bg-accent1 text-white hover:bg-accent1/90;
+    @apply bg-accent1 text-white hover:bg-white hover:text-accent1 hover:shadow-md hover:border-accent1;
   }
   
   .btn-accent {
-    @apply bg-accent2 text-white hover:bg-accent2/90;
+    @apply bg-accent2 text-white hover:bg-white hover:text-accent2 hover:shadow-md hover:border-accent2;
   }
   
   .section {

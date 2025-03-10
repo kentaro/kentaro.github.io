@@ -57,6 +57,7 @@ export default function Post({ postData, isJournalPost, prevPost, nextPost }: Po
         title={postData.title || ''}
         contentHtml={postData.contentHtml || ''}
         date={postData.date}
+        hideDate={isJournalPost}
         isJournalPost={isJournalPost}
         prevPost={prevPost}
         nextPost={nextPost}

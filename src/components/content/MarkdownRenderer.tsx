@@ -69,11 +69,9 @@ export default function MarkdownRenderer({
         transition={{ duration: 0.5, delay: 0.3 }}
       >
         <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-4xl mx-auto">
-          {/* eslint-disable-next-line react/no-danger */}
           <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
           {children}
           
-          {/* 日記の前後ナビゲーション */}
           {isJournalPost && (prevPost || nextPost) && (
             <div className="journal-navigation mt-8 pt-6 border-t border-gray-200">
               <div className="flex justify-between items-center">

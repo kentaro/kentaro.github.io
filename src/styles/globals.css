@@ -246,6 +246,10 @@ body {
   @apply mb-4 leading-relaxed;
 }
 
+.markdown-content hr {
+  @apply my-8 border-t border-gray-300;
+}
+
 .markdown-content ul, .markdown-content ol {
   @apply mb-4 pl-6;
 }

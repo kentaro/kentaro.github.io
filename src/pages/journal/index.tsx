@@ -44,7 +44,7 @@ export default function JournalPage({ years, recentPosts }: JournalPageProps) {
       />
       
       <div className="page-header">
-        <div className="container">
+        <div className="container flex flex-col justify-center">
           <h1 className="text-3xl md:text-4xl font-bold text-center">日記</h1>
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
             日々の活動や考えを記録しています。年別に閲覧できます。

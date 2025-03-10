@@ -100,7 +100,7 @@ export default function WorksPage({ feedData }: WorksPageProps) {
       />
 
       <div className="page-header">
-        <div className="container">
+        <div className="container flex flex-col justify-center">
           <h1 className="text-3xl md:text-4xl font-bold text-center">アウトプット一覧</h1>
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
             note、技術ブログ、スライド、動画、音楽、ポッドキャストなど、さまざまな形式でのアウトプットをまとめています。

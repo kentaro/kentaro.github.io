@@ -34,7 +34,7 @@ export default function MarkdownRenderer({
   return (
     <>
       <div className="page-header">
-        <div className="container">
+        <div className="container flex flex-col justify-center">
           {title && (
             <motion.h1 
               className="text-3xl md:text-4xl font-bold text-center"

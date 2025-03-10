@@ -46,7 +46,7 @@ export default function MonthPage({ year, month, monthName, posts }: MonthPagePr
       />
       
       <div className="page-header">
-        <div className="container">
+        <div className="container flex flex-col justify-center">
           <div className="flex items-center justify-center mb-4">
             <Link href={`/journal/${year}`} className="inline-flex items-center text-primary hover:text-primary-dark">
               <FaArrowLeft className="mr-1" />

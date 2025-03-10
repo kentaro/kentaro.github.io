@@ -77,7 +77,7 @@ export default function Home() {
             <div className="bg-gray-50 rounded-xl p-4 sm:p-6 md:p-8 shadow-sm">
               <h3 className="text-xl sm:text-2xl font-bold mb-3 text-primary text-center">栗林健太郎</h3>
               <div className="bg-primary/5 py-3 px-4 rounded-lg mb-6 max-w-3xl mx-auto">
-                <p className="text-center text-sm sm:text-base text-gray-700 font-medium leading-relaxed">
+                <p className="text-center text-base sm:text-lg text-gray-700 font-medium leading-relaxed">
                   <span className="inline-block">GMOペパボ株式会社取締役CTO</span> <span className="text-primary/70 mx-1">/</span> 
                   <span className="inline-block">一般社団法人日本CTO協会理事</span> <span className="text-primary/70 mx-1">/</span> 
                   <span className="inline-block">博士（情報科学）</span>
@@ -86,17 +86,17 @@ export default function Home() {
                 </p>
               </div>
               
-              <div className="space-y-3 sm:space-y-4 mb-6">
+              <div className="space-y-4 sm:space-y-5 mb-6">
                 <div className="flex items-start">
-                  <div className="bg-primary/10 p-1.5 sm:p-2 rounded-full mr-2 sm:mr-3 mt-0.5 sm:mt-1 flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
+                  <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-primary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" role="img">
                       <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
                       <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 text-sm sm:text-base">職業・所属</h4>
-                    <p className="text-gray-700 text-xs sm:text-sm">GMOペパボ株式会社取締役CTO・事業開発部部長。奄美市役所からはてなを経て、現在はペパボで技術戦略を統括。ペパボ研究所長として研究開発を主導し、日本CTO協会理事として業界全体の発展にも貢献。技術と経営の両面から、クリエイターとユーザーを支えるサービスの成長を牽引。</p>
+                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">職業・所属</h4>
+                    <p className="text-gray-700 text-sm sm:text-base">GMOペパボ株式会社取締役CTO・事業開発部部長。奄美市役所からはてなを経て、現在はペパボで技術戦略を統括。ペパボ研究所長として研究開発を主導し、日本CTO協会理事として業界全体の発展にも貢献。技術と経営の両面から、クリエイターとユーザーを支えるサービスの成長を牽引。</p>
                   </div>
                 </div>
                 

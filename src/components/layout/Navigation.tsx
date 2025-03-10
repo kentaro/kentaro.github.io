@@ -15,7 +15,7 @@ export default function Navigation() {
           <Link 
             href="/" 
             className={`py-2 font-medium transition-colors duration-200 ${
-              isActive('/') && !isActive('/blog') && !isActive('/journal') && !isActive('/profile') 
+              isActive('/') && !isActive('/blog') && !isActive('/journal') && !isActive('/profile') && !isActive('/works')
                 ? 'text-primary font-bold' 
                 : 'text-dark hover:text-primary'
             }`}
@@ -33,6 +33,18 @@ export default function Navigation() {
             }`}
           >
             プロフィール
+          </Link>
+        </li>
+        <li>
+          <Link 
+            href="/works" 
+            className={`py-2 font-medium transition-colors duration-200 ${
+              isActive('/works') 
+                ? 'text-primary font-bold' 
+                : 'text-dark hover:text-primary'
+            }`}
+          >
+            アウトプット
           </Link>
         </li>
         <li>

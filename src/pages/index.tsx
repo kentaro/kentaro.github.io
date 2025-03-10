@@ -39,6 +39,9 @@ export default function Home() {
                   <Link href="/#profile" className="btn btn-primary">
                     プロフィールを見る
                   </Link>
+                  <Link href="/works" className="btn btn-secondary">
+                    アウトプット一覧
+                  </Link>
                 </div>
               </motion.div>
             </div>

@@ -95,13 +95,13 @@ export default function WorksPage({ feedData }: WorksPageProps) {
   return (
     <Layout>
       <SEO
-        title="アウトプット一覧"
-        description="栗林健太郎のブログ、技術ブログ、スライド、動画、音楽、ポッドキャストのまとめ"
+        title="アウトプット"
+        description="栗林健太郎のnote、技術ブログ、スライド、動画、音楽、ポッドキャストのまとめ"
       />
 
       <div className="page-header bg-gradient-to-br from-primary/10 to-accent2/10 py-12 md:py-16">
         <div className="container">
-          <h1 className="text-3xl md:text-4xl font-bold text-center">アウトプット一覧</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-center">アウトプット</h1>
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
             note、技術ブログ、スライド、動画、音楽、ポッドキャストなど、さまざまな形式でのアウトプットをまとめています。
           </p>

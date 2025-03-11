@@ -145,7 +145,32 @@ async function generateSearchData() {
 
 			// 日付情報を取得
 			let date = data.date;
-			if (date instanceof Date) {
+
+			// 日記ファイルの場合はパスから日付を抽出
+			if (!date && slug.includes("journal/")) {
+				// パスパターン: journal/YYYY/MM/YYYY年MM月DD日
+				const pathParts = slug.split("/");
+				if (pathParts.length >= 3) {
+					const year = pathParts[1]; // YYYY
+					const month = pathParts[2]; // MM
+
+					// ファイル名から日を抽出（YYYY年MM月DD日.md）
+					const fileName = path.basename(filePath, ".md");
+					const dayMatch = fileName.match(/(\d+)日$/);
+
+					if (year && month && dayMatch && dayMatch[1]) {
+						const day = dayMatch[1];
+						// ISO形式の日付文字列を作成（YYYY-MM-DD）
+						date = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+
+						// 日付オブジェクトに変換して検証
+						const dateObj = new Date(date);
+						if (!Number.isNaN(dateObj.getTime())) {
+							date = dateObj.toISOString();
+						}
+					}
+				}
+			} else if (date instanceof Date) {
 				date = date.toISOString();
 			} else if (typeof date === "string") {
 				// YYYY-MM-DD形式の文字列をDateオブジェクトに変換

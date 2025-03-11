@@ -293,15 +293,6 @@ function SearchResultItem({ result, query, onClose }: SearchResultItemProps): Re
     }
   }, [result.id, query, isPGliteReady]);
 
-  // 日付をフォーマット
-  const formattedDate = result.date
-    ? new Date(result.date).toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-    : null;
-
   // 検索キーワードをハイライトする
   const highlightText = (text: string): string => {
     if (!text) return '';
@@ -334,13 +325,6 @@ function SearchResultItem({ result, query, onClose }: SearchResultItemProps): Re
         href={`${result.path}?q=${encodeURIComponent(query)}`}
         className="block hover:bg-gray-50 rounded-lg transition-colors p-2 -m-2"
       >
-        {/* 日付があれば表示 */}
-        {result.date && (
-          <p className="text-sm text-primary mb-1">
-            {formattedDate}
-          </p>
-        )}
-
         {/* タイトル */}
         <h3 className="text-lg font-semibold mb-2">{result.title}</h3>
 

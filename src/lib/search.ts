@@ -165,7 +165,9 @@ export async function searchDocuments(query: string) {
 					documents
 				WHERE 
 					${likeConditions}
-				LIMIT 50
+				ORDER BY
+					date DESC NULLS LAST
+				LIMIT 100
 			`;
 			params = likeParams;
 		} else {
@@ -191,8 +193,9 @@ export async function searchDocuments(query: string) {
 					to_tsvector('english', content) @@ to_tsquery('english', $1) OR
 					${likeConditions}
 				ORDER BY 
+					date DESC NULLS LAST,
 					rank DESC
-				LIMIT 50
+				LIMIT 100
 			`;
 			params = [tsqueryTerms, ...likeParams];
 		}

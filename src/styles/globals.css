@@ -6,25 +6,30 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply bg-light text-dark font-sans;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-bold;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-sans font-bold;
   }
-  
+
   a {
     @apply text-primary transition-colors duration-200;
   }
-  
+
   a:hover {
     @apply text-primary/80;
   }
-  
+
   code {
-    @apply font-code;
+    @apply font-mono;
   }
 }
 
@@ -32,31 +37,31 @@
   .container {
     @apply px-3 sm:px-4 md:px-6 lg:px-8 mx-auto max-w-6xl;
   }
-  
+
   .btn {
     @apply inline-flex items-center justify-center px-4 sm:px-6 py-2.5 sm:py-3 font-medium rounded-md transition-all duration-200 text-sm sm:text-base border border-transparent;
   }
-  
+
   .btn-primary {
     @apply bg-primary text-white hover:bg-white hover:text-primary hover:shadow-md hover:border-primary;
   }
-  
+
   .btn-secondary {
     @apply bg-accent1 text-white hover:bg-white hover:text-accent1 hover:shadow-md hover:border-accent1;
   }
-  
+
   .btn-accent {
     @apply bg-accent2 text-white hover:bg-white hover:text-accent2 hover:shadow-md hover:border-accent2;
   }
-  
+
   .section {
     @apply py-10 sm:py-14 md:py-20;
   }
-  
+
   .section-title {
     @apply text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center;
   }
-  
+
   .card {
     @apply bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 p-6 md:p-8;
   }
@@ -259,7 +264,8 @@ body {
   @apply my-8 border-t border-gray-300;
 }
 
-.markdown-content ul, .markdown-content ol {
+.markdown-content ul,
+.markdown-content ol {
   @apply mb-4 pl-6;
 }
 
@@ -303,7 +309,8 @@ body {
   @apply w-full border-collapse my-6;
 }
 
-.markdown-content th, .markdown-content td {
+.markdown-content th,
+.markdown-content td {
   @apply border border-gray-300 p-2;
 }
 
@@ -370,26 +377,26 @@ body {
   .post-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .categories {
     flex-direction: column;
   }
-  
+
   .site-header .container {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .main-nav {
     margin-top: 1rem;
     width: 100%;
   }
-  
+
   .main-nav ul {
     justify-content: space-between;
     width: 100%;
   }
-  
+
   .main-nav li {
     margin-left: 0;
   }
@@ -477,4 +484,4 @@ body {
 
 .embed-url:hover {
   text-decoration: underline;
-} 
+}

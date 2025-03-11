@@ -14,7 +14,7 @@ export default function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -32,13 +32,12 @@ export default function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 h-14 ${
-      isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md' : 'bg-transparent'
-    }`}>
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 h-14 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md' : 'bg-transparent'
+      }`}>
       <div className="container flex items-center justify-between h-full">
         <Link href="/" className="flex items-center gap-2">
           <div className="relative w-8 h-8 sm:w-10 sm:h-10 overflow-hidden rounded-full">
-            <Image 
+            <Image
               src="https://pbs.twimg.com/profile_images/1893532407988367361/5EfifO80_400x400.jpg"
               alt="栗林健太郎"
               fill
@@ -46,16 +45,16 @@ export default function Header() {
               priority
             />
           </div>
-          <span className="text-lg sm:text-xl font-bold font-heading text-dark">栗林健太郎</span>
+          <span className="text-lg sm:text-xl font-bold font-sans text-dark">栗林健太郎</span>
         </Link>
-        
+
         {/* デスクトップナビゲーション */}
         <div className="hidden md:block">
           <Navigation />
         </div>
-        
+
         {/* モバイルメニューボタン */}
-        <button 
+        <button
           className="block md:hidden text-dark p-1.5 rounded-md hover:bg-gray-100"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? 'メニューを閉じる' : 'メニューを開く'}
@@ -63,25 +62,24 @@ export default function Header() {
         >
           {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
         </button>
-        
+
         {/* モバイルナビゲーション */}
-        <div className={`fixed inset-0 bg-white z-40 transition-transform duration-300 md:hidden ${
-          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}>
+        <div className={`fixed inset-0 bg-white z-40 transition-transform duration-300 md:hidden ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}>
           <div className="flex flex-col h-full p-4 pt-6">
             <div className="flex justify-between items-center mb-6">
               <Link href="/" className="flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
                 <div className="relative w-8 h-8 overflow-hidden rounded-full">
-                  <Image 
+                  <Image
                     src="https://pbs.twimg.com/profile_images/1893532407988367361/5EfifO80_400x400.jpg"
                     alt="栗林健太郎"
                     fill
                     className="object-cover"
                   />
                 </div>
-                <span className="text-lg font-bold font-heading text-dark">栗林健太郎</span>
+                <span className="text-lg font-bold font-sans text-dark">栗林健太郎</span>
               </Link>
-              <button 
+              <button
                 className="text-dark p-1.5 rounded-md hover:bg-gray-100"
                 onClick={() => setIsMenuOpen(false)}
                 aria-label="メニューを閉じる"

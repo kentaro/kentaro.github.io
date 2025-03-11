@@ -1,14 +1,16 @@
-import type { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import Link from 'next/link';
-import { FaArrowLeft, FaArrowRight, FaCalendarAlt } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { format, parseISO } from 'date-fns';
+import { ja } from 'date-fns/locale';
 
 type MarkdownRendererProps = {
-  title?: string;
+  title: string;
   contentHtml: string;
   date?: string;
-  hideDate?: boolean;
-  children?: ReactNode;
+  children?: React.ReactNode;
   prevPost?: {
     slug: string;
     title: string;
@@ -18,125 +20,112 @@ type MarkdownRendererProps = {
     title: string;
   } | null;
   isJournalPost?: boolean;
+  postData?: {
+    title: string;
+    contentHtml: string;
+    date?: string;
+    excerpt?: string;
+    path: string;
+    [key: string]: unknown;
+  };
 };
 
-/* eslint-disable react/no-danger, @next/next/no-html-link-for-pages */
-export default function MarkdownRenderer({ 
-  title, 
-  contentHtml, 
-  date, 
-  hideDate = false, 
+export default function MarkdownRenderer({
+  title,
+  contentHtml,
+  date,
   children,
   prevPost,
   nextPost,
-  isJournalPost = false
+  isJournalPost = false,
+  postData
 }: MarkdownRendererProps) {
-  // 日記ページの場合、日付から月と日を抽出
-  let month = '';
-  let day = '';
+  const router = useRouter();
+  const [highlightedContent, setHighlightedContent] = useState(contentHtml);
+  const [isClient, setIsClient] = useState(false);
   
-  if (isJournalPost && date) {
+  // 日記ページの場合、日付から月と日を抽出
+  let monthDay = '';
+  if (date && isJournalPost) {
     const dateObj = new Date(date);
-    month = String(dateObj.getMonth() + 1); // JavaScriptの月は0始まり
-    day = String(dateObj.getDate());
+    monthDay = `${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
   }
   
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!router.isReady || !contentHtml) return;
+
+    const query = router.query.q as string;
+    
+    if (!query) {
+      setHighlightedContent(contentHtml);
+      return;
+    }
+
+    // クエリがある場合はキーワードをハイライト
+    const keywords = query.split(/\s+/).filter(Boolean);
+    let html = contentHtml;
+
+    for (const keyword of keywords) {
+      if (!keyword) continue;
+      const regex = new RegExp(`(${keyword})`, 'gi');
+      html = html.replace(regex, '<mark class="bg-yellow-200 rounded px-1">$1</mark>');
+    }
+
+    setHighlightedContent(html);
+  }, [router.isReady, router.query.q, contentHtml]);
+  
+  // 日記の場合は前後の記事へのリンクを表示
+  const isJournal = postData?.path?.startsWith('/journal/') || isJournalPost;
+
   return (
-    <>
-      <div className="page-header">
-        <div className="container flex flex-col justify-center">
-          {title && (
-            <motion.h1 
-              className="text-3xl md:text-4xl font-bold text-center"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              {title}
-            </motion.h1>
-          )}
-          {date && !hideDate && (
-            <motion.div 
-              className="text-center text-gray-600 mt-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              {new Date(date).toLocaleDateString('ja-JP', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </motion.div>
-          )}
-          
-          {isJournalPost && month && day && (
-            <motion.div 
-              className="text-center mt-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="py-8"
+    >
+      <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-4xl mx-auto">
+        {isClient ? (
+          <div 
+            className="markdown-content"
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: highlightedContent }}
+          />
+        ) : null}
+        {children}
+        
+        {isJournal && (
+          <div className="flex justify-between mt-12 pt-6 border-t">
+            {prevPost ? (
               <Link 
-                href={`/journal/date/${month}/${day}`} 
-                className="inline-flex items-center text-primary hover:text-primary-dark"
+                href={`/${prevPost.slug}`} 
+                className="flex items-center text-primary hover:text-primary-dark"
               >
-                <FaCalendarAlt className="mr-1" />
-                <span>この日の日記を全て見る</span>
+                <FaChevronLeft className="mr-2" />
+                <span>前の日記</span>
               </Link>
-            </motion.div>
-          )}
-        </div>
+            ) : (
+              <div />
+            )}
+            
+            {nextPost ? (
+              <Link 
+                href={`/${nextPost.slug}`} 
+                className="flex items-center text-primary hover:text-primary-dark"
+              >
+                <span>次の日記</span>
+                <FaChevronRight className="ml-2" />
+              </Link>
+            ) : (
+              <div />
+            )}
+          </div>
+        )}
       </div>
-      
-      <motion.article 
-        className="markdown-content"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      >
-        <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-4xl mx-auto">
-          <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-          {children}
-          
-          {isJournalPost && (prevPost || nextPost) && (
-            <div className="journal-navigation mt-8 pt-6 border-t border-gray-200">
-              <div className="flex justify-between items-center">
-                {prevPost ? (
-                  <Link 
-                    href={`/${prevPost.slug}`} 
-                    className="flex items-center text-primary hover:text-primary-dark transition-colors"
-                  >
-                    <FaArrowLeft className="mr-2" />
-                    <span>
-                      <span className="text-sm text-gray-500 block">前の日記</span>
-                      <span className="font-medium">{prevPost.title}</span>
-                    </span>
-                  </Link>
-                ) : (
-                  <div />
-                )}
-                
-                {nextPost ? (
-                  <Link 
-                    href={`/${nextPost.slug}`} 
-                    className="flex items-center text-primary hover:text-primary-dark transition-colors text-right"
-                  >
-                    <span>
-                      <span className="text-sm text-gray-500 block">次の日記</span>
-                      <span className="font-medium">{nextPost.title}</span>
-                    </span>
-                    <FaArrowRight className="ml-2" />
-                  </Link>
-                ) : (
-                  <div />
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </motion.article>
-    </>
+    </motion.div>
   );
 }
-/* eslint-enable react/no-danger, @next/next/no-html-link-for-pages */ 

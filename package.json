@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
-    "build": "npm run generate-rss && npm run generate-combined-feed && next build",
+    "build": "npm run generate-rss && npm run generate-combined-feed && npm run generate-search-data && next build",
     "start": "next start",
     "lint": "next lint",
     "generate-rss": "ts-node --project tsconfig.node.json src/scripts/generate-rss.ts",
-    "generate-combined-feed": "ts-node --project tsconfig.node.json src/scripts/generate-combined-feed.ts"
+    "generate-combined-feed": "ts-node --project tsconfig.node.json src/scripts/generate-combined-feed.ts",
+    "generate-search-data": "ts-node --project tsconfig.node.json src/scripts/generate-search-data.ts"
   },
   "repository": {
     "type": "git",
@@ -23,9 +24,11 @@
   "homepage": "https://github.com/kentaro/kentaro.github.io#readme",
   "description": "",
   "dependencies": {
+    "@electric-sql/pglite": "^0.2.17",
+    "@electric-sql/pglite-react": "^0.2.17",
     "@types/node": "^20.14.8",
-    "@types/react": "^18.3.2",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
     "axios": "^1.8.2",
     "date-fns": "^3.4.0",
     "feed": "^4.2.2",
@@ -35,13 +38,18 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "rehype": "^13.0.2",
+    "rehype-parse": "^9.0.1",
+    "rehype-react": "^8.0.0",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
     "remark-html": "^16.0.1",
     "typescript": "^5.4.2",
+    "unified": "^11.0.5",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "@types/xml2js": "^0.4.14",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.57.0",

@@ -3,11 +3,19 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navigation from '@/components/layout/Navigation';
 import { FaBars, FaTimes, FaTwitter, FaGithub, FaYoutube, FaFacebook, FaLinkedin } from 'react-icons/fa';
+import { FiSearch } from 'react-icons/fi';
 import { MdEmail } from 'react-icons/md';
+import dynamic from 'next/dynamic';
+
+// 動的インポートでSearchModalを読み込む
+const SearchModal = dynamic(() => import('@/components/search/SearchModal'), {
+  ssr: false,
+});
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // スクロール検出
   useEffect(() => {
@@ -30,6 +38,15 @@ export default function Header() {
       document.body.style.overflow = '';
     };
   }, [isMenuOpen]);
+
+  const openSearch = () => {
+    setIsSearchOpen(true);
+    setIsMenuOpen(false); // 検索を開くときにメニューを閉じる
+  };
+  
+  const closeSearch = () => {
+    setIsSearchOpen(false);
+  };
 
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 h-14 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md' : 'bg-transparent'
@@ -115,6 +132,17 @@ export default function Header() {
                     日記
                   </Link>
                 </li>
+                <li>
+                  <button
+                    onClick={openSearch}
+                    className="flex items-center py-2 text-dark hover:text-primary w-full text-left"
+                    aria-label="検索"
+                    type="button"
+                  >
+                    <FiSearch className="w-5 h-5 mr-2" />
+                    <span>検索</span>
+                  </button>
+                </li>
               </ul>
             </nav>
             <div className="mt-auto pt-6 border-t border-gray-100">
@@ -142,6 +170,9 @@ export default function Header() {
           </div>
         </div>
       </div>
+      
+      {/* 検索モーダル */}
+      {isSearchOpen && <SearchModal isOpen={isSearchOpen} onClose={closeSearch} />}
     </header>
   );
 } 

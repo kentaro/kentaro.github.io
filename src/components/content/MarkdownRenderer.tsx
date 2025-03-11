@@ -43,24 +43,20 @@ export default function MarkdownRenderer({
   const router = useRouter();
   const [highlightedContent, setHighlightedContent] = useState(contentHtml);
   const [isClient, setIsClient] = useState(false);
-  
+
   // 日記ページの場合、日付から月と日を抽出
   let monthDay = '';
+  let formattedDate = '';
   let month = '';
   let day = '';
-  let formattedDate = '';
+
   if (date && isJournalPost) {
     const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
     month = String(dateObj.getMonth() + 1);
     day = String(dateObj.getDate());
-    monthDay = `${month}月${day}日`;
-    
-    try {
-      formattedDate = format(parseISO(date), 'yyyy年MM月dd日', { locale: ja });
-    } catch (e) {
-      console.error('Date formatting error:', e);
-      formattedDate = date;
-    }
+    monthDay = `${year}年${month}月${day}日`;
+    formattedDate = monthDay; // formattedDateにも同じ値を設定
   } else if (date) {
     try {
       formattedDate = format(parseISO(date), 'yyyy年MM月dd日', { locale: ja });
@@ -69,7 +65,7 @@ export default function MarkdownRenderer({
       formattedDate = date;
     }
   }
-  
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -78,7 +74,7 @@ export default function MarkdownRenderer({
     if (!router.isReady || !contentHtml) return;
 
     const query = router.query.q as string;
-    
+
     if (!query) {
       setHighlightedContent(contentHtml);
       return;
@@ -96,7 +92,7 @@ export default function MarkdownRenderer({
 
     setHighlightedContent(html);
   }, [router.isReady, router.query.q, contentHtml]);
-  
+
   // 日記の場合は前後の記事へのリンクを表示
   const isJournal = postData?.path?.startsWith('/journal/') || isJournalPost;
 
@@ -112,15 +108,15 @@ export default function MarkdownRenderer({
           {isJournal ? (
             <>
               <h1 className="text-3xl md:text-4xl font-bold text-center">{formattedDate}</h1>
-              {month && day && (
+              {monthDay && (
                 <motion.div
                   className="text-center mt-4"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  <Link 
-                    href={`/journal/date/${month}/${day}`} 
+                  <Link
+                    href={`/journal/date/${month}/${day}`}
                     className="inline-flex items-center text-primary hover:text-primary-dark"
                   >
                     <FaCalendarAlt className="mr-1" />
@@ -141,23 +137,23 @@ export default function MarkdownRenderer({
           )}
         </div>
       </div>
-      
+
       <div className="py-2">
         <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-4xl mx-auto">
           {isClient ? (
-            <div 
+            <div
               className="markdown-content"
               // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{ __html: highlightedContent }}
             />
           ) : null}
           {children}
-          
+
           {isJournal && (
             <div className="flex justify-between mt-12 pt-6 border-t">
               {prevPost ? (
-                <Link 
-                  href={`/${prevPost.slug}`} 
+                <Link
+                  href={`/${prevPost.slug}`}
                   className="flex items-center text-primary hover:text-primary-dark"
                 >
                   <FaChevronLeft className="mr-2" />
@@ -166,10 +162,10 @@ export default function MarkdownRenderer({
               ) : (
                 <div />
               )}
-              
+
               {nextPost ? (
-                <Link 
-                  href={`/${nextPost.slug}`} 
+                <Link
+                  href={`/${nextPost.slug}`}
                   className="flex items-center text-primary hover:text-primary-dark"
                 >
                   <span>次の日記{nextPost.title && <><br />{nextPost.title}</>}</span>

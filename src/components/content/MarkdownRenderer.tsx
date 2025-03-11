@@ -46,9 +46,24 @@ export default function MarkdownRenderer({
   
   // 日記ページの場合、日付から月と日を抽出
   let monthDay = '';
+  let formattedDate = '';
   if (date && isJournalPost) {
     const dateObj = new Date(date);
     monthDay = `${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
+    
+    try {
+      formattedDate = format(parseISO(date), 'yyyy年MM月dd日', { locale: ja });
+    } catch (e) {
+      console.error('Date formatting error:', e);
+      formattedDate = date;
+    }
+  } else if (date) {
+    try {
+      formattedDate = format(parseISO(date), 'yyyy年MM月dd日', { locale: ja });
+    } catch (e) {
+      console.error('Date formatting error:', e);
+      formattedDate = date;
+    }
   }
   
   useEffect(() => {
@@ -88,6 +103,18 @@ export default function MarkdownRenderer({
       transition={{ duration: 0.5 }}
       className="py-8"
     >
+      {/* ページヘッダーを追加 */}
+      <div className="page-header mb-8">
+        <div className="container flex flex-col justify-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-center">{title}</h1>
+          {formattedDate && (
+            <p className="text-center text-gray-600 mt-2">
+              {formattedDate}
+            </p>
+          )}
+        </div>
+      </div>
+      
       <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-4xl mx-auto">
         {isClient ? (
           <div 

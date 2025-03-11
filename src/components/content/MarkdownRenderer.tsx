@@ -101,57 +101,66 @@ export default function MarkdownRenderer({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="py-8"
     >
       {/* ページヘッダーを追加 */}
-      <div className="page-header mb-8">
+      <div className="page-header">
         <div className="container flex flex-col justify-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-center">{title}</h1>
-          {formattedDate && (
-            <p className="text-center text-gray-600 mt-2">
-              {formattedDate}
-            </p>
+          {isJournal ? (
+            <>
+              <h1 className="text-3xl md:text-4xl font-bold text-center">{formattedDate}</h1>
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl md:text-4xl font-bold text-center">{title}</h1>
+              {formattedDate && (
+                <p className="text-center text-gray-600 mt-2">
+                  {formattedDate}
+                </p>
+              )}
+            </>
           )}
         </div>
       </div>
       
-      <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-4xl mx-auto">
-        {isClient ? (
-          <div 
-            className="markdown-content"
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: highlightedContent }}
-          />
-        ) : null}
-        {children}
-        
-        {isJournal && (
-          <div className="flex justify-between mt-12 pt-6 border-t">
-            {prevPost ? (
-              <Link 
-                href={`/${prevPost.slug}`} 
-                className="flex items-center text-primary hover:text-primary-dark"
-              >
-                <FaChevronLeft className="mr-2" />
-                <span>前の日記</span>
-              </Link>
-            ) : (
-              <div />
-            )}
-            
-            {nextPost ? (
-              <Link 
-                href={`/${nextPost.slug}`} 
-                className="flex items-center text-primary hover:text-primary-dark"
-              >
-                <span>次の日記</span>
-                <FaChevronRight className="ml-2" />
-              </Link>
-            ) : (
-              <div />
-            )}
-          </div>
-        )}
+      <div className="py-8">
+        <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-4xl mx-auto">
+          {isClient ? (
+            <div 
+              className="markdown-content"
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: highlightedContent }}
+            />
+          ) : null}
+          {children}
+          
+          {isJournal && (
+            <div className="flex justify-between mt-12 pt-6 border-t">
+              {prevPost ? (
+                <Link 
+                  href={`/${prevPost.slug}`} 
+                  className="flex items-center text-primary hover:text-primary-dark"
+                >
+                  <FaChevronLeft className="mr-2" />
+                  <span>前の日記</span>
+                </Link>
+              ) : (
+                <div />
+              )}
+              
+              {nextPost ? (
+                <Link 
+                  href={`/${nextPost.slug}`} 
+                  className="flex items-center text-primary hover:text-primary-dark"
+                >
+                  <span>次の日記</span>
+                  <FaChevronRight className="ml-2" />
+                </Link>
+              ) : (
+                <div />
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </motion.div>
   );

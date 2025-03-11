@@ -4,6 +4,28 @@ import { FiX, FiSearch } from 'react-icons/fi';
 import { searchDocumentsAsync, getSearchSnippetAsync, initializeSearchDB, loadSearchData } from '@/lib/search';
 import { usePGlite } from '@electric-sql/pglite-react';
 
+// 特殊文字を含む検索クエリを安全に処理する関数
+function escapeSearchQuery(query: string): string {
+  if (!query) return '';
+  
+  // 空白で単語を分割
+  const words = query.split(/\s+/).filter(Boolean);
+  
+  // 各単語を処理
+  const escapedWords = words.map(word => {
+    // PostgreSQL全文検索の特殊文字を含む場合は引用符で囲む
+    if (/[&|!():'"<>@*~]/.test(word)) {
+      // 単語内の引用符をエスケープ（"を\"に変換）
+      const escapedWord = word.replace(/"/g, '\\"');
+      return `"${escapedWord}"`;
+    }
+    return word;
+  });
+  
+  // 処理した単語を空白で結合して返す
+  return escapedWords.join(' ');
+}
+
 type SearchResult = {
   id: string;
   title: string;
@@ -32,17 +54,19 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
   const pglite = usePGlite();
-  
+
   // PGliteが初期化されているかチェック
   const isPGliteReady = !!pglite;
-  
+
   // 検索結果を取得（PGliteが初期化されている場合のみ）
   useEffect(() => {
     if (isPGliteReady && debouncedQuery) {
       setIsLoading(true);
       const fetchResults = async () => {
         try {
-          const results = await searchDocumentsAsync(debouncedQuery);
+          // 特殊文字をエスケープして検索を実行
+          const escapedQuery = escapeSearchQuery(debouncedQuery);
+          const results = await searchDocumentsAsync(escapedQuery);
           setSearchResults(results as SearchResult[]);
           setShowResults(true);
         } catch (error) {
@@ -52,7 +76,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
           setIsLoading(false);
         }
       };
-      
+
       fetchResults();
     } else if (!debouncedQuery) {
       setSearchResults([]);
@@ -76,14 +100,14 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
       if (searchInput) {
         searchInput.focus();
       }
-      
+
       // PGliteが初期化されていない場合は初期化を開始
       if (!isPGliteReady) {
         const initSearch = async () => {
           try {
             setIsInitializing(true);
             console.log('Initializing search database from modal...');
-            
+
             const db = await initializeSearchDB();
             if (db) {
               await loadSearchData();
@@ -97,10 +121,10 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
             setIsInitializing(false);
           }
         };
-        
+
         initSearch();
       }
-      
+
       // 背景のスクロールを無効化
       document.body.style.overflow = 'hidden';
     } else {
@@ -111,7 +135,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
       setQuery('');
       setDebouncedQuery('');
     }
-    
+
     // クリーンアップ関数
     return () => {
       document.body.style.overflow = '';
@@ -154,20 +178,19 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
   return (
     <dialog
       open={isOpen}
-      className={`fixed inset-0 z-50 ${
-        isOpen ? 'visible' : 'invisible'
-      }`}
+      className={`fixed inset-0 z-50 ${isOpen ? 'visible' : 'invisible'
+        }`}
       aria-modal="true"
       aria-labelledby="search-modal-title"
     >
-      <div 
+      <div
         className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
         onClick={handleOverlayClick}
         onKeyDown={handleKeyDown}
         aria-hidden="true"
         tabIndex={-1}
       />
-      
+
       <div className="fixed top-20 left-1/2 transform -translate-x-1/2 w-full max-w-2xl px-4 sm:px-6 flex flex-col items-center">
         {/* 検索ボックス - 常に表示 */}
         <div className="w-full bg-white rounded-lg shadow-xl overflow-hidden">
@@ -183,7 +206,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
               aria-label="検索キーワード"
               disabled={!isPGliteReady && isInitializing}
             />
-            <button 
+            <button
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700 transition-colors ml-3 sm:ml-4 flex-shrink-0"
               aria-label="閉じる"
@@ -193,11 +216,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
             </button>
           </div>
         </div>
-        
+
         {/* 検索結果 - 条件付きで表示 */}
         {showResults && (
           <div className="w-full mt-2 bg-white rounded-lg shadow-xl max-h-[70vh] overflow-hidden flex flex-col transition-all duration-300 ease-in-out animate-slideDown">
-            <div 
+            <div
               className="flex-1 overflow-y-auto p-4 sm:p-6 overscroll-contain"
               onScroll={handleModalScroll}
             >
@@ -224,9 +247,9 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
                   </p>
                   <ul className="space-y-5 sm:space-y-6">
                     {searchResults.map((result: SearchResult) => (
-                      <SearchResultItem 
-                        key={result.id} 
-                        result={result} 
+                      <SearchResultItem
+                        key={result.id}
+                        result={result}
                         query={debouncedQuery}
                         onClose={onClose}
                       />
@@ -245,64 +268,69 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
 function SearchResultItem({ result, query, onClose }: SearchResultItemProps): ReactElement {
   const [snippet, setSnippet] = useState<string | null>(null);
   const pglite = usePGlite();
-  
+
   // PGliteが初期化されている場合のみスニペットを取得
   const isPGliteReady = !!pglite;
-  
+
   // スニペットを取得
   useEffect(() => {
     if (isPGliteReady && result.id && query) {
       const fetchSnippet = async () => {
         try {
-          const snippetResult = await getSearchSnippetAsync(result.id, query);
+          // 特殊文字をエスケープしてスニペットを取得
+          const escapedQuery = escapeSearchQuery(query);
+          const snippetResult = await getSearchSnippetAsync(result.id, escapedQuery);
           setSnippet(snippetResult);
         } catch (error) {
           console.error('Error fetching snippet:', error);
           setSnippet(null);
         }
       };
-      
+
       fetchSnippet();
     } else {
       setSnippet(null);
     }
   }, [result.id, query, isPGliteReady]);
-  
+
   // 日付をフォーマット
-  const formattedDate = result.date 
+  const formattedDate = result.date
     ? new Date(result.date).toLocaleDateString('ja-JP', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
     : null;
-  
+
   // 検索キーワードをハイライトする
   const highlightText = (text: string): string => {
     if (!text) return '';
-    
+
+    // 元のクエリを使用してハイライト（エスケープ前のクエリを使用）
     const keywords = query.split(/\s+/).filter(Boolean);
     let highlightedText = text;
-    
+
     for (const keyword of keywords) {
-      const regex = new RegExp(`(${keyword})`, 'gi');
+      // 特殊文字をRegExpで安全に扱えるようにエスケープ
+      const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`(${escapedKeyword})`, 'gi');
       highlightedText = highlightedText.replace(regex, '<mark class="bg-yellow-200 rounded px-1">$1</mark>');
     }
-    
+
     return highlightedText;
   };
-  
+
   // スニペットをハイライト済みHTMLからテキストに変換
   const renderHighlightedSnippet = () => {
     if (!snippet) return null;
-    
+
     // eslint-disable-next-line react/no-danger
     return <span dangerouslySetInnerHTML={{ __html: highlightText(snippet) }} />;
   };
-  
+
   return (
     <li className="border-b border-gray-100 pb-5 sm:pb-6 last:border-0 last:pb-0">
-      <Link 
+      <Link
         href={`${result.path}?q=${encodeURIComponent(query)}`}
         onClick={onClose}
         className="block hover:bg-gray-50 rounded-lg transition-colors p-2 -m-2"
@@ -313,10 +341,10 @@ function SearchResultItem({ result, query, onClose }: SearchResultItemProps): Re
             {formattedDate}
           </p>
         )}
-        
+
         {/* タイトル */}
         <h3 className="text-lg font-semibold mb-2">{result.title}</h3>
-        
+
         {/* スニペットまたは抜粋 */}
         {snippet ? (
           <p className="text-sm text-gray-600">

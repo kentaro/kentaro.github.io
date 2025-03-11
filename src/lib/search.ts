@@ -134,37 +134,70 @@ export async function searchDocuments(query: string) {
 
 		if (searchTerms.length === 0) return [];
 
-		// 各単語をtsqueryに変換
-		const tsqueryTerms = searchTerms.map((term) => `${term}:*`).join(" & ");
+		// 特殊文字を含むかチェック
+		const hasSpecialChars = searchTerms.some((term: string) =>
+			/[&|!():'"<>@*~]/.test(term),
+		);
 
 		// ILIKE条件を作成
 		const likeConditions = searchTerms
-			.map((_, i) => `title ILIKE $${i + 2} OR content ILIKE $${i + 2}`)
+			.map(
+				(_: string, i: number) =>
+					`title ILIKE $${i + (hasSpecialChars ? 1 : 2)} OR content ILIKE $${i + (hasSpecialChars ? 1 : 2)}`,
+			)
 			.join(" OR ");
-		const likeParams = searchTerms.map((term) => `%${term}%`);
+		const likeParams = searchTerms.map((term: string) => `%${term}%`);
 
-		// 検索を実行
-		const { rows } = await db.query(
-			`SELECT 
-        id, 
-        title, 
-        path, 
-        date,
-        excerpt,
-        ts_rank_cd(to_tsvector('english', title), to_tsquery('english', $1)) * 2 +
-        ts_rank_cd(to_tsvector('english', content), to_tsquery('english', $1)) AS rank
-      FROM 
-        documents
-      WHERE 
-        to_tsvector('english', title) @@ to_tsquery('english', $1) OR
-        to_tsvector('english', content) @@ to_tsquery('english', $1) OR
-        ${likeConditions}
-      ORDER BY 
-        rank DESC
-      LIMIT 50`,
-			[tsqueryTerms, ...likeParams],
-		);
+		let sqlQuery: string;
+		let params: string[];
 
+		if (hasSpecialChars) {
+			// 特殊文字を含む場合はILIKE検索のみを使用
+			sqlQuery = `
+				SELECT 
+					id, 
+					title, 
+					path, 
+					date,
+					excerpt,
+					1 AS rank
+				FROM 
+					documents
+				WHERE 
+					${likeConditions}
+				LIMIT 50
+			`;
+			params = likeParams;
+		} else {
+			// 特殊文字を含まない場合は全文検索とILIKE検索を組み合わせる
+			// 各単語をtsqueryに変換
+			const tsqueryTerms = searchTerms
+				.map((term: string) => `${term}:*`)
+				.join(" & ");
+
+			sqlQuery = `
+				SELECT 
+					id, 
+					title, 
+					path, 
+					date,
+					excerpt,
+					ts_rank_cd(to_tsvector('english', title), to_tsquery('english', $1)) * 2 +
+					ts_rank_cd(to_tsvector('english', content), to_tsquery('english', $1)) AS rank
+				FROM 
+					documents
+				WHERE 
+					to_tsvector('english', title) @@ to_tsquery('english', $1) OR
+					to_tsvector('english', content) @@ to_tsquery('english', $1) OR
+					${likeConditions}
+				ORDER BY 
+					rank DESC
+				LIMIT 50
+			`;
+			params = [tsqueryTerms, ...likeParams];
+		}
+
+		const { rows } = await db.query(sqlQuery, params);
 		return rows;
 	} catch (error) {
 		console.error("Error searching documents:", error);
@@ -182,9 +215,6 @@ export async function getSearchSnippet(id: string, query: string) {
 		const searchTerms = query.trim().split(/\s+/).filter(Boolean);
 
 		if (searchTerms.length === 0) return null;
-
-		// 各単語をtsqueryに変換
-		const tsqueryTerms = searchTerms.map((term) => `${term}:*`).join(" & ");
 
 		// まず通常のクエリでコンテンツを取得
 		const { rows: contentRows } = await db.query<{ content: string }>(
@@ -220,11 +250,18 @@ export async function getSearchSnippet(id: string, query: string) {
 
 		// キーワードをハイライト
 		for (const term of searchTerms) {
-			const regex = new RegExp(`(${term})`, "gi");
-			snippet = snippet.replace(
-				regex,
-				'<mark class="bg-yellow-200 rounded px-1">$1</mark>',
-			);
+			try {
+				// 正規表現の特殊文字をエスケープ
+				const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+				const regex = new RegExp(`(${escapedTerm})`, "gi");
+				snippet = snippet.replace(
+					regex,
+					'<mark class="bg-yellow-200 rounded px-1">$1</mark>',
+				);
+			} catch (regexError) {
+				console.error(`Error creating regex for term "${term}":`, regexError);
+				// エラーが発生した場合はそのキーワードをスキップ
+			}
 		}
 
 		return snippet;

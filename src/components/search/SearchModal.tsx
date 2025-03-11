@@ -332,7 +332,6 @@ function SearchResultItem({ result, query, onClose }: SearchResultItemProps): Re
     <li className="border-b border-gray-100 pb-5 sm:pb-6 last:border-0 last:pb-0">
       <Link
         href={`${result.path}?q=${encodeURIComponent(query)}`}
-        onClick={onClose}
         className="block hover:bg-gray-50 rounded-lg transition-colors p-2 -m-2"
       >
         {/* 日付があれば表示 */}

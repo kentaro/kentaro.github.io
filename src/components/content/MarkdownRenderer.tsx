@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaCalendarAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { format, parseISO } from 'date-fns';
@@ -46,10 +46,14 @@ export default function MarkdownRenderer({
   
   // 日記ページの場合、日付から月と日を抽出
   let monthDay = '';
+  let month = '';
+  let day = '';
   let formattedDate = '';
   if (date && isJournalPost) {
     const dateObj = new Date(date);
-    monthDay = `${dateObj.getMonth() + 1}月${dateObj.getDate()}日`;
+    month = String(dateObj.getMonth() + 1);
+    day = String(dateObj.getDate());
+    monthDay = `${month}月${day}日`;
     
     try {
       formattedDate = format(parseISO(date), 'yyyy年MM月dd日', { locale: ja });
@@ -108,6 +112,22 @@ export default function MarkdownRenderer({
           {isJournal ? (
             <>
               <h1 className="text-3xl md:text-4xl font-bold text-center">{formattedDate}</h1>
+              {month && day && (
+                <motion.div
+                  className="text-center mt-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <Link 
+                    href={`/journal/date/${month}/${day}`} 
+                    className="inline-flex items-center text-primary hover:text-primary-dark"
+                  >
+                    <FaCalendarAlt className="mr-1" />
+                    <span>この日の日記一覧を見る</span>
+                  </Link>
+                </motion.div>
+              )}
             </>
           ) : (
             <>
@@ -141,7 +161,7 @@ export default function MarkdownRenderer({
                   className="flex items-center text-primary hover:text-primary-dark"
                 >
                   <FaChevronLeft className="mr-2" />
-                  <span>前の日記</span>
+                  <span>前の日記{prevPost.title && <><br />{prevPost.title}</>}</span>
                 </Link>
               ) : (
                 <div />
@@ -152,7 +172,7 @@ export default function MarkdownRenderer({
                   href={`/${nextPost.slug}`} 
                   className="flex items-center text-primary hover:text-primary-dark"
                 >
-                  <span>次の日記</span>
+                  <span>次の日記{nextPost.title && <><br />{nextPost.title}</>}</span>
                   <FaChevronRight className="ml-2" />
                 </Link>
               ) : (

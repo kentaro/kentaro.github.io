@@ -168,15 +168,15 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
         tabIndex={-1}
       />
       
-      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 w-full max-w-2xl flex flex-col items-center">
+      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 w-full max-w-2xl px-4 sm:px-6 flex flex-col items-center">
         {/* 検索ボックス - 常に表示 */}
         <div className="w-full bg-white rounded-lg shadow-xl overflow-hidden">
-          <div className="p-6 flex items-center">
-            <FiSearch className="text-gray-500 mr-4" size={24} />
+          <div className="p-4 sm:p-6 flex items-center">
+            <FiSearch className="text-gray-500 mr-3 sm:mr-4 flex-shrink-0" size={20} />
             <input
               id="search-input"
               type="text"
-              className="flex-1 outline-none text-xl py-2"
+              className="flex-1 outline-none text-lg sm:text-xl py-1 sm:py-2"
               placeholder="キーワードで検索..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -185,11 +185,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
             />
             <button 
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 transition-colors ml-4"
+              className="text-gray-500 hover:text-gray-700 transition-colors ml-3 sm:ml-4 flex-shrink-0"
               aria-label="閉じる"
               type="button"
             >
-              <FiX size={24} />
+              <FiX size={20} />
             </button>
           </div>
         </div>
@@ -198,23 +198,23 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
         {showResults && (
           <div className="w-full mt-2 bg-white rounded-lg shadow-xl max-h-[70vh] overflow-hidden flex flex-col transition-all duration-300 ease-in-out animate-slideDown">
             <div 
-              className="flex-1 overflow-y-auto p-6 overscroll-contain"
+              className="flex-1 overflow-y-auto p-4 sm:p-6 overscroll-contain"
               onScroll={handleModalScroll}
             >
               {!isPGliteReady && isInitializing ? (
-                <div className="text-center py-8">
+                <div className="text-center py-6 sm:py-8">
                   <p className="text-gray-500">検索システムを準備中...</p>
                 </div>
               ) : !isPGliteReady ? (
-                <div className="text-center py-8">
+                <div className="text-center py-6 sm:py-8">
                   <p className="text-gray-500">検索システムを初期化中...</p>
                 </div>
               ) : isLoading ? (
-                <div className="text-center py-8">
+                <div className="text-center py-6 sm:py-8">
                   <p className="text-gray-500">検索中...</p>
                 </div>
               ) : debouncedQuery && searchResults.length === 0 ? (
-                <div className="text-center py-8">
+                <div className="text-center py-6 sm:py-8">
                   <p className="text-gray-500">検索結果がありません</p>
                 </div>
               ) : debouncedQuery ? (
@@ -222,7 +222,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
                   <p className="text-sm text-gray-500 mb-4">
                     {searchResults.length}件の検索結果
                   </p>
-                  <ul className="space-y-6">
+                  <ul className="space-y-5 sm:space-y-6">
                     {searchResults.map((result: SearchResult) => (
                       <SearchResultItem 
                         key={result.id} 
@@ -292,9 +292,6 @@ function SearchResultItem({ result, query, onClose }: SearchResultItemProps): Re
     return highlightedText;
   };
   
-  // 検索クエリをURLパラメータとして追加
-  const linkPath = `${result.path}?q=${encodeURIComponent(query)}`;
-  
   // スニペットをハイライト済みHTMLからテキストに変換
   const renderHighlightedSnippet = () => {
     if (!snippet) return null;
@@ -304,33 +301,30 @@ function SearchResultItem({ result, query, onClose }: SearchResultItemProps): Re
   };
   
   return (
-    <li className="border-b pb-4 last:border-b-0">
+    <li className="border-b border-gray-100 pb-5 sm:pb-6 last:border-0 last:pb-0">
       <Link 
-        href={linkPath}
-        className="block hover:bg-gray-50 rounded p-3 -mx-3 transition-colors"
+        href={`${result.path}?q=${encodeURIComponent(query)}`}
+        onClick={onClose}
+        className="block hover:bg-gray-50 rounded-lg transition-colors p-2 -m-2"
       >
-        <h3 className="text-lg font-medium text-primary mb-2">
-          {result.title}
-        </h3>
-        
-        {formattedDate && (
-          <p className="text-sm text-gray-500 mb-2">
+        {/* 日付があれば表示 */}
+        {result.date && (
+          <p className="text-sm text-primary mb-1">
             {formattedDate}
           </p>
         )}
         
+        {/* タイトル */}
+        <h3 className="text-lg font-semibold mb-2">{result.title}</h3>
+        
+        {/* スニペットまたは抜粋 */}
         {snippet ? (
-          <div 
-            className="text-sm text-gray-700 line-clamp-3"
-            aria-label={`スニペット: ${snippet.replace(/<[^>]*>/g, '')}`}
-          >
+          <p className="text-sm text-gray-600">
             {renderHighlightedSnippet()}
-          </div>
-        ) : (
-          <p className="text-sm text-gray-700 line-clamp-3">
-            {result.excerpt || ''}
           </p>
-        )}
+        ) : result.excerpt ? (
+          <p className="text-sm text-gray-600 line-clamp-2">{result.excerpt}</p>
+        ) : null}
       </Link>
     </li>
   );

@@ -179,7 +179,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
     <dialog
       open={isOpen}
       className={`fixed inset-0 z-50 ${isOpen ? 'visible' : 'invisible'
-        }`}
+        } m-0 p-0 bg-transparent border-none outline-none`}
       aria-modal="true"
       aria-labelledby="search-modal-title"
     >

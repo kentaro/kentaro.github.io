@@ -31,6 +31,18 @@
   code {
     @apply font-mono;
   }
+
+  /* dialogタグのデフォルトスタイルをリセット */
+  dialog {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+  }
+  
+  dialog::backdrop {
+    background: transparent;
+  }
 }
 
 @layer components {

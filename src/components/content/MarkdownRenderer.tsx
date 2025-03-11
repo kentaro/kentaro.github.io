@@ -122,7 +122,7 @@ export default function MarkdownRenderer({
         </div>
       </div>
       
-      <div className="py-8">
+      <div className="py-2">
         <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-4xl mx-auto">
           {isClient ? (
             <div 

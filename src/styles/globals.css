@@ -67,7 +67,7 @@
   }
 
   .page-header {
-    @apply bg-gradient-to-br from-primary/10 to-accent2/10 pt-10 pb-10 md:pt-12 md:pb-12 flex items-center justify-center min-h-[150px];
+    @apply bg-gradient-to-br from-primary/10 to-accent2/10 pt-8 pb-8 md:pt-10 md:pb-10 flex items-center justify-center min-h-[120px];
   }
 }
 
@@ -228,7 +228,7 @@ body {
 
 /* マークダウンコンテンツ */
 .markdown-content {
-  @apply container py-8 md:py-12;
+  @apply container py-0;
 }
 
 /* 日記一覧ページ用のマークダウンコンテンツ */
@@ -328,7 +328,7 @@ body {
 }
 
 .posts-grid {
-  @apply grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4;
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4;
 }
 
 .post-card {

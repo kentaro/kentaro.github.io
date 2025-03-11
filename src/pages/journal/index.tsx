@@ -73,7 +73,7 @@ export default function JournalPage({ years, recentPosts }: JournalPageProps) {
           
           {years.length > 0 ? (
             <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-8"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8"
               variants={container}
               initial="hidden"
               animate="show"

@@ -22,8 +22,14 @@ export default function SEO({
   // デフォルトアイコンURL
   const defaultIconUrl = 'https://pbs.twimg.com/profile_images/1893532407988367361/5EfifO80_400x400.jpg';
 
-  // OGイメージURLの生成（タイトルは「｜栗林健太郎」なしで、&ampなし）
-  const ogImageUrl = ogImage || `https://ogen.kentarok.workers.dev/og?title=${encodeURIComponent(title)}&username=栗林健太郎&iconUrl=${encodeURIComponent(defaultIconUrl)}`;
+  // OGイメージURLの生成（ブログと日記のみタイトルは「｜栗林健太郎」なしで、その他のページでは「｜栗林健太郎」を含める）
+  const isBlogOrJournal = router.pathname === '/blog' ||
+    router.pathname.startsWith('/blog/') ||
+    router.pathname === '/journal' ||
+    router.pathname.startsWith('/journal/');
+
+  const ogTitle = isBlogOrJournal ? title : fullTitle;
+  const ogImageUrl = ogImage || `https://ogen.kentarok.workers.dev/og?title=${encodeURIComponent(ogTitle)}&username=栗林健太郎&iconUrl=${encodeURIComponent(defaultIconUrl)}`;
 
   // RSSフィードのリンクを決定
   let rssLink = null;

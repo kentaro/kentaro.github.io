@@ -27,7 +27,7 @@ export default function SEO({
     (router.pathname.startsWith('/journal/') && router.pathname !== '/journal');
 
   const ogTitle = isBlogPostOrJournalPost ? title : fullTitle;
-  const ogImageUrl = ogImage || `https://ogen.kentarok.workers.dev/og?title=${encodeURIComponent(ogTitle)}&username=栗林健太郎&iconUrl=${encodeURIComponent(defaultIconUrl)}`;
+  const ogImageUrl = ogImage || `https://ogen-sigma.vercel.app/api/og?title=${encodeURIComponent(ogTitle)}&username=栗林健太郎&iconUrl=${encodeURIComponent(defaultIconUrl)}`;
 
   // RSSフィードのリンクを決定
   let rssLink = null;

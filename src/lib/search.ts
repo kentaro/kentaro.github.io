@@ -1,5 +1,6 @@
 import { PGlite } from "@electric-sql/pglite";
 import { useLiveQuery, usePGlite } from "@electric-sql/pglite-react";
+import { getGlobalPglite, setGlobalPglite } from "@/lib/PGliteContext";
 
 // 検索ドキュメントの型定義
 export interface SearchDocument {
@@ -11,21 +12,172 @@ export interface SearchDocument {
 	excerpt?: string;
 }
 
+// 進捗状況を追跡するための型
+export interface LoadingProgress {
+	isLoading: boolean;
+	status: string;
+	progress: number;
+	total: number;
+	error: string | null;
+}
+
+// 進捗状況を監視するためのコールバック型
+export type ProgressCallback = (progress: LoadingProgress) => void;
+
+// デフォルトの進捗状況
+export const defaultProgress: LoadingProgress = {
+	isLoading: false,
+	status: "",
+	progress: 0,
+	total: 0,
+	error: null,
+};
+
+// 現在の進捗状況を保持する変数
+let currentProgress: LoadingProgress = { ...defaultProgress };
+
+// 進捗状況を更新する関数
+export function updateProgress(progress: Partial<LoadingProgress>): void {
+	currentProgress = { ...currentProgress, ...progress };
+}
+
+// 現在の進捗状況を取得する関数
+export function getCurrentProgress(): LoadingProgress {
+	return { ...currentProgress };
+}
+
+// 進捗状況をリセットする関数
+export function resetProgress(): void {
+	currentProgress = { ...defaultProgress };
+}
+
 // PGliteのインスタンスを保持する変数
 let db: PGlite | null = null;
+let isDataLoaded = false;
+let isInitializing = false;
 
 // PGliteの初期化関数
-export async function initializeSearchDB() {
-	if (db) return db;
+export async function initializeSearchDB(onProgress?: ProgressCallback) {
+	// 既に初期化済みの場合は早期リターン
+	if (db) {
+		if (onProgress) {
+			onProgress({
+				isLoading: false,
+				status: "すでに初期化されています",
+				progress: 1,
+				total: 1,
+				error: null,
+			});
+		}
+		return db;
+	}
+	
+	// グローバル変数にDBがある場合はそれを使用
+	const globalDB = getGlobalPglite();
+	if (globalDB) {
+		db = globalDB;
+		if (onProgress) {
+			onProgress({
+				isLoading: false,
+				status: "既存のデータベースを使用します",
+				progress: 1,
+				total: 1,
+				error: null,
+			});
+		}
+		return db;
+	}
+	
+	// 初期化中の場合は重複呼び出しを防止
+	if (isInitializing) {
+		if (onProgress) {
+			onProgress({
+				isLoading: true,
+				status: "初期化中...",
+				progress: 0,
+				total: 1,
+				error: null,
+			});
+		}
+		
+		// 初期化完了を待つシンプルなポーリング
+		return new Promise<PGlite | null>((resolve) => {
+			const checkDB = () => {
+				if (db) {
+					if (onProgress) {
+						onProgress({
+							isLoading: false,
+							status: "初期化完了",
+							progress: 1,
+							total: 1,
+							error: null,
+						});
+					}
+					resolve(db);
+				} else if (!isInitializing) {
+					if (onProgress) {
+						onProgress({
+							isLoading: false,
+							status: "初期化失敗",
+							progress: 0,
+							total: 1,
+							error: "データベースの初期化に失敗しました",
+						});
+					}
+					resolve(null);
+				} else {
+					if (onProgress) {
+						onProgress(getCurrentProgress());
+					}
+					setTimeout(checkDB, 100);
+				}
+			};
+			checkDB();
+		});
+	}
 
+	isInitializing = true;
+	updateProgress({
+		isLoading: true,
+		status: "PGliteデータベースを初期化中...",
+		progress: 0,
+		total: 3,
+		error: null,
+	});
+	
+	if (onProgress) {
+		onProgress(getCurrentProgress());
+	}
+	
 	console.log("Initializing PGlite database...");
 
 	// ブラウザ環境でのみ実行
-	if (typeof window === "undefined") return null;
+	if (typeof window === "undefined") {
+		isInitializing = false;
+		updateProgress({
+			isLoading: false,
+			error: "サーバーサイドではPGliteを使用できません",
+		});
+		
+		if (onProgress) {
+			onProgress(getCurrentProgress());
+		}
+		
+		return null;
+	}
 
 	try {
 		// インメモリデータベースを作成
 		db = new PGlite();
+		
+		updateProgress({
+			progress: 1,
+			status: "データベースを作成中...",
+		});
+		
+		if (onProgress) {
+			onProgress(getCurrentProgress());
+		}
 
 		// 検索用テーブルを作成
 		await db.query(`
@@ -38,6 +190,15 @@ export async function initializeSearchDB() {
         excerpt TEXT
       )
     `);
+		
+		updateProgress({
+			progress: 2,
+			status: "全文検索インデックスを作成中...",
+		});
+		
+		if (onProgress) {
+			onProgress(getCurrentProgress());
+		}
 
 		// 全文検索インデックスを作成（個別のクエリとして実行）
 		await db.query(`
@@ -47,40 +208,111 @@ export async function initializeSearchDB() {
 		await db.query(`
       CREATE INDEX IF NOT EXISTS idx_documents_content ON documents USING GIN (to_tsvector('english', content))
     `);
+		
+		updateProgress({
+			progress: 3,
+			status: "初期化完了",
+		});
+		
+		if (onProgress) {
+			onProgress(getCurrentProgress());
+		}
 
 		console.log("PGlite database initialized");
+		
+		// グローバル変数に保存
+		setGlobalPglite(db);
 
 		return db;
 	} catch (error) {
 		console.error("Error initializing PGlite database:", error);
+		db = null;
+		updateProgress({
+			isLoading: false,
+			error: "データベースの初期化中にエラーが発生しました",
+		});
+		
+		if (onProgress) {
+			onProgress(getCurrentProgress());
+		}
+		
 		return null;
+	} finally {
+		isInitializing = false;
 	}
 }
 
 // 検索データをロードする関数
-export async function loadSearchData() {
+export async function loadSearchData(onProgress?: ProgressCallback) {
+	// 既にデータがロード済みの場合は早期リターン
+	if (isDataLoaded) {
+		if (onProgress) {
+			onProgress({
+				isLoading: false,
+				status: "データはすでにロード済みです",
+				progress: 1,
+				total: 1,
+				error: null,
+			});
+		}
+		return;
+	}
+	
+	// データベースが初期化されていない場合は初期化
 	if (!db) {
-		db = await initializeSearchDB();
+		db = await initializeSearchDB(onProgress);
 		if (!db) return;
 	}
 
 	try {
-		// 既存のデータを確認
+		// 既存のデータを確認（既にロード済みかチェック）
 		const { rows } = await db.query<{ count: number }>(
 			"SELECT COUNT(*) as count FROM documents",
 		);
 		if (rows[0].count > 0) {
 			console.log(`Database already contains ${rows[0].count} documents`);
+			isDataLoaded = true;
+			
+			if (onProgress) {
+				onProgress({
+					isLoading: false,
+					status: `${rows[0].count} 件のドキュメントがロード済みです`,
+					progress: 1,
+					total: 1,
+					error: null,
+				});
+			}
+			
 			return;
 		}
 
 		console.log("Loading search data...");
+		
+		if (onProgress) {
+			onProgress({
+				isLoading: true,
+				status: "検索データを取得中...",
+				progress: 0,
+				total: 100,
+				error: null,
+			});
+		}
 
 		// 検索データを取得
 		const response = await fetch("/search-data.json");
 		const searchData: SearchDocument[] = await response.json();
 
 		console.log(`Loaded ${searchData.length} documents from search-data.json`);
+		
+		if (onProgress) {
+			onProgress({
+				isLoading: true,
+				status: `${searchData.length} 件のドキュメントを処理します...`,
+				progress: 0,
+				total: searchData.length,
+				error: null,
+			});
+		}
 
 		// バッチ処理でデータを挿入
 		const batchSize = 100;
@@ -108,19 +340,61 @@ export async function loadSearchData() {
 				);
 			}
 
+			const currentBatch = i / batchSize + 1;
+			const totalBatches = Math.ceil(searchData.length / batchSize);
 			console.log(
-				`Inserted batch ${i / batchSize + 1} of ${Math.ceil(searchData.length / batchSize)}`,
+				`Inserted batch ${currentBatch} of ${totalBatches}`,
 			);
+			
+			if (onProgress) {
+				onProgress({
+					isLoading: true,
+					progress: Math.min(i + batchSize, searchData.length),
+					status: `ドキュメントを挿入中... (${Math.min(i + batchSize, searchData.length)}/${searchData.length})`,
+					total: searchData.length,
+					error: null,
+				});
+			}
 		}
 
+		isDataLoaded = true;
 		console.log("Search data loaded successfully");
+		
+		if (onProgress) {
+			onProgress({
+				isLoading: false,
+				status: "検索データのロードが完了しました",
+				progress: searchData.length,
+				total: searchData.length,
+				error: null,
+			});
+		}
 	} catch (error) {
 		console.error("Error loading search data:", error);
+		
+		if (onProgress) {
+			onProgress({
+				isLoading: false,
+				status: "エラーが発生しました",
+				progress: 0,
+				total: 0,
+				error: "検索データのロード中にエラーが発生しました",
+			});
+		}
 	}
 }
 
 // 検索を実行する関数
 export async function searchDocuments(query: string) {
+	// dbがなければグローバル変数も確認
+	if (!db) {
+		const globalDB = getGlobalPglite();
+		if (globalDB) {
+			db = globalDB;
+		}
+	}
+	
+	// それでもdbがなければ初期化を試みる
 	if (!db) {
 		db = await initializeSearchDB();
 		if (!db) return [];
@@ -210,7 +484,20 @@ export async function searchDocuments(query: string) {
 
 // 検索結果からスニペットを生成する関数
 export async function getSearchSnippet(id: string, query: string) {
-	if (!db) return null;
+	// dbがなければグローバル変数も確認
+	if (!db) {
+		const globalDB = getGlobalPglite();
+		if (globalDB) {
+			db = globalDB;
+		}
+	}
+	
+	// それでもdbがなければ初期化を試みる
+	if (!db) {
+		db = await initializeSearchDB();
+		if (!db) return null;
+	}
+	
 	if (!query.trim()) return null;
 
 	try {

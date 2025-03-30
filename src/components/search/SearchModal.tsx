@@ -1,16 +1,23 @@
-import { useState, useEffect, type MouseEvent, type KeyboardEvent, type ReactElement } from 'react';
+import { useState, useEffect, useRef, type MouseEvent, type ReactElement, useCallback, memo } from 'react';
 import Link from 'next/link';
 import { FiX, FiSearch } from 'react-icons/fi';
-import { searchDocumentsAsync, getSearchSnippetAsync, initializeSearchDB, loadSearchData } from '@/lib/search';
-import { usePGlite } from '@electric-sql/pglite-react';
+import { searchDocumentsAsync, getSearchSnippetAsync, type LoadingProgress, defaultProgress } from '@/lib/search';
+import { getGlobalPglite, useGlobalPGlite } from '@/lib/PGliteContext';
+import {
+  initSearch,
+  registerProgressCallback,
+  unregisterProgressCallback,
+  getInitializationStatus,
+  addCompletionListener
+} from '@/lib/searchInitializer';
 
 // 特殊文字を含む検索クエリを安全に処理する関数
 function escapeSearchQuery(query: string): string {
   if (!query) return '';
-  
+
   // 空白で単語を分割
   const words = query.split(/\s+/).filter(Boolean);
-  
+
   // 各単語を処理
   const escapedWords = words.map(word => {
     // PostgreSQL全文検索の特殊文字を含む場合は引用符で囲む
@@ -21,7 +28,7 @@ function escapeSearchQuery(query: string): string {
     }
     return word;
   });
-  
+
   // 処理した単語を空白で結合して返す
   return escapedWords.join(' ');
 }
@@ -46,43 +53,219 @@ type SearchResultItemProps = {
   onClose: () => void;
 };
 
-export default function SearchModal({ isOpen, onClose }: SearchModalProps): ReactElement {
+// ユニークなIDを生成する関数
+function generateId(): string {
+  return `modal-${Math.random().toString(36).substring(2, 9)}`;
+}
+
+// コンポーネントをmemoでラップしてpropsが変更されない限り再レンダリングしないように
+const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalProps): ReactElement {
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isInitializing, setIsInitializing] = useState(false);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showResults, setShowResults] = useState(false);
-  const pglite = usePGlite();
+  const [loadingProgress, setLoadingProgress] = useState<LoadingProgress>(defaultProgress);
 
-  // PGliteが初期化されているかチェック
-  const isPGliteReady = !!pglite;
+  // コンテキストと各種参照
+  const { pglite, setPglite } = useGlobalPGlite();
+  const hasStartedInitialization = useRef(false);
+  const mountedRef = useRef(true);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const callbackIdRef = useRef<string>(generateId());
+
+  // 内部初期化状態 - モーダル表示時のみチェックするためrefを使用（ステートを減らす）
+  const initStateRef = useRef(getInitializationStatus());
+
+  // PGliteが初期化されているかチェック（コンテキスト経由）
+  const isPGliteReady = !!pglite || !!getGlobalPglite();
+
+  // 初期化成功時の内部処理 - ここでのみPGliteを更新し、状態更新を1回に抑える
+  const handleInitSuccess = useCallback(() => {
+    if (!mountedRef.current) return;
+
+    // すでにPGliteがセットされている場合は何もしない
+    if (pglite) return;
+
+    const db = getGlobalPglite();
+    if (db) {
+      setPglite(db);
+      // ローディング状態は最後に一度だけ更新
+      setIsLoading(false);
+    }
+  }, [pglite, setPglite]);
+
+  // プログレスコールバック関数 - 初期化中の進捗のみを取り扱い、完了は別途処理
+  const progressCallback = useCallback((progress: LoadingProgress) => {
+    if (!mountedRef.current) return;
+
+    // 進捗表示のみを更新（UIの状態更新を最小限に）
+    setLoadingProgress(progress);
+
+    // 初期化中状態のみを扱う（完了は別途処理）
+    if (progress.isLoading) {
+      setIsLoading(true);
+    }
+  }, []);
+
+  // 初期化完了時のイベントハンドラ - このハンドラはコンポーネントのマウント中にただ1度だけ呼ばれるべき
+  const handleInitializationComplete = useCallback(() => {
+    console.log("[SearchModal] Initialization complete event received");
+    // 初期化成功時の処理を呼び出し
+    handleInitSuccess();
+  }, [handleInitSuccess]);
+
+  // 初期化完了リスナーを登録（コンポーネントのマウント時に一度だけ）
+  useEffect(() => {
+    // 安定したハンドラ参照
+    const handler = handleInitializationComplete;
+    console.log("[SearchModal] Registering completion listener (mount)");
+
+    // 完了イベントリスナーを登録
+    const removeListener = addCompletionListener(handler);
+
+    return () => {
+      console.log("[SearchModal] Unregistering completion listener (unmount)");
+      removeListener();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 依存配列を空にしてマウント時に1回だけ実行
+
+  // コンポーネントのマウント状態を追跡
+  useEffect(() => {
+    mountedRef.current = true;
+    console.log("[SearchModal] Component mounted");
+
+    return () => {
+      console.log("[SearchModal] Component unmounting, cleaning up");
+      mountedRef.current = false;
+      // コンポーネントのアンマウント時にコールバックを解除
+      unregisterProgressCallback(callbackIdRef.current);
+    };
+  }, []);
+
+  // プログレスコールバックの登録・解除（モーダルが開いている間のみ）
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // コールバックIDを固定して重複を避ける
+    const callbackId = callbackIdRef.current;
+    console.log("[SearchModal] Registering progress callback:", callbackId);
+
+    registerProgressCallback(callbackId, progressCallback);
+
+    return () => {
+      console.log("[SearchModal] Unregistering progress callback:", callbackId);
+      unregisterProgressCallback(callbackId);
+    };
+  }, [isOpen, progressCallback]);
+
+  // モーダルオープン時の初期化処理
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // スクロール制御
+    document.body.style.overflow = 'hidden';
+
+    console.log("[SearchModal] Modal opened, checking initialization status");
+
+    // 実行時の初期化状態を取得（refを更新するだけで状態更新は行わない）
+    initStateRef.current = getInitializationStatus();
+    const { isInitialized, isInitializing } = initStateRef.current;
+
+    console.log("[SearchModal] Current initialization status:", { isInitialized, isInitializing });
+
+    // 初期化処理の条件判定
+    if (!isInitialized && !isInitializing && !hasStartedInitialization.current) {
+      console.log("[SearchModal] Starting initialization");
+
+      // フラグを設定して複数回の初期化を防止
+      hasStartedInitialization.current = true;
+
+      // ローディング状態開始
+      setIsLoading(true);
+
+      // 非同期で初期化開始
+      console.log("[SearchModal] Calling initSearch()");
+      initSearch().catch(error => {
+        console.error("[SearchModal] Error initializing search:", error);
+        if (mountedRef.current) {
+          setIsLoading(false);
+        }
+      });
+    } else if (isInitializing) {
+      console.log("[SearchModal] Search is already initializing");
+      setIsLoading(true);
+    } else if (isInitialized) {
+      console.log("[SearchModal] Search is already initialized");
+
+      // 既に初期化済みなら即時にPGliteコンテキストを更新
+      const db = getGlobalPglite();
+      if (db && !pglite) {
+        console.log("[SearchModal] Updating PGlite context (already initialized)");
+        setPglite(db);
+      }
+
+      // ローディング状態を解除
+      setIsLoading(false);
+    }
+
+    // モーダルが閉じられた時のクリーンアップ
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, pglite, setPglite]);
+
+  // フォーカス処理
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+          searchInput.focus();
+        }
+      }, 100);
+    }
+  }, [isOpen]);
+
+  // 検索結果を取得する関数
+  const fetchResults = useCallback(async (query: string) => {
+    if (!isPGliteReady || !query) return;
+
+    // 検索実行中は読み込み中表示
+    setIsLoading(true);
+
+    try {
+      // 特殊文字をエスケープして検索を実行
+      const escapedQuery = escapeSearchQuery(query);
+      const results = await searchDocumentsAsync(escapedQuery);
+
+      if (mountedRef.current) {
+        setSearchResults(results as SearchResult[]);
+        setShowResults(true);
+      }
+    } catch (error) {
+      console.error('[SearchModal] Error fetching search results:', error);
+      if (mountedRef.current) {
+        setSearchResults([]);
+      }
+    } finally {
+      if (mountedRef.current) {
+        setIsLoading(false);
+      }
+    }
+  }, [isPGliteReady]);
 
   // 検索結果を取得（PGliteが初期化されている場合のみ）
   useEffect(() => {
-    if (isPGliteReady && debouncedQuery) {
-      setIsLoading(true);
-      const fetchResults = async () => {
-        try {
-          // 特殊文字をエスケープして検索を実行
-          const escapedQuery = escapeSearchQuery(debouncedQuery);
-          const results = await searchDocumentsAsync(escapedQuery);
-          setSearchResults(results as SearchResult[]);
-          setShowResults(true);
-        } catch (error) {
-          console.error('Error fetching search results:', error);
-          setSearchResults([]);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchResults();
-    } else if (!debouncedQuery) {
+    if (debouncedQuery) {
+      fetchResults(debouncedQuery);
+    } else {
       setSearchResults([]);
       setShowResults(false);
     }
-  }, [debouncedQuery, isPGliteReady]);
+  }, [debouncedQuery, fetchResults]);
 
   // 検索クエリをデバウンス
   useEffect(() => {
@@ -93,78 +276,30 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
     return () => clearTimeout(timer);
   }, [query]);
 
-  // モーダルが開いたときにフォーカスとPGlite初期化
-  useEffect(() => {
-    if (isOpen) {
-      const searchInput = document.getElementById('search-input');
-      if (searchInput) {
-        searchInput.focus();
-      }
-
-      // PGliteが初期化されていない場合は初期化を開始
-      if (!isPGliteReady) {
-        const initSearch = async () => {
-          try {
-            setIsInitializing(true);
-            console.log('Initializing search database from modal...');
-
-            const db = await initializeSearchDB();
-            if (db) {
-              await loadSearchData();
-              console.log('Search database initialized successfully from modal');
-            } else {
-              console.error('Failed to initialize search database from modal');
-            }
-          } catch (error) {
-            console.error('Error initializing search from modal:', error);
-          } finally {
-            setIsInitializing(false);
-          }
-        };
-
-        initSearch();
-      }
-
-      // 背景のスクロールを無効化
-      document.body.style.overflow = 'hidden';
-    } else {
-      // モーダルが閉じられたらスクロールを有効化
-      document.body.style.overflow = '';
-      // モーダルが閉じられたら検索結果を非表示に
-      setShowResults(false);
-      setQuery('');
-      setDebouncedQuery('');
-    }
-
-    // クリーンアップ関数
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen, isPGliteReady]);
-
   // Escキーでモーダルを閉じる
   useEffect(() => {
     const handleKeyDown = (e: globalThis.KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape' && isOpen) {
+        e.preventDefault(); // デフォルトの動作をキャンセル
         onClose();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+    return undefined;
+  }, [isOpen, onClose]);
 
-  // オーバーレイをクリックしたときの処理
-  const handleOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
-    onClose();
-  };
-
-  // キーボードでの操作
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Escape') {
+  // モーダル外クリックでモーダルを閉じる
+  const handleModalClick = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    if (modalRef.current && e.target instanceof Node && !modalRef.current.contains(e.target)) {
+      e.preventDefault(); // イベントの伝播を停止
+      e.stopPropagation();
       onClose();
     }
-  };
+  }, [onClose]);
 
   // モーダル内のスクロールイベントを処理
   const handleModalScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -175,23 +310,46 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
     }
   };
 
+  // 進捗バーのレンダリング
+  const renderProgressBar = () => {
+    const percent = loadingProgress.total > 0
+      ? Math.min(Math.round((loadingProgress.progress / loadingProgress.total) * 100), 100)
+      : 0;
+
+    return (
+      <div className="w-full mt-4 mb-2">
+        <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div
+            className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
+            style={{ width: `${percent}%` }}
+          />
+        </div>
+        <p className="text-sm text-gray-500 mt-1 text-center">
+          {loadingProgress.status} {percent}%
+        </p>
+      </div>
+    );
+  };
+
+  // isOpenがfalseの場合は空のdivを表示（nullではなく）
+  if (!isOpen) {
+    return <div className="hidden" aria-hidden="true" />;
+  }
+
+  // レンダリング
   return (
-    <dialog
-      open={isOpen}
-      className={`fixed inset-0 z-50 ${isOpen ? 'visible' : 'invisible'
-        } m-0 p-0 bg-transparent border-none outline-none`}
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-50 bg-black bg-opacity-50 transition-opacity flex items-start justify-center"
+      onClick={handleModalClick}
+      role="dialog"
       aria-modal="true"
       aria-labelledby="search-modal-title"
     >
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
-        onClick={handleOverlayClick}
-        onKeyDown={handleKeyDown}
-        aria-hidden="true"
-        tabIndex={-1}
-      />
-
-      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 w-full max-w-2xl px-4 sm:px-6 flex flex-col items-center">
+        ref={modalRef}
+        className="fixed top-20 w-full max-w-2xl px-4 sm:px-6 flex flex-col items-center animate-fadeIn"
+      >
         {/* 検索ボックス - 常に表示 */}
         <div className="w-full bg-white rounded-lg shadow-xl overflow-hidden">
           <div className="p-4 sm:p-6 flex items-center">
@@ -200,14 +358,18 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
               id="search-input"
               type="text"
               className="flex-1 outline-none text-lg sm:text-xl py-1 sm:py-2"
-              placeholder="キーワードで検索..."
+              placeholder={isLoading ? "検索システムを準備中..." : "キーワードで検索..."}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               aria-label="検索キーワード"
-              disabled={!isPGliteReady && isInitializing}
+              disabled={isLoading && !initStateRef.current.isDataLoaded}
             />
             <button
-              onClick={onClose}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onClose();
+              }}
               className="text-gray-500 hover:text-gray-700 transition-colors ml-3 sm:ml-4 flex-shrink-0"
               aria-label="閉じる"
               type="button"
@@ -215,6 +377,9 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
               <FiX size={20} />
             </button>
           </div>
+
+          {/* 初期化中の進捗バー */}
+          {isLoading && loadingProgress.isLoading && renderProgressBar()}
         </div>
 
         {/* 検索結果 - 条件付きで表示 */}
@@ -224,17 +389,13 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
               className="flex-1 overflow-y-auto p-4 sm:p-6 overscroll-contain"
               onScroll={handleModalScroll}
             >
-              {!isPGliteReady && isInitializing ? (
+              {isLoading ? (
                 <div className="text-center py-6 sm:py-8">
                   <p className="text-gray-500">検索システムを準備中...</p>
                 </div>
-              ) : !isPGliteReady ? (
+              ) : loadingProgress.error ? (
                 <div className="text-center py-6 sm:py-8">
-                  <p className="text-gray-500">検索システムを初期化中...</p>
-                </div>
-              ) : isLoading ? (
-                <div className="text-center py-6 sm:py-8">
-                  <p className="text-gray-500">検索中...</p>
+                  <p className="text-red-500">{loadingProgress.error}</p>
                 </div>
               ) : debouncedQuery && searchResults.length === 0 ? (
                 <div className="text-center py-6 sm:py-8">
@@ -261,16 +422,25 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps): Reac
           </div>
         )}
       </div>
-    </dialog>
+    </div>
   );
-}
+});
 
-function SearchResultItem({ result, query, onClose }: SearchResultItemProps): ReactElement {
+// SearchResultItemコンポーネントもmemoでラップして不要な再レンダリングを防止
+const SearchResultItem = memo(function SearchResultItem({ result, query, onClose }: SearchResultItemProps): ReactElement {
   const [snippet, setSnippet] = useState<string | null>(null);
-  const pglite = usePGlite();
+  const { pglite } = useGlobalPGlite();
+  const mountedRef = useRef(true);
 
-  // PGliteが初期化されている場合のみスニペットを取得
-  const isPGliteReady = !!pglite;
+  // コンポーネントのマウント状態を追跡
+  useEffect(() => {
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  // PGliteが初期化されているかチェック（コンテキスト経由）
+  const isPGliteReady = !!pglite || !!getGlobalPglite();
 
   // スニペットを取得
   useEffect(() => {
@@ -280,10 +450,14 @@ function SearchResultItem({ result, query, onClose }: SearchResultItemProps): Re
           // 特殊文字をエスケープしてスニペットを取得
           const escapedQuery = escapeSearchQuery(query);
           const snippetResult = await getSearchSnippetAsync(result.id, escapedQuery);
-          setSnippet(snippetResult);
+          if (mountedRef.current) {
+            setSnippet(snippetResult);
+          }
         } catch (error) {
           console.error('Error fetching snippet:', error);
-          setSnippet(null);
+          if (mountedRef.current) {
+            setSnippet(null);
+          }
         }
       };
 
@@ -324,6 +498,10 @@ function SearchResultItem({ result, query, onClose }: SearchResultItemProps): Re
       <Link
         href={`${result.path}?q=${encodeURIComponent(query)}`}
         className="block hover:bg-gray-50 rounded-lg transition-colors p-2 -m-2"
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
       >
         {/* タイトル */}
         <h3 className="text-lg font-semibold mb-2">{result.title}</h3>
@@ -339,4 +517,10 @@ function SearchResultItem({ result, query, onClose }: SearchResultItemProps): Re
       </Link>
     </li>
   );
-}
+});
+
+// 必要なexport設定
+SearchModal.displayName = 'SearchModal';
+SearchResultItem.displayName = 'SearchResultItem';
+
+export default SearchModal;

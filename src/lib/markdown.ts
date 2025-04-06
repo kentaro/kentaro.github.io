@@ -36,8 +36,8 @@ function processEmbedBlocks(content: string): string {
 
 		// 画像部分
 		if (embedData.image) {
-			html += `<div style="width:100%; height:200px; overflow:hidden; position:relative; background-color:#f3f4f6;">
-				<img src="${embedData.image}" alt="${embedData.title || ""}" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain;" />
+			html += `<div style="padding:0; overflow:hidden;">
+				<img src="${embedData.image}" alt="${embedData.title || ""}" style="max-width:100%; height:auto; display:block; margin:0 auto;" />
 			</div>`;
 		}
 

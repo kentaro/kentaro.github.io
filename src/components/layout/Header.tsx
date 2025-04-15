@@ -5,17 +5,12 @@ import Navigation from '@/components/layout/Navigation';
 import { FaBars, FaTimes, FaTwitter, FaGithub, FaYoutube, FaFacebook, FaLinkedin } from 'react-icons/fa';
 import { FiSearch } from 'react-icons/fi';
 import { MdEmail } from 'react-icons/md';
-import dynamic from 'next/dynamic';
-
-// 動的インポートでSearchModalを読み込む
-const SearchModal = dynamic(() => import('@/components/search/SearchModal'), {
-  ssr: false,
-});
+import { useSearchModalStore } from '@/store/useSearchModalStore';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const open = useSearchModalStore((s) => s.open);
 
   // スクロール検出
   useEffect(() => {
@@ -40,12 +35,8 @@ export default function Header() {
   }, [isMenuOpen]);
 
   const openSearch = () => {
-    setIsSearchOpen(true);
+    open();
     setIsMenuOpen(false); // 検索を開くときにメニューを閉じる
-  };
-  
-  const closeSearch = () => {
-    setIsSearchOpen(false);
   };
 
   return (
@@ -170,9 +161,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-      
-      {/* 検索モーダル */}
-      {isSearchOpen && <SearchModal isOpen={isSearchOpen} onClose={closeSearch} />}
     </header>
   );
 } 

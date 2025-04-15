@@ -1,6 +1,6 @@
-import { createContext, useContext, ReactNode, useState, useEffect, useMemo } from 'react';
-import { PGlite } from '@electric-sql/pglite';
+import { createContext, useContext, useState, useEffect, useMemo, useCallback, type ReactNode } from 'react';
 import { PGliteProvider } from '@electric-sql/pglite-react';
+import type { PGlite } from '@electric-sql/pglite';
 
 // PGliteコンテキストの型定義
 interface PGliteContextType {
@@ -39,21 +39,12 @@ export function GlobalPGliteProvider({ children }: { children: ReactNode }) {
     const [pglite, setPgliteState] = useState<PGlite | null>(_globalPglite);
     const [isInitialized, setIsInitialized] = useState(_isInitialized);
 
-    // グローバル変数と状態の同期を行う関数（メモ化）
-    const setPglite = useMemo(() => {
-        return (db: PGlite | null) => {
-            // グローバル変数を更新
-            setGlobalPglite(db);
-
-            // 状態を更新（すでに同じ値の場合は更新しない）
-            if (db !== pglite) {
-                setPgliteState(db);
-            }
-
-            if (!isInitialized) {
-                setIsInitialized(true);
-            }
-        };
+    // グローバル変数と状態の同期を行う関数（useCallbackでメモ化）
+    const setPglite = useCallback((db: PGlite | null) => {
+        if (db === pglite) return;
+        setGlobalPglite(db);
+        setPgliteState(db);
+        if (!isInitialized) setIsInitialized(true);
     }, [pglite, isInitialized]);
 
     // グローバル変数が既に設定されている場合は状態に反映（一度だけ）

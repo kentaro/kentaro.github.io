@@ -1,28 +1,14 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FiSearch } from 'react-icons/fi';
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
-
-// 動的インポートでSearchModalを読み込む
-const SearchModal = dynamic(() => import('@/components/search/SearchModal'), {
-  ssr: false,
-});
+import { useSearchModalStore } from '@/store/useSearchModalStore';
 
 export default function Navigation() {
   const router = useRouter();
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const open = useSearchModalStore((s) => s.open);
   
   const isActive = (path: string) => {
     return router.pathname === path || router.pathname.startsWith(`${path}/`);
-  };
-  
-  const openSearch = () => {
-    setIsSearchOpen(true);
-  };
-  
-  const closeSearch = () => {
-    setIsSearchOpen(false);
   };
   
   return (
@@ -91,7 +77,7 @@ export default function Navigation() {
           </li>
           <li>
             <button
-              onClick={openSearch}
+              onClick={open}
               className="p-2 text-dark hover:text-primary transition-colors duration-200 focus:outline-none"
               aria-label="検索"
               type="button"
@@ -101,8 +87,6 @@ export default function Navigation() {
           </li>
         </ul>
       </nav>
-      
-      {isSearchOpen && <SearchModal isOpen={isSearchOpen} onClose={closeSearch} />}
     </>
   );
 } 

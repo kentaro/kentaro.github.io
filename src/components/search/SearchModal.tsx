@@ -81,20 +81,22 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
   // PGliteが初期化されているかチェック（コンテキスト経由）
   const isPGliteReady = !!pglite || !!getGlobalPglite();
 
+  // pglite, setPgliteをrefで保持
+  const pgliteRef = useRef(pglite);
+  const setPgliteRef = useRef(setPglite);
+  useEffect(() => { pgliteRef.current = pglite; }, [pglite]);
+  useEffect(() => { setPgliteRef.current = setPglite; }, [setPglite]);
+
   // 初期化成功時の内部処理 - ここでのみPGliteを更新し、状態更新を1回に抑える
   const handleInitSuccess = useCallback(() => {
     if (!mountedRef.current) return;
-
-    // すでにPGliteがセットされている場合は何もしない
-    if (pglite) return;
-
+    if (pgliteRef.current) return;
     const db = getGlobalPglite();
     if (db) {
-      setPglite(db);
-      // ローディング状態は最後に一度だけ更新
+      setPgliteRef.current(db);
       setIsLoading(false);
     }
-  }, [pglite, setPglite]);
+  }, []);
 
   // プログレスコールバック関数 - 初期化中の進捗のみを取り扱い、完了は別途処理
   const progressCallback = useCallback((progress: LoadingProgress) => {
@@ -116,10 +118,14 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
     handleInitSuccess();
   }, [handleInitSuccess]);
 
+  // handleInitializationCompleteをrefで保持
+  const handleInitializationCompleteRef = useRef(handleInitializationComplete);
+  useEffect(() => { handleInitializationCompleteRef.current = handleInitializationComplete; }, [handleInitializationComplete]);
+
   // 初期化完了リスナーを登録（コンポーネントのマウント時に一度だけ）
   useEffect(() => {
     // 安定したハンドラ参照
-    const handler = handleInitializationComplete;
+    const handler: () => void = () => handleInitializationCompleteRef.current();
     console.log("[SearchModal] Registering completion listener (mount)");
 
     // 完了イベントリスナーを登録
@@ -129,7 +135,6 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
       console.log("[SearchModal] Unregistering completion listener (unmount)");
       removeListener();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 依存配列を空にしてマウント時に1回だけ実行
 
   // コンポーネントのマウント状態を追跡
@@ -164,29 +169,15 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
   // モーダルオープン時の初期化処理
   useEffect(() => {
     if (!isOpen) return;
-
-    // スクロール制御
     document.body.style.overflow = 'hidden';
-
     console.log("[SearchModal] Modal opened, checking initialization status");
-
-    // 実行時の初期化状態を取得（refを更新するだけで状態更新は行わない）
     initStateRef.current = getInitializationStatus();
     const { isInitialized, isInitializing } = initStateRef.current;
-
     console.log("[SearchModal] Current initialization status:", { isInitialized, isInitializing });
-
-    // 初期化処理の条件判定
     if (!isInitialized && !isInitializing && !hasStartedInitialization.current) {
       console.log("[SearchModal] Starting initialization");
-
-      // フラグを設定して複数回の初期化を防止
       hasStartedInitialization.current = true;
-
-      // ローディング状態開始
       setIsLoading(true);
-
-      // 非同期で初期化開始
       console.log("[SearchModal] Calling initSearch()");
       initSearch().catch(error => {
         console.error("[SearchModal] Error initializing search:", error);
@@ -199,23 +190,17 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
       setIsLoading(true);
     } else if (isInitialized) {
       console.log("[SearchModal] Search is already initialized");
-
-      // 既に初期化済みなら即時にPGliteコンテキストを更新
       const db = getGlobalPglite();
-      if (db && !pglite) {
+      if (db && !pgliteRef.current) {
         console.log("[SearchModal] Updating PGlite context (already initialized)");
-        setPglite(db);
+        setPgliteRef.current(db);
       }
-
-      // ローディング状態を解除
       setIsLoading(false);
     }
-
-    // モーダルが閉じられた時のクリーンアップ
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isOpen, pglite, setPglite]);
+  }, [isOpen]);
 
   // フォーカス処理
   useEffect(() => {
@@ -340,15 +325,19 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 bg-black bg-opacity-50 transition-opacity flex items-start justify-center"
+      className="fixed inset-0 z-50 bg-black bg-opacity-50 transition-opacity flex items-start justify-center pt-24"
       onClick={handleModalClick}
-      role="dialog"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleModalClick(e as unknown as MouseEvent<HTMLDivElement>);
+        }
+      }}
       aria-modal="true"
       aria-labelledby="search-modal-title"
     >
       <div
         ref={modalRef}
-        className="fixed top-20 w-full max-w-2xl px-4 sm:px-6 flex flex-col items-center animate-fadeIn"
+        className="relative w-full max-w-2xl px-4 sm:px-6 flex flex-col items-center animate-fadeIn"
       >
         {/* 検索ボックス - 常に表示 */}
         <div className="w-full bg-white rounded-lg shadow-xl overflow-hidden">

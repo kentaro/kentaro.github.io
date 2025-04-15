@@ -214,6 +214,16 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
     }
   }, [isOpen]);
 
+  // 検索ボックスのinput参照用ref
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // isLoadingがfalseになったらinputにフォーカスを当て直す
+  useEffect(() => {
+    if (!isLoading && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isLoading]);
+
   // 検索結果を取得する関数
   const fetchResults = useCallback(async (query: string) => {
     if (!isPGliteReady || !query) return;
@@ -295,27 +305,6 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
     }
   };
 
-  // 進捗バーのレンダリング
-  const renderProgressBar = () => {
-    const percent = loadingProgress.total > 0
-      ? Math.min(Math.round((loadingProgress.progress / loadingProgress.total) * 100), 100)
-      : 0;
-
-    return (
-      <div className="w-full mt-4 mb-2">
-        <div className="w-full bg-gray-200 rounded-full h-2.5">
-          <div
-            className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
-            style={{ width: `${percent}%` }}
-          />
-        </div>
-        <p className="text-sm text-gray-500 mt-1 text-center">
-          {loadingProgress.status} {percent}%
-        </p>
-      </div>
-    );
-  };
-
   // isOpenがfalseの場合は空のdivを表示（nullではなく）
   if (!isOpen) {
     return <div className="hidden" aria-hidden="true" />;
@@ -343,16 +332,29 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
         <div className="w-full bg-white rounded-lg shadow-xl overflow-hidden">
           <div className="p-4 sm:p-6 flex items-center">
             <FiSearch className="text-gray-500 mr-3 sm:mr-4 flex-shrink-0" size={20} />
-            <input
-              id="search-input"
-              type="text"
-              className="flex-1 outline-none text-lg sm:text-xl py-1 sm:py-2"
-              placeholder={isLoading ? "検索システムを準備中..." : "キーワードで検索..."}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="検索キーワード"
-              disabled={isLoading && !initStateRef.current.isDataLoaded}
-            />
+            {/* 初期化中は検索ボックス内にスピナーを表示 */}
+            <div className="relative flex-1">
+              <input
+                ref={inputRef}
+                id="search-input"
+                type="text"
+                className="flex-1 outline-none text-lg sm:text-xl py-1 sm:py-2 w-full pr-10"
+                placeholder={isLoading ? "検索システムを準備中..." : "キーワードで検索..."}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                aria-label="検索キーワード"
+                disabled={isLoading && !initStateRef.current.isDataLoaded}
+              />
+              {isLoading && (
+                <span className="absolute right-2 top-1/2 -translate-y-1/2">
+                  <svg className="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-label="ローディング">
+                    <title>ローディング</title>
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                  </svg>
+                </span>
+              )}
+            </div>
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -366,9 +368,6 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
               <FiX size={20} />
             </button>
           </div>
-
-          {/* 初期化中の進捗バー */}
-          {isLoading && loadingProgress.isLoading && renderProgressBar()}
         </div>
 
         {/* 検索結果 - 条件付きで表示 */}
@@ -478,6 +477,7 @@ const SearchResultItem = memo(function SearchResultItem({ result, query, onClose
   const renderHighlightedSnippet = () => {
     if (!snippet) return null;
 
+    // 検索キーワードのハイライト表示のためdangerouslySetInnerHTMLを使用（XSS対策済み）
     // eslint-disable-next-line react/no-danger
     return <span dangerouslySetInnerHTML={{ __html: highlightText(snippet) }} />;
   };

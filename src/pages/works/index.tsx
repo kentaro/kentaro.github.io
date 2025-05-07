@@ -95,15 +95,15 @@ export default function WorksPage({ feedData }: WorksPageProps) {
   return (
     <Layout>
       <SEO
-        title="アウトプット"
+        title="制作物"
         description="栗林健太郎のnote、技術ブログ、スライド、動画、音楽、ポッドキャストのまとめ"
       />
 
       <div className="page-header">
         <div className="container flex flex-col justify-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-center">アウトプット一覧</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-center">制作物一覧</h1>
           <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
-            note、技術ブログ、スライド、動画、音楽、ポッドキャストなど、さまざまな形式でのアウトプットをまとめています。
+            note、技術ブログ、スライド、動画、音楽、ポッドキャストなど、さまざまな形式での制作物をまとめています。
           </p>
           <div className="flex justify-center mt-4">
             <Link href="/works/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">

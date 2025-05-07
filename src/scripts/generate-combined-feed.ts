@@ -396,7 +396,7 @@ async function generateCombinedFeed() {
 
 	// RSSフィードを生成
 	const feed = new Feed({
-		title: "栗林健太郎のアウトプット",
+		title: "栗林健太郎の制作物",
 		description:
 			"栗林健太郎のnote、技術ブログ、スライド、動画、音楽、ポッドキャストのまとめ",
 		id: SITE_URL,

@@ -110,7 +110,7 @@ export default function Header() {
                 </li>
                 <li>
                   <Link href="/works" className="block py-2 text-dark hover:text-primary" onClick={() => setIsMenuOpen(false)}>
-                    アウトプット
+                    制作物
                   </Link>
                 </li>
                 <li>

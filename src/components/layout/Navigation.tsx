@@ -48,7 +48,7 @@ export default function Navigation() {
                   : 'text-dark hover:text-primary'
               }`}
             >
-              アウトプット
+              制作物
             </Link>
           </li>
           <li>

@@ -3,12 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  FaTwitter,
   FaGithub,
   FaYoutube,
   FaFacebook,
-  FaLinkedin,
+  FaDiscord,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import Layout from "../components/layout/Layout";
 import SEO from "../components/common/SEO";
@@ -315,10 +315,10 @@ export default function Home() {
               className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
             >
               <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
-                <FaTwitter className="w-6 h-6 sm:w-8 sm:h-8" />
+                <FaXTwitter className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
               <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
-                X (Twitter)
+                X
               </h3>
               <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
                 日々の活動や技術的な気づきを発信しています
@@ -370,6 +370,27 @@ export default function Home() {
               </span>
             </a>
 
+            {/* Discord */}
+            <a
+              href="https://discord.gg/SXyKFCyMd5"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
+            >
+              <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
+                <FaDiscord className="w-6 h-6 sm:w-8 sm:h-8" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
+                Discord
+              </h3>
+              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
+                コミュニティでの交流や技術・制作に関する質問・議論ができます
+              </p>
+              <span className="text-primary font-medium text-sm sm:text-base">
+                kentarokuribayashi.com
+              </span>
+            </a>
+
             {/* Facebook */}
             <a
               href="https://facebook.com/kentarok"
@@ -388,27 +409,6 @@ export default function Home() {
               </p>
               <span className="text-primary font-medium text-sm sm:text-base">
                 kentarok
-              </span>
-            </a>
-
-            {/* LinkedIn */}
-            <a
-              href="https://www.linkedin.com/in/kentaro-kuribayashi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
-            >
-              <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
-                <FaLinkedin className="w-6 h-6 sm:w-8 sm:h-8" />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
-                LinkedIn
-              </h3>
-              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
-                職歴やプロフェッショナルなネットワークを公開しています
-              </p>
-              <span className="text-primary font-medium text-sm sm:text-base">
-                kentaro-kuribayashi
               </span>
             </a>
 

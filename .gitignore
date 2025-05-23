@@ -39,5 +39,6 @@ next-env.d.ts
 # Generated RSS feeds
 /public/blog/feed.xml
 /public/journal/feed.xml
+/public/feed.xml
 /public/works/
 /public/search-data.json

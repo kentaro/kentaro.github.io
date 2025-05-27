@@ -3,8 +3,6 @@ import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import PageHeader from '@/components/common/PageHeader';
-import Section from '@/components/common/Section';
-import ContentContainer from '@/components/common/ContentContainer';
 import Link from 'next/link';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -59,8 +57,8 @@ export default function JournalDayPage({ entries, month, day, monthName, prevDay
         }}
       />
       
-      <Section>
-        <ContentContainer>
+      <section className="py-8 sm:py-12 md:py-16 bg-white">
+        <div className="container max-w-5xl">
           {entries.length > 0 ? (
             <motion.div 
               className="space-y-24"
@@ -112,8 +110,8 @@ export default function JournalDayPage({ entries, month, day, monthName, prevDay
                 </div>
               </div>
             )}
-        </ContentContainer>
-      </Section>
+        </div>
+      </section>
     </Layout>
   );
 }

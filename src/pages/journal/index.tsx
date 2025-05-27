@@ -3,7 +3,6 @@ import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import PageHeader from '@/components/common/PageHeader';
-import Section, { SectionTitle } from '@/components/common/Section';
 import { Card } from '@/components/common/Card';
 import { FaCalendarAlt } from 'react-icons/fa';
 import Link from 'next/link';
@@ -52,10 +51,13 @@ export default function JournalPage({ years, recentPosts }: JournalPageProps) {
         rssLink="/journal/feed.xml"
       />
       
-      <Section>
-        <div className="">
+      <section className="py-8 sm:py-12 md:py-16 bg-white">
+        <div className="container max-w-5xl">
           {/* 最新の日記12件 */}
-          <SectionTitle>最新の日記</SectionTitle>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark text-center mb-10 sm:mb-12 relative pb-6">
+            最新の日記
+            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
+          </h2>
           <PostList 
             posts={recentPosts} 
             emptyMessage="日記はまだありません"
@@ -64,12 +66,15 @@ export default function JournalPage({ years, recentPosts }: JournalPageProps) {
           
           {/* 年別アーカイブ */}
           <div className="mt-20 sm:mt-24">
-            <SectionTitle>年別アーカイブ</SectionTitle>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark text-center mb-10 sm:mb-12 relative pb-6">
+              年別アーカイブ
+              <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
+            </h2>
           </div>
           
           {years.length > 0 ? (
             <motion.div 
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 max-w-5xl mx-auto"
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6"
               variants={container}
               initial="hidden"
               animate="show"
@@ -96,7 +101,7 @@ export default function JournalPage({ years, recentPosts }: JournalPageProps) {
             <p className="text-center text-gray-600 text-lg py-12">日記はまだありません</p>
           )}
         </div>
-      </Section>
+      </section>
     </Layout>
   );
 }

@@ -6,8 +6,6 @@ import { motion } from 'framer-motion';
 import { format, parseISO } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import PageHeader from '@/components/common/PageHeader';
-import Section from '@/components/common/Section';
-import ContentContainer from '@/components/common/ContentContainer';
 
 type MarkdownRendererProps = {
   title: string;
@@ -136,8 +134,8 @@ export default function MarkdownRenderer({
         )}
       </PageHeader>
 
-      <Section>
-        <ContentContainer>
+      <section className="py-8 sm:py-12 md:py-16 bg-white">
+        <div className="container max-w-5xl">
           {isClient ? (
             <div
               className={`markdown-content ${postData?.path === '/profile' ? 'profile-content' : ''}`}
@@ -147,7 +145,7 @@ export default function MarkdownRenderer({
           ) : null}
           {children}
 
-          {isJournal && postData?.path !== '/profile' && (
+          {isJournal && (
             <div className="flex justify-between mt-12 pt-6 border-t border-gray-200">
               {prevPost ? (
                 <Link
@@ -174,8 +172,8 @@ export default function MarkdownRenderer({
               )}
             </div>
           )}
-        </ContentContainer>
-      </Section>
+        </div>
+      </section>
     </motion.div>
   );
 }

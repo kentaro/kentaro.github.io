@@ -8,7 +8,6 @@ import Layout from '../../components/layout/Layout';
 import SEO from '../../components/common/SEO';
 import { FaRss } from 'react-icons/fa';
 import PageHeader from '@/components/common/PageHeader';
-import Section from '@/components/common/Section';
 import { WorkCard } from '@/components/common/Card';
 import { motion } from 'framer-motion';
 
@@ -108,7 +107,8 @@ export default function WorksPage({ feedData }: WorksPageProps) {
         rssLink="/works/feed.xml"
       />
 
-      <Section>
+      <section className="py-8 sm:py-12 md:py-16 bg-white">
+        <div className="container max-w-5xl">
           {/* タブナビゲーション */}
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 sm:mb-12">
             <button
@@ -166,7 +166,8 @@ export default function WorksPage({ feedData }: WorksPageProps) {
               表示するアイテムがありません
             </div>
           )}
-      </Section>
+        </div>
+      </section>
     </Layout>
   );
 }

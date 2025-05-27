@@ -4,7 +4,6 @@ import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import { FaCalendarAlt } from 'react-icons/fa';
 import PageHeader from '@/components/common/PageHeader';
-import Section, { SectionTitle } from '@/components/common/Section';
 import { Card } from '@/components/common/Card';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -56,8 +55,12 @@ export default function YearPage({ year, months }: YearPageProps) {
         }}
       />
       
-      <Section>
-        <SectionTitle>月別アーカイブ</SectionTitle>
+      <section className="py-8 sm:py-12 md:py-16 bg-white">
+        <div className="container max-w-5xl">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark text-center mb-10 sm:mb-12 relative pb-6">
+            月別アーカイブ
+            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
+          </h2>
           
           {months.length > 0 ? (
             <motion.div 
@@ -92,7 +95,8 @@ export default function YearPage({ year, months }: YearPageProps) {
           ) : (
             <p className="text-center text-gray-600 text-lg py-12">この年の日記はありません</p>
           )}
-      </Section>
+        </div>
+      </section>
     </Layout>
   );
 }

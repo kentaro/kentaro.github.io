@@ -4,7 +4,6 @@ import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import { FaCalendarDay } from 'react-icons/fa';
 import PageHeader from '@/components/common/PageHeader';
-import Section from '@/components/common/Section';
 import { PostCard } from '@/components/common/Card';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -57,8 +56,8 @@ export default function MonthPage({ year, month, monthName, posts }: MonthPagePr
         }}
       />
       
-      <Section>
-          
+      <section className="py-8 sm:py-12 md:py-16 bg-white">
+        <div className="container max-w-5xl">
           {posts.length > 0 ? (
             <motion.div 
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
@@ -85,7 +84,8 @@ export default function MonthPage({ year, month, monthName, posts }: MonthPagePr
           ) : (
             <p className="text-center text-gray-600 text-lg py-12">この月の日記はありません</p>
           )}
-      </Section>
+        </div>
+      </section>
     </Layout>
   );
 }

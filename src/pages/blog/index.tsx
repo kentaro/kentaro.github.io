@@ -3,7 +3,6 @@ import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import PageHeader from '@/components/common/PageHeader';
-import Section from '@/components/common/Section';
 import PostList from '@/components/content/PostList';
 
 type BlogPageProps = {
@@ -29,12 +28,14 @@ export default function BlogPage({ posts }: BlogPageProps) {
         rssLink="/blog/feed.xml"
       />
       
-      <Section>
-        <PostList 
-          posts={posts}
-          emptyMessage="ブログ記事はまだありません"
-        />
-      </Section>
+      <section className="py-8 sm:py-12 md:py-16 bg-white">
+        <div className="container max-w-5xl">
+          <PostList 
+            posts={posts}
+            emptyMessage="ブログ記事はまだありません"
+          />
+        </div>
+      </section>
     </Layout>
   );
 }

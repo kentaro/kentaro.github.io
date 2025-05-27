@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { format, parseISO } from 'date-fns';
 import { ja } from 'date-fns/locale';
+import PageHeader from '@/components/common/PageHeader';
+import Section from '@/components/common/Section';
+import ContentContainer from '@/components/common/ContentContainer';
 
 type MarkdownRendererProps = {
   title: string;
@@ -102,59 +105,54 @@ export default function MarkdownRenderer({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* ページヘッダーを追加 */}
-      <div className="page-header">
-        <div className="container flex flex-col justify-center">
-          {isJournal ? (
-            <>
-              <h1 className="text-3xl md:text-4xl font-bold text-center">{formattedDate}</h1>
-              {monthDay && (
-                <motion.div
-                  className="text-center mt-4"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <Link
-                    href={`/journal/date/${month}/${day}`}
-                    className="inline-flex items-center text-primary hover:text-primary-dark"
-                  >
-                    <FaCalendarAlt className="mr-1" />
-                    <span>この日の日記一覧を見る</span>
-                  </Link>
-                </motion.div>
-              )}
-            </>
-          ) : (
-            <>
-              <h1 className="text-3xl md:text-4xl font-bold text-center">{title}</h1>
-              {formattedDate && (
-                <p className="text-center text-gray-600 mt-2">
-                  {formattedDate}
-                </p>
-              )}
-            </>
-          )}
-        </div>
-      </div>
+      {/* ページヘッダー */}
+      <PageHeader 
+        title={isJournal ? formattedDate : title}
+        backLink={postData?.path === '/profile' ? undefined : {
+          href: isJournal ? '/journal' : '/blog',
+          label: isJournal ? '日記一覧に戻る' : 'ブログ一覧に戻る'
+        }}
+      >
+        {isJournal && monthDay && (
+          <motion.div
+            className="mt-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <Link
+              href={`/journal/date/${month}/${day}`}
+              className="inline-flex items-center text-primary hover:text-primary-dark"
+            >
+              <FaCalendarAlt className="mr-2" />
+              <span>この日の日記一覧を見る</span>
+            </Link>
+          </motion.div>
+        )}
+        {!isJournal && formattedDate && postData?.path !== '/profile' && (
+          <p className="text-gray-600 mt-2">
+            {formattedDate}
+          </p>
+        )}
+      </PageHeader>
 
-      <div className="py-2">
-        <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 max-w-4xl mx-auto">
+      <Section>
+        <ContentContainer>
           {isClient ? (
             <div
-              className="markdown-content"
+              className={`markdown-content ${postData?.path === '/profile' ? 'profile-content' : ''}`}
               // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{ __html: highlightedContent }}
             />
           ) : null}
           {children}
 
-          {isJournal && (
-            <div className="flex justify-between mt-12 pt-6 border-t">
+          {isJournal && postData?.path !== '/profile' && (
+            <div className="flex justify-between mt-12 pt-6 border-t border-gray-200">
               {prevPost ? (
                 <Link
                   href={`/${prevPost.slug}`}
-                  className="flex items-center text-primary hover:text-primary-dark"
+                  className="flex items-center text-primary hover:text-primary-dark transition-colors"
                 >
                   <FaChevronLeft className="mr-2" />
                   <span>前の日記{prevPost.title && <><br />{prevPost.title}</>}</span>
@@ -166,7 +164,7 @@ export default function MarkdownRenderer({
               {nextPost ? (
                 <Link
                   href={`/${nextPost.slug}`}
-                  className="flex items-center text-primary hover:text-primary-dark"
+                  className="flex items-center text-primary hover:text-primary-dark transition-colors"
                 >
                   <span>次の日記{nextPost.title && <><br />{nextPost.title}</>}</span>
                   <FaChevronRight className="ml-2" />
@@ -176,8 +174,8 @@ export default function MarkdownRenderer({
               )}
             </div>
           )}
-        </div>
-      </div>
+        </ContentContainer>
+      </Section>
     </motion.div>
   );
 }

@@ -2,9 +2,9 @@ import type { GetStaticProps } from 'next';
 import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
+import PageHeader from '@/components/common/PageHeader';
+import Section from '@/components/common/Section';
 import PostList from '@/components/content/PostList';
-import { FaRss } from 'react-icons/fa';
-import Link from 'next/link';
 
 type BlogPageProps = {
   posts: {
@@ -23,27 +23,18 @@ export default function BlogPage({ posts }: BlogPageProps) {
         description="栗林健太郎のブログ記事一覧。技術、マネジメント、読書などについての記事を掲載しています。"
       />
       
-      <div className="page-header">
-        <div className="container flex flex-col justify-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-center">ブログ</h1>
-          <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
-            技術、マネジメント、読書など、さまざまなトピックについての記事を掲載しています。
-          </p>
-          <div className="flex justify-center mt-4">
-            <Link href="/blog/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">
-              <FaRss className="mr-1" />
-              <span>RSS</span>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        title="ブログ"
+        description="技術、マネジメント、読書など、さまざまなトピックについての記事を掲載しています。"
+        rssLink="/blog/feed.xml"
+      />
       
-      <div className="py-12">
+      <Section>
         <PostList 
           posts={posts}
           emptyMessage="ブログ記事はまだありません"
         />
-      </div>
+      </Section>
     </Layout>
   );
 }

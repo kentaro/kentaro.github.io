@@ -22,8 +22,8 @@ export default function Home() {
       />
 
       {/* ヒーローセクション */}
-      <section className="relative bg-gradient-to-br from-primary/10 to-accent2/10 py-8 sm:py-12 md:py-16">
-        <div className="container max-w-4xl mx-auto px-4 sm:px-6">
+      <section className="relative bg-primary/5 py-12 sm:py-16 md:py-20">
+        <div className="container max-w-5xl">
           <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8">
             <div className="md:flex-1 order-2 md:order-1">
               <motion.div
@@ -57,7 +57,7 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex justify-center"
               >
-                <div className="relative w-40 h-40 sm:w-44 sm:h-44 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white shadow-lg">
                   <Image
                     src="https://pbs.twimg.com/profile_images/1893532407988367361/5EfifO80_400x400.jpg"
                     alt="栗林健太郎"
@@ -75,17 +75,13 @@ export default function Home() {
       {/* プロフィールセクション */}
       <section
         id="profile"
-        className="pt-6 sm:pt-8 md:pt-12 pb-10 sm:pb-14 md:pb-20 bg-white"
+        className="py-4 sm:py-6 md:py-8 bg-white"
       >
         <div className="container">
-          <h2 className="section-title">プロフィール</h2>
-
           <div className="grid grid-cols-1 gap-6 sm:gap-8">
-            <div className="bg-gray-50 rounded-xl p-4 sm:p-6 md:p-8 shadow-sm">
-              <h3 className="text-xl sm:text-2xl font-bold mb-3 text-primary text-center">
-                栗林健太郎
-              </h3>
-              <div className="bg-primary/5 py-3 px-4 rounded-lg mb-6 max-w-3xl mx-auto">
+            <div className="card p-6 sm:p-8 md:p-10">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-dark">栗林健太郎</h2>
+              <div className="bg-primary/5 py-3 px-4 rounded-lg mb-6">
                 <p className="text-center text-base sm:text-lg text-gray-700 font-medium leading-relaxed">
                   <span className="inline-block">
                     GMOペパボ株式会社取締役CTO
@@ -257,31 +253,31 @@ export default function Home() {
                   スキル・専門分野
                 </h4>
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">
+                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
                     Elixir
                   </span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">
+                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
                     IoT
                   </span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">
+                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
                     分散システム
                   </span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">
+                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
                     AI技術
                   </span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">
+                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
                     エンジニアリングマネジメント
                   </span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">
+                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
                     研究開発
                   </span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">
+                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
                     リーンプロセス
                   </span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">
+                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
                     技術戦略
                   </span>
-                  <span className="bg-primary/10 text-primary px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-2xs sm:text-xs">
+                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
                     組織開発
                   </span>
                 </div>
@@ -298,7 +294,7 @@ export default function Home() {
       </section>
 
       {/* フォローセクション */}
-      <section className="section bg-gradient-to-br from-accent1/10 to-accent2/10">
+      <section className="section bg-accent1/5">
         <div className="container">
           <h2 className="section-title">栗林健太郎をフォローしよう！</h2>
           <p className="text-center text-gray-700 mb-8 sm:mb-16 max-w-2xl mx-auto text-sm sm:text-base">
@@ -312,15 +308,15 @@ export default function Home() {
               href="https://x.com/kentaro"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
+              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
             >
-              <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
                 <FaXTwitter className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">
                 X
               </h3>
-              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
+              <p className="text-gray-600 mb-4 text-sm">
                 日々の活動や技術的な気づきを発信しています
               </p>
               <span className="text-primary font-medium text-sm sm:text-base">
@@ -333,15 +329,15 @@ export default function Home() {
               href="https://github.com/kentaro"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
+              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
             >
-              <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
                 <FaGithub className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">
                 GitHub
               </h3>
-              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
+              <p className="text-gray-600 mb-4 text-sm">
                 オープンソースプロジェクトやコード例を公開しています
               </p>
               <span className="text-primary font-medium text-sm sm:text-base">
@@ -354,15 +350,15 @@ export default function Home() {
               href="https://youtube.com/@kentarok"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
+              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
             >
-              <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
                 <FaYoutube className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">
                 YouTube
               </h3>
-              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
+              <p className="text-gray-600 mb-4 text-sm">
                 音楽や動画作成等の趣味に関する動画を配信しています
               </p>
               <span className="text-primary font-medium text-sm sm:text-base">
@@ -375,15 +371,15 @@ export default function Home() {
               href="https://discord.gg/SXyKFCyMd5"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
+              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
             >
-              <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
                 <FaDiscord className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">
                 Discord
               </h3>
-              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
+              <p className="text-gray-600 mb-4 text-sm">
                 コミュニティでの交流や技術・制作に関する質問・議論ができます
               </p>
               <span className="text-primary font-medium text-sm sm:text-base">
@@ -396,15 +392,15 @@ export default function Home() {
               href="https://facebook.com/kentarok"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
+              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
             >
-              <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
                 <FaFacebook className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">
                 Facebook
               </h3>
-              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
+              <p className="text-gray-600 mb-4 text-sm">
                 イベント情報やプロフェッショナルな活動を共有しています
               </p>
               <span className="text-primary font-medium text-sm sm:text-base">
@@ -417,15 +413,15 @@ export default function Home() {
               href="mailto:kentarok@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:bg-primary/5 p-4 sm:p-6"
+              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
             >
-              <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-3 sm:mb-4">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
                 <MdEmail className="w-6 h-6 sm:w-8 sm:h-8" />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">
                 メール
               </h3>
-              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm">
+              <p className="text-gray-600 mb-4 text-sm">
                 お問い合わせやご連絡はこちらからどうぞ
               </p>
               <span className="text-primary font-medium text-sm sm:text-base">

@@ -7,6 +7,9 @@ import path from 'node:path';
 import Layout from '../../components/layout/Layout';
 import SEO from '../../components/common/SEO';
 import { FaRss } from 'react-icons/fa';
+import PageHeader from '@/components/common/PageHeader';
+import Section from '@/components/common/Section';
+import { WorkCard } from '@/components/common/Card';
 import { motion } from 'framer-motion';
 
 // 型定義
@@ -99,28 +102,18 @@ export default function WorksPage({ feedData }: WorksPageProps) {
         description="栗林健太郎のnote、技術ブログ、スライド、動画、音楽、ポッドキャストのまとめ"
       />
 
-      <div className="page-header">
-        <div className="container flex flex-col justify-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-center">制作物一覧</h1>
-          <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
-            note、技術ブログ、スライド、動画、音楽、ポッドキャストなど、さまざまな形式での制作物をまとめています。
-          </p>
-          <div className="flex justify-center mt-4">
-            <Link href="/works/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">
-              <FaRss className="mr-1" />
-              <span>RSS</span>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        title="制作物一覧"
+        description="note、技術ブログ、スライド、動画、音楽、ポッドキャストなど、さまざまな形式での制作物をまとめています。"
+        rssLink="/works/feed.xml"
+      />
 
-      <section className="py-12">
-        <div className="container">
+      <Section>
           {/* タブナビゲーション */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 sm:mb-12">
             <button
               type="button"
-              className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary text-white' : 'bg-gray-100 hover:bg-gray-200'} transition-colors`}
+              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 ${activeTab === 'all' ? 'bg-primary text-white shadow-md' : 'bg-gray-100 hover:bg-gray-200 hover:shadow-sm'}`}
               onClick={() => setActiveTab('all')}
             >
               すべて
@@ -130,7 +123,7 @@ export default function WorksPage({ feedData }: WorksPageProps) {
               <button
                 type="button"
                 key={source.type}
-                className={`px-4 py-2 rounded-md ${activeTab === source.type ? 'bg-primary text-white' : 'bg-gray-100 hover:bg-gray-200'} transition-colors`}
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 ${activeTab === source.type ? 'bg-primary text-white shadow-md' : 'bg-gray-100 hover:bg-gray-200 hover:shadow-sm'}`}
                 onClick={() => setActiveTab(source.type)}
               >
                 <span className="mr-1">{getSourceIcon(source.type)}</span>
@@ -142,55 +135,38 @@ export default function WorksPage({ feedData }: WorksPageProps) {
           {/* アイテム一覧 */}
           {filteredItems.length > 0 ? (
             <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 auto-rows-fr"
               variants={container}
               initial="hidden"
               animate="show"
             >
               {filteredItems.map((item, index) => (
-                <motion.a
+                <motion.div
                   key={`${item.url}-${index}`}
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="card"
                   variants={itemAnimation}
                   transition={{ duration: 0.3 }}
+                  className="relative"
                 >
-                  <div className="relative h-48 bg-gray-100 -mx-6 -mt-6 mb-4">
-                    {item.image ? (
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center h-full text-4xl">
-                        {getSourceIcon(item.source)}
-                      </div>
-                    )}
-                    <div className="absolute top-2 left-2 bg-primary text-white px-2 py-1 rounded text-xs">
-                      {item.sourceName}
-                    </div>
+                  <WorkCard
+                    href={item.url}
+                    title={item.title}
+                    description={`${item.description} • ${formatDate(item.date)}`}
+                    image={item.image || undefined}
+                    isExternal={true}
+                    index={index}
+                  />
+                  <div className="absolute top-4 left-4 bg-primary text-white px-3 py-1.5 rounded-lg text-sm font-medium shadow-md z-10">
+                    {getSourceIcon(item.source)} {item.sourceName}
                   </div>
-                  
-                  <h2 className="font-bold text-lg mb-2 line-clamp-2">{item.title}</h2>
-                  <p className="text-gray-600 text-sm mb-3 line-clamp-3">{item.description}</p>
-                  <div className="flex justify-between items-center mt-auto">
-                    <p className="text-gray-500 text-xs">{formatDate(item.date)}</p>
-                    <span className="text-primary text-sm">詳細を見る →</span>
-                  </div>
-                </motion.a>
+                </motion.div>
               ))}
             </motion.div>
           ) : (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-16 text-gray-600 text-lg">
               表示するアイテムがありません
             </div>
           )}
-        </div>
-      </section>
+      </Section>
     </Layout>
   );
 }
@@ -217,9 +193,21 @@ export const getStaticProps: GetStaticProps = async () => {
     const fileContents = fs.readFileSync(dataFilePath, 'utf8');
     const feedData: FeedData = JSON.parse(fileContents);
     
+    // データサイズを削減するため、不要なフィールドを削除
+    const optimizedFeedData: FeedData = {
+      items: feedData.items.slice(0, 100), // 最新100件のみ
+      sources: feedData.sources,
+      lastUpdated: feedData.lastUpdated,
+      allItems: [], // ページで使用していないので空配列に
+      itemsByCategory: Object.entries(feedData.itemsByCategory).reduce((acc, [key, items]) => {
+        acc[key] = items.slice(0, 50); // 各カテゴリ最新50件のみ
+        return acc;
+      }, {} as Record<string, FeedItem[]>),
+    };
+    
     return {
       props: {
-        feedData,
+        feedData: optimizedFeedData,
       },
     };
   } catch (error) {

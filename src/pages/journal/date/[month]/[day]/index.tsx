@@ -2,6 +2,9 @@ import type { GetStaticProps, GetStaticPaths } from 'next';
 import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
+import PageHeader from '@/components/common/PageHeader';
+import Section from '@/components/common/Section';
+import ContentContainer from '@/components/common/ContentContainer';
 import Link from 'next/link';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -48,62 +51,69 @@ export default function JournalDayPage({ entries, month, day, monthName, prevDay
         description={`${monthName}${day}日の栗林健太郎の日記アーカイブ。年別に閲覧できます。`}
       />
       
-      <div className="page-header">
-        <div className="container flex flex-col justify-center">
-          <div className="flex items-center justify-center mb-4">
-            <Link href="/journal" className="inline-flex items-center text-primary hover:text-primary-dark">
-              <FaArrowLeft className="mr-1" />
-              <span>日記一覧に戻る</span>
-            </Link>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-center">{monthName}{day}日の日記一覧</h1>
-        </div>
-      </div>
+      <PageHeader 
+        title={`${monthName}${day}日の日記一覧`}
+        backLink={{
+          href: '/journal',
+          label: '日記一覧に戻る'
+        }}
+      />
       
-      <div className="pb-12">
-        <div className="container">
+      <Section>
+        <ContentContainer>
           {entries.length > 0 ? (
-            <div className="space-y-8 journal-day-content">
+            <motion.div 
+              className="space-y-24"
+              variants={container}
+              initial="hidden"
+              animate="show"
+            >
               {entries.map((entry) => (
-                <div key={entry.slug} className="markdown-content">
-                  <div className="bg-white rounded-lg max-w-4xl mx-auto">
-                    <h2 className="text-2xl font-bold mb-3 py-4 text-center">
-                      <Link href={`/${entry.slug}`} className="hover:text-primary transition-colors">
+                <motion.div key={entry.slug} variants={item} transition={{ duration: 0.3 }}>
+                  <div>
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-16 text-center">
+                      <Link href={`/${entry.slug}`} className="text-dark hover:text-primary transition-colors">
                         {entry.year}年{monthName}{day}日
                       </Link>
                     </h2>
                     
-                    {/* eslint-disable-next-line react/no-danger */}
-                    <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: entry.contentHtml }} />
+                    <div className="markdown-content journal-day-content">
+                      {/* eslint-disable-next-line react/no-danger */}
+                      <div dangerouslySetInnerHTML={{ __html: entry.contentHtml }} />
+                    </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           ) : (
-            <p className="text-center text-gray-600 mt-8">この日の日記はありません</p>
+            <div className="text-center text-gray-600 py-16">
+              <p className="text-lg">この日の日記はありません</p>
+            </div>
           )}
-          
-          {/* 前の日・次の日ナビゲーション */}
-          <div className="max-w-4xl mx-auto mt-12 border-t border-gray-200 pt-6 flex justify-between">
-            <div>
-              {prevDay && (
-                <Link href={`/journal/date/${prevDay.month}/${prevDay.day}`} className="inline-flex items-center text-primary hover:text-primary-dark">
-                  <FaArrowLeft className="mr-1" />
-                  <span>前の日記<br />{prevDay.month}月{prevDay.day}日</span>
-                </Link>
-              )}
-            </div>
-            <div className="text-right">
-              {nextDay && (
-                <Link href={`/journal/date/${nextDay.month}/${nextDay.day}`} className="inline-flex items-center text-primary hover:text-primary-dark">
-                  <span>次の日記<br />{nextDay.month}月{nextDay.day}日</span>
-                  <FaArrowRight className="ml-1" />
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+            
+            {/* 前の日・次の日ナビゲーション */}
+            {(prevDay || nextDay) && (
+              <div className="border-t border-gray-200 pt-8 mt-12 flex justify-between">
+                <div>
+                  {prevDay && (
+                    <Link href={`/journal/date/${prevDay.month}/${prevDay.day}`} className="inline-flex items-center text-primary hover:text-primary-dark transition-colors">
+                      <FaArrowLeft className="mr-2" />
+                      <span>前の日記<br />{prevDay.month}月{prevDay.day}日</span>
+                    </Link>
+                  )}
+                </div>
+                <div className="text-right">
+                  {nextDay && (
+                    <Link href={`/journal/date/${nextDay.month}/${nextDay.day}`} className="inline-flex items-center text-primary hover:text-primary-dark transition-colors">
+                      <span>次の日記<br />{nextDay.month}月{nextDay.day}日</span>
+                      <FaArrowRight className="ml-2" />
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
+        </ContentContainer>
+      </Section>
     </Layout>
   );
 }

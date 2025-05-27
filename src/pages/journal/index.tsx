@@ -2,7 +2,10 @@ import type { GetStaticProps } from 'next';
 import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
-import { FaRss, FaCalendarAlt } from 'react-icons/fa';
+import PageHeader from '@/components/common/PageHeader';
+import Section, { SectionTitle } from '@/components/common/Section';
+import { Card } from '@/components/common/Card';
+import { FaCalendarAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import PostList from '@/components/content/PostList';
@@ -43,25 +46,16 @@ export default function JournalPage({ years, recentPosts }: JournalPageProps) {
         description="栗林健太郎の日記。日々の活動や考えを記録しています。"
       />
       
-      <div className="page-header">
-        <div className="container flex flex-col justify-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-center">日記</h1>
-          <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
-            日々の活動や考えを記録しています。年別に閲覧できます。
-          </p>
-          <div className="flex justify-center mt-4">
-            <Link href="/journal/feed.xml" className="inline-flex items-center text-primary hover:text-primary-dark">
-              <FaRss className="mr-1" />
-              <span>RSS</span>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        title="日記"
+        description="日々の活動や考えを記録しています。年別に閲覧できます。"
+        rssLink="/journal/feed.xml"
+      />
       
-      <div className="py-12">
-        <div className="container">
+      <Section>
+        <div className="">
           {/* 最新の日記12件 */}
-          <h2 className="section-title">最新の日記</h2>
+          <SectionTitle>最新の日記</SectionTitle>
           <PostList 
             posts={recentPosts} 
             emptyMessage="日記はまだありません"
@@ -69,36 +63,40 @@ export default function JournalPage({ years, recentPosts }: JournalPageProps) {
           />
           
           {/* 年別アーカイブ */}
-          <h2 className="section-title mt-16">年別アーカイブ</h2>
+          <div className="mt-20 sm:mt-24">
+            <SectionTitle>年別アーカイブ</SectionTitle>
+          </div>
           
           {years.length > 0 ? (
             <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8"
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 max-w-5xl mx-auto"
               variants={container}
               initial="hidden"
               animate="show"
             >
-              {years.map((year) => (
+              {years.map((year, index) => (
                 <motion.div 
                   key={year} 
                   variants={item}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
                 >
-                  <Link 
-                    href={`/journal/${year}`}
-                    className="card flex items-center p-4 hover:bg-primary/5 transition-colors h-full"
-                  >
-                    <FaCalendarAlt className="text-primary mr-3 text-lg" />
-                    <span className="text-lg font-medium">{year}年</span>
-                  </Link>
+                  <Card className="hover:scale-105 hover:shadow-lg">
+                    <Link 
+                      href={`/journal/${year}`}
+                      className="block text-center p-6 sm:p-8 group"
+                    >
+                      <FaCalendarAlt className="text-3xl sm:text-4xl text-primary mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
+                      <span className="text-xl sm:text-2xl font-bold text-dark group-hover:text-primary transition-colors">{year}年</span>
+                    </Link>
+                  </Card>
                 </motion.div>
               ))}
             </motion.div>
           ) : (
-            <p className="text-center text-gray-600 mt-8">日記はまだありません</p>
+            <p className="text-center text-gray-600 text-lg py-12">日記はまだありません</p>
           )}
         </div>
-      </div>
+      </Section>
     </Layout>
   );
 }

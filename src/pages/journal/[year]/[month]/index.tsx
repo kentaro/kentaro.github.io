@@ -2,7 +2,10 @@ import type { GetStaticProps, GetStaticPaths } from 'next';
 import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
-import { FaArrowLeft, FaCalendarDay } from 'react-icons/fa';
+import { FaCalendarDay } from 'react-icons/fa';
+import PageHeader from '@/components/common/PageHeader';
+import Section from '@/components/common/Section';
+import { PostCard } from '@/components/common/Card';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
@@ -45,28 +48,20 @@ export default function MonthPage({ year, month, monthName, posts }: MonthPagePr
         description={`${year}年${monthName}の栗林健太郎の日記アーカイブ。`}
       />
       
-      <div className="page-header">
-        <div className="container flex flex-col justify-center">
-          <div className="flex items-center justify-center mb-4">
-            <Link href={`/journal/${year}`} className="inline-flex items-center text-primary hover:text-primary-dark">
-              <FaArrowLeft className="mr-1" />
-              <span>{year}年の一覧に戻る</span>
-            </Link>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-center">{year}年{monthName}の日記</h1>
-          <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
-            {year}年{monthName}の日記一覧です。
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title={`${year}年${monthName}の日記`}
+        description={`${year}年${monthName}の日記一覧です。`}
+        backLink={{
+          href: `/journal/${year}`,
+          label: `${year}年の一覧に戻る`
+        }}
+      />
       
-      <div className="py-12">
-        <div className="container">
-          <h2 className="section-title">日記一覧</h2>
+      <Section>
           
           {posts.length > 0 ? (
             <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-8"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
               variants={container}
               initial="hidden"
               animate="show"
@@ -76,27 +71,21 @@ export default function MonthPage({ year, month, monthName, posts }: MonthPagePr
                   key={post.slug} 
                   variants={item}
                   transition={{ duration: 0.3 }}
-                  className="post-card"
                 >
-                  <Link href={`/${post.slug}`} className="post-card-inner">
-                    <div className="flex items-center mb-2">
-                      <FaCalendarDay className="text-primary mr-2" />
-                      <span className="text-sm text-gray-600">{post.day}日</span>
-                    </div>
-                    <h3 className="post-card-title">{post.title}</h3>
-                    {post.excerpt && (
-                      <p className="post-card-excerpt">{post.excerpt}</p>
-                    )}
-                    <div className="post-card-more">続きを読む →</div>
-                  </Link>
+                  <PostCard
+                    href={`/${post.slug}`}
+                    title={post.title}
+                    date={post.date}
+                    excerpt={post.excerpt}
+                    index={posts.indexOf(post)}
+                  />
                 </motion.div>
               ))}
             </motion.div>
           ) : (
-            <p className="text-center text-gray-600 mt-8">この月の日記はありません</p>
+            <p className="text-center text-gray-600 text-lg py-12">この月の日記はありません</p>
           )}
-        </div>
-      </div>
+      </Section>
     </Layout>
   );
 }

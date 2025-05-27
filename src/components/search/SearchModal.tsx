@@ -314,7 +314,7 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-50 bg-black bg-opacity-50 transition-opacity flex items-start justify-center pt-24"
+      className="fixed inset-0 z-50 bg-gradient-to-br from-primary/20 via-secondary/20 to-purple/20 backdrop-blur-sm transition-opacity flex items-start justify-center pt-24"
       onClick={handleModalClick}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -329,16 +329,16 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
         className="relative w-full max-w-2xl px-4 sm:px-6 flex flex-col items-center animate-fadeIn"
       >
         {/* 検索ボックス - 常に表示 */}
-        <div className="w-full bg-white rounded-lg shadow-xl overflow-hidden">
+        <div className="w-full bg-white rounded-2xl shadow-2xl overflow-hidden border-2 border-primary/20 animate-pulse-glow">
           <div className="p-4 sm:p-6 flex items-center">
-            <FiSearch className="text-gray-500 mr-3 sm:mr-4 flex-shrink-0" size={20} />
+            <FiSearch className="text-primary mr-3 sm:mr-4 flex-shrink-0 animate-wave" size={20} />
             {/* 初期化中は検索ボックス内にスピナーを表示 */}
             <div className="relative flex-1">
               <input
                 ref={inputRef}
                 id="search-input"
                 type="text"
-                className="flex-1 outline-none text-lg sm:text-xl py-1 sm:py-2 w-full pr-10"
+                className="flex-1 outline-none text-lg sm:text-xl py-1 sm:py-2 w-full pr-10 placeholder-gray-400 text-dark"
                 placeholder={isLoading ? "検索システムを準備中..." : "キーワードで検索..."}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -347,7 +347,7 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
               />
               {isLoading && (
                 <span className="absolute right-2 top-1/2 -translate-y-1/2">
-                  <svg className="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-label="ローディング">
+                  <svg className="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-label="ローディング">
                     <title>ローディング</title>
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
@@ -361,7 +361,7 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
                 e.stopPropagation();
                 onClose();
               }}
-              className="text-gray-500 hover:text-gray-700 transition-colors ml-3 sm:ml-4 flex-shrink-0"
+              className="text-gray-500 hover:text-primary transition-all duration-300 ml-3 sm:ml-4 flex-shrink-0 hover:scale-110"
               aria-label="閉じる"
               type="button"
             >
@@ -372,7 +372,7 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
 
         {/* 検索結果 - 条件付きで表示 */}
         {showResults && (
-          <div className="w-full mt-2 bg-white rounded-lg shadow-xl max-h-[70vh] overflow-hidden flex flex-col transition-all duration-300 ease-in-out animate-slideDown">
+          <div className="w-full mt-4 bg-white rounded-2xl shadow-2xl max-h-[70vh] overflow-hidden flex flex-col transition-all duration-300 ease-in-out animate-slideDown border-2 border-secondary/20">
             <div
               className="flex-1 overflow-y-auto p-4 sm:p-6 overscroll-contain"
               onScroll={handleModalScroll}
@@ -467,7 +467,7 @@ const SearchResultItem = memo(function SearchResultItem({ result, query, onClose
       // 特殊文字をRegExpで安全に扱えるようにエスケープ
       const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const regex = new RegExp(`(${escapedKeyword})`, 'gi');
-      highlightedText = highlightedText.replace(regex, '<mark class="bg-yellow-200 rounded px-1">$1</mark>');
+      highlightedText = highlightedText.replace(regex, '<mark class="bg-gradient-to-r from-accent1 to-orange text-dark font-semibold rounded px-1">$1</mark>');
     }
 
     return highlightedText;
@@ -486,7 +486,7 @@ const SearchResultItem = memo(function SearchResultItem({ result, query, onClose
     <li className="border-b border-gray-100 pb-5 sm:pb-6 last:border-0 last:pb-0">
       <Link
         href={`${result.path}?q=${encodeURIComponent(query)}`}
-        className="block hover:bg-gray-50 rounded-lg transition-colors p-2 -m-2"
+        className="block hover:bg-gradient-to-r hover:from-primary/5 hover:to-secondary/5 rounded-xl transition-all duration-300 p-3 -m-2 hover:scale-[1.02]"
         onClick={(e) => {
           e.stopPropagation();
           onClose();

@@ -40,11 +40,11 @@ export default function Header() {
   };
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 h-14 ${isScrolled ? 'bg-white/95 backdrop-blur-sm shadow-md' : 'bg-transparent'
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 h-16 md:h-20 ${isScrolled ? 'bg-white/90 backdrop-blur-md shadow-lg border-b-2 border-primary/20' : 'bg-transparent'
       }`}>
       <div className="container flex items-center justify-between h-full">
         <Link href="/" className="flex items-center gap-2">
-          <div className="relative w-8 h-8 sm:w-10 sm:h-10 overflow-hidden rounded-full">
+          <div className="relative w-10 h-10 sm:w-12 sm:h-12 overflow-hidden rounded-full border-2 border-primary/30 hover:border-primary transition-all duration-300 hover:scale-110">
             <Image
               src="https://pbs.twimg.com/profile_images/1893532407988367361/5EfifO80_400x400.jpg"
               alt="栗林健太郎"
@@ -53,7 +53,7 @@ export default function Header() {
               priority
             />
           </div>
-          <span className="text-lg sm:text-xl font-bold font-sans text-dark">栗林健太郎</span>
+          <span className="text-lg sm:text-xl font-bold font-display text-dark">栗林健太郎</span>
         </Link>
 
         {/* デスクトップナビゲーション */}
@@ -63,7 +63,7 @@ export default function Header() {
 
         {/* モバイルメニューボタン */}
         <button
-          className="block md:hidden text-dark p-1.5 rounded-md hover:bg-gray-100"
+          className="block md:hidden text-dark p-2 rounded-full hover:bg-primary/10 hover:text-primary transition-all duration-300"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? 'メニューを閉じる' : 'メニューを開く'}
           type="button"
@@ -72,7 +72,7 @@ export default function Header() {
         </button>
 
         {/* モバイルナビゲーション */}
-        <div className={`fixed inset-0 bg-white z-40 transition-transform duration-300 md:hidden ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        <div className={`fixed inset-0 bg-gradient-to-br from-white via-white to-primary/5 z-40 transition-transform duration-300 md:hidden ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}>
           <div className="flex flex-col h-full p-4 pt-6">
             <div className="flex justify-between items-center mb-6">
@@ -99,34 +99,34 @@ export default function Header() {
             <nav className="flex-1">
               <ul className="flex flex-col space-y-4 text-lg">
                 <li>
-                  <Link href="/" className="block py-2 text-dark hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+                  <Link href="/" className="block py-3 px-4 text-dark hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-300" onClick={() => setIsMenuOpen(false)}>
                     ホーム
                   </Link>
                 </li>
                 <li>
-                  <Link href="/profile" className="block py-2 text-dark hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+                  <Link href="/profile" className="block py-3 px-4 text-dark hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-300" onClick={() => setIsMenuOpen(false)}>
                     プロフィール
                   </Link>
                 </li>
                 <li>
-                  <Link href="/works" className="block py-2 text-dark hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+                  <Link href="/works" className="block py-3 px-4 text-dark hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-300" onClick={() => setIsMenuOpen(false)}>
                     制作物
                   </Link>
                 </li>
                 <li>
-                  <Link href="/blog" className="block py-2 text-dark hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+                  <Link href="/blog" className="block py-3 px-4 text-dark hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-300" onClick={() => setIsMenuOpen(false)}>
                     ブログ
                   </Link>
                 </li>
                 <li>
-                  <Link href="/journal" className="block py-2 text-dark hover:text-primary" onClick={() => setIsMenuOpen(false)}>
+                  <Link href="/journal" className="block py-3 px-4 text-dark hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-300" onClick={() => setIsMenuOpen(false)}>
                     日記
                   </Link>
                 </li>
                 <li>
                   <button
                     onClick={openSearch}
-                    className="flex items-center py-2 text-dark hover:text-primary w-full text-left"
+                    className="flex items-center py-3 px-4 text-dark hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-300 w-full text-left"
                     aria-label="検索"
                     type="button"
                   >

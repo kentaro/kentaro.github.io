@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { PostCard } from '@/components/common/Card';
 
 type Post = {
   slug: string;
@@ -45,46 +45,28 @@ export default function PostList({ posts, title, emptyMessage = '投稿があり
 
   return (
     <div className="post-list">
-      {title && <h2 className="section-title">{title}</h2>}
+      {title && <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark text-center mb-10 sm:mb-12">{title}</h2>}
       
       {displayPosts.length > 0 ? (
         <motion.div 
-          className="posts-grid"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
           variants={container}
           initial="hidden"
           animate="show"
         >
           {displayPosts.map((post, index) => (
-            <motion.div 
-              key={post.slug} 
-              className="post-card"
-              variants={item}
-              transition={{ duration: 0.3 }}
-            >
-              <Link href={`/${post.slug}`} className="post-card-inner">
-                <h3 className="post-card-title">{post.title}</h3>
-                
-                {post.date && !hideDate && (
-                  <div className="post-card-date">
-                    {new Date(post.date).toLocaleDateString('ja-JP', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </div>
-                )}
-                
-                {post.excerpt && (
-                  <p className="post-card-excerpt">{post.excerpt}</p>
-                )}
-                
-                <div className="post-card-more">続きを読む →</div>
-              </Link>
-            </motion.div>
+            <PostCard
+              key={post.slug}
+              href={`/${post.slug}`}
+              title={post.title}
+              date={hideDate ? undefined : post.date}
+              excerpt={post.excerpt}
+              index={index}
+            />
           ))}
         </motion.div>
       ) : (
-        <p className="empty-message">{emptyMessage}</p>
+        <p className="text-center text-gray-600 text-lg py-12">{emptyMessage}</p>
       )}
     </div>
   );

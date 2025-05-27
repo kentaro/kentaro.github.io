@@ -1,4 +1,5 @@
 import type { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
@@ -24,6 +25,9 @@ type PostProps = {
 };
 
 export default function Post({ postData, isJournalPost, prevPost, nextPost }: PostProps) {
+  const router = useRouter();
+  const slug = Array.isArray(router.query.slug) ? router.query.slug.join('/') : '';
+  
   console.log('Rendering Post component:', { 
     hasPostData: !!postData,
     isJournalPost
@@ -62,7 +66,7 @@ export default function Post({ postData, isJournalPost, prevPost, nextPost }: Po
         nextPost={nextPost}
         postData={{
           ...postData,
-          path: `/${isJournalPost ? 'journal/' : ''}${prevPost?.slug?.split('/')[0] || ''}`
+          path: `/${slug}`
         }}
       />
     </Layout>

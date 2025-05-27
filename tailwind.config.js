@@ -11,14 +11,20 @@ module.exports = {
         sans: ['var(--font-noto-sans-jp)', 'sans-serif'],
         mono: ['var(--font-source-code-pro)', 'monospace'],
         display: ['var(--font-montserrat)', 'sans-serif'],
+        creative: ['Georgia', 'Cambria', 'serif'],
       },
       colors: {
-        primary: '#3b82f6',
-        secondary: '#64748b',
-        accent1: '#00B8A9',    // アクセントカラー（緑）
-        accent2: '#F6416C',    // アクセントカラー（紫）
-        dark: '#1A202C',       // ダークカラー
-        light: '#F8FAFC',      // ライトカラー
+        primary: {
+          DEFAULT: '#FF6B6B',    // Warm coral red - creative and energetic
+          dark: '#E55555',       // Darker shade for hover states
+        },
+        secondary: '#4ECDC4',  // Turquoise - fresh and artistic
+        accent1: '#FFE66D',    // Warm yellow - playful and creative
+        accent2: '#A8E6CF',    // Soft mint green - gentle creative touch
+        dark: '#2D3436',       // Soft black - less harsh
+        light: '#FAFAFA',      // Slightly warmer white
+        purple: '#C7A6FF',     // Soft purple for creative accents
+        orange: '#FFA502',     // Vibrant orange for highlights
       },
       fontSize: {
         '2xs': '0.625rem', // 10px

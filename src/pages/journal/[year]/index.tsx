@@ -2,7 +2,10 @@ import type { GetStaticProps, GetStaticPaths } from 'next';
 import { getAllMarkdownFiles } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
-import { FaCalendarAlt, FaArrowLeft } from 'react-icons/fa';
+import { FaCalendarAlt } from 'react-icons/fa';
+import PageHeader from '@/components/common/PageHeader';
+import Section, { SectionTitle } from '@/components/common/Section';
+import { Card } from '@/components/common/Card';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
@@ -44,28 +47,21 @@ export default function YearPage({ year, months }: YearPageProps) {
         description={`${year}年の栗林健太郎の日記アーカイブ。月別に閲覧できます。`}
       />
       
-      <div className="page-header">
-        <div className="container flex flex-col justify-center">
-          <div className="flex items-center justify-center mb-4">
-            <Link href="/journal" className="inline-flex items-center text-primary hover:text-primary-dark">
-              <FaArrowLeft className="mr-1" />
-              <span>日記一覧に戻る</span>
-            </Link>
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-center">{year}年の日記</h1>
-          <p className="text-center text-gray-600 mt-4 max-w-2xl mx-auto">
-            {year}年の日記を月別に閲覧できます。
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title={`${year}年の日記`}
+        description={`${year}年の日記を月別に閲覧できます。`}
+        backLink={{
+          href: '/journal',
+          label: '日記一覧に戻る'
+        }}
+      />
       
-      <div className="py-12">
-        <div className="container">
-          <h2 className="section-title">月別アーカイブ</h2>
+      <Section>
+        <SectionTitle>月別アーカイブ</SectionTitle>
           
           {months.length > 0 ? (
             <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-8"
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6"
               variants={container}
               initial="hidden"
               animate="show"
@@ -76,26 +72,27 @@ export default function YearPage({ year, months }: YearPageProps) {
                   variants={item}
                   transition={{ duration: 0.3 }}
                 >
-                  <Link 
-                    href={`/journal/${year}/${month}`}
-                    className="card flex flex-col p-6 hover:bg-primary/5 transition-colors"
-                  >
+                  <Card className="hover:scale-105 hover:shadow-lg">
+                    <Link 
+                      href={`/journal/${year}/${month}`}
+                      className="flex flex-col p-6 sm:p-8 h-full group"
+                    >
                     <div className="flex items-center">
-                      <FaCalendarAlt className="text-primary mr-3 text-xl" />
-                      <span className="text-xl font-medium">{monthNames[Number(month) - 1]}</span>
+                      <FaCalendarAlt className="text-primary mr-3 text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300" />
+                      <span className="text-xl sm:text-2xl font-bold group-hover:text-primary transition-colors">{monthNames[Number(month) - 1]}</span>
                     </div>
-                    <div className="text-sm text-gray-600 mt-2 ml-7">
-                      {count}件の日記
-                    </div>
-                  </Link>
+                      <div className="text-sm sm:text-base text-gray-600 mt-3">
+                        {count}件の日記
+                      </div>
+                    </Link>
+                  </Card>
                 </motion.div>
               ))}
             </motion.div>
           ) : (
-            <p className="text-center text-gray-600 mt-8">この年の日記はありません</p>
+            <p className="text-center text-gray-600 text-lg py-12">この年の日記はありません</p>
           )}
-        </div>
-      </div>
+      </Section>
     </Layout>
   );
 }

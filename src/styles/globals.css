@@ -17,15 +17,15 @@
   h4,
   h5,
   h6 {
-    @apply font-sans font-bold;
+    @apply font-display font-bold text-dark;
   }
 
   a {
-    @apply text-primary transition-colors duration-200;
+    @apply text-primary transition-colors duration-300;
   }
 
   a:hover {
-    @apply text-primary/80;
+    @apply text-primary-dark;
   }
 
   code {
@@ -47,43 +47,44 @@
 
 @layer components {
   .container {
-    @apply px-3 sm:px-4 md:px-6 lg:px-8 mx-auto max-w-6xl;
+    @apply px-6 sm:px-8 md:px-12 lg:px-16 mx-auto max-w-6xl;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center px-4 sm:px-6 py-2.5 sm:py-3 font-medium rounded-md transition-all duration-200 text-sm sm:text-base border border-transparent;
+    @apply inline-flex items-center justify-center px-6 py-3 font-medium rounded-full transition-all duration-300 text-base;
   }
 
+
   .btn-primary {
-    @apply bg-primary text-white hover:bg-white hover:text-primary hover:shadow-md hover:border-primary;
+    @apply bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:scale-105;
   }
 
   .btn-secondary {
-    @apply bg-accent1 text-white hover:bg-white hover:text-accent1 hover:shadow-md hover:border-accent1;
+    @apply bg-accent1 text-dark hover:bg-accent1/80 hover:shadow-lg hover:scale-105;
   }
 
   .btn-accent {
-    @apply bg-accent2 text-white hover:bg-white hover:text-accent2 hover:shadow-md hover:border-accent2;
+    @apply bg-purple text-white hover:bg-purple/80 hover:shadow-lg hover:scale-105;
   }
 
+  /* Section styles */
   .section {
-    @apply py-10 sm:py-14 md:py-20;
+    @apply py-12 sm:py-16 md:py-20;
   }
 
+  /* Section title styles */
   .section-title {
-    @apply text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center;
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12 text-dark;
   }
 
-  .card {
-    @apply bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 p-6 md:p-8;
-  }
+  /* Card styles moved to Card component */
 
-  .page-header {
-    @apply bg-gradient-to-br from-primary/10 to-accent2/10 pt-8 pb-8 md:pt-10 md:pb-10 flex items-center justify-center min-h-[120px];
-  }
+
+  /* Page header styles moved to PageHeader component */
+
 }
 
-/* 検索モーダル用のアニメーション */
+/* Creative animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -106,12 +107,66 @@
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(30px, -30px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-20px, 20px) rotate(-1deg);
+  }
+  75% {
+    transform: translate(20px, -10px) rotate(1deg);
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(78, 205, 196, 0.5);
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out forwards;
 }
 
 .animate-slideDown {
   animation: slideDown 0.3s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-wave {
+  animation: wave 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
 }
 
 /* レスポンシブブレークポイントはTailwindのデフォルト値を使用
@@ -124,11 +179,11 @@
 
 /* グローバルなスタイルを追加 */
 :root {
-  --primary-color: #5cc7f5;
-  --bg-color: #ffffff;
-  --text-color: #333333;
+  --primary-color: #FF6B6B;
+  --bg-color: #FAFAFA;
+  --text-color: #2D3436;
   --light-gray: #f5f5f5;
-  --border-color: #eaeaea;
+  --border-color: #f0f0f0;
   --container-width: 800px;
 }
 
@@ -241,15 +296,35 @@ body {
 }
 
 .post-card {
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, #FF6B6B30, #4ECDC430, #FFE66D30) border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.post-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 107, 107, 0.2) 0%, transparent 70%);
+  transform: scale(0);
+  transition: transform 0.5s;
 }
 
 .post-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px) rotate(-1deg);
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
+}
+
+.post-card:hover::before {
+  transform: scale(2);
 }
 
 .post-title {
@@ -271,7 +346,7 @@ body {
 
 /* マークダウンコンテンツ */
 .markdown-content {
-  @apply container py-0;
+  @apply py-0;
 }
 
 /* 日記一覧ページ用のマークダウンコンテンツ */
@@ -280,36 +355,100 @@ body {
 }
 
 .content-title {
-  @apply text-3xl md:text-4xl font-bold mb-8 text-center;
+  @apply text-3xl md:text-4xl font-bold mb-8 text-center text-dark;
 }
 
 .markdown-content h1 {
-  @apply text-3xl font-bold mb-6 mt-8;
+  @apply text-2xl md:text-3xl font-bold mb-6 mt-8 text-dark;
+  position: relative;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f3f4f6;
 }
 
 .markdown-content h2 {
-  @apply text-2xl font-bold mb-4 mt-8;
+  @apply text-xl md:text-2xl font-bold mb-4 mt-8 text-dark;
+  position: relative;
+  padding-bottom: 0.25rem;
+}
+
+.markdown-content h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 3rem;
+  height: 2px;
+  background: #FF6B6B;
 }
 
 .markdown-content h3 {
-  @apply text-xl font-bold mb-3 mt-6;
+  @apply text-lg md:text-xl font-bold mb-3 mt-6 text-dark;
 }
 
 .markdown-content h4 {
-  @apply text-lg font-bold mb-2 mt-4;
+  @apply text-base md:text-lg font-bold mb-2 mt-4 text-gray-700;
+}
+
+.markdown-content h5 {
+  @apply text-base font-bold mb-2 mt-3 text-gray-700;
+}
+
+.markdown-content h6 {
+  @apply text-sm font-bold mb-2 mt-3 text-gray-600;
+}
+
+/* Profile page specific styles */
+.profile-content h2 {
+  @apply text-xl md:text-2xl font-bold mb-4 mt-8 text-dark;
+  position: relative;
+  padding-bottom: 0.25rem;
+}
+
+.profile-content h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 3rem;
+  height: 2px;
+  background: #FF6B6B;
+}
+
+.profile-content h3 {
+  @apply text-lg md:text-xl font-bold mb-3 mt-6 text-dark;
+  position: relative;
+  padding-left: 1rem;
+  border-left: 4px solid #FF6B6B;
+}
+
+.profile-content h4 {
+  @apply text-base md:text-lg font-bold mb-2 mt-4 text-gray-700;
+}
+
+.profile-content ul,
+.profile-content ol {
+  @apply space-y-3;
+}
+
+.profile-content li {
+  @apply text-base sm:text-lg leading-relaxed;
+}
+
+.profile-content a {
+  @apply text-primary hover:text-primary-dark underline transition-colors;
 }
 
 .markdown-content p {
-  @apply mb-4 leading-relaxed;
+  @apply mb-4 leading-relaxed text-base text-gray-700;
 }
 
 .markdown-content hr {
-  @apply my-8 border-t border-gray-300;
+  @apply my-8 border-t border-gray-200;
 }
 
 .markdown-content ul,
 .markdown-content ol {
-  @apply mb-4 pl-6;
+  @apply mb-4 pl-6 text-gray-700;
 }
 
 .markdown-content ul {
@@ -321,99 +460,65 @@ body {
 }
 
 .markdown-content li {
-  @apply mb-2;
+  @apply mb-2 leading-relaxed;
+}
+
+.markdown-content li > ul,
+.markdown-content li > ol {
+  @apply mt-2 mb-0;
 }
 
 .markdown-content a {
-  @apply text-primary underline hover:text-primary/80;
+  @apply text-primary underline underline-offset-2 decoration-primary/30 transition-colors;
+}
+
+.markdown-content a:hover {
+  @apply text-primary-dark decoration-primary-dark;
 }
 
 .markdown-content blockquote {
-  @apply border-l-4 border-primary/30 pl-4 italic my-4;
+  @apply border-l-4 border-primary pl-4 italic my-6 text-gray-700;
+  background: #fef5f5;
 }
 
 .markdown-content img {
   @apply max-w-full h-auto my-6 rounded-lg mx-auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .markdown-content pre {
-  @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-4;
+  @apply bg-gray-50 p-4 md:p-6 rounded-lg overflow-x-auto my-6 border border-gray-200;
 }
 
 .markdown-content code {
-  @apply font-mono text-sm;
+  @apply font-mono text-sm bg-gray-100 px-1 py-0.5 rounded text-gray-800;
 }
 
 .markdown-content pre code {
-  @apply text-sm;
+  @apply bg-transparent p-0 text-sm;
 }
 
 .markdown-content table {
-  @apply w-full border-collapse my-6;
+  @apply w-full border-collapse my-6 text-sm;
 }
 
 .markdown-content th,
 .markdown-content td {
-  @apply border border-gray-300 p-2;
+  @apply border border-gray-200 px-4 py-2 text-left;
 }
 
 .markdown-content th {
-  @apply bg-gray-100;
+  @apply bg-gray-50 font-semibold text-gray-700;
 }
 
-/* Post List Styles */
-.post-list {
-  @apply container py-8;
+.markdown-content tbody tr:hover {
+  @apply bg-gray-50;
 }
 
-.category-title {
-  @apply text-3xl md:text-4xl font-bold mb-8 text-center;
-}
+/* Component styles have been moved to their respective component files */
 
-.posts-grid {
-  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4;
-}
 
-.post-card {
-  @apply bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg border border-gray-100;
-}
 
-.post-card-inner {
-  @apply block p-6 h-full;
-}
-
-.post-card-title {
-  @apply text-xl font-bold mb-2 text-gray-800 hover:text-primary;
-}
-
-.post-card-date {
-  @apply text-sm text-gray-500 mb-3;
-}
-
-.post-card-excerpt {
-  @apply text-gray-600 text-sm mb-4 line-clamp-3;
-}
-
-.post-card-more {
-  @apply text-primary text-sm font-medium mt-auto;
-}
-
-.empty-message {
-  @apply text-center text-gray-500 py-8;
-}
-
-/* Error Message */
-.error-message {
-  @apply container py-16 text-center;
-}
-
-.error-message h1 {
-  @apply text-3xl font-bold mb-4;
-}
-
-.error-message p {
-  @apply text-gray-600;
-}
 
 /* レスポンシブ対応 */
 @media (max-width: 768px) {

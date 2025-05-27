@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { FaArrowLeft, FaRss } from 'react-icons/fa';
 import { motion } from 'framer-motion';
@@ -22,8 +22,8 @@ export default function PageHeader({
   children 
 }: PageHeaderProps) {
   return (
-    <div className="bg-primary/5 border-b border-primary/10">
-      <div className="container py-12 sm:py-16 md:py-20">
+    <div className="bg-primary/5 border-b border-primary/10 h-[30vh] flex items-center justify-center">
+      <div className="container w-full">
         {backLink && (
           <motion.div
             className="mb-4"
@@ -33,7 +33,7 @@ export default function PageHeader({
           >
             <Link 
               href={backLink.href} 
-              className="inline-flex items-center text-gray-600 hover:text-primary transition-colors"
+              className="inline-flex items-center text-primary hover:text-primary-dark transition-all duration-200 font-medium hover:scale-105 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm hover:shadow-md"
             >
               <FaArrowLeft className="mr-2 text-sm" />
               <span>{backLink.label}</span>

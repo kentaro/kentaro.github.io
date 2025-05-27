@@ -72,7 +72,7 @@ export default function Header() {
         </button>
 
         {/* モバイルナビゲーション */}
-        <div className={`fixed inset-0 bg-gradient-to-br from-white via-white to-primary/5 z-40 transition-transform duration-300 md:hidden ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        <div className={`fixed inset-0 bg-white z-40 transition-transform duration-300 md:hidden ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}>
           <div className="flex flex-col h-full p-4 pt-6">
             <div className="flex justify-between items-center mb-6">

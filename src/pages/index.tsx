@@ -22,15 +22,15 @@ export default function Home() {
       />
 
       {/* ヒーローセクション */}
-      <section className="relative bg-primary/5 py-12 sm:py-16 md:py-20">
+      <section className="relative bg-primary/5 py-8 sm:py-12 md:py-16">
         <div className="container max-w-5xl">
-          <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-8">
-            <div className="md:flex-1 order-2 md:order-1">
+          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+            <div className="md:flex-1 order-2 md:order-1 flex items-center">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="text-center md:text-left"
+                className="text-center md:text-left w-full"
               >
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 text-dark">
                   <span className="text-primary">技術と知見</span>で
@@ -43,14 +43,30 @@ export default function Home() {
                   境界を越えて技術の新たな可能性を切り拓きます。
                 </p>
                 <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
-                  <Link href="/#profile" className="btn btn-primary">
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      const profileSection = document.getElementById('profile');
+                      if (profileSection) {
+                        const headerHeight = 80; // ヘッダーの高さ（md:h-20 = 5rem = 80px）
+                        const elementPosition = profileSection.offsetTop;
+                        const offsetPosition = elementPosition - headerHeight;
+                        
+                        window.scrollTo({
+                          top: offsetPosition,
+                          behavior: 'smooth'
+                        });
+                      }
+                    }}
+                    className="btn btn-primary"
+                  >
                     プロフィールを見る
-                  </Link>
+                  </button>
                 </div>
               </motion.div>
             </div>
 
-            <div className="order-1 md:order-2 flex-shrink-0">
+            <div className="order-1 md:order-2 flex-shrink-0 flex items-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -77,12 +93,12 @@ export default function Home() {
         id="profile"
         className="py-4 sm:py-6 md:py-8 bg-white"
       >
-        <div className="container">
+        <div className="container px-4 sm:px-6">
           <div className="grid grid-cols-1 gap-6 sm:gap-8">
-            <div className="card p-6 sm:p-8 md:p-10">
+            <div className="card p-4 sm:p-6 md:p-8 lg:p-10">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-dark">栗林健太郎</h2>
               <div className="bg-primary/5 py-3 px-4 rounded-lg mb-6">
-                <p className="text-center text-base sm:text-lg text-gray-700 font-medium leading-relaxed">
+                <p className="text-center text-lg sm:text-xl text-gray-700 font-medium leading-relaxed">
                   <span className="inline-block">
                     GMOペパボ株式会社取締役CTO
                   </span>{" "}
@@ -99,7 +115,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="space-y-4 sm:space-y-5 mb-6">
+              <div className="space-y-6 sm:space-y-8 mb-8">
                 <div className="flex items-start">
                   <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
                     <svg
@@ -114,10 +130,10 @@ export default function Home() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">
+                    <h4 className="font-semibold text-gray-800 text-lg sm:text-xl">
                       経歴
                     </h4>
-                    <p className="text-gray-700 text-sm sm:text-base">
+                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
                       自作ブログがプログラミングの起点に。奄美市役所から2008年に株式会社はてなへ転身。2012年にGMOペパボに参画し、技術基盤整備とサービス開発に従事。2014年に技術責任者、2015年に執行役員CTO、2017年に取締役CTOへ。リーンプロセスやスクラムの導入など、開発プロセス改善にも注力。
                     </p>
                   </div>
@@ -137,10 +153,10 @@ export default function Home() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">
+                    <h4 className="font-semibold text-gray-800 text-lg sm:text-xl">
                       学歴・資格
                     </h4>
-                    <p className="text-gray-700 text-sm sm:text-base">
+                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
                       1976年奄美大島生まれ。東京都立大学法学部卒業後、48歳で北陸先端科学技術大学院から博士号取得。IoTシステム基盤技術の研究で情報処理学会から優秀論文賞・優秀プレゼンテーション賞をW受賞。情報処理安全確保支援士、TOEIC
                       890点、G検定、Google Cloud Professional
                       MLエンジニア資格保有。
@@ -165,10 +181,10 @@ export default function Home() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">
+                    <h4 className="font-semibold text-gray-800 text-lg sm:text-xl">
                       研究分野
                     </h4>
-                    <p className="text-gray-700 text-sm sm:text-base">
+                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
                       IoTシステムの基盤技術、ElixirやErlang/OTPのIoTシステムへの応用について研究。ペパボ研究所では技術研究と実用化の架け橋となる活動を推進。情報処理学会優秀論文賞・優秀プレゼンテーション賞受賞。国際会議での発表実績あり。
                     </p>
                   </div>
@@ -192,10 +208,10 @@ export default function Home() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 text-base sm:text-lg">
+                    <h4 className="font-semibold text-gray-800 text-lg sm:text-xl">
                       執筆・講演
                     </h4>
-                    <p className="text-gray-700 text-sm sm:text-base">
+                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
                       『Elixir実践入門』（共著）、『入門Puppet』（単著）など書籍の執筆。WEB+DB
                       PRESSでの特集記事多数。国内外での講演多数（ElixirConf
                       US、RedDotRubyConfなど）。GMO Developers Day、BIT
@@ -205,7 +221,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex items-start">
+              <div className="flex items-start mt-6">
                 <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -223,63 +239,65 @@ export default function Home() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-800 text-base sm:text-lg">
+                  <h4 className="font-semibold text-gray-800 text-lg sm:text-xl">
                     趣味・活動
                   </h4>
-                  <p className="text-gray-700 text-sm sm:text-base">
+                  <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
                     年間200冊を読破する知の探究者。人文科学から情報科学まで幅広く学び続ける。アマチュア無線（JK1RZR）やWeb3（antipop.eth）など最新技術にも精通。VRChatなどのソーシャルVRでの活動や、歌舞伎・落語鑑賞、現代作家のうつわコレクション、江戸前鮨など、デジタルとアナログを行き来する多彩な趣味を持つ。
                   </p>
                 </div>
               </div>
 
-              <div className="mb-6">
-                <h4 className="font-bold mb-3 flex items-center text-sm sm:text-base">
-                  <span className="bg-primary/10 p-1 rounded-full mr-2 flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 sm:h-5 sm:w-5 text-primary"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      role="img"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                  スキル・専門分野
-                </h4>
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                    Elixir
-                  </span>
-                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                    IoT
-                  </span>
-                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                    分散システム
-                  </span>
-                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                    AI技術
-                  </span>
-                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                    エンジニアリングマネジメント
-                  </span>
-                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                    研究開発
-                  </span>
-                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                    リーンプロセス
-                  </span>
-                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                    技術戦略
-                  </span>
-                  <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                    組織開発
-                  </span>
+              <div className="flex items-start mb-8 mt-6">
+                <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 sm:h-6 sm:w-6 text-primary"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    role="img"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-800 text-lg sm:text-xl mb-3">
+                    スキル・専門分野
+                  </h4>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
+                      Elixir
+                    </span>
+                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
+                      IoT
+                    </span>
+                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
+                      分散システム
+                    </span>
+                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
+                      AI技術
+                    </span>
+                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
+                      エンジニアリングマネジメント
+                    </span>
+                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
+                      研究開発
+                    </span>
+                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
+                      リーンプロセス
+                    </span>
+                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
+                      技術戦略
+                    </span>
+                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
+                      組織開発
+                    </span>
+                  </div>
                 </div>
               </div>
 

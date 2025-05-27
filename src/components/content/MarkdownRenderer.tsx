@@ -106,10 +106,10 @@ export default function MarkdownRenderer({
       {/* ページヘッダー */}
       <PageHeader 
         title={isJournal ? formattedDate : title}
-        backLink={postData?.path === '/profile' ? undefined : {
-          href: isJournal ? '/journal' : '/blog',
-          label: isJournal ? '日記一覧に戻る' : 'ブログ一覧に戻る'
-        }}
+        backLink={!isJournal && postData?.path !== '/profile' ? {
+          href: '/blog',
+          label: 'ブログ一覧に戻る'
+        } : undefined}
       >
         {isJournal && monthDay && (
           <motion.div

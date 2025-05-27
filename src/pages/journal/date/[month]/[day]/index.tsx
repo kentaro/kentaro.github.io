@@ -51,10 +51,6 @@ export default function JournalDayPage({ entries, month, day, monthName, prevDay
       
       <PageHeader 
         title={`${monthName}${day}日の日記一覧`}
-        backLink={{
-          href: '/journal',
-          label: '日記一覧に戻る'
-        }}
       />
       
       <section className="py-8 sm:py-12 md:py-16 bg-white">

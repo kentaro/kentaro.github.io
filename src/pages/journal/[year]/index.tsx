@@ -49,22 +49,18 @@ export default function YearPage({ year, months }: YearPageProps) {
       <PageHeader
         title={`${year}年の日記`}
         description={`${year}年の日記を月別に閲覧できます。`}
-        backLink={{
-          href: '/journal',
-          label: '日記一覧に戻る'
-        }}
       />
       
       <section className="py-8 sm:py-12 md:py-16 bg-white">
         <div className="container max-w-5xl">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark text-center mb-10 sm:mb-12 relative pb-6">
             月別アーカイブ
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
+            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-primary rounded-full" />
           </h2>
           
           {months.length > 0 ? (
             <motion.div 
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6"
+              className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-6 gap-4 sm:gap-6"
               variants={container}
               initial="hidden"
               animate="show"
@@ -78,13 +74,13 @@ export default function YearPage({ year, months }: YearPageProps) {
                   <Card className="hover:scale-105 hover:shadow-lg">
                     <Link 
                       href={`/journal/${year}/${month}`}
-                      className="flex flex-col p-6 sm:p-8 h-full group"
+                      className="flex flex-col p-4 sm:p-6 h-full group text-center"
                     >
-                    <div className="flex items-center">
-                      <FaCalendarAlt className="text-primary mr-3 text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300" />
-                      <span className="text-xl sm:text-2xl font-bold group-hover:text-primary transition-colors">{monthNames[Number(month) - 1]}</span>
-                    </div>
-                      <div className="text-sm sm:text-base text-gray-600 mt-3">
+                      <div className="flex flex-col items-center">
+                        <FaCalendarAlt className="text-primary text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-300 mb-2" />
+                        <span className="text-lg sm:text-xl font-bold group-hover:text-primary transition-colors">{monthNames[Number(month) - 1]}</span>
+                      </div>
+                      <div className="text-xs sm:text-sm text-gray-600 mt-2">
                         {count}件の日記
                       </div>
                     </Link>
@@ -147,10 +143,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
   }
   
-  // 月の配列に変換（降順）
+  // 月の配列に変換（昇順）
   const months = Object.entries(monthCounts)
     .map(([month, count]) => ({ month, count }))
-    .sort((a, b) => Number(b.month) - Number(a.month));
+    .sort((a, b) => Number(a.month) - Number(b.month));
 
   return {
     props: {

@@ -29,7 +29,7 @@ export default function Navigation() {
               href="/" 
               className={`py-2.5 px-5 font-medium transition-all duration-300 rounded-full ${
                 isActive('/')
-                  ? 'bg-primary text-white shadow-md' 
+                  ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >
@@ -41,7 +41,7 @@ export default function Navigation() {
               href="/profile" 
               className={`py-2.5 px-5 font-medium transition-all duration-300 rounded-full ${
                 isActive('/profile') 
-                  ? 'bg-primary text-white shadow-md' 
+                  ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >
@@ -53,7 +53,7 @@ export default function Navigation() {
               href="/works" 
               className={`py-2.5 px-5 font-medium transition-all duration-300 rounded-full ${
                 isActive('/works') 
-                  ? 'bg-primary text-white shadow-md' 
+                  ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >
@@ -65,7 +65,7 @@ export default function Navigation() {
               href="/blog" 
               className={`py-2.5 px-5 font-medium transition-all duration-300 rounded-full ${
                 isActive('/blog') 
-                  ? 'bg-primary text-white shadow-md' 
+                  ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >
@@ -77,7 +77,7 @@ export default function Navigation() {
               href="/journal" 
               className={`py-2.5 px-5 font-medium transition-all duration-300 rounded-full ${
                 isActive('/journal') 
-                  ? 'bg-primary text-white shadow-md' 
+                  ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >

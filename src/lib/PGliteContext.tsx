@@ -1,25 +1,26 @@
 import { createContext, useContext, useState, useEffect, useMemo, useCallback, type ReactNode } from 'react';
 import { PGliteProvider } from '@electric-sql/pglite-react';
 import type { PGlite } from '@electric-sql/pglite';
+import type { PGliteWithLive } from '@electric-sql/pglite/live';
 
 // PGliteコンテキストの型定義
 interface PGliteContextType {
-    pglite: PGlite | null;
-    setPglite: (db: PGlite | null) => void;
+    pglite: PGliteWithLive | null;
+    setPglite: (db: PGliteWithLive | null) => void;
     isInitialized: boolean;
 }
 
 // モジュールスコープで変数を保持（privateな変数）
-let _globalPglite: PGlite | null = null;
+let _globalPglite: PGliteWithLive | null = null;
 let _isInitialized = false;
 
 // グローバルPGliteインスタンスを取得する関数
-export function getGlobalPglite(): PGlite | null {
+export function getGlobalPglite(): PGliteWithLive | null {
     return _globalPglite;
 }
 
 // グローバルPGliteインスタンスを設定する関数
-export function setGlobalPglite(db: PGlite | null): void {
+export function setGlobalPglite(db: PGliteWithLive | null): void {
     _globalPglite = db;
     _isInitialized = !!db;
 }
@@ -36,11 +37,11 @@ const PGliteContext = createContext<PGliteContextType>(defaultContextValue);
 
 // PGliteコンテキストを提供するプロバイダーコンポーネント
 export function GlobalPGliteProvider({ children }: { children: ReactNode }) {
-    const [pglite, setPgliteState] = useState<PGlite | null>(_globalPglite);
+    const [pglite, setPgliteState] = useState<PGliteWithLive | null>(_globalPglite);
     const [isInitialized, setIsInitialized] = useState(_isInitialized);
 
     // グローバル変数と状態の同期を行う関数（useCallbackでメモ化）
-    const setPglite = useCallback((db: PGlite | null) => {
+    const setPglite = useCallback((db: PGliteWithLive | null) => {
         if (db === pglite) return;
         setGlobalPglite(db);
         setPgliteState(db);

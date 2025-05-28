@@ -146,7 +146,8 @@ const SearchModal = memo(function SearchModal({ isOpen, onClose }: SearchModalPr
       console.log("[SearchModal] Component unmounting, cleaning up");
       mountedRef.current = false;
       // コンポーネントのアンマウント時にコールバックを解除
-      unregisterProgressCallback(callbackIdRef.current);
+      const callbackId = callbackIdRef.current;
+      unregisterProgressCallback(callbackId);
     };
   }, []);
 

@@ -8,6 +8,7 @@ import { createPortal } from 'react-dom';
 import { useSearchModalStore } from '@/store/useSearchModalStore';
 
 const SearchModal = dynamic(() => import('@/components/search/SearchModal'), { ssr: false });
+const ChatBot = dynamic(() => import('@/components/chat/ChatBot').then(mod => mod.ChatBot), { ssr: false });
 
 // フォントの設定
 const notoSansJp = Noto_Sans_JP({
@@ -48,6 +49,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </div>
       <SearchModalPortal />
+      <ChatBot />
     </GlobalPGliteProvider>
   );
 } 

@@ -23,75 +23,81 @@ export default function Navigation() {
   return (
     <>
       <nav className="main-nav">
-        <ul className="flex items-center space-x-4 lg:space-x-6">
+        <ul className="flex items-center space-x-1 sm:space-x-2 md:space-x-3 lg:space-x-4 xl:space-x-6">
           <li>
             <Link 
               href="/" 
-              className={`py-2.5 px-5 font-medium transition-all duration-300 rounded-full ${
+              className={`py-2 px-2 sm:px-3 md:px-4 lg:px-5 font-medium transition-all duration-300 rounded-full text-xs sm:text-sm md:text-base whitespace-nowrap ${
                 isActive('/')
                   ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >
-              ホーム
+              <span className="hidden sm:inline">ホーム</span>
+              <span className="sm:hidden">🏠</span>
             </Link>
           </li>
           <li>
             <Link 
               href="/profile" 
-              className={`py-2.5 px-5 font-medium transition-all duration-300 rounded-full ${
+              className={`py-2 px-2 sm:px-3 md:px-4 lg:px-5 font-medium transition-all duration-300 rounded-full text-xs sm:text-sm md:text-base whitespace-nowrap ${
                 isActive('/profile') 
                   ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >
-              プロフィール
+              <span className="hidden lg:inline">プロフィール</span>
+              <span className="lg:hidden hidden sm:inline">プロフ</span>
+              <span className="sm:hidden">👤</span>
             </Link>
           </li>
           <li>
             <Link 
               href="/works" 
-              className={`py-2.5 px-5 font-medium transition-all duration-300 rounded-full ${
+              className={`py-2 px-2 sm:px-3 md:px-4 lg:px-5 font-medium transition-all duration-300 rounded-full text-xs sm:text-sm md:text-base whitespace-nowrap ${
                 isActive('/works') 
                   ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >
-              制作物
+              <span className="hidden sm:inline">制作物</span>
+              <span className="sm:hidden">🎨</span>
             </Link>
           </li>
           <li>
             <Link 
               href="/blog" 
-              className={`py-2.5 px-5 font-medium transition-all duration-300 rounded-full ${
+              className={`py-2 px-2 sm:px-3 md:px-4 lg:px-5 font-medium transition-all duration-300 rounded-full text-xs sm:text-sm md:text-base whitespace-nowrap ${
                 isActive('/blog') 
                   ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >
-              ブログ
+              <span className="hidden sm:inline">ブログ</span>
+              <span className="sm:hidden">📝</span>
             </Link>
           </li>
           <li>
             <Link 
               href="/journal" 
-              className={`py-2.5 px-5 font-medium transition-all duration-300 rounded-full ${
+              className={`py-2 px-2 sm:px-3 md:px-4 lg:px-5 font-medium transition-all duration-300 rounded-full text-xs sm:text-sm md:text-base whitespace-nowrap ${
                 isActive('/journal') 
                   ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >
-              日記
+              <span className="hidden sm:inline">日記</span>
+              <span className="sm:hidden">📖</span>
             </Link>
           </li>
           <li>
             <button
               onClick={open}
-              className="p-3 text-dark hover:text-primary hover:bg-primary/10 rounded-full transition-all duration-300 focus:outline-none hover:scale-110"
+              className="p-2 sm:p-2.5 md:p-3 text-dark hover:text-primary hover:bg-primary/10 rounded-full transition-all duration-300 focus:outline-none hover:scale-110 flex-shrink-0"
               aria-label="検索"
               type="button"
             >
-              <FiSearch className="w-5 h-5" />
+              <FiSearch className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </li>
         </ul>

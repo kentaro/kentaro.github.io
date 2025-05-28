@@ -42,3 +42,5 @@ next-env.d.ts
 /public/feed.xml
 /public/works/
 /public/search-data.json
+/public/search-data-with-embeddings.json
+/public/search-data-with-embeddings.min.json

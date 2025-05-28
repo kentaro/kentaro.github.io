@@ -312,33 +312,20 @@ const ChatBotComponent: React.FC = () => {
 		}
 	}, []);
 
-	// Run checkAvailability and database initialization when chat opens
+	// Run checkAvailability when chat opens, then initialize database if available
 	useEffect(() => {
 		if (isOpen && !geminiSession && !isAvailable && !isInitializing) {
-			// Initialize both Gemini and database simultaneously
-			const initializeBoth = async () => {
-				setIsDatabaseLoading(true);
-				
-				try {
-					// Start both initializations in parallel
-					const promises = [
-						new Promise<void>((resolve) => {
-							checkAvailability(); // This function handles its own state
-							resolve();
-						}),
-						initializeDatabase()
-					];
-					
-					await Promise.all(promises);
-				} catch (error) {
-					console.error("Initialization error:", error);
-					setIsDatabaseLoading(false);
-				}
-			};
-			
-			initializeBoth();
+			// First check Gemini availability
+			checkAvailability();
 		}
-	}, [isOpen, checkAvailability, initializeDatabase, geminiSession, isAvailable, isInitializing]);
+	}, [isOpen, checkAvailability, geminiSession, isAvailable, isInitializing]);
+
+	// Initialize database only after Gemini is confirmed available
+	useEffect(() => {
+		if (isOpen && isAvailable && !isDatabaseReady && !isDatabaseLoading) {
+			initializeDatabase();
+		}
+	}, [isOpen, isAvailable, isDatabaseReady, isDatabaseLoading, initializeDatabase]);
 
 	// Auto scroll behavior
 	useEffect(() => {
@@ -478,7 +465,7 @@ const ChatBotComponent: React.FC = () => {
 				type="button"
 				onClick={() => setIsOpen(true)}
 				className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 rounded-full p-3 sm:p-4 shadow-lg transition-colors ${
-					(isInitializing || isDatabaseLoading)
+					(isInitializing || (isAvailable && isDatabaseLoading))
 						? "bg-yellow-500 hover:bg-yellow-600 text-white"
 						: (isAvailable && isDatabaseReady)
 						? "bg-blue-600 hover:bg-blue-700 text-white" 
@@ -486,7 +473,7 @@ const ChatBotComponent: React.FC = () => {
 				}`}
 				aria-label="チャットを開く"
 			>
-				{(isInitializing || isDatabaseLoading) ? (
+				{(isInitializing || (isAvailable && isDatabaseLoading)) ? (
 					<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white" />
 				) : (
 					<MessageCircle size={24} />
@@ -519,16 +506,14 @@ const ChatBotComponent: React.FC = () => {
 						{messages.length === 0 && (
 							<div className="text-center text-gray-500 dark:text-gray-400 mt-8">
 								<Bot size={48} className="mx-auto mb-4 opacity-50" />
-								{(isInitializing || isDatabaseLoading) ? (
+								{(isInitializing || (isAvailable && isDatabaseLoading)) ? (
 									<>
 										<div className="flex justify-center mb-4">
 											<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
 										</div>
 										<p className="font-semibold">準備中...</p>
 										<p className="text-sm mt-2">
-											{isInitializing && isDatabaseLoading 
-												? "チャットシステムと検索データベースを初期化しています"
-												: isInitializing 
+											{isInitializing 
 												? "チャットシステムを初期化しています" 
 												: "検索データベース（embedding含む）を読み込んでいます"}
 										</p>
@@ -541,14 +526,12 @@ const ChatBotComponent: React.FC = () => {
 								) : (
 									<>
 										<p className="text-red-600 font-semibold">Gemini Nanoが利用できません</p>
-										<p className="text-sm mt-2">現在、Gemini NanoはChrome Canary/Dev/Betaでのみ動作します</p>
 										<div className="text-sm mt-4 text-left max-w-xs mx-auto space-y-3">
 											<div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-md">
 												<p className="font-semibold text-yellow-800 dark:text-yellow-200">⚠️ 対応ブラウザ</p>
 												<ul className="mt-1 text-yellow-700 dark:text-yellow-300 text-xs">
 													<li>• Chrome Canary/Dev/Beta（推奨）</li>
-													<li>• Chrome 126以降（動作保証なし）</li>
-													<li>• Arc、通常のChromeは未対応</li>
+													<li>• Chrome 126以降</li>
 												</ul>
 											</div>
 											<div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-md">

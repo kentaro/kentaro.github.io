@@ -1,7 +1,6 @@
 import type { GeminiSession } from "./gemini";
 import {
 	getPGliteInstance,
-	checkDatabaseStatus,
 	initializeSearchDB,
 } from "./search";
 import { generateEmbedding } from "./embeddings";
@@ -32,10 +31,90 @@ export interface RAGContext {
 	documents: RAGDocument[];
 }
 
-// Search for relevant documents using keyword search
-export async function searchDocuments(
+// Filter documents for relevance using Gemini Nano
+async function filterRelevantDocuments(
+	session: GeminiSession,
 	query: string,
-	limit = 5,
+	documents: RAGDocument[]
+): Promise<RAGDocument[]> {
+	if (documents.length === 0) return [];
+	
+	// 記事が5件以下の場合はフィルタリングをスキップ
+	if (documents.length <= 5) {
+		return documents;
+	}
+
+	// 記事数が多い場合はバッチ処理
+	if (documents.length > 10) {
+		const batchSize = 8;
+		const results: RAGDocument[] = [];
+		
+		for (let i = 0; i < documents.length; i += batchSize) {
+			const batch = documents.slice(i, i + batchSize);
+			const batchResults = await filterRelevantDocuments(session, query, batch);
+			results.push(...batchResults);
+		}
+		
+		return results;
+	}
+
+	// 各記事の内容を適切な長さに制限（最大1500文字）
+	const processedDocuments = documents.map(doc => ({
+		...doc,
+		content: doc.content.length > 1500 ? `${doc.content.substring(0, 1500)}...` : doc.content
+	}));
+
+	const filterPrompt = `ユーザーの質問: "${query}"
+
+以下の記事の中から、この質問に関連性がありそうな記事を選んでください。少しでも関連がありそうなら含めてください。
+
+記事一覧:
+${processedDocuments.map((doc, index) => `${index + 1}. タイトル: ${doc.title}
+内容: ${doc.content}`).join('\n\n')}
+
+関連性の判断基準（緩い基準で判断してください）:
+- 質問のキーワードに関連する内容が含まれている
+- 質問のテーマと関係がありそう
+- 間接的でも質問に関連する情報が含まれている可能性がある
+
+重要: 迷った場合は含める方向で判断してください。明らかに無関係でない限り、選択してください。
+
+回答形式:
+関連する記事の番号のみを、カンマ区切りで回答してください。最低でも3件以上は選択してください。
+
+例: 1,3,5,7,9
+
+回答:`;
+
+	try {
+		const response = await session.prompt(filterPrompt);
+		
+		// 番号を解析して該当する記事を返す
+		const selectedIndices = response
+			.split(',')
+			.map(num => Number.parseInt(num.trim(), 10) - 1)
+			.filter(index => index >= 0 && index < documents.length);
+
+		// フィルタリング結果が少なすぎる場合は上位記事を追加
+		if (selectedIndices.length < 3) {
+			const topIndices = documents.slice(0, Math.min(5, documents.length))
+				.map((_, index) => index);
+			return topIndices.map(index => documents[index]);
+		}
+
+		return selectedIndices.map(index => documents[index]);
+	} catch (error) {
+		console.error("Error filtering documents:", error);
+		// エラー時は上位5件を返す
+		return documents.slice(0, 5);
+	}
+}
+
+// Search for relevant documents using vector search with AI filtering
+export async function searchDocuments(
+	session: GeminiSession,
+	query: string,
+	initialLimit = 10,
 ): Promise<RAGDocument[]> {
 
 	// Ensure database is initialized
@@ -51,19 +130,16 @@ export async function searchDocuments(
 	// Initialize vector search if needed
 	await initializeVectorSearch();
 
-	// Check database status
-	const status = await checkDatabaseStatus();
-
 	try {
 		// Generate embedding for the query
 		const embedding = await generateEmbedding(query);
 
 		if (embedding) {
-			// Try vector search
-			const vectorResults = await searchByVector(embedding, limit);
+			// Try vector search with larger limit
+			const vectorResults = await searchByVector(embedding, initialLimit);
 
 			if (vectorResults && vectorResults.length > 0) {
-				return (vectorResults as VectorSearchResult[]).map((row) => ({
+				const allDocuments = (vectorResults as VectorSearchResult[]).map((row) => ({
 					id: row.id,
 					title: row.title,
 					path: row.path,
@@ -72,6 +148,16 @@ export async function searchDocuments(
 					excerpt: row.excerpt,
 					similarity: row.similarity,
 				}));
+
+				// Filter using Gemini Nano for relevance
+				const relevantDocuments = await filterRelevantDocuments(session, query, allDocuments);
+				
+				// 最低でも3件は返すように保証
+				if (relevantDocuments.length === 0 && allDocuments.length > 0) {
+					return allDocuments.slice(0, Math.min(3, allDocuments.length));
+				}
+				
+				return relevantDocuments;
 			}
 		}
 
@@ -109,18 +195,26 @@ ${contextText}
 
 ユーザーの質問: ${context.query}
 
-回答の最後に必ず以下のセクションを追加してください:
+回答形式:
+1. まず、ユーザーの質問に対して記事の内容に基づいた回答を提供してください
+2. 回答の最後に、必ず以下のテキストをそのままコピーして追加してください
 
 ## 参考記事
 
 ${context.documents.map(doc => `- [${doc.title}](${doc.path})`).join('\n')}
 
-回答形式:
-- 記事の内容に基づいて質問に答えてください
-- 上記の参考記事セクションを必ず含めてください
-- 本文中で記事を参照する場合も [記事タイトル](URL) の形式を使用してください
+重要指示:
+- 参考記事セクションを一字一句そのままコピーしてください
+- リンクの形式「[タイトル](パス)」を絶対に変更しないでください
+- 必ずリンク形式で出力してください
 
-記事の内容を活用して、有用な回答を提供してください。
+正しい回答の構造:
+[質問への回答内容]
+
+## 参考記事
+
+- [記事タイトル1](記事パス1)
+- [記事タイトル2](記事パス2)
 `;
 }
 
@@ -129,8 +223,8 @@ export async function generateRAGResponse(
 	session: GeminiSession,
 	query: string,
 ): Promise<AsyncIterable<string>> {
-	// Search for relevant documents
-	const documents = await searchDocuments(query);
+	// Search for relevant documents with AI filtering
+	const documents = await searchDocuments(session, query);
 
 	if (documents.length === 0) {
 		return (async function* () {

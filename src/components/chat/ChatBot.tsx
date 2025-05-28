@@ -6,6 +6,7 @@ import {
 import { generateRAGResponse } from "@/lib/rag";
 import { initSearch, getInitializationStatus } from "@/lib/searchInitializer";
 import { Bot, MessageCircle, Send, X } from "lucide-react";
+import { useRouter } from "next/router";
 import type React from "react";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { remark } from "remark";
@@ -20,7 +21,7 @@ interface Message {
 	timestamp: Date;
 }
 
-// チャットの開閉状態をグローバルに管理
+// チャットの開閉状態をグローバルに管理（常にfalseで開始）
 let globalIsOpen = false;
 
 // Remarkプラグイン: リンクの処理
@@ -46,6 +47,7 @@ function remarkLinkProcessor() {
 	};
 }
 
+
 // MarkdownをHTMLに変換する関数
 async function parseMarkdown(text: string): Promise<string> {
 	try {
@@ -61,8 +63,55 @@ async function parseMarkdown(text: string): Promise<string> {
 	}
 }
 
+// HTMLの相対リンクをNext.js Linkに変換するReactコンポーネント
+function ChatMarkdown({ html }: { html: string }) {
+	const router = useRouter();
+	
+	// HTMLを解析して相対リンクを見つける
+	const createMarkup = () => {
+		// 相対リンクのパターンを探す
+		const processedHtml = html.replace(
+			/<a\s+href="(\/[^"]*)"([^>]*)>([^<]*)<\/a>/g,
+			(_match, href, attrs, linkText) => {
+				// data-attributes を使ってNext.js Linkとして処理することをマーク
+				return `<a href="${href}" data-nextjs-link="true"${attrs}>${linkText}</a>`;
+			}
+		);
+		return { __html: processedHtml };
+	};
+
+	const handleClick = (e: React.MouseEvent) => {
+		const target = e.target as HTMLElement;
+		const link = target.closest('a[data-nextjs-link="true"]') as HTMLAnchorElement;
+		
+		if (link) {
+			e.preventDefault();
+			const href = link.getAttribute('href');
+			if (href && href.startsWith('/')) {
+				// Next.js routerを使ってナビゲート
+				router.push(href);
+			}
+		}
+	};
+
+	return (
+		<div 
+			className="text-sm markdown-chat"
+			dangerouslySetInnerHTML={createMarkup()}
+			onClick={handleClick}
+			onKeyDown={(e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					handleClick(e as unknown as React.MouseEvent);
+				}
+			}}
+			role="button"
+			tabIndex={0}
+		/>
+	);
+}
+
 const ChatBotComponent: React.FC = () => {
-	const [isOpen, setIsOpenState] = useState(globalIsOpen);
+	const [isOpen, setIsOpenState] = useState(false);
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [input, setInput] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -78,35 +127,18 @@ const ChatBotComponent: React.FC = () => {
 	const hasCheckedAvailability = useRef(false);
 	const currentBotMessageRef = useRef<HTMLDivElement>(null);
 	const [currentBotMessageId, setCurrentBotMessageId] = useState<string | null>(null);
+	const [shouldScrollToBottom, setShouldScrollToBottom] = useState(false);
 	
 	// カスタムsetIsOpen関数でグローバル状態も更新
 	const setIsOpen = useCallback((value: boolean) => {
 		globalIsOpen = value;
 		setIsOpenState(value);
-		// ローカルストレージに保存して状態を永続化
-		try {
-			localStorage.setItem('chatbot-open', value.toString());
-		} catch (error) {
-			console.error('Failed to save chat state:', error);
-		}
 		// Reset availability check flag when closing
 		if (!value) {
 			hasCheckedAvailability.current = false;
 		}
 	}, []);
 	
-	// 初回レンダリング時にローカルストレージから状態を復元
-	useEffect(() => {
-		try {
-			const savedState = localStorage.getItem('chatbot-open');
-			if (savedState === 'true') {
-				globalIsOpen = true;
-				setIsOpenState(true);
-			}
-		} catch (error) {
-			console.error('Failed to load chat state:', error);
-		}
-	}, []);
 
 	// Check Gemini availability when chat opens
 	const checkAvailability = useCallback(async () => {
@@ -313,9 +345,10 @@ const ChatBotComponent: React.FC = () => {
 		if (currentBotMessageId && currentBotMessageRef.current) {
 			// Scroll to the beginning of the current bot message being generated
 			currentBotMessageRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-		} else {
-			// Scroll to bottom for user messages or when no bot message is being generated
+		} else if (shouldScrollToBottom) {
+			// Scroll to bottom only when explicitly requested (e.g., user message)
 			messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+			setShouldScrollToBottom(false);
 		}
 		
 		// スクロール後にフォーカスを維持
@@ -327,7 +360,7 @@ const ChatBotComponent: React.FC = () => {
 				}
 			}, 300);
 		}
-	}, [messages, currentBotMessageId]);
+	}, [currentBotMessageId, shouldScrollToBottom]);
 	
 
 	// Focus input when chat opens (avoid on mobile to prevent keyboard issues)
@@ -365,6 +398,7 @@ const ChatBotComponent: React.FC = () => {
 		setMessages((prev) => [...prev, userMessage]);
 		setInput("");
 		setIsLoading(true);
+		setShouldScrollToBottom(true); // ユーザーメッセージ送信時のみ一番下にスクロール
 
 		try {
 			const botMessage: Message = {
@@ -549,10 +583,7 @@ const ChatBotComponent: React.FC = () => {
 									}`}
 								>
 									{message.sender === "bot" && message.html ? (
-										<div 
-											className="text-sm markdown-chat"
-											dangerouslySetInnerHTML={{ __html: message.html }}
-										/>
+										<ChatMarkdown html={message.html} />
 									) : (
 										<p className="text-sm whitespace-pre-wrap">{message.text}</p>
 									)}

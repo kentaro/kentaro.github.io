@@ -44,12 +44,14 @@ function SearchModalPortal() {
 export default function App({ Component, pageProps }: AppProps) {
   // GlobalPGliteProviderでラップして、PGliteの状態を管理
   return (
-    <GlobalPGliteProvider>
-      <div className={`${notoSansJp.variable} ${montserrat.variable} ${sourceCodePro.variable} font-sans`}>
-        <Component {...pageProps} />
-      </div>
-      <SearchModalPortal />
+    <>
+      <GlobalPGliteProvider>
+        <div className={`${notoSansJp.variable} ${montserrat.variable} ${sourceCodePro.variable} font-sans`}>
+          <Component {...pageProps} />
+        </div>
+        <SearchModalPortal />
+      </GlobalPGliteProvider>
       <ChatBot />
-    </GlobalPGliteProvider>
+    </>
   );
 } 

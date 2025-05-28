@@ -23,15 +23,20 @@ interface Message {
 // チャットの開閉状態をグローバルに管理
 let globalIsOpen = false;
 
-// Remarkプラグイン: 外部リンクにtarget="_blank"を追加
-function remarkExternalLinks() {
+// Remarkプラグイン: リンクの処理
+function remarkLinkProcessor() {
 	return (tree: any) => {
 		const visit = (node: any) => {
-			if (node.type === 'link' && node.url && node.url.startsWith('http')) {
-				node.data = node.data || {};
-				node.data.hProperties = node.data.hProperties || {};
-				node.data.hProperties.target = '_blank';
-				node.data.hProperties.rel = 'noopener noreferrer';
+			if (node.type === 'link' && node.url) {
+				// 外部リンクの場合
+				if (node.url.startsWith('http')) {
+					node.data = node.data || {};
+					node.data.hProperties = node.data.hProperties || {};
+					node.data.hProperties.target = '_blank';
+					node.data.hProperties.rel = 'noopener noreferrer';
+				}
+				// 相対リンクの場合、そのまま保持
+				// ブラウザのベースURLを使わずに相対パスを維持
 			}
 			if (node.children) {
 				node.children.forEach(visit);
@@ -46,7 +51,7 @@ async function parseMarkdown(text: string): Promise<string> {
 	try {
 		const result = await remark()
 			.use(remarkGfm)
-			.use(remarkExternalLinks)
+			.use(remarkLinkProcessor)
 			.use(html, { sanitize: false })
 			.process(text);
 		return result.toString();
@@ -275,20 +280,33 @@ const ChatBotComponent: React.FC = () => {
 		}
 	}, []);
 
-	// Run checkAvailability when chat opens
+	// Run checkAvailability and database initialization when chat opens
 	useEffect(() => {
 		if (isOpen && !geminiSession && !isAvailable && !isInitializing) {
-			// First check Gemini availability, then initialize database if available
-			checkAvailability();
+			// Initialize both Gemini and database simultaneously
+			const initializeBoth = async () => {
+				setIsDatabaseLoading(true);
+				
+				try {
+					// Start both initializations in parallel
+					const promises = [
+						new Promise<void>((resolve) => {
+							checkAvailability(); // This function handles its own state
+							resolve();
+						}),
+						initializeDatabase()
+					];
+					
+					await Promise.all(promises);
+				} catch (error) {
+					console.error("Initialization error:", error);
+					setIsDatabaseLoading(false);
+				}
+			};
+			
+			initializeBoth();
 		}
-	}, [isOpen, checkAvailability, geminiSession, isAvailable, isInitializing]);
-
-	// Initialize database only when Gemini is available
-	useEffect(() => {
-		if (isOpen && isAvailable && !isDatabaseReady) {
-			initializeDatabase();
-		}
-	}, [isOpen, isAvailable, isDatabaseReady, initializeDatabase]);
+	}, [isOpen, checkAvailability, initializeDatabase, geminiSession, isAvailable, isInitializing]);
 
 	// Auto scroll behavior
 	useEffect(() => {
@@ -428,7 +446,7 @@ const ChatBotComponent: React.FC = () => {
 				className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 rounded-full p-3 sm:p-4 shadow-lg transition-colors ${
 					(isInitializing || isDatabaseLoading)
 						? "bg-yellow-500 hover:bg-yellow-600 text-white"
-						: isAvailable 
+						: (isAvailable && isDatabaseReady)
 						? "bg-blue-600 hover:bg-blue-700 text-white" 
 						: "bg-gray-400 hover:bg-gray-500 text-gray-200"
 				}`}
@@ -474,10 +492,14 @@ const ChatBotComponent: React.FC = () => {
 										</div>
 										<p className="font-semibold">準備中...</p>
 										<p className="text-sm mt-2">
-											{isInitializing ? "チャットシステムを初期化しています" : "データを読み込んでいます"}
+											{isInitializing && isDatabaseLoading 
+												? "チャットシステムと検索データベースを初期化しています"
+												: isInitializing 
+												? "チャットシステムを初期化しています" 
+												: "検索データベース（embedding含む）を読み込んでいます"}
 										</p>
 									</>
-								) : isAvailable ? (
+								) : (isAvailable && isDatabaseReady) ? (
 									<>
 										<p>こんにちは！サイトについて何かお探しですか？</p>
 										<p className="text-sm mt-2">お気軽にご質問ください。</p>
@@ -574,7 +596,7 @@ const ChatBotComponent: React.FC = () => {
 								value={input}
 								onChange={(e) => setInput(e.target.value)}
 								onKeyDown={handleKeyPress}
-								placeholder={(isInitializing || isDatabaseLoading) ? "初期化中..." : "メッセージを入力..."}
+								placeholder={(isInitializing || isDatabaseLoading) ? "システム準備中..." : (isAvailable && isDatabaseReady) ? "メッセージを入力..." : "利用できません"}
 								className="flex-1 px-3 py-2 sm:px-4 border dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-base"
 								disabled={isInitializing || isDatabaseLoading || !isAvailable || !isDatabaseReady}
 							/>

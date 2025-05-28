@@ -90,7 +90,7 @@ export function createRAGPrompt(context: RAGContext): string {
 			(doc) => {
 				return `記事「${doc.title}」:
 ${doc.excerpt || doc.content.substring(0, 500)}...
-URL: ${doc.path}`;
+Markdownリンク: [${doc.title}](${doc.path})`;
 			}
 		)
 		.join("\n\n");
@@ -109,10 +109,16 @@ ${contextText}
 
 ユーザーの質問: ${context.query}
 
+回答の最後に必ず以下のセクションを追加してください:
+
+## 参考記事
+
+${context.documents.map(doc => `- [${doc.title}](${doc.path})`).join('\n')}
+
 回答形式:
 - 記事の内容に基づいて質問に答えてください
-- 参照した記事は [記事タイトル](URL) の形式でリンクしてください
-- 最後に「## 参考記事」セクションを追加してください
+- 上記の参考記事セクションを必ず含めてください
+- 本文中で記事を参照する場合も [記事タイトル](URL) の形式を使用してください
 
 記事の内容を活用して、有用な回答を提供してください。
 `;

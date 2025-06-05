@@ -36,6 +36,9 @@ next-env.d.ts
 # IDE
 .vscode/
 
+# Worktrees
+.worktrees
+
 # Generated RSS feeds
 /public/blog/feed.xml
 /public/journal/feed.xml

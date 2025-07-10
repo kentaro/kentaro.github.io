@@ -21,59 +21,153 @@ export default function Home() {
         description="栗林健太郎のウェブサイト。GMOペパボ株式会社取締役CTO / 一般社団法人日本CTO協会理事 / 博士（情報科学）/ 情報処理安全確保支援士"
       />
 
-      {/* ヒーローセクション */}
-      <section className="relative bg-primary/5 py-8 sm:py-12 md:py-16">
-        <div className="container max-w-5xl">
-          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
-            <div className="md:flex-1 order-2 md:order-1 flex items-center">
+      {/* アーティスティックヒーローセクション */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden -mt-[80px]">
+        {/* 背景のアニメーション要素 */}
+        <div className="absolute inset-0">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.03 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0"
+            style={{
+              background: `
+                radial-gradient(circle at 20% 80%, #FF6B6B 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #4ECDC4 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, #FFE66D 0%, transparent 50%)
+              `,
+            }}
+          />
+          
+          {/* 動く幾何学的形状 */}
+          <motion.div
+            animate={{ 
+              rotate: 360,
+              scale: [1, 1.2, 1],
+            }}
+            transition={{ 
+              duration: 20, 
+              repeat: Infinity,
+              ease: "linear" 
+            }}
+            className="absolute top-20 right-20 w-96 h-96 opacity-5"
+          >
+            <div className="w-full h-full border-8 border-primary rotate-45" />
+          </motion.div>
+          
+          <motion.div
+            animate={{ 
+              rotate: -360,
+              y: [0, 50, 0],
+            }}
+            transition={{ 
+              duration: 25, 
+              repeat: Infinity,
+              ease: "easeInOut" 
+            }}
+            className="absolute bottom-10 left-10 w-64 h-64 opacity-5"
+          >
+            <div className="w-full h-full bg-gradient-to-br from-secondary to-accent1 rounded-full" />
+          </motion.div>
+        </div>
+
+        <div className="container max-w-6xl relative z-10">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* テキストコンテンツ */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-center md:text-left"
+            >
+              <motion.h1 
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent1">
+                  KENTARO
+                </span>
+                <span className="block text-2xl sm:text-3xl md:text-4xl font-bold text-dark mt-2">
+                  KURIBAYASHI
+                </span>
+              </motion.h1>
+              
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="mb-8"
+              >
+                <p className="text-lg sm:text-xl text-gray-700 mb-4 font-light">
+                  技術と芸術が交差する場所で、新しい価値を創造
+                </p>
+                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                  {["CTO", "AI Pioneer", "音楽家", "VJ", "Tool Builder"].map((tag, index) => (
+                    <motion.span
+                      key={tag}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                      className="px-4 py-2 bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-full text-sm font-medium"
+                    >
+                      {tag}
+                    </motion.span>
+                  ))}
+                </div>
+              </motion.div>
+
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-center md:text-left w-full"
+                transition={{ duration: 0.8, delay: 1 }}
+                className="flex flex-wrap gap-4 justify-center md:justify-start"
               >
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 text-dark">
-                  <span className="text-primary">技術と知見</span>で
-                  <br className="hidden sm:block" />
-                  未来を創造する
-                </h1>
-                <p className="text-base sm:text-lg mb-5 sm:mb-6 text-gray-700 max-w-xl">
-                  異分野を横断する視点と経験。
-                  法学から情報科学へ、公務員からCTOへ。
-                  境界を越えて技術の新たな可能性を切り拓きます。
-                </p>
-                <div className="flex flex-wrap justify-center md:justify-start gap-3 sm:gap-4">
-                  <button 
-                    type="button"
-                    onClick={() => {
-                      const profileSection = document.getElementById('profile');
-                      if (profileSection) {
-                        const headerHeight = 80; // ヘッダーの高さ（md:h-20 = 5rem = 80px）
-                        const elementPosition = profileSection.offsetTop;
-                        const offsetPosition = elementPosition - headerHeight;
-                        
-                        window.scrollTo({
-                          top: offsetPosition,
-                          behavior: 'smooth'
-                        });
-                      }
-                    }}
-                    className="btn btn-primary"
-                  >
-                    プロフィールを見る
-                  </button>
-                </div>
+                <button 
+                  type="button"
+                  onClick={() => {
+                    const profileSection = document.getElementById('about');
+                    if (profileSection) {
+                      profileSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className="group relative px-8 py-4 bg-dark text-white rounded-full overflow-hidden transition-all duration-300 hover:scale-105"
+                >
+                  <span className="relative z-10 font-bold">EXPLORE</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </button>
+                
+                <Link 
+                  href="/profile" 
+                  className="px-8 py-4 border-2 border-dark rounded-full font-bold hover:bg-dark hover:text-white transition-all duration-300"
+                >
+                  PROFILE
+                </Link>
               </motion.div>
-            </div>
+            </motion.div>
 
-            <div className="order-1 md:order-2 flex-shrink-0 flex items-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="flex justify-center"
-              >
-                <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white shadow-lg">
+            {/* ビジュアル要素 */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="relative"
+            >
+              <div className="relative w-80 h-80 sm:w-96 sm:h-96 mx-auto">
+                {/* 装飾的な背景要素 */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0"
+                >
+                  <div className="absolute inset-8 border-4 border-primary/20 rounded-full" />
+                  <div className="absolute inset-4 border-4 border-secondary/20 rounded-full rotate-45" />
+                  <div className="absolute inset-12 border-4 border-accent1/20 rounded-full rotate-90" />
+                </motion.div>
+                
+                {/* メイン画像 */}
+                <div className="absolute inset-12 rounded-full overflow-hidden border-8 border-white shadow-2xl">
                   <Image
                     src="https://pbs.twimg.com/profile_images/1893532407988367361/5EfifO80_400x400.jpg"
                     alt="栗林健太郎"
@@ -82,370 +176,751 @@ export default function Home() {
                     priority
                   />
                 </div>
-              </motion.div>
-            </div>
+                
+                {/* フローティングタグ */}
+                <motion.div
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-4 -right-4 bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg"
+                >
+                  あんちぽ
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* スクロール指示 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.5 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            className="w-6 h-10 border-2 border-dark/30 rounded-full flex justify-center"
+          >
+            <div className="w-1 h-3 bg-dark/30 rounded-full mt-2" />
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* アバウトセクション */}
+      <section
+        id="about"
+        className="py-20 md:py-32 relative overflow-hidden"
+      >
+        {/* 背景パターン */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF6B6B' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }} />
+        </div>
+
+        <div className="container max-w-6xl relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl md:text-6xl font-display font-black mb-6">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-dark to-primary">
+                ABOUT ME
+              </span>
+            </h2>
+            <div className="w-32 h-1 bg-gradient-to-r from-primary to-secondary mx-auto" />
+          </motion.div>
+
+          <div className="grid md:grid-cols-12 gap-8 items-start">
+            {/* 左側 - クリエイティブな肩書き表示 */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="md:col-span-5"
+            >
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-secondary/20 blur-3xl" />
+                <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
+                  <h3 className="text-3xl font-bold mb-6 text-dark">栗林健太郎</h3>
+                  <div className="space-y-4">
+                    <motion.div
+                      whileHover={{ x: 10 }}
+                      className="flex items-center gap-3"
+                    >
+                      <div className="w-2 h-2 bg-primary rounded-full" />
+                      <span className="text-lg font-medium">GMOペパボ株式会社 取締役CTO</span>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{ x: 10 }}
+                      className="flex items-center gap-3"
+                    >
+                      <div className="w-2 h-2 bg-secondary rounded-full" />
+                      <span className="text-lg font-medium">日本CTO協会 理事</span>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{ x: 10 }}
+                      className="flex items-center gap-3"
+                    >
+                      <div className="w-2 h-2 bg-accent1 rounded-full" />
+                      <span className="text-lg font-medium">博士（情報科学）</span>
+                    </motion.div>
+                    <motion.div
+                      whileHover={{ x: 10 }}
+                      className="flex items-center gap-3"
+                    >
+                      <div className="w-2 h-2 bg-purple rounded-full" />
+                      <span className="text-lg font-medium">あんちぽ @kentaro</span>
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* 右側 - ストーリーテリング */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="md:col-span-7"
+            >
+              <div className="space-y-6">
+                <p className="text-xl leading-relaxed text-gray-700">
+                  コードを書き、音楽を創り、ツールを生み出す。
+                  <span className="text-primary font-bold">技術と芸術の境界を超えて</span>、
+                  実用と表現の新しい形を探求し続けています。
+                </p>
+                <p className="text-lg leading-relaxed text-gray-600">
+                  日々の開発では、Claude APIを活用した革新的なツールや、
+                  開発者の生産性を高めるCLIツールを創造。
+                  夜は音楽家・VJとして、Max for LiveやHydraを駆使し、
+                  コードが生み出すリアルタイムな音と映像の世界を表現しています。
+                </p>
+                <p className="text-lg leading-relaxed text-gray-600">
+                  GMOペパボのCTOとして組織を導きながら、研究者として学術の世界に貢献。
+                  Motion JamやVibepadなど、体験型の音楽アプリも開発。
+                  140を超える作品群が、技術と創造性の融合を物語っています。
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* プロフィールセクション */}
-      <section
-        id="profile"
-        className="py-4 sm:py-6 md:py-8 bg-white"
-      >
-        <div className="container px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-6 sm:gap-8">
-            <div className="card p-4 sm:p-6 md:p-8 lg:p-10">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-dark">栗林健太郎</h2>
-              <div className="bg-primary/5 py-3 px-4 rounded-lg mb-6">
-                <p className="text-center text-lg sm:text-xl text-gray-700 font-medium leading-relaxed">
-                  <span className="inline-block">
-                    GMOペパボ株式会社取締役CTO
-                  </span>{" "}
-                  <span className="text-primary/70 mx-1">/</span>
-                  <span className="inline-block">
-                    一般社団法人日本CTO協会理事
-                  </span>{" "}
-                  <span className="text-primary/70 mx-1">/</span>
-                  <span className="inline-block">博士（情報科学）</span>
-                  <br />
-                  <span className="inline-block">
-                    インターネット上では「あんちぽ」として知られる
-                  </span>
-                </p>
-              </div>
 
-              <div className="space-y-6 sm:space-y-8 mb-8">
-                <div className="flex items-start">
-                  <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 sm:h-6 sm:w-6 text-primary"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      role="img"
+      {/* スキル＆専門分野セクション */}
+      <section className="py-20 md:py-32 bg-gradient-to-br from-light via-white to-accent2/10 relative overflow-hidden">
+        {/* アニメーション背景 */}
+        <motion.div
+          animate={{ 
+            scale: [1, 1.5, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{ 
+            duration: 30, 
+            repeat: Infinity,
+            ease: "linear" 
+          }}
+          className="absolute -top-32 -right-32 w-96 h-96 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-full blur-3xl"
+        />
+
+        <div className="container max-w-6xl relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl md:text-6xl font-display font-black mb-6">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                EXPERTISE
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              技術の深さと広さを兼ね備えた、多面的なスキルセット
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* 技術スキル */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
+              className="group"
+            >
+              <div className="relative bg-white rounded-3xl p-8 shadow-xl overflow-hidden h-full">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/20 to-transparent rounded-bl-full" />
+                <h3 className="text-2xl font-bold mb-6 text-dark relative z-10">技術スキル</h3>
+                <div className="space-y-3">
+                  {[
+                    "AI活用開発・ツール作成",
+                    "開発者向けCLIツール",
+                    "Elixir/IoTシステム",
+                    "Web技術・WebAssembly",
+                    "音楽テクノロジー",
+                  ].map((item, index) => (
+                    <motion.div
+                      key={item}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="flex items-center gap-3 group/item"
                     >
-                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-800 text-lg sm:text-xl">
-                      経歴
-                    </h4>
-                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
-                      自作ブログがプログラミングの起点に。奄美市役所から2008年に株式会社はてなへ転身。2012年にGMOペパボに参画し、技術基盤整備とサービス開発に従事。2014年に技術責任者、2015年に執行役員CTO、2017年に取締役CTOへ。リーンプロセスやスクラムの導入など、開発プロセス改善にも注力。
-                    </p>
-                  </div>
+                      <div className="w-2 h-2 bg-primary rounded-full group-hover/item:scale-150 transition-transform" />
+                      <span className="text-gray-700">{item}</span>
+                    </motion.div>
+                  ))}
                 </div>
+              </div>
+            </motion.div>
 
-                <div className="flex items-start">
-                  <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 sm:h-6 sm:w-6 text-primary"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      role="img"
+            {/* マネジメント */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
+              className="group"
+            >
+              <div className="relative bg-white rounded-3xl p-8 shadow-xl overflow-hidden h-full">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-transparent rounded-bl-full" />
+                <h3 className="text-2xl font-bold mb-6 text-dark relative z-10">マネジメント</h3>
+                <div className="space-y-3">
+                  {[
+                    "エンジニアリングマネジメント",
+                    "技術戦略立案",
+                    "組織開発・文化醸成",
+                    "リーンプロセス導入",
+                    "スクラム開発推進",
+                  ].map((item, index) => (
+                    <motion.div
+                      key={item}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="flex items-center gap-3 group/item"
                     >
-                      <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-800 text-lg sm:text-xl">
-                      学歴・資格
-                    </h4>
-                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
-                      1976年奄美大島生まれ。東京都立大学法学部卒業後、48歳で北陸先端科学技術大学院から博士号取得。IoTシステム基盤技術の研究で情報処理学会から優秀論文賞・優秀プレゼンテーション賞をW受賞。情報処理安全確保支援士、TOEIC
-                      890点、G検定、Google Cloud Professional
-                      MLエンジニア資格保有。
-                    </p>
-                  </div>
+                      <div className="w-2 h-2 bg-secondary rounded-full group-hover/item:scale-150 transition-transform" />
+                      <span className="text-gray-700">{item}</span>
+                    </motion.div>
+                  ))}
                 </div>
+              </div>
+            </motion.div>
 
-                <div className="flex items-start">
-                  <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 sm:h-6 sm:w-6 text-primary"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      role="img"
+            {/* 研究・執筆 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
+              className="group"
+            >
+              <div className="relative bg-white rounded-3xl p-8 shadow-xl overflow-hidden h-full">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-accent1/20 to-transparent rounded-bl-full" />
+                <h3 className="text-2xl font-bold mb-6 text-dark relative z-10">研究・執筆</h3>
+                <div className="space-y-3">
+                  {[
+                    "技術書籍・雑誌執筆",
+                    "Webメディア連載・寄稿",
+                    "ポッドキャスト配信",
+                    "カンファレンス登壇",
+                    "メディア取材・インタビュー",
+                  ].map((item, index) => (
+                    <motion.div
+                      key={item}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="flex items-center gap-3 group/item"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-800 text-lg sm:text-xl">
-                      研究分野
-                    </h4>
-                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
-                      IoTシステムの基盤技術、ElixirやErlang/OTPのIoTシステムへの応用について研究。ペパボ研究所では技術研究と実用化の架け橋となる活動を推進。情報処理学会優秀論文賞・優秀プレゼンテーション賞受賞。国際会議での発表実績あり。
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 sm:h-6 sm:w-6 text-primary"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                      role="img"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-800 text-lg sm:text-xl">
-                      執筆・講演
-                    </h4>
-                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
-                      『Elixir実践入門』（共著）、『入門Puppet』（単著）など書籍の執筆。WEB+DB
-                      PRESSでの特集記事多数。国内外での講演多数（ElixirConf
-                      US、RedDotRubyConfなど）。GMO Developers Day、BIT
-                      VALLEYなどでのパネルディスカッション登壇多数。
-                    </p>
-                  </div>
+                      <div className="w-2 h-2 bg-accent1 rounded-full group-hover/item:scale-150 transition-transform" />
+                      <span className="text-gray-700">{item}</span>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
-
-              <div className="flex items-start mt-6">
-                <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 sm:h-6 sm:w-6 text-primary"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    role="img"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800 text-lg sm:text-xl">
-                    趣味・活動
-                  </h4>
-                  <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
-                    年間200冊を読破する知の探究者。人文科学から情報科学まで幅広く学び続ける。アマチュア無線（JK1RZR）やWeb3（antipop.eth）など最新技術にも精通。VRChatなどのソーシャルVRでの活動や、歌舞伎・落語鑑賞、現代作家のうつわコレクション、江戸前鮨など、デジタルとアナログを行き来する多彩な趣味を持つ。
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start mb-8 mt-6">
-                <div className="bg-primary/10 p-2 rounded-full mr-3 mt-0.5 flex-shrink-0">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 sm:h-6 sm:w-6 text-primary"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                    role="img"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800 text-lg sm:text-xl mb-3">
-                    スキル・専門分野
-                  </h4>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                      Elixir
-                    </span>
-                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                      IoT
-                    </span>
-                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                      分散システム
-                    </span>
-                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                      AI技術
-                    </span>
-                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                      エンジニアリングマネジメント
-                    </span>
-                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                      研究開発
-                    </span>
-                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                      リーンプロセス
-                    </span>
-                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                      技術戦略
-                    </span>
-                    <span className="bg-primary/10 text-primary px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium">
-                      組織開発
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="text-center">
-                <Link href="/profile" className="btn btn-primary">
-                  詳細プロフィールを見る
-                </Link>
-              </div>
-            </div>
+            </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* ワークスタイルセクション */}
+      <section className="py-20 md:py-32 relative overflow-hidden">
+        <div className="container max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl md:text-6xl font-display font-black mb-6">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-dark to-primary">
+                WORK STYLE
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              境界を越えて、新しい価値を創造する
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: "🔬",
+                title: "実践と理論の融合",
+                desc: "CTOとして現場で実践しながら、博士として学術研究を推進。実務の課題を研究テーマに、研究成果を実務に還元",
+                color: "from-primary/20 to-primary/5",
+              },
+              {
+                icon: "🌊",
+                title: "境界を超える探求",
+                desc: "法学から情報科学、公務員からエンジニア、日中は経営者、夜は音楽家。異分野の知見が生む独自の視点",
+                color: "from-secondary/20 to-secondary/5",
+              },
+              {
+                icon: "🎭",
+                title: "創造的な問題解決",
+                desc: "開発ツールは音楽的に、音楽制作はプログラマティックに。異なる分野の手法を組み合わせた革新的アプローチ",
+                color: "from-accent1/20 to-accent1/5",
+              },
+              {
+                icon: "📡",
+                title: "オープンな知の共有",
+                desc: "コード、音楽、記事、講演、ポッドキャスト。あらゆるメディアで知見を発信し、コミュニティと共に成長",
+                color: "from-purple/20 to-purple/5",
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05, rotate: 2 }}
+                className="relative"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} rounded-3xl blur-xl`} />
+                <div className="relative bg-white rounded-3xl p-6 shadow-lg">
+                  <div className="text-4xl mb-4">{item.icon}</div>
+                  <h3 className="text-xl font-bold mb-2 text-dark">{item.title}</h3>
+                  <p className="text-gray-600 text-sm">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 制作物セクション */}
+      <section className="py-20 md:py-32 bg-gradient-to-br from-white via-light to-primary/5 relative overflow-hidden">
+        {/* 背景の装飾 */}
+        <div className="absolute inset-0">
+          <motion.div
+            animate={{ 
+              x: [0, 100, 0],
+              y: [0, -100, 0],
+            }}
+            transition={{ 
+              duration: 20, 
+              repeat: Infinity,
+              ease: "easeInOut" 
+            }}
+            className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-accent1/10 to-transparent rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{ 
+              x: [0, -100, 0],
+              y: [0, 100, 0],
+            }}
+            transition={{ 
+              duration: 25, 
+              repeat: Infinity,
+              ease: "easeInOut" 
+            }}
+            className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-secondary/10 to-transparent rounded-full blur-3xl"
+          />
+        </div>
+
+        <div className="container max-w-6xl relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl md:text-6xl font-display font-black mb-6">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent1 animate-text-gradient">
+                CREATIONS
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              140を超える作品 ー コード、音楽、映像、そして言葉で表現する世界
+            </p>
+          </motion.div>
+
+          {/* カテゴリタブ */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="flex flex-wrap justify-center gap-3 mb-12"
+          >
+            {[
+              { type: "all", name: "すべて", icon: "✨" },
+              { type: "tech-blog", name: "技術記事", icon: "📝" },
+              { type: "video", name: "動画", icon: "🎬" },
+              { type: "music", name: "音楽", icon: "🎵" },
+              { type: "slide", name: "スライド", icon: "📊" },
+              { type: "podcast", name: "ポッドキャスト", icon: "🎙️" },
+            ].map((category, index) => (
+              <motion.button
+                key={category.type}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 + index * 0.05 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-2 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 hover:border-primary/20 transition-all duration-300"
+              >
+                <span className="mr-2">{category.icon}</span>
+                {category.name}
+              </motion.button>
+            ))}
+          </motion.div>
+
+          {/* 制作物グリッド */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* 技術記事サンプル */}
+            <motion.a
+              href="https://zenn.dev/pepabo/articles/af77d4502ef881"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10, scale: 1.02 }}
+              className="group relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <article className="relative bg-white rounded-3xl overflow-hidden shadow-lg h-full flex flex-col">
+                <div className="aspect-video relative overflow-hidden">
+                  <img
+                    src="https://res.cloudinary.com/zenn/image/upload/s--AfCHL56x--/c_fit%2Cg_north_west%2Cl_text:notosansjp-medium.otf_55:Claude%2520API%25E3%2582%2592%2524100%252F%25E6%2597%25A5%25E4%25BD%25BF%25E3%2582%258F%25E3%2581%25AA%25E3%2581%2584%25E3%2581%25A8%25E6%2580%2592%25E3%2582%2589%25E3%2582%258C%25E3%2582%258B%25E3%2582%25A2%25E3%2583%2597%25E3%2583%25AA%25E3%2582%2592%25E4%25BD%259C%25E3%2581%25A3%25E3%2581%259F%25E8%25A9%25B1%2Cw_1010%2Cx_90%2Cy_100/g_south_west%2Cl_text:notosansjp-medium.otf_34:%25E6%25A0%2597%25E6%259E%2597%25E5%2581%25A5%25E5%25A4%25AA%25E9%2583%258E%2Cx_220%2Cy_108/bo_3px_solid_rgb:d6e3ed%2Cg_south_west%2Ch_90%2Cl_fetch:aHR0cHM6Ly9zdG9yYWdlLmdvb2dsZWFwaXMuY29tL3plbm4tdXNlci11cGxvYWQvYXZhdGFyLzA0ZTQxODhhYTMuanBlZw==%2Cr_20%2Cw_90%2Cx_92%2Cy_102/co_rgb:6e7b85%2Cg_south_west%2Cl_text:notosansjp-medium.otf_30:GMO%25E3%2583%259A%25E3%2583%2591%25E3%2583%259C%25E6%25A0%25AA%25E5%25BC%258F%25E4%25BC%259A%25E7%25A4%25BE%2Cx_220%2Cy_160/bo_4px_solid_white%2Cg_south_west%2Ch_50%2Cl_fetch:aHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2l3Z0U0ekNxckk1TXgtbG95T0VURDdrdzkyRlVZNjNpendmVHMxaU9FPXMyNTAtYw==%2Cr_max%2Cw_50%2Cx_139%2Cy_84/v1627283836/default/og-base-w1200-v2.png"
+                    alt="Claude APIを$100/日使わないと怒られるアプリ"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3 px-3 py-1 bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold rounded-full">
+                    技術ブログ
+                  </div>
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold mb-2 text-dark group-hover:text-primary transition-colors line-clamp-2">
+                    Claude APIを$100/日使わないと怒られるアプリを作った話
+                  </h3>
+                  <p className="text-sm text-gray-600 line-clamp-2">
+                    Claude APIの使用量が1日$100未満だと激怒してくるアプリ「Hundred Dollar Enforcer」を作りました。
+                  </p>
+                  <time className="text-xs text-gray-500 mt-auto pt-3 block">
+                    2025年6月27日
+                  </time>
+                </div>
+              </article>
+            </motion.a>
+
+            {/* 動画サンプル */}
+            <motion.a
+              href="https://www.youtube.com/watch?v=_G3XRMXgDcw"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10, scale: 1.02 }}
+              className="group relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary/20 to-accent1/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <article className="relative bg-white rounded-3xl overflow-hidden shadow-lg h-full flex flex-col">
+                <div className="aspect-video relative overflow-hidden">
+                  <img
+                    src="https://i.ytimg.com/vi/_G3XRMXgDcw/hqdefault.jpg"
+                    alt="Motion Jam"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute top-3 left-3 px-3 py-1 bg-red-600 text-white text-xs font-bold rounded-full">
+                    動画
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
+                      <div className="w-0 h-0 border-l-[20px] border-l-red-600 border-t-[12px] border-t-transparent border-b-[12px] border-b-transparent ml-1" />
+                    </div>
+                  </div>
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold mb-2 text-dark group-hover:text-primary transition-colors line-clamp-2">
+                    Motion Jam: Move Your Body, Create the Beat
+                  </h3>
+                  <p className="text-sm text-gray-600 line-clamp-2">
+                    体の動きで音楽を生成する、インタラクティブなWebアプリケーション
+                  </p>
+                  <time className="text-xs text-gray-500 mt-auto pt-3 block">
+                    2025年5月14日
+                  </time>
+                </div>
+              </article>
+            </motion.a>
+
+            {/* 音楽サンプル */}
+            <motion.a
+              href="https://soundcloud.com/kentarok/launch"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10, scale: 1.02 }}
+              className="group relative"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-accent1/20 to-purple/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <article className="relative bg-white rounded-3xl overflow-hidden shadow-lg h-full flex flex-col">
+                <div className="aspect-square relative overflow-hidden">
+                  <img
+                    src="https://i1.sndcdn.com/artworks-XegKbK6E7A4dpIzK-3AziEg-t3000x3000.jpg"
+                    alt="Launch"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className="absolute top-3 left-3 px-3 py-1 bg-orange-600 text-white text-xs font-bold rounded-full">
+                    音楽
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="h-16 flex items-end gap-1">
+                      {[...Array(20)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          animate={{ 
+                            height: ["20%", "100%", "20%"],
+                          }}
+                          transition={{ 
+                            duration: 1, 
+                            repeat: Infinity,
+                            delay: i * 0.05,
+                            ease: "easeInOut" 
+                          }}
+                          className="flex-1 bg-white/80 rounded-full"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <h3 className="text-lg font-bold mb-2 text-dark group-hover:text-primary transition-colors">
+                    Launch
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    24, May 2025
+                  </p>
+                  <time className="text-xs text-gray-500 mt-auto pt-3 block">
+                    2025年5月24日
+                  </time>
+                </div>
+              </article>
+            </motion.a>
+          </div>
+
+          {/* もっと見るボタン */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <Link
+              href="/works"
+              className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              すべての制作物を見る
+              <motion.span
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                →
+              </motion.span>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
       {/* フォローセクション */}
-      <section className="section bg-accent1/5">
-        <div className="container">
-          <h2 className="section-title">栗林健太郎をフォローしよう！</h2>
-          <p className="text-center text-gray-700 mb-8 sm:mb-16 max-w-2xl mx-auto text-sm sm:text-base">
-            最新の技術情報や研究成果、日々の活動などをSNSで発信しています。
-            ぜひフォローして、最新情報をチェックしてください。
-          </p>
+      <section className="py-20 md:py-32 bg-gradient-to-t from-dark to-gray-900 text-white relative overflow-hidden">
+        {/* 装飾的な要素 */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-full h-full opacity-10">
+            <div className="absolute top-20 left-20 w-64 h-64 bg-primary rounded-full blur-3xl" />
+            <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary rounded-full blur-3xl" />
+          </div>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
+        <div className="container max-w-6xl relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl md:text-6xl font-display font-black mb-6">
+              CONNECT
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              最新の技術情報や研究成果、日々の活動をフォローしよう
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {/* X (Twitter) */}
-            <a
+            <motion.a
               href="https://x.com/kentaro"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05, rotate: -2 }}
+              className="relative group"
             >
-              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
-                <FaXTwitter className="w-6 h-6 sm:w-8 sm:h-8" />
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-6 text-center">
+                <FaXTwitter className="w-8 h-8 mb-3 mx-auto" />
+                <h3 className="font-bold text-lg mb-1">X</h3>
+                <p className="text-sm text-gray-300">@kentaro</p>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2">
-                X
-              </h3>
-              <p className="text-gray-600 mb-4 text-sm">
-                日々の活動や技術的な気づきを発信しています
-              </p>
-              <span className="text-primary font-medium text-sm sm:text-base">
-                @kentaro
-              </span>
-            </a>
+            </motion.a>
 
             {/* GitHub */}
-            <a
+            <motion.a
               href="https://github.com/kentaro"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              className="relative group"
             >
-              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
-                <FaGithub className="w-6 h-6 sm:w-8 sm:h-8" />
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-800 to-indigo-900 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-6 text-center">
+                <FaGithub className="w-8 h-8 mb-3 mx-auto" />
+                <h3 className="font-bold text-lg mb-1">GitHub</h3>
+                <p className="text-sm text-gray-300">@kentaro</p>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2">
-                GitHub
-              </h3>
-              <p className="text-gray-600 mb-4 text-sm">
-                オープンソースプロジェクトやコード例を公開しています
-              </p>
-              <span className="text-primary font-medium text-sm sm:text-base">
-                @kentaro
-              </span>
-            </a>
+            </motion.a>
 
             {/* YouTube */}
-            <a
+            <motion.a
               href="https://youtube.com/@kentarok"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05, rotate: -2 }}
+              className="relative group"
             >
-              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
-                <FaYoutube className="w-6 h-6 sm:w-8 sm:h-8" />
+              <div className="absolute inset-0 bg-gradient-to-br from-red-800 to-pink-900 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-6 text-center">
+                <FaYoutube className="w-8 h-8 mb-3 mx-auto" />
+                <h3 className="font-bold text-lg mb-1">YouTube</h3>
+                <p className="text-sm text-gray-300">@kentarok</p>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2">
-                YouTube
-              </h3>
-              <p className="text-gray-600 mb-4 text-sm">
-                音楽や動画作成等の趣味に関する動画を配信しています
-              </p>
-              <span className="text-primary font-medium text-sm sm:text-base">
-                @kentarok
-              </span>
-            </a>
+            </motion.a>
 
             {/* Discord */}
-            <a
+            <motion.a
               href="https://discord.gg/SXyKFCyMd5"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              className="relative group"
             >
-              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
-                <FaDiscord className="w-6 h-6 sm:w-8 sm:h-8" />
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-800 to-blue-900 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-6 text-center">
+                <FaDiscord className="w-8 h-8 mb-3 mx-auto" />
+                <h3 className="font-bold text-lg mb-1">Discord</h3>
+                <p className="text-sm text-gray-300">Community</p>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2">
-                Discord
-              </h3>
-              <p className="text-gray-600 mb-4 text-sm">
-                コミュニティでの交流や技術・制作に関する質問・議論ができます
-              </p>
-              <span className="text-primary font-medium text-sm sm:text-base">
-                kentarokuribayashi.com
-              </span>
-            </a>
+            </motion.a>
 
             {/* Facebook */}
-            <a
+            <motion.a
               href="https://facebook.com/kentarok"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05, rotate: -2 }}
+              className="relative group"
             >
-              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
-                <FaFacebook className="w-6 h-6 sm:w-8 sm:h-8" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-800 to-cyan-900 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-6 text-center">
+                <FaFacebook className="w-8 h-8 mb-3 mx-auto" />
+                <h3 className="font-bold text-lg mb-1">Facebook</h3>
+                <p className="text-sm text-gray-300">kentarok</p>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2">
-                Facebook
-              </h3>
-              <p className="text-gray-600 mb-4 text-sm">
-                イベント情報やプロフェッショナルな活動を共有しています
-              </p>
-              <span className="text-primary font-medium text-sm sm:text-base">
-                kentarok
-              </span>
-            </a>
+            </motion.a>
 
             {/* メール */}
-            <a
+            <motion.a
               href="mailto:kentarok@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="card flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all duration-200 p-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              className="relative group"
             >
-              <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center bg-primary/10 text-primary rounded-full mb-4">
-                <MdEmail className="w-6 h-6 sm:w-8 sm:h-8" />
+              <div className="absolute inset-0 bg-gradient-to-br from-green-800 to-emerald-900 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 rounded-3xl p-6 text-center">
+                <MdEmail className="w-8 h-8 mb-3 mx-auto" />
+                <h3 className="font-bold text-lg mb-1">Email</h3>
+                <p className="text-sm text-gray-300">Contact</p>
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold mb-2">
-                メール
-              </h3>
-              <p className="text-gray-600 mb-4 text-sm">
-                お問い合わせやご連絡はこちらからどうぞ
-              </p>
-              <span className="text-primary font-medium text-sm sm:text-base">
-                kentarok@gmail.com
-              </span>
-            </a>
+            </motion.a>
           </div>
         </div>
       </section>

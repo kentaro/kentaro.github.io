@@ -1,6 +1,8 @@
 import { Feed } from "feed";
 import fs from "node:fs";
 import path from "node:path";
+import { remark } from "remark";
+import stripMarkdown from "strip-markdown";
 import { getAllMarkdownFiles, getMarkdownData } from "./markdown";
 
 const SITE_URL = "https://kentarokuribayashi.com";
@@ -37,11 +39,23 @@ export async function generateRssFeed(type: "blog" | "journal") {
 			const data = await getMarkdownData(slug);
 			if (!data) return null;
 
+			// excerptのMarkdownをプレーンテキストに変換
+			let plainTextExcerpt = data.excerpt;
+			try {
+				const processedExcerpt = await remark()
+					.use(stripMarkdown)
+					.process(data.excerpt);
+				plainTextExcerpt = processedExcerpt.toString().trim();
+			} catch (e) {
+				// エラーの場合は元のexcerptを使用
+				console.error("Error stripping markdown from excerpt:", e);
+			}
+
 			return {
 				slug,
 				title: data.title,
 				date: data.date ? new Date(data.date) : new Date(),
-				excerpt: data.excerpt,
+				excerpt: plainTextExcerpt,
 				contentHtml: data.contentHtml,
 			};
 		});

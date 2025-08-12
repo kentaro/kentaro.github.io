@@ -3,6 +3,8 @@ import path from "node:path";
 import axios from "axios";
 import xml2js from "xml2js";
 import { Feed } from "feed";
+import { remark } from "remark";
+import stripMarkdown from "strip-markdown";
 import { generateRssFeed } from "../lib/rss";
 
 // フィードのソース一覧
@@ -468,23 +470,37 @@ async function generateCombinedFeed() {
 		date: Date;
 		image?: string;
 	};
+	
+	// Markdownを除去する関数
+	const stripMarkdownText = async (text: string): Promise<string> => {
+		try {
+			const processed = await remark()
+				.use(stripMarkdown)
+				.process(text);
+			return processed.toString().trim();
+		} catch (e) {
+			console.error("Error stripping markdown:", e);
+			return text;
+		}
+	};
+	
 	const rootItems: RootItem[] = [
-		...blogPosts.map((post) => ({
+		...await Promise.all(blogPosts.map(async (post) => ({
 			title: post.title,
 			id: `${SITE_URL}/${post.slug}`,
 			link: `${SITE_URL}/${post.slug}`,
-			description: post.excerpt,
+			description: await stripMarkdownText(post.excerpt),
 			content: post.contentHtml,
 			date: post.date,
-		})),
-		...journalPosts.map((post) => ({
+		}))),
+		...await Promise.all(journalPosts.map(async (post) => ({
 			title: post.title,
 			id: `${SITE_URL}/${post.slug}`,
 			link: `${SITE_URL}/${post.slug}`,
-			description: post.excerpt,
+			description: await stripMarkdownText(post.excerpt),
 			content: post.contentHtml,
 			date: post.date,
-		})),
+		}))),
 		...latestItems.map((item) => ({
 			title: item.title,
 			id: item.url,

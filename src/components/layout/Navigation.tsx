@@ -66,19 +66,6 @@ export default function Navigation() {
           </li>
           <li>
             <Link 
-              href="/blog" 
-              className={`py-2 px-2 sm:px-3 md:px-4 lg:px-5 font-medium transition-all duration-300 rounded-full text-xs sm:text-sm md:text-base whitespace-nowrap ${
-                isActive('/blog') 
-                  ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
-                  : 'text-dark hover:text-primary hover:bg-primary/10'
-              }`}
-            >
-              <span className="hidden sm:inline">ブログ</span>
-              <span className="sm:hidden">📝</span>
-            </Link>
-          </li>
-          <li>
-            <Link 
               href="/journal" 
               className={`py-2 px-2 sm:px-3 md:px-4 lg:px-5 font-medium transition-all duration-300 rounded-full text-xs sm:text-sm md:text-base whitespace-nowrap ${
                 isActive('/journal') 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
-    "build": "npm run generate-rss && npm run generate-combined-feed && npm run generate-search-data && npm run generate-embeddings && next build",
+    "build": "npm run generate-rss && npm run generate-combined-feed && npm run generate-search-data && next build",
     "start": "next start",
     "lint": "next lint",
     "generate-rss": "ts-node --project tsconfig.node.json src/scripts/generate-rss.ts",

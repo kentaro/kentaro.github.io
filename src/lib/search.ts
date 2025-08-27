@@ -4,8 +4,7 @@ import { vector } from "@electric-sql/pglite/vector";
 import { live } from "@electric-sql/pglite/live";
 import { useLiveQuery, usePGlite } from "@electric-sql/pglite-react";
 import { getGlobalPglite, setGlobalPglite } from "@/lib/PGliteContext";
-import { generateEmbedding } from "@/lib/embeddings";
-import { updateDocumentEmbedding, initializeVectorSearch } from "@/lib/vectorSearch";
+// Removed embedding-related imports - not needed for basic search
 
 // 検索ドキュメントの型定義
 export interface SearchDocument {
@@ -271,8 +270,8 @@ export async function loadSearchData(onProgress?: ProgressCallback) {
 		if (!db) return;
 	}
 	
-	// Initialize vector search
-	await initializeVectorSearch();
+	// Skip vector search initialization - not needed for basic search
+	// await initializeVectorSearch();
 
 	try {
 		// 既存のデータを確認（既にロード済みかチェック）
@@ -282,36 +281,20 @@ export async function loadSearchData(onProgress?: ProgressCallback) {
 		if (rows[0].count > 0) {
 			console.log(`Database already contains ${rows[0].count} documents`);
 			
-			// Check if embeddings exist
-			const { rows: embeddingRows } = await db.query<{ count: number }>(
-				"SELECT COUNT(*) as count FROM documents WHERE embedding IS NOT NULL",
-			);
-			const embeddingCount = embeddingRows[0]?.count || 0;
-			console.log(`Documents with embeddings: ${embeddingCount}`);
+			// Documents already loaded
+			isDataLoaded = true;
 			
-			if (embeddingCount === rows[0].count) {
-				// All documents have embeddings
-				isDataLoaded = true;
-				
-				if (onProgress) {
-					onProgress({
-						isLoading: false,
-						status: `${rows[0].count} 件のドキュメントがロード済みです（embeddings付き）`,
-						progress: 1,
-						total: 1,
-						error: null,
-					});
-				}
-				
-				return;
-			} else if (embeddingCount > 0) {
-				console.log(`${embeddingCount}/${rows[0].count} documents have embeddings. Regenerating all embeddings...`);
+			if (onProgress) {
+				onProgress({
+					isLoading: false,
+					status: `${rows[0].count} 件のドキュメントがロード済みです`,
+					progress: 1,
+					total: 1,
+					error: null,
+				});
 			}
 			
-			// If we reach here, we need to regenerate embeddings
-			// Clear the table and reload
-			console.log("Clearing existing data to regenerate with embeddings...");
-			await db.query("DELETE FROM documents");
+			return;
 		}
 
 		console.log("Loading search data...");
@@ -326,25 +309,9 @@ export async function loadSearchData(onProgress?: ProgressCallback) {
 			});
 		}
 
-		// 検索データを取得 - embeddings付きのデータを優先的に使用
-		let searchData: SearchDocument[] = [];
-		try {
-			const responseWithEmbeddings = await fetch("/search-data-with-embeddings.min.json");
-			if (responseWithEmbeddings.ok) {
-				searchData = await responseWithEmbeddings.json();
-				console.log("Loaded search data with pre-generated embeddings");
-			} else {
-				// フォールバック: embeddings無しのデータを使用
-				const response = await fetch("/search-data.json");
-				searchData = await response.json();
-				console.log("Loaded search data without embeddings");
-			}
-		} catch (error) {
-			// フォールバック: embeddings無しのデータを使用
-			const response = await fetch("/search-data.json");
-			searchData = await response.json();
-			console.log("Loaded search data without embeddings (fallback)");
-		}
+		// 検索データを取得
+		const response = await fetch("/search-data.json");
+		const searchData: SearchDocument[] = await response.json();
 
 		console.log(`Loaded ${searchData.length} documents from search-data.json`);
 		
@@ -364,31 +331,8 @@ export async function loadSearchData(onProgress?: ProgressCallback) {
 			const batch = searchData.slice(i, i + batchSize);
 
 			for (const doc of batch) {
-				// embeddingがある場合は一緒に保存
-				if ((doc as any).embedding) {
-					await db.query(
-						`INSERT INTO documents (id, title, path, content, date, excerpt, embedding) 
-          VALUES ($1, $2, $3, $4, $5, $6, $7)
-          ON CONFLICT (id) DO UPDATE SET
-            title = $2,
-            path = $3,
-            content = $4,
-            date = $5,
-            excerpt = $6,
-            embedding = $7`,
-						[
-							doc.id,
-							doc.title,
-							doc.path,
-							doc.content,
-							doc.date || null,
-							doc.excerpt || null,
-							`[${(doc as any).embedding.join(",")}]`,
-						],
-					);
-				} else {
-					await db.query(
-						`INSERT INTO documents (id, title, path, content, date, excerpt) 
+				await db.query(
+					`INSERT INTO documents (id, title, path, content, date, excerpt) 
           VALUES ($1, $2, $3, $4, $5, $6)
           ON CONFLICT (id) DO UPDATE SET
             title = $2,
@@ -396,16 +340,15 @@ export async function loadSearchData(onProgress?: ProgressCallback) {
             content = $4,
             date = $5,
             excerpt = $6`,
-						[
-							doc.id,
-							doc.title,
-							doc.path,
-							doc.content,
-							doc.date || null,
-							doc.excerpt || null,
-						],
-					);
-				}
+					[
+						doc.id,
+						doc.title,
+						doc.path,
+						doc.content,
+						doc.date || null,
+						doc.excerpt || null,
+					],
+				);
 			}
 
 			const currentBatch = i / batchSize + 1;
@@ -425,66 +368,8 @@ export async function loadSearchData(onProgress?: ProgressCallback) {
 			}
 		}
 		
-		// Check if we need to generate embeddings
-		const hasPreGeneratedEmbeddings = searchData.length > 0 && (searchData[0] as any).embedding;
-		
-		if (!hasPreGeneratedEmbeddings) {
-			// Generate embeddings for documents only if not pre-generated
-			console.log("No pre-generated embeddings found. Generating embeddings for documents...");
-			if (onProgress) {
-				onProgress({
-					isLoading: true,
-					status: "ドキュメントのembeddingsを生成中...",
-					progress: 0,
-					total: searchData.length,
-					error: null,
-				});
-			}
-			
-			// Process embeddings in batches to avoid overwhelming the system
-			const embeddingBatchSize = 5; // Smaller batch size for embeddings
-			let embeddingsGenerated = 0;
-			
-			// Process all documents
-			const documentsToProcess = searchData.length;
-			console.log(`Generating embeddings for all ${documentsToProcess} documents...`);
-			
-			for (let i = 0; i < documentsToProcess; i += embeddingBatchSize) {
-				const batch = searchData.slice(i, Math.min(i + embeddingBatchSize, documentsToProcess));
-				
-				for (const doc of batch) {
-					try {
-						// Generate embedding for document content
-						const textToEmbed = `${doc.title} ${doc.excerpt || doc.content.substring(0, 500)}`;
-						const embedding = await generateEmbedding(textToEmbed);
-						
-						if (embedding) {
-							await updateDocumentEmbedding(doc.id, embedding);
-							embeddingsGenerated++;
-						}
-					} catch (error) {
-						console.error(`Error generating embedding for document ${doc.id}:`, error);
-					}
-				}
-				
-				const progress = Math.min(i + embeddingBatchSize, documentsToProcess);
-				console.log(`Generated embeddings: ${progress}/${documentsToProcess}`);
-				
-				if (onProgress) {
-					onProgress({
-						isLoading: true,
-						status: `embeddingsを生成中... (${progress}/${documentsToProcess})`,
-						progress: searchData.length + progress, // Add to document count for total progress
-						total: searchData.length + documentsToProcess,
-						error: null,
-					});
-				}
-			}
-			
-			console.log(`Embeddings generated for ${embeddingsGenerated} documents`);
-		} else {
-			console.log("Using pre-generated embeddings from build time");
-		}
+		// Skip embedding generation - embeddings are not needed for basic search
+		console.log("Skipping embedding generation - using full-text search only");
 
 		isDataLoaded = true;
 		console.log("Search data loaded successfully");

@@ -46,7 +46,7 @@ export default function Header() {
         <Link href="/" className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           <div className="relative w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 overflow-hidden rounded-full border-2 border-primary/30 hover:border-primary transition-all duration-300 hover:scale-110">
             <Image
-              src="https://pbs.twimg.com/profile_images/1960573406715518976/lYy-PAQy_400x400.jpg"
+              src="https://pbs.twimg.com/profile_images/1964961444673531905/wD3BXCk2_400x400.jpg"
               alt="栗林健太郎"
               fill
               className="object-cover"
@@ -79,7 +79,7 @@ export default function Header() {
               <Link href="/" className="flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
                 <div className="relative w-8 h-8 overflow-hidden rounded-full">
                   <Image
-                    src="https://pbs.twimg.com/profile_images/1960573406715518976/lYy-PAQy_400x400.jpg"
+                    src="https://pbs.twimg.com/profile_images/1964961444673531905/wD3BXCk2_400x400.jpg"
                     alt="栗林健太郎"
                     fill
                     className="object-cover"

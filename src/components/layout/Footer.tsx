@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="flex items-center gap-3">
             <div className="relative w-10 h-10 md:w-12 md:h-12 overflow-hidden rounded-full border-2 border-primary shadow-lg hover:scale-110 transition-transform duration-300">
               <Image 
-                src="https://pbs.twimg.com/profile_images/1893532407988367361/5EfifO80_400x400.jpg"
+                src="https://pbs.twimg.com/profile_images/1964961444673531905/wD3BXCk2_400x400.jpg"
                 alt="栗林健太郎"
                 fill
                 className="object-cover"

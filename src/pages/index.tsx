@@ -166,7 +166,7 @@ export default function Home() {
                 {/* メイン画像 */}
                 <div className="absolute inset-12 rounded-full overflow-hidden border-8 border-white shadow-2xl">
                   <Image
-                    src="https://pbs.twimg.com/profile_images/1960573406715518976/lYy-PAQy_400x400.jpg"
+                    src="https://pbs.twimg.com/profile_images/1964961444673531905/wD3BXCk2_400x400.jpg"
                     alt="栗林健太郎"
                     fill
                     className="object-cover"

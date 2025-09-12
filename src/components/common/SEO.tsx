@@ -20,7 +20,7 @@ export default function SEO({
   const router = useRouter();
 
   // デフォルトアイコンURL
-  const defaultIconUrl = 'https://pbs.twimg.com/profile_images/1960573406715518976/lYy-PAQy_400x400.jpg';
+  const defaultIconUrl = 'https://pbs.twimg.com/profile_images/1964961444673531905/wD3BXCk2_400x400.jpg';
 
   // OGイメージURLの生成（ブログ記事と日記記事のみタイトルは「｜栗林健太郎」なしで、その他のページでは「｜栗林健太郎」を含める）
   const isBlogPostOrJournalPost = (router.pathname.startsWith('/blog/') && router.pathname !== '/blog') ||

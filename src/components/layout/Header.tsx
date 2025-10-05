@@ -119,6 +119,11 @@ export default function Header() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/podcast" className="block py-3 px-4 text-dark hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-300" onClick={() => setIsMenuOpen(false)}>
+                    ポッドキャスト
+                  </Link>
+                </li>
+                <li>
                   <button
                     onClick={openSearch}
                     className="flex items-center py-3 px-4 text-dark hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-300 w-full text-left"

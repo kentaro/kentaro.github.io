@@ -24,11 +24,18 @@ export interface PodcastInfo {
 export async function fetchPodcastFeed(rssUrl: string): Promise<PodcastInfo> {
   try {
     // RSSフィードを取得
-    const response = await axios.get(rssUrl);
+    const response = await axios.get(rssUrl, {
+      headers: {
+        'User-Agent': 'curl/7.64.1'
+      }
+    });
     const xmlData = response.data;
 
     // XMLをパース
-    const parser = new xml2js.Parser({ explicitArray: false });
+    const parser = new xml2js.Parser({
+      explicitArray: false,
+      trim: true
+    });
     const result = await parser.parseStringPromise(xmlData);
 
     const channel = result.rss.channel;

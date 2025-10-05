@@ -5,7 +5,7 @@ import SEO from '@/components/common/SEO';
 import PageHeader from '@/components/common/PageHeader';
 import { FaApple, FaAmazon, FaSpotify, FaRss } from 'react-icons/fa';
 import { useState } from 'react';
-import type { PodcastInfo } from '@/lib/podcast';
+import { fetchPodcastFeed, type PodcastInfo } from '@/lib/podcast';
 
 type PodcastPageProps = {
   podcastData: PodcastInfo;
@@ -236,14 +236,10 @@ export default function PodcastPage({ podcastData }: PodcastPageProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const fs = await import('fs');
-  const path = await import('path');
-
   try {
-    // ビルド時に生成されたポッドキャストデータを読み込み
-    const dataPath = path.join(process.cwd(), 'public', 'data', 'podcast.json');
-    const jsonData = fs.readFileSync(dataPath, 'utf-8');
-    const podcastData: PodcastInfo = JSON.parse(jsonData);
+    // RSSフィードから直接最新データを取得
+    const rssUrl = 'https://anchor.fm/s/6877a570/podcast/rss';
+    const podcastData = await fetchPodcastFeed(rssUrl);
 
     return {
       props: {
@@ -251,7 +247,7 @@ export const getStaticProps: GetStaticProps = async () => {
       },
     };
   } catch (error) {
-    console.error('Error loading podcast data:', error);
+    console.error('Error fetching podcast data:', error);
 
     // エラー時はデフォルトデータを返す
     return {

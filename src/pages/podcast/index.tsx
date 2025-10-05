@@ -55,7 +55,7 @@ function htmlToMarkdown(html: string): string {
   return html
     .replace(/<p>/gi, '')
     .replace(/<\/p>/gi, '\n\n')
-    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<br\s*\/?>/gi, '{BR}')
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
@@ -138,7 +138,11 @@ export default function PodcastPage({ podcastData }: PodcastPageProps) {
               <div className="mb-6">
                 <div className={`text-sm sm:text-base text-gray-700 space-y-3 ${!isExpanded ? 'line-clamp-6' : ''}`}>
                   {htmlToMarkdown(podcastData.description).split('\n\n').map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
+                    <p key={index}>
+                      {paragraph.split('{BR}').map((line, i, arr) => (
+                        i < arr.length - 1 ? <>{line}<br /></> : line
+                      ))}
+                    </p>
                   ))}
                 </div>
                 {podcastData.description && htmlToMarkdown(podcastData.description).length > 200 && (
@@ -210,7 +214,11 @@ export default function PodcastPage({ podcastData }: PodcastPageProps) {
                     {episode.description && (
                       <div className="text-sm sm:text-base text-gray-700 mb-4 line-clamp-3 space-y-2">
                         {htmlToMarkdown(episode.description).split('\n\n').slice(0, 2).map((paragraph, index) => (
-                          <p key={index}>{paragraph}</p>
+                          <p key={index}>
+                            {paragraph.split('{BR}').map((line, i, arr) => (
+                              i < arr.length - 1 ? <>{line}<br /></> : line
+                            ))}
+                          </p>
                         ))}
                       </div>
                     )}

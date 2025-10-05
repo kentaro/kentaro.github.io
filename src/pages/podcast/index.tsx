@@ -1,10 +1,10 @@
 import type { GetStaticProps } from 'next';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import PageHeader from '@/components/common/PageHeader';
 import { FaApple, FaAmazon, FaSpotify, FaRss } from 'react-icons/fa';
-import { useState } from 'react';
 import { fetchPodcastFeed, type PodcastInfo } from '@/lib/podcast';
 
 type PodcastPageProps = {
@@ -38,7 +38,7 @@ const PODCAST_LINKS = [
   },
 ];
 
-// HTMLタグを除去する関数
+// HTMLタグを除去する関数（短い説明文用）
 function stripHtml(html: string): string {
   return html
     .replace(/<[^>]*>/g, '')
@@ -50,19 +50,30 @@ function stripHtml(html: string): string {
     .trim();
 }
 
-// HTMLをMarkdown風のテキストに変換する関数
-function htmlToMarkdown(html: string): string {
-  return html
-    .replace(/<p>/gi, '')
-    .replace(/<\/p>/gi, '\n\n')
-    .replace(/<br\s*\/?>/gi, '{BR}')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/<[^>]*>/g, '')
-    .trim();
+// HTMLを安全に表示用に処理（リンクのtarget属性を追加、URLを自動リンク化）
+function processHtml(html: string): string {
+  if (!html) return '';
+
+  // 既存の<a>タグにtarget="_blank"とrel="noopener noreferrer"を追加
+  let processed = html.replace(
+    /<a\s+([^>]*?)href=["']([^"']+)["']([^>]*)>/gi,
+    '<a $1href="$2" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline"$3>'
+  );
+
+  // プレーンテキストのURL（https://で始まる文字列）を<a>タグに変換
+  // ただし既に<a>タグになっているものは除外
+  processed = processed.replace(
+    /(^|[^">])(https?:\/\/[^\s<]+)/gi,
+    (match, prefix, url) => {
+      // URLの前に href=" がある場合は既にリンクになっているので変換しない
+      if (prefix.includes('href=') || prefix.includes('src=')) {
+        return match;
+      }
+      return `${prefix}<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">${url}</a>`;
+    }
+  );
+
+  return processed;
 }
 
 export default function PodcastPage({ podcastData }: PodcastPageProps) {
@@ -136,16 +147,12 @@ export default function PodcastPage({ podcastData }: PodcastPageProps) {
               </p>
 
               <div className="mb-6">
-                <div className={`text-sm sm:text-base text-gray-700 space-y-3 ${!isExpanded ? 'line-clamp-6' : ''}`}>
-                  {htmlToMarkdown(podcastData.description).split('\n\n').map((paragraph, index) => (
-                    <p key={index}>
-                      {paragraph.split('{BR}').map((line, i, arr) => (
-                        i < arr.length - 1 ? <>{line}<br /></> : line
-                      ))}
-                    </p>
-                  ))}
-                </div>
-                {podcastData.description && htmlToMarkdown(podcastData.description).length > 200 && (
+                <div
+                  className={`text-sm sm:text-base text-gray-700 [&_p]:mb-3 [&_br]:block ${!isExpanded ? 'line-clamp-6' : ''}`}
+                  dangerouslySetInnerHTML={{ __html: processHtml(podcastData.description) }}
+                  style={{ whiteSpace: 'pre-wrap' }}
+                />
+                {podcastData.description && stripHtml(podcastData.description).length > 200 && (
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="text-primary hover:underline text-sm mt-2"
@@ -212,15 +219,11 @@ export default function PodcastPage({ podcastData }: PodcastPageProps) {
                       {episode.duration && ` • ${episode.duration}`}
                     </p>
                     {episode.description && (
-                      <div className="text-sm sm:text-base text-gray-700 mb-4 line-clamp-3 space-y-2">
-                        {htmlToMarkdown(episode.description).split('\n\n').slice(0, 2).map((paragraph, index) => (
-                          <p key={index}>
-                            {paragraph.split('{BR}').map((line, i, arr) => (
-                              i < arr.length - 1 ? <>{line}<br /></> : line
-                            ))}
-                          </p>
-                        ))}
-                      </div>
+                      <div
+                        className="text-sm sm:text-base text-gray-700 mb-4 line-clamp-3 [&_p]:mb-3 [&_br]:block"
+                        dangerouslySetInnerHTML={{ __html: processHtml(episode.description) }}
+                        style={{ whiteSpace: 'pre-wrap' }}
+                      />
                     )}
                     {episode.audioUrl && (
                       <audio

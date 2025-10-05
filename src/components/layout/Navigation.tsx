@@ -65,16 +65,29 @@ export default function Navigation() {
             </Link>
           </li>
           <li>
-            <Link 
-              href="/journal" 
+            <Link
+              href="/journal"
               className={`py-2 px-2 sm:px-3 md:px-4 lg:px-5 font-medium transition-all duration-300 rounded-full text-xs sm:text-sm md:text-base whitespace-nowrap ${
-                isActive('/journal') 
-                  ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
+                isActive('/journal')
+                  ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white'
                   : 'text-dark hover:text-primary hover:bg-primary/10'
               }`}
             >
               <span className="hidden sm:inline">日記</span>
               <span className="sm:hidden">📖</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/podcast"
+              className={`py-2 px-2 sm:px-3 md:px-4 lg:px-5 font-medium transition-all duration-300 rounded-full text-xs sm:text-sm md:text-base whitespace-nowrap ${
+                isActive('/podcast')
+                  ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white'
+                  : 'text-dark hover:text-primary hover:bg-primary/10'
+              }`}
+            >
+              <span className="hidden sm:inline">ポッドキャスト</span>
+              <span className="sm:hidden">🎙️</span>
             </Link>
           </li>
           <li>

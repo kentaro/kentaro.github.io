@@ -1,0 +1,313 @@
+{
+  "title": "栗林健太郎のまわり道",
+  "description": "情報科学の博士号を持つソフトウェアエンジニアとして日々テクノロジーにたずさわる栗林健太郎が、日々の思考の「まわり道」で見えた風景についてお話しするポッドキャストです。専門のITの話題から、宇宙開発や生物学などの科学技術、言語学習やアートなどの人文学についての考察、そして日常の小さな疑問まで。多様なテーマを横断しながら、知的好奇心を刺激するトピックについて毎回10分程度でお届けします。\n\n「まわり道」の途上にこそ、新しい発見や視点がある。\n専門性と遊び心が交差する思考の断片を、どうぞお楽しみください。\n\n【栗林健太郎とは】\nGMOペパボ株式会社取締役CTO、日本CTO協会理事。博士（情報科学、JAIST）。大学卒業後、市役所勤務を経て、2008年よりIT業界へ。2012年よりGMOペパボ株式会社。現在、取締役CTOとして技術経営、新規事業創出に取り組む。2025年3月、博士号取得。インターネット上では「あんちぽ」として知られる。\n\n【各種リンク】\n🌐 ホームページ: https://kentarokuribayashi.com/\n🐦 X（旧Twitter）: https://x.com/kentaro\n🎙️ ポッドキャスト: https://creators.spotify.com/pod/profile/kentarokuribayashi\n",
+  "imageUrl": "https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/17426716/17426716-1759207624664-cab0ecf042a6a.jpg",
+  "episodes": [
+    {
+      "title": "#34 AIを有効活用する鍵は「比較」にある",
+      "description": "<p>AIをもっと有効に活用するには「比較」の視点が欠かせません。情報の収集や整理自体はAIが得意ですが、たくさんの情報の比較から新たな問題を見つけることは人、間の創造性にしかできません。時間的・空間的・代替的・アナロジー的という4つの比較軸を取り上げ、具体的な実例を通じて問題発見のプロセスを紹介します。AIを効率化の道具としてだけではなく、思考の伴走者にするためのヒントをお届けします。</p><p><br></p><p>----</p><p><br></p><p>【栗林健太郎とは】</p><p>GMOペパボ株式会社取締役CTO、日本CTO協会理事。博士（情報科学、JAIST）。大学卒業後、市役所勤務を経て、2008年よりIT業界へ。2012年よりGMOペパボ株式会社。現在、取締役CTOとして技術経営、新規事業創出に取り組む。2025年3月、博士号取得。インターネット上では「あんちぽ」として知られる。</p><p><br></p><p>【各種リンク】</p><p>🌐 ホームページ: https://kentarokuribayashi.com/</p><p>🐦 X（旧Twitter）: https://x.com/kentaro</p><p>💬 Discord: https://discord.gg/SXyKFCyMd5</p><p>✍️ 質問フォーム: https://forms.gle/8mrzUJNYXmkKuetu7</p><p>🎙️ ポッドキャスト: https://creators.spotify.com/pod/profile/kentarokuribayashi</p>\n",
+      "pubDate": "Thu, 02 Oct 2025 14:35:01 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/109121213/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-9-2%2Ff0e907b7-aeb7-4e9a-4b4a-a2d9d2a41ed4.mp3",
+      "duration": "00:15:11",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/34-AI-e390k7t",
+      "guid": "40545d65-5481-4e3f-ba42-17bd36bb3803"
+    },
+    {
+      "title": "#33 宇宙からの声を聴く",
+      "description": "<p>アマチュア無線で人工衛星からの電波を受信する体験について語ります。子どもの頃に宇宙へ憧れた原点から、ハモるんやKOSEN-1といった小型衛星との出会い、実際に聴こえた「宇宙からの声」、そして受信の苦労や失敗談、学び直しの決意や今後の挑戦、さらに宇宙ビジネスやオープンな観測ネットワークへの関心まで、幅広くお話しします。リスナーの皆さんと一緒に取り組める可能性についても触れています。</p><p><br></p><p>----</p><p><br></p><p>【栗林健太郎とは】</p><p>GMOペパボ株式会社取締役CTO、日本CTO協会理事。博士（情報科学、JAIST）。大学卒業後、市役所勤務を経て、2008年よりIT業界へ。2012年よりGMOペパボ株式会社。現在、取締役CTOとして技術経営、新規事業創出に取り組む。2025年3月、博士号取得。インターネット上では「あんちぽ」として知られる。</p><p><br></p><p>【各種リンク】</p><p>🌐 ホームページ: https://kentarokuribayashi.com/</p><p>🐦 X（旧Twitter）: https://x.com/kentaro</p><p>💬 Discord: https://discord.gg/SXyKFCyMd5</p><p>✍️ 質問フォーム: https://forms.gle/8mrzUJNYXmkKuetu7</p><p>🎙️ ポッドキャスト: https://creators.spotify.com/pod/profile/kentarokuribayashi</p>\n",
+      "pubDate": "Tue, 30 Sep 2025 16:33:01 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/109025139/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-9-2%2F16b8e92e-81af-9c72-eeec-741e747ef8f9.mp3",
+      "duration": "00:08:52",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/33-e38tmdj",
+      "guid": "9f8aed2b-fb55-43ca-af9f-e7eafbeecfba"
+    },
+    {
+      "title": "#32 音声日記@2025年5月15日〜21日",
+      "description": "<p>家族旅行や仕事、観劇や技術の挑戦など、充実した一週間を過ごしました。大阪での家族との再会やリトルKの成長、仕事の進展や新しい学びもあり、効率だけでなく日々の小さな気づきや手書きの大切さも実感。日常の豊かさを改めて感じた一週間でした。</p>\n",
+      "pubDate": "Thu, 22 May 2025 16:34:30 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/103055664/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-4-22%2F400810675-44100-2-8a7edc00fbfd9.m4a",
+      "duration": "00:04:05",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/32-202551521-e337grg",
+      "guid": "d9c641f1-60a1-4801-87b3-2268df085617"
+    },
+    {
+      "title": "#31 TikTok経由で韓国語学習を再開する",
+      "description": "TikTokばかり観ていたら韓国語学習を始めていました。\n",
+      "pubDate": "Sun, 19 May 2024 15:17:34 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/86932277/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2024-4-19%2F378078749-44100-2-6ef9151c006fe.m4a",
+      "duration": "00:12:23",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/31-TikTok-e2jrfbl",
+      "guid": "9a2d3acb-320b-4cc0-80cb-561ef2bffaa0"
+    },
+    {
+      "title": "#30 ポッドキャスト再開の見込みが立ちました",
+      "description": "いろいろ不都合があって更新停止してましたが、いい方法がわかったので再開します。\n",
+      "pubDate": "Wed, 24 Apr 2024 15:01:43 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/85862127/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2024-3-24%2F375435278-44100-2-2ffa88409bb21.m4a",
+      "duration": "00:10:39",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/30-e2iqq9f",
+      "guid": "ba043351-2051-4e94-8d29-81d2285382a6"
+    },
+    {
+      "title": "#29 なりたい自分へのギャップ",
+      "description": "<p>最近、声をいじることにハマっています。ボイスチェンジャーを使うことについて、話してみました。</p>\n<p><br></p>\n<p>----</p>\n<p><br></p>\n<p>途中で出てくる音声は、ParakeetVCでつくよみちゃんの音声に他の声をブレンドしたものを用いています。</p>\n<p><br></p>\n<ul>\n <li>ボイスチェンジャー: <a href=\"https://www.parakeet-inc.com/parakeet-vc\" target=\"_blank\" rel=\"noopener noreferer\">リアルタイム音声変換 ParakeetVC</a></li>\n <li>音声モデル: <a href=\"https://tyc.rei-yumesaki.net/\">つくよみちゃん公式サイト | 商用利用もOKなフリー素材キャラクター</a></li>\n</ul>\n",
+      "pubDate": "Fri, 09 Feb 2024 18:03:21 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/82464620/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2024-1-9%2F366892901-44100-2-f002bcdfc0281.m4a",
+      "duration": "00:09:38",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/29-e2fj4dc",
+      "guid": "4f7d1abc-b170-43b4-bd94-2e06b50a751a"
+    },
+    {
+      "title": "#28 音声入力周りの変更とWindows",
+      "description": "<p>これまで使っていたSHURE MV7に加えて、プリアンプとYAMAHA AG03を追加したのでテストがてら収録していたら、Windowsいいね！という話になりました。</p>\n<p><br></p>\n<p>追記: うーん、ちょっとこもってるかんじもする。調整がまずいのかなあ。いつも通りで話すと、マイクが近過ぎたのかも？</p>\n",
+      "pubDate": "Fri, 02 Feb 2024 15:31:02 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/82145604/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2024-1-2%2F365982640-44100-2-f9110bbe40b8c.m4a",
+      "duration": "00:12:46",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/28-Windows-e2f9cs4",
+      "guid": "eac1aa51-bb93-4046-8be3-0c4d225064f5"
+    },
+    {
+      "title": "#27 新しいことの始め方",
+      "description": "<p>あいかわらずVRにハマっています。関連して、あれこれ新しいことを始めた話をしました。</p>\n",
+      "pubDate": "Thu, 11 Jan 2024 17:04:03 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/81136899/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2024-0-11%2F363060654-44100-2-4bdba5c567dc7.m4a",
+      "duration": "00:12:07",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/27-e2eajq3",
+      "guid": "a67584d8-4e1d-4ea8-8d4b-99dbba8ea20c"
+    },
+    {
+      "title": "#26 VRと制作者としてのアイデンティティの危機",
+      "description": "<p>最近VRにまたハマっています。そこで感じたことについてお話ししました。</p>\n",
+      "pubDate": "Fri, 01 Dec 2023 16:55:11 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/79422806/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-11-1%2F358043385-44100-2-a0dd03e4ab248.m4a",
+      "duration": "00:13:23",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/26-VR-e2cm9sm",
+      "guid": "ebf1b40f-c682-4781-90a6-8a09e9dc69c1"
+    },
+    {
+      "title": "#25 久々のWebサービスリリース",
+      "description": "<p><a href=\"https://stickify.xyz/\" target=\"_blank\" rel=\"noopener noreferer\">Stickify</a>というサービスをリリースしました。その経緯や思ったこと等についてお話ししています。</p>\n",
+      "pubDate": "Sun, 19 Nov 2023 15:58:58 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/78846786/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-10-19%2F356262759-44100-2-b3c4ba0c01398.m4a",
+      "duration": "00:14:20",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/25-Web-e2c4nc2",
+      "guid": "cced06e7-dc8d-43e5-9744-80f81672f747"
+    },
+    {
+      "title": "#24 身体へのマインドフルネス",
+      "description": "<p>久々のエピソードというわけで、思いつくままに話してみました。</p>\n",
+      "pubDate": "Sun, 05 Nov 2023 14:14:17 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/78194793/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-10-5%2F354183720-44100-2-813b243c1875e.m4a",
+      "duration": "00:17:27",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/24-e2bgql9",
+      "guid": "17a95bdb-3a81-4d96-bec4-a006cb19f565"
+    },
+    {
+      "title": "#23 手帳に万年筆で手書き",
+      "description": "<p>Web日記を毎日書いていたのですが、手帳に万年筆で書くスタイルに移行して、この3ヶ月半ほど続けています。その中で感じたことについてお話ししました。</p>\n",
+      "pubDate": "Sun, 15 Oct 2023 16:13:28 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/77244485/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-9-15%2F351229391-44100-2-535aa0ff26662.m4a",
+      "duration": "00:15:32",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/23-e2ajqk5",
+      "guid": "e5f072a1-73c8-45c0-b639-32b262adfee8"
+    },
+    {
+      "title": "#22 レコメンデーションが生み出す欲望",
+      "description": "<p>YouTubeやTikTokなどのソーシャルメディアによるレコメンデーションから始まり、欲望形成の外部化について話をしました。</p>\n",
+      "pubDate": "Sat, 30 Sep 2023 17:02:55 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/76598699/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-8-30%2F349197740-44100-2-6a5e63c02c8fc.m4a",
+      "duration": "00:16:36",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/22-e2a03vb",
+      "guid": "59233df2-401d-43fd-8d34-c5334865df5d"
+    },
+    {
+      "title": "#21 Day1からアウトプット",
+      "description": "<p>突然思いたって、ギターの練習を始めました。楽しいですね。</p>\n<p>- <a href=\"https://note.com/kentarok/n/n3ed0a75f9685\">音楽の準備</a></p>\n<p><a href=\"https://www.youtube.com/watch?v=WSAabW5cImE\">- 【音楽の準備】ギター1日目</a></p>\n<p>- <a href=\"https://www.youtube.com/watch?v=2XywYJ6Ssyk\">【音楽の準備】ギター10日目</a></p>\n",
+      "pubDate": "Mon, 25 Sep 2023 15:37:17 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/76357196/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-8-25%2F348451661-44100-2-474c452ff52df.m4a",
+      "duration": "00:10:04",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/21-Day1-e29oo4c",
+      "guid": "d3ac22f4-c42c-49c1-8df5-4b3070966109"
+    },
+    {
+      "title": "#20 写真シリーズの制作プロセス",
+      "description": "<p>この1週間で完成させた写真シリーズの制作プロセスについてお話ししました。</p>\n <li><a href=\"https://note.com/kentarok/n/n7a9e58f40310?magazine_key=m686cf41f26cc\">「図案集 / Patterns」について</a></li>\n <li><a href=\"https://note.com/kentarok/n/n866a9a7e25bb\">Alice in a Forestについて</a></li>\n",
+      "pubDate": "Mon, 18 Sep 2023 13:43:01 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/76047075/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-8-18%2F347497438-44100-2-a7ff93f2a7c14.m4a",
+      "duration": "00:15:06",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/20-e29f993",
+      "guid": "3514ac91-73e3-41fb-8df6-fa016fe07317"
+    },
+    {
+      "title": "#19 もう何十度目かのホームページ作成",
+      "description": "<p>またホームページを作っていました。作成の経緯や過程についてお話ししました。</p>\n<p><a href=\"https://kentarokuribayashi.com/\" target=\"_blank\" rel=\"noopener noreferer\">https://kentarokuribayashi.com/</a></p>\n",
+      "pubDate": "Sun, 10 Sep 2023 10:48:49 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/75705776/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-8-10%2F346430148-44100-2-d0b07e46d1997.m4a",
+      "duration": "00:10:12",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/19-e294rvg",
+      "guid": "f19082cd-28a7-43d0-a5d1-645541450886"
+    },
+    {
+      "title": "#18 ある社会人大学院生の中間報告",
+      "description": "<p>国際会議に投稿した論文が採択されたので、まだまだ道半ばですが、社会人大学院生活の進捗についてお話ししました。</p>\n",
+      "pubDate": "Tue, 05 Sep 2023 15:14:05 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/75505644/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-8-5%2F345814821-44100-2-55ff8c5cfae28.m4a",
+      "duration": "00:12:58",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/18-e28uohc",
+      "guid": "5867a83f-9032-4c6e-8f15-aa0273db6aea"
+    },
+    {
+      "title": "#17 小説『図案集』の制作プロセスと展望",
+      "description": "<p>小説『図案集』をリリースしたので、制作過程と展望について話しました。</p>\n<ul>\n <li><a href=\"https://suzuri.jp/kentaro/digital_products/19781\">図案集 by 栗林健太郎のショップ ( kentaro ) ∞ SUZURI（スズリ）</a></li>\n <li><a href=\"https://note.com/kentarok/n/n4ec18e7f7320\">小説『図案集』の電子書籍版を販売開始しました｜栗林健太郎</a></li>\n</ul>\n",
+      "pubDate": "Sun, 27 Aug 2023 15:14:21 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/75125139/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-7-27%2F344630653-44100-2-7142602dbcab7.m4a",
+      "duration": "00:09:51",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/17-e28j4uj",
+      "guid": "c3b57ece-068e-4090-ad5f-b93e1783f50b"
+    },
+    {
+      "title": "#16 村上由鶴『アートとフェミニズムは誰のもの？』感想",
+      "description": "<p>村上由鶴『アートとフェミニズムは誰のもの？』を読んだので、感想を話しました。ごく一部について簡単に話しただけなので、この本の良さを必ずしもちゃんと伝えられてはいないかと思います。ぜひお買い求めの上、読まれたいと思います。</p>\n<p><br></p>\n<p>https://amzn.to/3snzhUO</p>\n",
+      "pubDate": "Sat, 19 Aug 2023 16:08:59 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/74813185/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-7-19%2F343652719-44100-2-40c995fdcbcea.m4a",
+      "duration": "00:12:52",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/16-e289ka1",
+      "guid": "dd73db22-a56c-461b-9928-e145a2985a8e"
+    },
+    {
+      "title": "#15 「作家」としての活動",
+      "description": "<p>作家としての活動を開始しました。経緯や理由についてお話ししています。</p>\n",
+      "pubDate": "Thu, 17 Aug 2023 15:31:29 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/74741630/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-7-17%2F343424989-44100-2-a5ede4e36dd25.m4a",
+      "duration": "00:14:49",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/15-e287edu",
+      "guid": "11dc6490-0e2a-4b66-9b41-17a05d6a750c"
+    },
+    {
+      "title": "#14 ライブラリを作る楽しみ",
+      "description": "<p>ここ数日は、OpenAIが出しているAPIをいい感じに扱えるライブラリを作っていました。そんなわけで、ライブラリを作ることの楽しみについてお話ししました。</p>\n",
+      "pubDate": "Tue, 15 Aug 2023 14:28:22 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/74655363/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-7-15%2F343157816-44100-2-a3d9f2a1235ac.m4a",
+      "duration": "00:11:04",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/14-e284q63",
+      "guid": "286e6850-19a8-4c97-b57c-50e7fd5704c6"
+    },
+    {
+      "title": "#13 XREAL Beamが開くXRの未来",
+      "description": "<p>XREAL Beamを買ったので、ファーストインプレッションについてお話しします。</p>\n<p><br></p>\n<p>XREAL - 複合現実の構築</p>\n<p>https://www.xreal.com/jp/beam/</p>\n",
+      "pubDate": "Sun, 06 Aug 2023 15:25:05 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/74305043/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-7-6%2F342075703-44100-2-08fcd92b59b92.m4a",
+      "duration": "00:15:53",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/13-XREAL-BeamXR-e27q42j",
+      "guid": "4e528230-2cd3-42d9-8d5b-a3986d8bfcfd"
+    },
+    {
+      "title": "#12 継続できないことを継続している私の方法",
+      "description": "<p>継続することができない自分が継続できている唯一の取り組みについての最新情報。</p>\n",
+      "pubDate": "Mon, 31 Jul 2023 15:29:13 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/74073700/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-6-31%2F341357082-44100-2-dca172e46f0fa.m4a",
+      "duration": "00:12:09",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/12-e27j254",
+      "guid": "db334db5-b473-4130-ab34-c32b1f38e7a3"
+    },
+    {
+      "title": "#11 上演・複製・生成という表現のモードと「稽古」への憧れ",
+      "description": "<p>楽器ができるようになりたいという話をしました。</p>\n",
+      "pubDate": "Sun, 30 Jul 2023 15:10:28 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/74033048/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fproduction%2Fexports%2F6877a570%2F74033048%2F8e469ba6df51dec1d2863cdcc43e19cd.m4a",
+      "duration": "00:24:46",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/11-e27hqeo",
+      "guid": "7d113e14-e980-4b76-96e0-34fccae2040b"
+    },
+    {
+      "title": "#10 自分が生成AIであると思い込んでいる人間",
+      "description": "<p>自分のことを生成AIだと思って方向感を与えたらじゃあ何を生成してくれるのか？と思って、生成AIたる自分にしゃべらせてみました。</p>\n",
+      "pubDate": "Fri, 28 Jul 2023 07:56:18 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/73962166/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fproduction%2Fexports%2F6877a570%2F73962166%2F43c12eff875a7513d7ac2f331d933930.m4a",
+      "duration": "00:09:40",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/10-AI-e27fl7m",
+      "guid": "9e3724f1-555e-4493-9ecf-2a31b6d1f51f"
+    },
+    {
+      "title": "第9話 社会人大学院生活の前半を終えて",
+      "description": "<p>2020年から通っている社会人大学院について、通い始めた目的や現状など、前半の振り返りについて話しました。</p>\n<p>→ <a href=\"https://docs.google.com/document/d/1J1HCQltRq1_cqrfsX7NI0wN3xJUO6N2wdSFgxTCV9J0/edit\">Show Notes + Transcript</a></p>\n",
+      "pubDate": "Tue, 29 Mar 2022 13:06:52 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/49789916/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-29%2F256633551-44100-2-1d0e96c7ea99.m4a",
+      "duration": "00:10:37",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/9-e1gdvgs",
+      "guid": "f9d478d6-6f46-468a-8550-3559745cd54a"
+    },
+    {
+      "title": "第8話 Webサイトを作ること",
+      "description": "<p>2017年は、日本におけるTwitterブームの開始からちょうど10年。短いテキストを思いついたその場で投稿できる便利さもいいけど、そろそろまとまりのあるコンテンツを提供するWebサイトがくるね、というお話。</p>\n<p>→ <a href=\"https://docs.google.com/document/d/1BLtl5I75pCdI-MnKvtpblARom7-f5VKgygFQQFQPXbI/edit\">Show Notes + Transcript</a></p>\n",
+      "pubDate": "Tue, 29 Mar 2022 11:12:55 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/49785604/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457393-44100-2-4dbffc3dcb7cd.m4a",
+      "duration": "00:07:10",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/8-Web-e1gdra4",
+      "guid": "3531b944-6efb-4fa9-8c43-feaa30b3d091"
+    },
+    {
+      "title": "第7話 べつの言葉で",
+      "description": "<p>明けましておめでとうございます。新年ということで「外国語の勉強をするぞ！」という抱負を述べたので、それに関連して、複数言語を使用するということについて話しました。</p>\n<p>→ <a href=\"https://docs.google.com/document/d/1r9BGTiIMNSqf9dCEOLEWTi-Bg7tFf2hr1lp0MTUBw3o/edit\">Show Notes + Transcript</a></p>\n",
+      "pubDate": "Tue, 29 Mar 2022 11:07:16 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/49773829/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457267-44100-2-d6e5881fb0d12.m4a",
+      "duration": "00:13:57",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/7-e1gdfq5",
+      "guid": "3f4e9767-a05e-40d8-bb68-6d2c0dd4876e"
+    },
+    {
+      "title": "第6話 阿部薫の時代",
+      "description": "<p>日本における伝説的なフリージャズミュージシャンの阿部薫とその時代について、あんちぽくん自身の受容体験を交えながらお話します。</p>\n<p>→ <a href=\"https://docs.google.com/document/d/1GXFSubGaDxD28mSOEWtg4anEXHTBbGnRNiuo_NO2_Mw/edit\">Show Notes + Transcript</a></p>\n",
+      "pubDate": "Tue, 29 Mar 2022 03:26:08 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/49773676/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457266-44100-2-cbda49dda8164.m4a",
+      "duration": "00:09:32",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/6-e1gdflc",
+      "guid": "1aea21dc-d2b2-4e7a-9ea0-61989bcdd94f"
+    },
+    {
+      "title": "第5回 メディア・モンスター",
+      "description": "<p>建築家が「メディア・モンスター」であり得た時代と黒川紀章について、曲沼美恵『メディア・モンスター』という本の紹介とともに話します。</p>\n<p>→ <a href=\"https://docs.google.com/document/d/1B6qD6SKvKSNAf52v-kRuqBfpMuE8WJLwRAFJJiymiHM/edit\">Show Notes + Transcript</a></p>\n",
+      "pubDate": "Tue, 29 Mar 2022 03:24:14 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/49773628/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457265-44100-2-ed3b7bc0d54de.m4a",
+      "duration": "00:07:35",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/5-e1gdfjs",
+      "guid": "7564e7e9-6d2a-4e26-805f-68a78df8c1bb"
+    },
+    {
+      "title": "第4話 多言語社会",
+      "description": "<p>台湾の現代文化について特集した「Pen+ 台湾カルチャー・クルーズ」の紹介と、2015年の上半期直木賞受賞作『流』に見る多言語社会の実際について話します。</p>\n<p>→ <a href=\"https://docs.google.com/document/d/1vYlBva9gR06V5V_edrgxNUCGHSG7URQwngFydmJOQ3U/edit\">Show Notes</a></p>\n",
+      "pubDate": "Tue, 29 Mar 2022 03:21:24 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/49773521/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457268-44100-2-017645916a20b.m4a",
+      "duration": "00:13:58",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/4-e1gdfgh",
+      "guid": "16c369b5-23b5-45cb-bd99-847e94bcab29"
+    },
+    {
+      "title": "第3話 ビブリオバトル",
+      "description": "<p>このPodcastを始めるきっかけにもなった「ビブリオバトル」について紹介するとともに、Web系エンジニアにとってそれがどのように役に立ち得るのかについて話します。</p>\n<p>→ <a href=\"https://docs.google.com/document/d/163tBGl8VGucUGft3HR9wyJDn1PUBfei-BR4m61X52bk/edit\">Show Notes</a></p>\n",
+      "pubDate": "Tue, 29 Mar 2022 03:19:33 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/49773436/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457269-44100-2-2df8fe6747abe.m4a",
+      "duration": "00:16:27",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/3-e1gdfds",
+      "guid": "96101d03-796d-40fe-837a-0b64a2eec842"
+    },
+    {
+      "title": "第2話 瞑想について",
+      "description": "<p>最近実践している「瞑想」について、ビジネス界隈で話題のマインドフルネスもからめて紹介します。</p>\n<p>→ <a href=\"https://docs.google.com/document/d/17qmsSGunLilOfjMt1TujQNjKaCVkuDVlP1wV4iVl8_k/edit\">Show Notes</a></p>\n",
+      "pubDate": "Tue, 29 Mar 2022 03:17:05 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/49773338/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457274-44100-2-eb78f1d88a4ba.m4a",
+      "duration": "00:14:18",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/2-e1gdfaq",
+      "guid": "ecb0b106-ce20-4ec9-bf45-6c30a537b819"
+    },
+    {
+      "title": "第1話 リー・クアンユー回顧録",
+      "description": "<p>antipop.fm(あんちぽえふえむ)を始めます。第1回目は『<a href=\"http://www.amazon.co.jp/exec/obidos/ASIN/4532163625/antipop-22/\">リー・クアンユー回顧録〈上〉 ザ・シンガポールストーリー</a>』の紹介。</p>\n<p>→ <a href=\"https://docs.google.com/document/d/1q_6Gp5_FFWBkf_G9g5cDDdYR_A3xZ1EHgVSsNVx_IQo/edit\">Show Notes</a></p>\n",
+      "pubDate": "Tue, 29 Mar 2022 03:03:14 GMT",
+      "audioUrl": "https://anchor.fm/s/6877a570/podcast/play/49771355/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256456815-44100-2-152e33fdcf1d1.m4a",
+      "duration": "00:18:06",
+      "link": "https://podcasters.spotify.com/pod/show/kentarokuribayashi/episodes/1-e1gddcr",
+      "guid": "5dcdfe5f-a6a5-4caf-a9cd-88abc20f2e28"
+    }
+  ]
+}

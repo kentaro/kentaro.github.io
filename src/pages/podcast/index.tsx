@@ -125,8 +125,8 @@ export default function PodcastPage({ podcastData }: PodcastPageProps) {
           <div className="flex flex-col md:flex-row gap-6 sm:gap-8 bg-white rounded-2xl p-6 sm:p-8 shadow-md">
             {/* ポッドキャストカバー画像 */}
             {podcastData.imageUrl && (
-              <div className="flex-shrink-0">
-                <div className="relative w-full md:w-64 h-64 rounded-xl overflow-hidden shadow-lg">
+              <div className="flex-shrink-0 mx-auto md:mx-0">
+                <div className="relative w-64 h-64 rounded-xl overflow-hidden shadow-lg">
                   <Image
                     src={podcastData.imageUrl}
                     alt={podcastData.title}

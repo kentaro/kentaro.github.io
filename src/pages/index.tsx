@@ -2,6 +2,7 @@ import type { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   FaGithub,
   FaLinkedin,
@@ -14,6 +15,7 @@ import Layout from "../components/layout/Layout";
 import SEO from "../components/common/SEO";
 
 export default function Home() {
+  const [language, setLanguage] = useState<'ja' | 'en' | 'fr' | 'ko'>('ja');
   return (
     <Layout>
       <SEO
@@ -38,37 +40,6 @@ export default function Home() {
               `,
             }}
           />
-          
-          {/* 動く幾何学的形状 */}
-          <motion.div
-            animate={{ 
-              rotate: 360,
-              scale: [1, 1.2, 1],
-            }}
-            transition={{ 
-              duration: 20, 
-              repeat: Infinity,
-              ease: "linear" 
-            }}
-            className="absolute top-20 right-20 w-96 h-96 opacity-5"
-          >
-            <div className="w-full h-full border-8 border-primary rotate-45" />
-          </motion.div>
-          
-          <motion.div
-            animate={{ 
-              rotate: -360,
-              y: [0, 50, 0],
-            }}
-            transition={{ 
-              duration: 25, 
-              repeat: Infinity,
-              ease: "easeInOut" 
-            }}
-            className="absolute bottom-10 left-10 w-64 h-64 opacity-5"
-          >
-            <div className="w-full h-full bg-gradient-to-br from-secondary to-accent1 rounded-full" />
-          </motion.div>
         </div>
 
         <div className="container max-w-6xl relative z-10">
@@ -115,33 +86,6 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1 }}
-                className="flex flex-wrap gap-4 justify-center md:justify-start"
-              >
-                <button 
-                  type="button"
-                  onClick={() => {
-                    const profileSection = document.getElementById('about');
-                    if (profileSection) {
-                      profileSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }}
-                  className="group relative px-8 py-4 bg-dark text-white rounded-full overflow-hidden transition-all duration-300 hover:scale-105"
-                >
-                  <span className="relative z-10 font-bold">詳しく見る</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </button>
-                
-                <Link 
-                  href="/profile" 
-                  className="px-8 py-4 border-2 border-dark rounded-full font-bold hover:bg-dark hover:text-white transition-all duration-300"
-                >
-                  プロフィール
-                </Link>
-              </motion.div>
             </motion.div>
 
             {/* ビジュアル要素 */}
@@ -214,34 +158,149 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <div className="text-2xl sm:text-3xl md:text-4xl text-gray-700 space-y-10 [&_p]:leading-loose">
-              <p>概念と構造を制作する。</p>
-              <p className="space-y-2">
-                <span className="block">概念は、現実の裂け目から生じる。</span>
-                <span className="block">構造は、概念を現実へと仮設する。</span>
-              </p>
-              <p className="space-y-2">
-                <span className="block">迂遠、停滞、訂正を孕みながら、</span>
-                <span className="block">制作を反復し、差異が立ち現れる。</span>
-              </p>
-              <p>世界がまた生成する。</p>
+            {/* 言語インジケーター */}
+            <div className="flex justify-center gap-2 mb-8 flex-wrap">
+              <button
+                onClick={() => setLanguage('ja')}
+                className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
+                  language === 'ja'
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                }`}
+              >
+                日本語
+              </button>
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
+                  language === 'en'
+                    ? 'bg-secondary text-white'
+                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                }`}
+              >
+                English
+              </button>
+              <button
+                onClick={() => setLanguage('fr')}
+                className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
+                  language === 'fr'
+                    ? 'bg-accent1 text-white'
+                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                }`}
+              >
+                Français
+              </button>
+              <button
+                onClick={() => setLanguage('ko')}
+                className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
+                  language === 'ko'
+                    ? 'bg-accent2 text-white'
+                    : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                }`}
+              >
+                한국어
+              </button>
             </div>
+
+            {/* ミッションステートメント */}
+            <motion.div
+              key={language}
+              initial={{ opacity: 0, rotateY: 90 }}
+              animate={{ opacity: 1, rotateY: 0 }}
+              exit={{ opacity: 0, rotateY: -90 }}
+              transition={{ duration: 0.5 }}
+              className="text-2xl sm:text-3xl md:text-4xl text-gray-700 space-y-10 [&_p]:leading-loose touch-pan-x"
+              onTouchStart={(e) => {
+                const startX = e.touches[0].clientX;
+                const handleTouchEnd = (endEvent: TouchEvent) => {
+                  const endX = endEvent.changedTouches[0].clientX;
+                  const diff = startX - endX;
+                  if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                      // スワイプ左（次へ）
+                      if (language === 'ja') setLanguage('en');
+                      else if (language === 'en') setLanguage('fr');
+                      else if (language === 'fr') setLanguage('ko');
+                      else setLanguage('ja');
+                    } else {
+                      // スワイプ右（前へ）
+                      if (language === 'ja') setLanguage('ko');
+                      else if (language === 'ko') setLanguage('fr');
+                      else if (language === 'fr') setLanguage('en');
+                      else setLanguage('ja');
+                    }
+                  }
+                  document.removeEventListener('touchend', handleTouchEnd);
+                };
+                document.addEventListener('touchend', handleTouchEnd);
+              }}
+            >
+              {language === 'ja' && (
+                <>
+                  <p>概念と構造を制作する。</p>
+                  <p className="space-y-2">
+                    <span className="block">概念は、現実の裂け目から生じる。</span>
+                    <span className="block">構造は、概念を現実へと仮設する。</span>
+                  </p>
+                  <p className="space-y-2">
+                    <span className="block">迂遠、停滞、訂正を孕みながら、</span>
+                    <span className="block">制作を反復し、差異が立ち現れる。</span>
+                  </p>
+                  <p>世界がまた生成する。</p>
+                </>
+              )}
+
+              {language === 'en' && (
+                <>
+                  <p>Concept and structure are produced.</p>
+                  <p className="space-y-2">
+                    <span className="block">Concept arises from a rupture in the real.</span>
+                    <span className="block">Structure sets it within reality, without closure.</span>
+                  </p>
+                  <p className="space-y-2">
+                    <span className="block">Detour, suspension, correction.</span>
+                    <span className="block">Production repeats; difference appears.</span>
+                  </p>
+                  <p>The world becomes again.</p>
+                </>
+              )}
+
+              {language === 'fr' && (
+                <>
+                  <p>Je produis le concept et la structure.</p>
+                  <p className="space-y-2">
+                    <span className="block">Le concept naît de la faille du réel.</span>
+                    <span className="block">La structure le dresse dans le réel, sans le clore.</span>
+                  </p>
+                  <p className="space-y-2">
+                    <span className="block">Détour, suspension, rectification :</span>
+                    <span className="block">la production se répète, la différence paraît.</span>
+                  </p>
+                  <p>Le monde devient encore.</p>
+                </>
+              )}
+
+              {language === 'ko' && (
+                <>
+                  <p>개념과 구조를 제작한다.</p>
+                  <p className="space-y-2">
+                    <span className="block">개념은 현실의 틈에서 발생한다.</span>
+                    <span className="block">구조는 개념을 현실에 임시로 세운다.</span>
+                  </p>
+                  <p className="space-y-2">
+                    <span className="block">우회, 정지, 수정의 과정을 품으며</span>
+                    <span className="block">제작은 반복되고, 차이가 드러난다.</span>
+                  </p>
+                  <p>세계는 다시 생성된다.</p>
+                </>
+              )}
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* アバウトセクション */}
-      <section
-        id="about"
-        className="py-20 md:py-32 relative overflow-hidden"
-      >
-        {/* 背景パターン */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF6B6B' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }} />
-        </div>
-
+      {/* 公的な軸セクション */}
+      <section id="domains" className="py-20 md:py-32 relative overflow-hidden bg-gradient-to-br from-light via-white to-accent2/10">
         <div className="container max-w-6xl relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -250,255 +309,88 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl md:text-6xl font-display font-black mb-6">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-dark to-primary">
-                ABOUT ME
-              </span>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 text-dark">
+              Concept & Architecture
             </h2>
-            <div className="w-32 h-1 bg-gradient-to-r from-primary to-secondary mx-auto" />
-          </motion.div>
-
-          <div className="grid md:grid-cols-12 gap-8 items-start">
-            {/* 左側 - クリエイティブな肩書き表示 */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="md:col-span-5"
-            >
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-secondary/20 blur-3xl" />
-                <div className="relative bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl">
-                  <h3 className="text-3xl font-bold mb-6 text-dark">栗林健太郎</h3>
-                  <div className="space-y-4">
-                    <motion.div
-                      whileHover={{ x: 10 }}
-                      className="flex items-center gap-3"
-                    >
-                      <div className="w-2 h-2 bg-primary rounded-full" />
-                      <span className="text-lg font-medium">GMOペパボ株式会社 取締役CTO</span>
-                    </motion.div>
-                    <motion.div
-                      whileHover={{ x: 10 }}
-                      className="flex items-center gap-3"
-                    >
-                      <div className="w-2 h-2 bg-secondary rounded-full" />
-                      <span className="text-lg font-medium">日本CTO協会 理事</span>
-                    </motion.div>
-                    <motion.div
-                      whileHover={{ x: 10 }}
-                      className="flex items-center gap-3"
-                    >
-                      <div className="w-2 h-2 bg-accent1 rounded-full" />
-                      <span className="text-lg font-medium">博士（情報科学）</span>
-                    </motion.div>
-                    <motion.div
-                      whileHover={{ x: 10 }}
-                      className="flex items-center gap-3"
-                    >
-                      <div className="w-2 h-2 bg-purple rounded-full" />
-                      <span className="text-lg font-medium">あんちぽ @kentaro</span>
-                    </motion.div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* 右側 - ストーリーテリング */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
-              className="md:col-span-7"
-            >
-              <div className="space-y-6">
-                <p className="text-xl leading-relaxed text-gray-700">
-                  テクノロジーとビジネスの架け橋として、
-                  <span className="text-primary font-bold">組織の成長と技術革新</span>を推進。
-                  実践と研究の両輪で価値創造に取り組んでいます。
-                </p>
-                <p className="text-lg leading-relaxed text-gray-600">
-                  GMOペパボ株式会社のCTOとして技術戦略の策定と実行をリード。
-                  エンジニアリングマネジメントと組織開発を通じて、
-                  開発生産性の向上と技術文化の醸成に注力しています。
-                </p>
-                <p className="text-lg leading-relaxed text-gray-600">
-                  博士（情報科学）としての研究活動と実務経験を活かし、
-                  最新技術の事業応用と技術者育成に貢献。
-                  日本CTO協会理事として、業界全体の発展にも尽力しています。
-                </p>
-                <div className="mt-8">
-                  <Link
-                    href="/profile"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:shadow-lg hover:scale-105 transition-all duration-300"
-                  >
-                    詳しいプロフィールを見る
-                    <motion.span
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      →
-                    </motion.span>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* スキル＆専門分野セクション */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-light via-white to-accent2/10 relative overflow-hidden">
-        {/* アニメーション背景 */}
-        <motion.div
-          animate={{ 
-            scale: [1, 1.5, 1],
-            rotate: [0, 180, 360],
-          }}
-          transition={{ 
-            duration: 30, 
-            repeat: Infinity,
-            ease: "linear" 
-          }}
-          className="absolute -top-32 -right-32 w-96 h-96 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-full blur-3xl"
-        />
-
-        <div className="container max-w-6xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-5xl md:text-6xl font-display font-black mb-6">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                EXPERTISE
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              技術の深さと広さを兼ね備えた、多面的なスキルセット
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+              世界をどう構想し（Concept）、どう実装するか（Architecture）。<br />
+              思想・事業・文化・学問を横断する。
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* 技術スキル */}
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* カルチャー */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
               viewport={{ once: true }}
-              whileHover={{ y: -10 }}
-              className="group"
+              className="relative"
             >
-              <div className="relative bg-white rounded-3xl p-8 shadow-xl overflow-hidden h-full">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/20 to-transparent rounded-bl-full" />
-                <h3 className="text-2xl font-bold mb-6 text-dark relative z-10">技術スキル</h3>
-                <div className="space-y-3">
-                  {[
-                    "AI活用開発・LLM応用",
-                    "クラウドアーキテクチャ",
-                    "マイクロサービス設計",
-                    "DevOps・CI/CD",
-                    "セキュリティ・監査",
-                  ].map((item, index) => (
-                    <motion.div
-                      key={item}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                      viewport={{ once: true }}
-                      className="flex items-center gap-3 group/item"
-                    >
-                      <div className="w-2 h-2 bg-primary rounded-full group-hover/item:scale-150 transition-transform" />
-                      <span className="text-gray-700">{item}</span>
-                    </motion.div>
-                  ))}
-                </div>
+              <div className="bg-white rounded-3xl p-8 shadow-xl h-full border-t-4 border-primary">
+                <h3 className="text-3xl font-bold mb-6 text-primary">カルチャー</h3>
+                <p className="text-lg text-gray-700 leading-relaxed mb-4">
+                  文芸、アート、サブカルチャー。
+                </p>
+                <p className="text-base text-gray-600 leading-relaxed mb-4">
+                  技術と思想をつなぐ語り手として、文化的影響を持つ。
+                </p>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  エッセイ、対談、展覧を通じて、新しい知的ムーブメントを形成する。文化的シーンでのプレゼンス形成は、内的に最も満たされる領域である。
+                </p>
               </div>
             </motion.div>
 
-            {/* マネジメント */}
+            {/* ビジネス */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
-              whileHover={{ y: -10 }}
-              className="group"
+              className="relative"
             >
-              <div className="relative bg-white rounded-3xl p-8 shadow-xl overflow-hidden h-full">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-transparent rounded-bl-full" />
-                <h3 className="text-2xl font-bold mb-6 text-dark relative z-10">マネジメント</h3>
-                <div className="space-y-3">
-                  {[
-                    "エンジニアリングマネジメント",
-                    "技術戦略立案",
-                    "組織開発・文化醸成",
-                    "リーンプロセス導入",
-                    "スクラム開発推進",
-                  ].map((item, index) => (
-                    <motion.div
-                      key={item}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                      viewport={{ once: true }}
-                      className="flex items-center gap-3 group/item"
-                    >
-                      <div className="w-2 h-2 bg-secondary rounded-full group-hover/item:scale-150 transition-transform" />
-                      <span className="text-gray-700">{item}</span>
-                    </motion.div>
-                  ))}
-                </div>
+              <div className="bg-white rounded-3xl p-8 shadow-xl h-full border-t-4 border-secondary">
+                <h3 className="text-3xl font-bold mb-6 text-secondary">ビジネス</h3>
+                <p className="text-lg text-gray-700 leading-relaxed mb-4">
+                  職業的活動、企業経営、技術実践。
+                </p>
+                <p className="text-base text-gray-600 leading-relaxed mb-4">
+                  コンセプトドリブンな事業を創出し、経済的・社会的影響力を持つ。
+                </p>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  上場企業CTOとして、思想を実装するプロダクトを複数生み出す。より強い成長と影響力を追求し、組織と技術の革新を推進する。
+                </p>
               </div>
             </motion.div>
 
-            {/* 研究・執筆 */}
+            {/* アカデミア */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
               viewport={{ once: true }}
-              whileHover={{ y: -10 }}
-              className="group"
+              className="relative"
             >
-              <div className="relative bg-white rounded-3xl p-8 shadow-xl overflow-hidden h-full">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-accent1/20 to-transparent rounded-bl-full" />
-                <h3 className="text-2xl font-bold mb-6 text-dark relative z-10">研究・執筆</h3>
-                <div className="space-y-3">
-                  {[
-                    "技術書籍・雑誌執筆",
-                    "Webメディア連載・寄稿",
-                    "ポッドキャスト配信",
-                    "カンファレンス登壇",
-                    "メディア取材・インタビュー",
-                  ].map((item, index) => (
-                    <motion.div
-                      key={item}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                      viewport={{ once: true }}
-                      className="flex items-center gap-3 group/item"
-                    >
-                      <div className="w-2 h-2 bg-accent1 rounded-full group-hover/item:scale-150 transition-transform" />
-                      <span className="text-gray-700">{item}</span>
-                    </motion.div>
-                  ))}
-                </div>
+              <div className="bg-white rounded-3xl p-8 shadow-xl h-full border-t-4 border-accent1">
+                <h3 className="text-3xl font-bold mb-6 text-accent1">アカデミア</h3>
+                <p className="text-lg text-gray-700 leading-relaxed mb-4">
+                  研究、思想、理論的活動。
+                </p>
+                <p className="text-base text-gray-600 leading-relaxed mb-4">
+                  実装可能な思想を探求する学問領域を確立する。
+                </p>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  博士号を起点に、実務と研究の両輪で知見を深化させる。独自の学術分野を形成し、論文・教育へ展開、学術的な貢献を行う。
+                </p>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ワークスタイルセクション */}
-      <section className="py-20 md:py-32 relative overflow-hidden">
-        <div className="container max-w-6xl">
+      {/* プロフィール要約セクション */}
+      <section className="py-20 md:py-32 relative overflow-hidden bg-gradient-to-br from-white via-accent2/5 to-light">
+        <div className="container max-w-6xl relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -506,64 +398,93 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl md:text-6xl font-display font-black mb-6">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-dark to-primary">
-                WORK STYLE
-              </span>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 text-dark">
+              Profile
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              技術リーダーシップでビジネスの成長を加速
-            </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* 数字で見る実績 */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             {[
-              {
-                icon: "🏢",
-                title: "経営と技術の橋渡し",
-                desc: "GMOペパボ取締役CTOとして、技術戦略の策定と実行を推進。経営視点と技術視点の両面からビジネス価値を創出",
-                color: "from-primary/20 to-primary/5",
-              },
-              {
-                icon: "👥",
-                title: "組織開発とマネジメント",
-                desc: "エンジニアリングマネジメントとスクラム開発の推進。技術組織の成長と開発生産性の向上に注力",
-                color: "from-secondary/20 to-secondary/5",
-              },
-              {
-                icon: "🎓",
-                title: "実務と研究の両立",
-                desc: "博士（情報科学）として学術研究に従事。実務で得た知見を研究に活かし、研究成果を事業に応用",
-                color: "from-accent1/20 to-accent1/5",
-              },
-              {
-                icon: "📚",
-                title: "技術コミュニティへの貢献",
-                desc: "日本CTO協会理事として業界発展に尽力。技術記事執筆、カンファレンス登壇、OSS活動を通じて知見を共有",
-                color: "from-purple/20 to-purple/5",
-              },
+              { number: "2017~", label: "取締役CTO", icon: "🏢" },
+              { number: "2025", label: "博士（情報科学）", icon: "🎓" },
+              { number: "17年", label: "エンジニア歴", icon: "💻" },
+              { number: "100+", label: "講演・執筆", icon: "🎤" },
             ].map((item, index) => (
               <motion.div
-                key={item.title}
-                initial={{ opacity: 0, scale: 0.9 }}
+                key={item.label}
+                initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ scale: 1.05, rotate: 2 }}
-                className="relative h-full"
+                whileHover={{ scale: 1.05 }}
+                className="bg-white rounded-2xl p-6 shadow-lg text-center"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} rounded-3xl blur-xl`} />
-                <div className="relative bg-white rounded-3xl p-6 shadow-lg h-full flex flex-col">
-                  <div className="text-4xl mb-4">{item.icon}</div>
-                  <h3 className="text-xl font-bold mb-2 text-dark">{item.title}</h3>
-                  <p className="text-gray-600 text-sm flex-1">{item.desc}</p>
-                </div>
+                <div className="text-4xl mb-2">{item.icon}</div>
+                <div className="text-3xl font-bold text-primary mb-1">{item.number}</div>
+                <div className="text-sm text-gray-600">{item.label}</div>
               </motion.div>
             ))}
           </div>
+
+          {/* プロフィール要約 */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* カルチャー */}
+              <div className="bg-white rounded-3xl p-6 shadow-lg border-l-4 border-primary">
+                <h4 className="text-xl font-bold mb-4 text-primary">カルチャー</h4>
+                <p className="text-gray-700 leading-relaxed text-sm">
+                  年間200冊近くの読書を通じて、歴史・アート・思想などの人文系諸ジャンルから情報科学まで幅広く探求。歌舞伎、現代アート、語学など文化的活動を通じて、技術と思想をつなぐ語り手としての視点を育んでいる。
+                </p>
+              </div>
+
+              {/* ビジネス */}
+              <div className="bg-white rounded-3xl p-6 shadow-lg border-l-4 border-secondary">
+                <h4 className="text-xl font-bold mb-4 text-secondary">ビジネス</h4>
+                <p className="text-gray-700 leading-relaxed text-sm">
+                  2008年はてな入社、2012年GMOペパボ入社。2014年より技術責任者、2017年より取締役CTO。エンジニア組織のマネジメント、技術基盤整備、事業開発に従事。ペパボ研究所長、日本CTO協会理事として組織開発と技術戦略を牽引。
+                </p>
+              </div>
+
+              {/* アカデミア */}
+              <div className="bg-white rounded-3xl p-6 shadow-lg border-l-4 border-accent1">
+                <h4 className="text-xl font-bold mb-4 text-accent1">アカデミア</h4>
+                <p className="text-gray-700 leading-relaxed text-sm">
+                  2020年北陸先端科学技術大学院入学、2025年博士（情報科学）取得。IoTシステムの基盤技術、Elixir/Erlang/OTPの応用を研究。国際会議登壇、情報処理学会優秀論文賞受賞。実務と研究の両輪で知見を深化させる。
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* 詳細プロフィールへのリンク */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <Link
+              href="/profile"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              詳しいプロフィールを見る
+              <motion.span
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                →
+              </motion.span>
+            </Link>
+          </motion.div>
         </div>
       </section>
-
 
       {/* フォローセクション */}
       <section className="py-20 md:py-32 bg-gradient-to-t from-dark to-gray-900 text-white relative overflow-hidden">

@@ -80,7 +80,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-center md:text-left"
             >
-              <motion.h1 
+              <motion.h1
                 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -90,15 +90,15 @@ export default function Home() {
                   栗林健太郎
                 </span>
               </motion.h1>
-              
+
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
                 className="mb-8"
               >
-                <p className="text-lg sm:text-xl text-gray-700 mb-4 font-light">
-                  技術革新を通じて、ビジネスと組織の成長を実現
+                <p className="text-2xl sm:text-3xl md:text-4xl text-gray-800 mb-6 font-bold">
+                  概念と構造を制作する。
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                   {["CTO", "技術戦略", "エンジニアリングマネジメント", "博士（情報科学）", "情報処理安全確保支援士"].map((tag, index) => (
@@ -202,6 +202,32 @@ export default function Home() {
             <div className="w-1 h-3 bg-dark/30 rounded-full mt-2" />
           </motion.div>
         </motion.div>
+      </section>
+
+      {/* ミッションステートメントセクション */}
+      <section className="py-12 md:py-16 relative overflow-hidden bg-gradient-to-br from-white via-light to-white">
+        <div className="container max-w-4xl relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <div className="text-2xl sm:text-3xl md:text-4xl text-gray-700 space-y-10 [&_p]:leading-loose">
+              <p>概念と構造を制作する。</p>
+              <p className="space-y-2">
+                <span className="block">概念は、現実の裂け目から生じる。</span>
+                <span className="block">構造は、概念を現実へと仮設する。</span>
+              </p>
+              <p className="space-y-2">
+                <span className="block">迂遠、停滞、訂正を孕みながら、</span>
+                <span className="block">制作を反復し、差異が立ち現れる。</span>
+              </p>
+              <p>世界がまた生成する。</p>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* アバウトセクション */}

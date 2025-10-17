@@ -1,6 +1,7 @@
 import type { GetStaticProps } from 'next';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import PageHeader from '@/components/common/PageHeader';
@@ -207,9 +208,11 @@ export default function PodcastPage({ podcastData }: PodcastPageProps) {
                     key={episode.guid || index}
                     className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow duration-300"
                   >
-                    <h3 className="text-lg sm:text-xl font-bold mb-2 text-dark">
-                      {episode.title}
-                    </h3>
+                    <Link href={`/podcast/${episode.slug}`}>
+                      <h3 className="text-lg sm:text-xl font-bold mb-2 text-dark hover:text-primary transition-colors">
+                        {episode.title}
+                      </h3>
+                    </Link>
                     <p className="text-sm text-gray-500 mb-3">
                       {new Date(episode.pubDate).toLocaleDateString('ja-JP', {
                         year: 'numeric',

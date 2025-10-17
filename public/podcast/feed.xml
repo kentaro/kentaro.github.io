@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>情報科学のまわり道</title>
+        <link>https://kentarokuribayashi.com/podcast</link>
+        <description>情報科学の博士号を持つソフトウェアエンジニアとしてITにたずさわる栗林健太郎が、日々の思考の「まわり道」で見える風景についてお話しするポッドキャストです。専門の情報科学・ITの話題から、宇宙開発や生物学などのサイエンス、言語学習やアートなどの人文学についての考察、そして日常の小さな疑問まで。多様なテーマを横断しながら、知的好奇心を刺激するトピックについて毎回10分程度でお届けします。
+
+「まわり道」の途上にこそ、新しい発見や視点がある。専門性と遊び心が交差する思考の断片を、どうぞお楽しみください。
+
+【栗林健太郎とは】
+
+GMOペパボ株式会社取締役CTO、日本CTO協会理事。博士（情報科学、JAIST）。大学卒業後、市役所勤務を経て、2008年よりIT業界へ。2012年よりGMOペパボ株式会社。現在、取締役CTOとして技術経営、新規事業創出に取り組む。2025年3月、博士号取得。インターネット上では「あんちぽ」として知られる。
+
+【各種リンク】
+
+🌐 ホームページ: https://kentarokuribayashi.com/
+🐦 X（旧Twitter）: https://x.com/kentaro
+🎙️ ポッドキャスト: https://creators.spotify.com/pod/show/kentarokuribayashi</description>
+        <lastBuildDate>Fri, 17 Oct 2025 05:29:10 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>ja</language>
+        <image>
+            <title>情報科学のまわり道</title>
+            <url>https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/17426716/17426716-1760623154352-910a7edb7b43c.jpg</url>
+            <link>https://kentarokuribayashi.com/podcast</link>
+        </image>
+        <copyright>All rights reserved 2025, 栗林健太郎</copyright>
+        <item>
+            <title><![CDATA[#35 サム・アルトマンの伝記からAIの未来について考える]]></title>
+            <link>https://kentarokuribayashi.com/podcast/35</link>
+            <guid>https://kentarokuribayashi.com/podcast/35</guid>
+            <pubDate>Thu, 16 Oct 2025 15:32:11 GMT</pubDate>
+            <description><![CDATA[<p>サム・アルトマン氏の伝記『サム・アルトマン：「生成AI」で世界を手にした起業家の野望』に描かれている、彼の途方もないなスケール感と数々のエピソードを紹介します。そして、AIの未来についていくつかのトピックを軸として、今後どう考えていけばいいのかについてお話ししています。</p><p><br></p><p>サム・アルトマン：「生成AI」で世界を手にした起業家の野望</p><p>https://amzn.to/4ohgm5Q</p><p><br></p><p>----</p><p><br></p><p>【栗林健太郎とは】</p><p>GMOペパボ株式会社取締役CTO、日本CTO協会理事。博士（情報科学、JAIST）。</p><p>大学卒業後、市役所勤務を経て、2008年よりIT業界へ。2012年よりGMOペパボ株式会社。</p><p>現在、取締役CTOとして技術経営、新規事業創出に取り組む。2025年3月、博士号取得。</p><p>インターネット上では「あんちぽ」として知られる。</p><p><br></p><p><br></p><p>【各種リンク】</p><p>🌐 ホームページ: https://kentarokuribayashi.com/</p><p>🐦 X（旧Twitter）: https://x.com/kentaro</p><p>💬 Discord: https://discord.gg/SXyKFCyMd5</p><p>✍️ 質問フォーム: https://forms.gle/8mrzUJNYXmkKuetu7</p>]]></description>
+            <content:encoded><![CDATA[<p>サム・アルトマン氏の伝記『サム・アルトマン：「生成AI」で世界を手にした起業家の野望』に描かれている、彼の途方もないなスケール感と数々のエピソードを紹介します。そして、AIの未来についていくつかのトピックを軸として、今後どう考えていけばいいのかについてお話ししています。</p><p><br></p><p>サム・アルトマン：「生成AI」で世界を手にした起業家の野望</p><p>https://amzn.to/4ohgm5Q</p><p><br></p><p>----</p><p><br></p><p>【栗林健太郎とは】</p><p>GMOペパボ株式会社取締役CTO、日本CTO協会理事。博士（情報科学、JAIST）。</p><p>大学卒業後、市役所勤務を経て、2008年よりIT業界へ。2012年よりGMOペパボ株式会社。</p><p>現在、取締役CTOとして技術経営、新規事業創出に取り組む。2025年3月、博士号取得。</p><p>インターネット上では「あんちぽ」として知られる。</p><p><br></p><p><br></p><p>【各種リンク】</p><p>🌐 ホームページ: https://kentarokuribayashi.com/</p><p>🐦 X（旧Twitter）: https://x.com/kentaro</p><p>💬 Discord: https://discord.gg/SXyKFCyMd5</p><p>✍️ 質問フォーム: https://forms.gle/8mrzUJNYXmkKuetu7</p>]]></content:encoded>
+            <enclosure length="31462295" type="audio/mpeg" url="https://anchor.fm/s/6877a570/podcast/play/109769857/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-9-16%2Fbffda0f2-7d4e-86d7-4450-090009b956e6.mp3"/>
+        </item>
+        <item>
+            <title><![CDATA[#34 AIを有効活用する鍵は「比較」にある]]></title>
+            <link>https://kentarokuribayashi.com/podcast/34</link>
+            <guid>https://kentarokuribayashi.com/podcast/34</guid>
+            <pubDate>Thu, 02 Oct 2025 14:35:01 GMT</pubDate>
+            <description><![CDATA[<p>AIをもっと有効に活用するには「比較」の視点が欠かせません。情報の収集や整理自体はAIが得意ですが、たくさんの情報の比較から新たな問題を見つけることは人、間の創造性にしかできません。時間的・空間的・代替的・アナロジー的という4つの比較軸を取り上げ、具体的な実例を通じて問題発見のプロセスを紹介します。AIを効率化の道具としてだけではなく、思考の伴走者にするためのヒントをお届けします。</p><p><br></p><p>----</p><p><br></p><p>【栗林健太郎とは】</p><p>GMOペパボ株式会社取締役CTO、日本CTO協会理事。博士（情報科学、JAIST）。大学卒業後、市役所勤務を経て、2008年よりIT業界へ。2012年よりGMOペパボ株式会社。現在、取締役CTOとして技術経営、新規事業創出に取り組む。2025年3月、博士号取得。インターネット上では「あんちぽ」として知られる。</p><p><br></p><p>【各種リンク】</p><p>🌐 ホームページ: https://kentarokuribayashi.com/</p><p>🐦 X（旧Twitter）: https://x.com/kentaro</p><p>💬 Discord: https://discord.gg/SXyKFCyMd5</p><p>✍️ 質問フォーム: https://forms.gle/8mrzUJNYXmkKuetu7</p><p>🎙️ ポッドキャスト: https://creators.spotify.com/pod/profile/kentarokuribayashi</p>]]></description>
+            <content:encoded><![CDATA[<p>AIをもっと有効に活用するには「比較」の視点が欠かせません。情報の収集や整理自体はAIが得意ですが、たくさんの情報の比較から新たな問題を見つけることは人、間の創造性にしかできません。時間的・空間的・代替的・アナロジー的という4つの比較軸を取り上げ、具体的な実例を通じて問題発見のプロセスを紹介します。AIを効率化の道具としてだけではなく、思考の伴走者にするためのヒントをお届けします。</p><p><br></p><p>----</p><p><br></p><p>【栗林健太郎とは】</p><p>GMOペパボ株式会社取締役CTO、日本CTO協会理事。博士（情報科学、JAIST）。大学卒業後、市役所勤務を経て、2008年よりIT業界へ。2012年よりGMOペパボ株式会社。現在、取締役CTOとして技術経営、新規事業創出に取り組む。2025年3月、博士号取得。インターネット上では「あんちぽ」として知られる。</p><p><br></p><p>【各種リンク】</p><p>🌐 ホームページ: https://kentarokuribayashi.com/</p><p>🐦 X（旧Twitter）: https://x.com/kentaro</p><p>💬 Discord: https://discord.gg/SXyKFCyMd5</p><p>✍️ 質問フォーム: https://forms.gle/8mrzUJNYXmkKuetu7</p><p>🎙️ ポッドキャスト: https://creators.spotify.com/pod/profile/kentarokuribayashi</p>]]></content:encoded>
+            <enclosure length="21873266" type="audio/mpeg" url="https://anchor.fm/s/6877a570/podcast/play/109121213/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-9-2%2Ff0e907b7-aeb7-4e9a-4b4a-a2d9d2a41ed4.mp3"/>
+        </item>
+        <item>
+            <title><![CDATA[#33 宇宙からの声を聴く]]></title>
+            <link>https://kentarokuribayashi.com/podcast/33</link>
+            <guid>https://kentarokuribayashi.com/podcast/33</guid>
+            <pubDate>Tue, 30 Sep 2025 16:33:01 GMT</pubDate>
+            <description><![CDATA[<p>アマチュア無線で人工衛星からの電波を受信する体験について語ります。子どもの頃に宇宙へ憧れた原点から、ハモるんやKOSEN-1といった小型衛星との出会い、実際に聴こえた「宇宙からの声」、そして受信の苦労や失敗談、学び直しの決意や今後の挑戦、さらに宇宙ビジネスやオープンな観測ネットワークへの関心まで、幅広くお話しします。リスナーの皆さんと一緒に取り組める可能性についても触れています。</p><p><br></p><p>----</p><p><br></p><p>【栗林健太郎とは】</p><p>GMOペパボ株式会社取締役CTO、日本CTO協会理事。博士（情報科学、JAIST）。大学卒業後、市役所勤務を経て、2008年よりIT業界へ。2012年よりGMOペパボ株式会社。現在、取締役CTOとして技術経営、新規事業創出に取り組む。2025年3月、博士号取得。インターネット上では「あんちぽ」として知られる。</p><p><br></p><p>【各種リンク】</p><p>🌐 ホームページ: https://kentarokuribayashi.com/</p><p>🐦 X（旧Twitter）: https://x.com/kentaro</p><p>💬 Discord: https://discord.gg/SXyKFCyMd5</p><p>✍️ 質問フォーム: https://forms.gle/8mrzUJNYXmkKuetu7</p><p>🎙️ ポッドキャスト: https://creators.spotify.com/pod/profile/kentarokuribayashi</p>]]></description>
+            <content:encoded><![CDATA[<p>アマチュア無線で人工衛星からの電波を受信する体験について語ります。子どもの頃に宇宙へ憧れた原点から、ハモるんやKOSEN-1といった小型衛星との出会い、実際に聴こえた「宇宙からの声」、そして受信の苦労や失敗談、学び直しの決意や今後の挑戦、さらに宇宙ビジネスやオープンな観測ネットワークへの関心まで、幅広くお話しします。リスナーの皆さんと一緒に取り組める可能性についても触れています。</p><p><br></p><p>----</p><p><br></p><p>【栗林健太郎とは】</p><p>GMOペパボ株式会社取締役CTO、日本CTO協会理事。博士（情報科学、JAIST）。大学卒業後、市役所勤務を経て、2008年よりIT業界へ。2012年よりGMOペパボ株式会社。現在、取締役CTOとして技術経営、新規事業創出に取り組む。2025年3月、博士号取得。インターネット上では「あんちぽ」として知られる。</p><p><br></p><p>【各種リンク】</p><p>🌐 ホームページ: https://kentarokuribayashi.com/</p><p>🐦 X（旧Twitter）: https://x.com/kentaro</p><p>💬 Discord: https://discord.gg/SXyKFCyMd5</p><p>✍️ 質問フォーム: https://forms.gle/8mrzUJNYXmkKuetu7</p><p>🎙️ ポッドキャスト: https://creators.spotify.com/pod/profile/kentarokuribayashi</p>]]></content:encoded>
+            <enclosure length="12783908" type="audio/mpeg" url="https://anchor.fm/s/6877a570/podcast/play/109025139/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-9-2%2F16b8e92e-81af-9c72-eeec-741e747ef8f9.mp3"/>
+        </item>
+        <item>
+            <title><![CDATA[#32 音声日記@2025年5月15日〜21日]]></title>
+            <link>https://kentarokuribayashi.com/podcast/32</link>
+            <guid>https://kentarokuribayashi.com/podcast/32</guid>
+            <pubDate>Thu, 22 May 2025 16:34:30 GMT</pubDate>
+            <description><![CDATA[<p>家族旅行や仕事、観劇や技術の挑戦など、充実した一週間を過ごしました。大阪での家族との再会やリトルKの成長、仕事の進展や新しい学びもあり、効率だけでなく日々の小さな気づきや手書きの大切さも実感。日常の豊かさを改めて感じた一週間でした。</p>]]></description>
+            <content:encoded><![CDATA[<p>家族旅行や仕事、観劇や技術の挑戦など、充実した一週間を過ごしました。大阪での家族との再会やリトルKの成長、仕事の進展や新しい学びもあり、効率だけでなく日々の小さな気づきや手書きの大切さも実感。日常の豊かさを改めて感じた一週間でした。</p>]]></content:encoded>
+            <enclosure length="3979855" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/103055664/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2025-4-22%2F400810675-44100-2-8a7edc00fbfd9.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#31 TikTok経由で韓国語学習を再開する]]></title>
+            <link>https://kentarokuribayashi.com/podcast/31</link>
+            <guid>https://kentarokuribayashi.com/podcast/31</guid>
+            <pubDate>Sun, 19 May 2024 15:17:34 GMT</pubDate>
+            <description><![CDATA[TikTokばかり観ていたら韓国語学習を始めていました。]]></description>
+            <content:encoded><![CDATA[TikTokばかり観ていたら韓国語学習を始めていました。]]></content:encoded>
+            <enclosure length="12022883" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/86932277/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2024-4-19%2F378078749-44100-2-6ef9151c006fe.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#30 ポッドキャスト再開の見込みが立ちました]]></title>
+            <link>https://kentarokuribayashi.com/podcast/30</link>
+            <guid>https://kentarokuribayashi.com/podcast/30</guid>
+            <pubDate>Wed, 24 Apr 2024 15:01:43 GMT</pubDate>
+            <description><![CDATA[いろいろ不都合があって更新停止してましたが、いい方法がわかったので再開します。]]></description>
+            <content:encoded><![CDATA[いろいろ不都合があって更新停止してましたが、いい方法がわかったので再開します。]]></content:encoded>
+            <enclosure length="10348857" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/85862127/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2024-3-24%2F375435278-44100-2-2ffa88409bb21.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#29 なりたい自分へのギャップ]]></title>
+            <link>https://kentarokuribayashi.com/podcast/29</link>
+            <guid>https://kentarokuribayashi.com/podcast/29</guid>
+            <pubDate>Fri, 09 Feb 2024 18:03:21 GMT</pubDate>
+            <description><![CDATA[<p>最近、声をいじることにハマっています。ボイスチェンジャーを使うことについて、話してみました。</p>
+<p><br></p>
+<p>----</p>
+<p><br></p>
+<p>途中で出てくる音声は、ParakeetVCでつくよみちゃんの音声に他の声をブレンドしたものを用いています。</p>
+<p><br></p>
+<ul>
+ <li>ボイスチェンジャー: <a href="https://www.parakeet-inc.com/parakeet-vc" target="_blank" rel="noopener noreferer">リアルタイム音声変換 ParakeetVC</a></li>
+ <li>音声モデル: <a href="https://tyc.rei-yumesaki.net/">つくよみちゃん公式サイト | 商用利用もOKなフリー素材キャラクター</a></li>
+</ul>]]></description>
+            <content:encoded><![CDATA[<p>最近、声をいじることにハマっています。ボイスチェンジャーを使うことについて、話してみました。</p>
+<p><br></p>
+<p>----</p>
+<p><br></p>
+<p>途中で出てくる音声は、ParakeetVCでつくよみちゃんの音声に他の声をブレンドしたものを用いています。</p>
+<p><br></p>
+<ul>
+ <li>ボイスチェンジャー: <a href="https://www.parakeet-inc.com/parakeet-vc" target="_blank" rel="noopener noreferer">リアルタイム音声変換 ParakeetVC</a></li>
+ <li>音声モデル: <a href="https://tyc.rei-yumesaki.net/">つくよみちゃん公式サイト | 商用利用もOKなフリー素材キャラクター</a></li>
+</ul>]]></content:encoded>
+            <enclosure length="9351362" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/82464620/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2024-1-9%2F366892901-44100-2-f002bcdfc0281.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#28 音声入力周りの変更とWindows]]></title>
+            <link>https://kentarokuribayashi.com/podcast/28</link>
+            <guid>https://kentarokuribayashi.com/podcast/28</guid>
+            <pubDate>Fri, 02 Feb 2024 15:31:02 GMT</pubDate>
+            <description><![CDATA[<p>これまで使っていたSHURE MV7に加えて、プリアンプとYAMAHA AG03を追加したのでテストがてら収録していたら、Windowsいいね！という話になりました。</p>
+<p><br></p>
+<p>追記: うーん、ちょっとこもってるかんじもする。調整がまずいのかなあ。いつも通りで話すと、マイクが近過ぎたのかも？</p>]]></description>
+            <content:encoded><![CDATA[<p>これまで使っていたSHURE MV7に加えて、プリアンプとYAMAHA AG03を追加したのでテストがてら収録していたら、Windowsいいね！という話になりました。</p>
+<p><br></p>
+<p>追記: うーん、ちょっとこもってるかんじもする。調整がまずいのかなあ。いつも通りで話すと、マイクが近過ぎたのかも？</p>]]></content:encoded>
+            <enclosure length="12403981" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/82145604/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2024-1-2%2F365982640-44100-2-f9110bbe40b8c.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#27 新しいことの始め方]]></title>
+            <link>https://kentarokuribayashi.com/podcast/27</link>
+            <guid>https://kentarokuribayashi.com/podcast/27</guid>
+            <pubDate>Thu, 11 Jan 2024 17:04:03 GMT</pubDate>
+            <description><![CDATA[<p>あいかわらずVRにハマっています。関連して、あれこれ新しいことを始めた話をしました。</p>]]></description>
+            <content:encoded><![CDATA[<p>あいかわらずVRにハマっています。関連して、あれこれ新しいことを始めた話をしました。</p>]]></content:encoded>
+            <enclosure length="11765311" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/81136899/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2024-0-11%2F363060654-44100-2-4bdba5c567dc7.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#26 VRと制作者としてのアイデンティティの危機]]></title>
+            <link>https://kentarokuribayashi.com/podcast/26</link>
+            <guid>https://kentarokuribayashi.com/podcast/26</guid>
+            <pubDate>Fri, 01 Dec 2023 16:55:11 GMT</pubDate>
+            <description><![CDATA[<p>最近VRにまたハマっています。そこで感じたことについてお話ししました。</p>]]></description>
+            <content:encoded><![CDATA[<p>最近VRにまたハマっています。そこで感じたことについてお話ししました。</p>]]></content:encoded>
+            <enclosure length="13002607" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/79422806/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-11-1%2F358043385-44100-2-a0dd03e4ab248.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#25 久々のWebサービスリリース]]></title>
+            <link>https://kentarokuribayashi.com/podcast/25</link>
+            <guid>https://kentarokuribayashi.com/podcast/25</guid>
+            <pubDate>Sun, 19 Nov 2023 15:58:58 GMT</pubDate>
+            <description><![CDATA[<p><a href="https://stickify.xyz/" target="_blank" rel="noopener noreferer">Stickify</a>というサービスをリリースしました。その経緯や思ったこと等についてお話ししています。</p>]]></description>
+            <content:encoded><![CDATA[<p><a href="https://stickify.xyz/" target="_blank" rel="noopener noreferer">Stickify</a>というサービスをリリースしました。その経緯や思ったこと等についてお話ししています。</p>]]></content:encoded>
+            <enclosure length="13911789" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/78846786/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-10-19%2F356262759-44100-2-b3c4ba0c01398.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#24 身体へのマインドフルネス]]></title>
+            <link>https://kentarokuribayashi.com/podcast/24</link>
+            <guid>https://kentarokuribayashi.com/podcast/24</guid>
+            <pubDate>Sun, 05 Nov 2023 14:14:17 GMT</pubDate>
+            <description><![CDATA[<p>久々のエピソードというわけで、思いつくままに話してみました。</p>]]></description>
+            <content:encoded><![CDATA[<p>久々のエピソードというわけで、思いつくままに話してみました。</p>]]></content:encoded>
+            <enclosure length="16937289" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/78194793/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-10-5%2F354183720-44100-2-813b243c1875e.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#23 手帳に万年筆で手書き]]></title>
+            <link>https://kentarokuribayashi.com/podcast/23</link>
+            <guid>https://kentarokuribayashi.com/podcast/23</guid>
+            <pubDate>Sun, 15 Oct 2023 16:13:28 GMT</pubDate>
+            <description><![CDATA[<p>Web日記を毎日書いていたのですが、手帳に万年筆で書くスタイルに移行して、この3ヶ月半ほど続けています。その中で感じたことについてお話ししました。</p>]]></description>
+            <content:encoded><![CDATA[<p>Web日記を毎日書いていたのですが、手帳に万年筆で書くスタイルに移行して、この3ヶ月半ほど続けています。その中で感じたことについてお話ししました。</p>]]></content:encoded>
+            <enclosure length="15084958" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/77244485/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-9-15%2F351229391-44100-2-535aa0ff26662.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#22 レコメンデーションが生み出す欲望]]></title>
+            <link>https://kentarokuribayashi.com/podcast/22</link>
+            <guid>https://kentarokuribayashi.com/podcast/22</guid>
+            <pubDate>Sat, 30 Sep 2023 17:02:55 GMT</pubDate>
+            <description><![CDATA[<p>YouTubeやTikTokなどのソーシャルメディアによるレコメンデーションから始まり、欲望形成の外部化について話をしました。</p>]]></description>
+            <content:encoded><![CDATA[<p>YouTubeやTikTokなどのソーシャルメディアによるレコメンデーションから始まり、欲望形成の外部化について話をしました。</p>]]></content:encoded>
+            <enclosure length="16117459" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/76598699/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-8-30%2F349197740-44100-2-6a5e63c02c8fc.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#21 Day1からアウトプット]]></title>
+            <link>https://kentarokuribayashi.com/podcast/21</link>
+            <guid>https://kentarokuribayashi.com/podcast/21</guid>
+            <pubDate>Mon, 25 Sep 2023 15:37:17 GMT</pubDate>
+            <description><![CDATA[<p>突然思いたって、ギターの練習を始めました。楽しいですね。</p>
+<p>- <a href="https://note.com/kentarok/n/n3ed0a75f9685">音楽の準備</a></p>
+<p><a href="https://www.youtube.com/watch?v=WSAabW5cImE">- 【音楽の準備】ギター1日目</a></p>
+<p>- <a href="https://www.youtube.com/watch?v=2XywYJ6Ssyk">【音楽の準備】ギター10日目</a></p>]]></description>
+            <content:encoded><![CDATA[<p>突然思いたって、ギターの練習を始めました。楽しいですね。</p>
+<p>- <a href="https://note.com/kentarok/n/n3ed0a75f9685">音楽の準備</a></p>
+<p><a href="https://www.youtube.com/watch?v=WSAabW5cImE">- 【音楽の準備】ギター1日目</a></p>
+<p>- <a href="https://www.youtube.com/watch?v=2XywYJ6Ssyk">【音楽の準備】ギター10日目</a></p>]]></content:encoded>
+            <enclosure length="9786007" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/76357196/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-8-25%2F348451661-44100-2-474c452ff52df.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#20 写真シリーズの制作プロセス]]></title>
+            <link>https://kentarokuribayashi.com/podcast/20</link>
+            <guid>https://kentarokuribayashi.com/podcast/20</guid>
+            <pubDate>Mon, 18 Sep 2023 13:43:01 GMT</pubDate>
+            <description><![CDATA[<p>この1週間で完成させた写真シリーズの制作プロセスについてお話ししました。</p>
+ <li><a href="https://note.com/kentarok/n/n7a9e58f40310?magazine_key=m686cf41f26cc">「図案集 / Patterns」について</a></li>
+ <li><a href="https://note.com/kentarok/n/n866a9a7e25bb">Alice in a Forestについて</a></li>]]></description>
+            <content:encoded><![CDATA[<p>この1週間で完成させた写真シリーズの制作プロセスについてお話ししました。</p>
+ <li><a href="https://note.com/kentarok/n/n7a9e58f40310?magazine_key=m686cf41f26cc">「図案集 / Patterns」について</a></li>
+ <li><a href="https://note.com/kentarok/n/n866a9a7e25bb">Alice in a Forestについて</a></li>]]></content:encoded>
+            <enclosure length="14657947" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/76047075/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-8-18%2F347497438-44100-2-a7ff93f2a7c14.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#19 もう何十度目かのホームページ作成]]></title>
+            <link>https://kentarokuribayashi.com/podcast/19</link>
+            <guid>https://kentarokuribayashi.com/podcast/19</guid>
+            <pubDate>Sun, 10 Sep 2023 10:48:49 GMT</pubDate>
+            <description><![CDATA[<p>またホームページを作っていました。作成の経緯や過程についてお話ししました。</p>
+<p><a href="https://kentarokuribayashi.com/" target="_blank" rel="noopener noreferer">https://kentarokuribayashi.com/</a></p>]]></description>
+            <content:encoded><![CDATA[<p>またホームページを作っていました。作成の経緯や過程についてお話ししました。</p>
+<p><a href="https://kentarokuribayashi.com/" target="_blank" rel="noopener noreferer">https://kentarokuribayashi.com/</a></p>]]></content:encoded>
+            <enclosure length="9914983" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/75705776/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-8-10%2F346430148-44100-2-d0b07e46d1997.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#18 ある社会人大学院生の中間報告]]></title>
+            <link>https://kentarokuribayashi.com/podcast/18</link>
+            <guid>https://kentarokuribayashi.com/podcast/18</guid>
+            <pubDate>Tue, 05 Sep 2023 15:14:05 GMT</pubDate>
+            <description><![CDATA[<p>国際会議に投稿した論文が採択されたので、まだまだ道半ばですが、社会人大学院生活の進捗についてお話ししました。</p>]]></description>
+            <content:encoded><![CDATA[<p>国際会議に投稿した論文が採択されたので、まだまだ道半ばですが、社会人大学院生活の進捗についてお話ししました。</p>]]></content:encoded>
+            <enclosure length="12591059" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/75505644/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-8-5%2F345814821-44100-2-55ff8c5cfae28.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#17 小説『図案集』の制作プロセスと展望]]></title>
+            <link>https://kentarokuribayashi.com/podcast/17</link>
+            <guid>https://kentarokuribayashi.com/podcast/17</guid>
+            <pubDate>Sun, 27 Aug 2023 15:14:21 GMT</pubDate>
+            <description><![CDATA[<p>小説『図案集』をリリースしたので、制作過程と展望について話しました。</p>
+<ul>
+ <li><a href="https://suzuri.jp/kentaro/digital_products/19781">図案集 by 栗林健太郎のショップ ( kentaro ) ∞ SUZURI（スズリ）</a></li>
+ <li><a href="https://note.com/kentarok/n/n4ec18e7f7320">小説『図案集』の電子書籍版を販売開始しました｜栗林健太郎</a></li>
+</ul>]]></description>
+            <content:encoded><![CDATA[<p>小説『図案集』をリリースしたので、制作過程と展望について話しました。</p>
+<ul>
+ <li><a href="https://suzuri.jp/kentaro/digital_products/19781">図案集 by 栗林健太郎のショップ ( kentaro ) ∞ SUZURI（スズリ）</a></li>
+ <li><a href="https://note.com/kentarok/n/n4ec18e7f7320">小説『図案集』の電子書籍版を販売開始しました｜栗林健太郎</a></li>
+</ul>]]></content:encoded>
+            <enclosure length="9570461" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/75125139/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-7-27%2F344630653-44100-2-7142602dbcab7.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#16 村上由鶴『アートとフェミニズムは誰のもの？』感想]]></title>
+            <link>https://kentarokuribayashi.com/podcast/16</link>
+            <guid>https://kentarokuribayashi.com/podcast/16</guid>
+            <pubDate>Sat, 19 Aug 2023 16:08:59 GMT</pubDate>
+            <description><![CDATA[<p>村上由鶴『アートとフェミニズムは誰のもの？』を読んだので、感想を話しました。ごく一部について簡単に話しただけなので、この本の良さを必ずしもちゃんと伝えられてはいないかと思います。ぜひお買い求めの上、読まれたいと思います。</p>
+<p><br></p>
+<p>https://amzn.to/3snzhUO</p>]]></description>
+            <content:encoded><![CDATA[<p>村上由鶴『アートとフェミニズムは誰のもの？』を読んだので、感想を話しました。ごく一部について簡単に話しただけなので、この本の良さを必ずしもちゃんと伝えられてはいないかと思います。ぜひお買い求めの上、読まれたいと思います。</p>
+<p><br></p>
+<p>https://amzn.to/3snzhUO</p>]]></content:encoded>
+            <enclosure length="12499196" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/74813185/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-7-19%2F343652719-44100-2-40c995fdcbcea.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#15 「作家」としての活動]]></title>
+            <link>https://kentarokuribayashi.com/podcast/15</link>
+            <guid>https://kentarokuribayashi.com/podcast/15</guid>
+            <pubDate>Thu, 17 Aug 2023 15:31:29 GMT</pubDate>
+            <description><![CDATA[<p>作家としての活動を開始しました。経緯や理由についてお話ししています。</p>]]></description>
+            <content:encoded><![CDATA[<p>作家としての活動を開始しました。経緯や理由についてお話ししています。</p>]]></content:encoded>
+            <enclosure length="14391213" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/74741630/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-7-17%2F343424989-44100-2-a5ede4e36dd25.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#14 ライブラリを作る楽しみ]]></title>
+            <link>https://kentarokuribayashi.com/podcast/14</link>
+            <guid>https://kentarokuribayashi.com/podcast/14</guid>
+            <pubDate>Tue, 15 Aug 2023 14:28:22 GMT</pubDate>
+            <description><![CDATA[<p>ここ数日は、OpenAIが出しているAPIをいい感じに扱えるライブラリを作っていました。そんなわけで、ライブラリを作ることの楽しみについてお話ししました。</p>]]></description>
+            <content:encoded><![CDATA[<p>ここ数日は、OpenAIが出しているAPIをいい感じに扱えるライブラリを作っていました。そんなわけで、ライブラリを作ることの楽しみについてお話ししました。</p>]]></content:encoded>
+            <enclosure length="10746531" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/74655363/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-7-15%2F343157816-44100-2-a3d9f2a1235ac.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#13 XREAL Beamが開くXRの未来]]></title>
+            <link>https://kentarokuribayashi.com/podcast/13</link>
+            <guid>https://kentarokuribayashi.com/podcast/13</guid>
+            <pubDate>Sun, 06 Aug 2023 15:25:05 GMT</pubDate>
+            <description><![CDATA[<p>XREAL Beamを買ったので、ファーストインプレッションについてお話しします。</p>
+<p><br></p>
+<p>XREAL - 複合現実の構築</p>
+<p>https://www.xreal.com/jp/beam/</p>]]></description>
+            <content:encoded><![CDATA[<p>XREAL Beamを買ったので、ファーストインプレッションについてお話しします。</p>
+<p><br></p>
+<p>XREAL - 複合現実の構築</p>
+<p>https://www.xreal.com/jp/beam/</p>]]></content:encoded>
+            <enclosure length="15429575" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/74305043/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-7-6%2F342075703-44100-2-08fcd92b59b92.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#12 継続できないことを継続している私の方法]]></title>
+            <link>https://kentarokuribayashi.com/podcast/12</link>
+            <guid>https://kentarokuribayashi.com/podcast/12</guid>
+            <pubDate>Mon, 31 Jul 2023 15:29:13 GMT</pubDate>
+            <description><![CDATA[<p>継続することができない自分が継続できている唯一の取り組みについての最新情報。</p>]]></description>
+            <content:encoded><![CDATA[<p>継続することができない自分が継続できている唯一の取り組みについての最新情報。</p>]]></content:encoded>
+            <enclosure length="11807280" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/74073700/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2023-6-31%2F341357082-44100-2-dca172e46f0fa.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#11 上演・複製・生成という表現のモードと「稽古」への憧れ]]></title>
+            <link>https://kentarokuribayashi.com/podcast/11</link>
+            <guid>https://kentarokuribayashi.com/podcast/11</guid>
+            <pubDate>Sun, 30 Jul 2023 15:10:28 GMT</pubDate>
+            <description><![CDATA[<p>楽器ができるようになりたいという話をしました。</p>]]></description>
+            <content:encoded><![CDATA[<p>楽器ができるようになりたいという話をしました。</p>]]></content:encoded>
+            <enclosure length="24035009" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/74033048/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fproduction%2Fexports%2F6877a570%2F74033048%2F8e469ba6df51dec1d2863cdcc43e19cd.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[#10 自分が生成AIであると思い込んでいる人間]]></title>
+            <link>https://kentarokuribayashi.com/podcast/10</link>
+            <guid>https://kentarokuribayashi.com/podcast/10</guid>
+            <pubDate>Fri, 28 Jul 2023 07:56:18 GMT</pubDate>
+            <description><![CDATA[<p>自分のことを生成AIだと思って方向感を与えたらじゃあ何を生成してくれるのか？と思って、生成AIたる自分にしゃべらせてみました。</p>]]></description>
+            <content:encoded><![CDATA[<p>自分のことを生成AIだと思って方向感を与えたらじゃあ何を生成してくれるのか？と思って、生成AIたる自分にしゃべらせてみました。</p>]]></content:encoded>
+            <enclosure length="9386661" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/73962166/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fproduction%2Fexports%2F6877a570%2F73962166%2F43c12eff875a7513d7ac2f331d933930.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[第9話 社会人大学院生活の前半を終えて]]></title>
+            <link>https://kentarokuribayashi.com/podcast/episode-1648559212000</link>
+            <guid>https://kentarokuribayashi.com/podcast/episode-1648559212000</guid>
+            <pubDate>Tue, 29 Mar 2022 13:06:52 GMT</pubDate>
+            <description><![CDATA[<p>2020年から通っている社会人大学院について、通い始めた目的や現状など、前半の振り返りについて話しました。</p>
+<p>→ <a href="https://docs.google.com/document/d/1J1HCQltRq1_cqrfsX7NI0wN3xJUO6N2wdSFgxTCV9J0/edit">Show Notes + Transcript</a></p>]]></description>
+            <content:encoded><![CDATA[<p>2020年から通っている社会人大学院について、通い始めた目的や現状など、前半の振り返りについて話しました。</p>
+<p>→ <a href="https://docs.google.com/document/d/1J1HCQltRq1_cqrfsX7NI0wN3xJUO6N2wdSFgxTCV9J0/edit">Show Notes + Transcript</a></p>]]></content:encoded>
+            <enclosure length="10319835" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/49789916/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-29%2F256633551-44100-2-1d0e96c7ea99.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[第8話 Webサイトを作ること]]></title>
+            <link>https://kentarokuribayashi.com/podcast/episode-1648552375000</link>
+            <guid>https://kentarokuribayashi.com/podcast/episode-1648552375000</guid>
+            <pubDate>Tue, 29 Mar 2022 11:12:55 GMT</pubDate>
+            <description><![CDATA[<p>2017年は、日本におけるTwitterブームの開始からちょうど10年。短いテキストを思いついたその場で投稿できる便利さもいいけど、そろそろまとまりのあるコンテンツを提供するWebサイトがくるね、というお話。</p>
+<p>→ <a href="https://docs.google.com/document/d/1BLtl5I75pCdI-MnKvtpblARom7-f5VKgygFQQFQPXbI/edit">Show Notes + Transcript</a></p>]]></description>
+            <content:encoded><![CDATA[<p>2017年は、日本におけるTwitterブームの開始からちょうど10年。短いテキストを思いついたその場で投稿できる便利さもいいけど、そろそろまとまりのあるコンテンツを提供するWebサイトがくるね、というお話。</p>
+<p>→ <a href="https://docs.google.com/document/d/1BLtl5I75pCdI-MnKvtpblARom7-f5VKgygFQQFQPXbI/edit">Show Notes + Transcript</a></p>]]></content:encoded>
+            <enclosure length="6963723" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/49785604/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457393-44100-2-4dbffc3dcb7cd.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[第7話 べつの言葉で]]></title>
+            <link>https://kentarokuribayashi.com/podcast/episode-1648552036000</link>
+            <guid>https://kentarokuribayashi.com/podcast/episode-1648552036000</guid>
+            <pubDate>Tue, 29 Mar 2022 11:07:16 GMT</pubDate>
+            <description><![CDATA[<p>明けましておめでとうございます。新年ということで「外国語の勉強をするぞ！」という抱負を述べたので、それに関連して、複数言語を使用するということについて話しました。</p>
+<p>→ <a href="https://docs.google.com/document/d/1r9BGTiIMNSqf9dCEOLEWTi-Bg7tFf2hr1lp0MTUBw3o/edit">Show Notes + Transcript</a></p>]]></description>
+            <content:encoded><![CDATA[<p>明けましておめでとうございます。新年ということで「外国語の勉強をするぞ！」という抱負を述べたので、それに関連して、複数言語を使用するということについて話しました。</p>
+<p>→ <a href="https://docs.google.com/document/d/1r9BGTiIMNSqf9dCEOLEWTi-Bg7tFf2hr1lp0MTUBw3o/edit">Show Notes + Transcript</a></p>]]></content:encoded>
+            <enclosure length="13586560" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/49773829/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457267-44100-2-d6e5881fb0d12.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[第6話 阿部薫の時代]]></title>
+            <link>https://kentarokuribayashi.com/podcast/episode-1648524368000</link>
+            <guid>https://kentarokuribayashi.com/podcast/episode-1648524368000</guid>
+            <pubDate>Tue, 29 Mar 2022 03:26:08 GMT</pubDate>
+            <description><![CDATA[<p>日本における伝説的なフリージャズミュージシャンの阿部薫とその時代について、あんちぽくん自身の受容体験を交えながらお話します。</p>
+<p>→ <a href="https://docs.google.com/document/d/1GXFSubGaDxD28mSOEWtg4anEXHTBbGnRNiuo_NO2_Mw/edit">Show Notes + Transcript</a></p>]]></description>
+            <content:encoded><![CDATA[<p>日本における伝説的なフリージャズミュージシャンの阿部薫とその時代について、あんちぽくん自身の受容体験を交えながらお話します。</p>
+<p>→ <a href="https://docs.google.com/document/d/1GXFSubGaDxD28mSOEWtg4anEXHTBbGnRNiuo_NO2_Mw/edit">Show Notes + Transcript</a></p>]]></content:encoded>
+            <enclosure length="9286297" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/49773676/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457266-44100-2-cbda49dda8164.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[第5回 メディア・モンスター]]></title>
+            <link>https://kentarokuribayashi.com/podcast/episode-1648524254000</link>
+            <guid>https://kentarokuribayashi.com/podcast/episode-1648524254000</guid>
+            <pubDate>Tue, 29 Mar 2022 03:24:14 GMT</pubDate>
+            <description><![CDATA[<p>建築家が「メディア・モンスター」であり得た時代と黒川紀章について、曲沼美恵『メディア・モンスター』という本の紹介とともに話します。</p>
+<p>→ <a href="https://docs.google.com/document/d/1B6qD6SKvKSNAf52v-kRuqBfpMuE8WJLwRAFJJiymiHM/edit">Show Notes + Transcript</a></p>]]></description>
+            <content:encoded><![CDATA[<p>建築家が「メディア・モンスター」であり得た時代と黒川紀章について、曲沼美恵『メディア・モンスター』という本の紹介とともに話します。</p>
+<p>→ <a href="https://docs.google.com/document/d/1B6qD6SKvKSNAf52v-kRuqBfpMuE8WJLwRAFJJiymiHM/edit">Show Notes + Transcript</a></p>]]></content:encoded>
+            <enclosure length="7390899" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/49773628/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457265-44100-2-ed3b7bc0d54de.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[第4話 多言語社会]]></title>
+            <link>https://kentarokuribayashi.com/podcast/episode-1648524084000</link>
+            <guid>https://kentarokuribayashi.com/podcast/episode-1648524084000</guid>
+            <pubDate>Tue, 29 Mar 2022 03:21:24 GMT</pubDate>
+            <description><![CDATA[<p>台湾の現代文化について特集した「Pen+ 台湾カルチャー・クルーズ」の紹介と、2015年の上半期直木賞受賞作『流』に見る多言語社会の実際について話します。</p>
+<p>→ <a href="https://docs.google.com/document/d/1vYlBva9gR06V5V_edrgxNUCGHSG7URQwngFydmJOQ3U/edit">Show Notes</a></p>]]></description>
+            <content:encoded><![CDATA[<p>台湾の現代文化について特集した「Pen+ 台湾カルチャー・クルーズ」の紹介と、2015年の上半期直木賞受賞作『流』に見る多言語社会の実際について話します。</p>
+<p>→ <a href="https://docs.google.com/document/d/1vYlBva9gR06V5V_edrgxNUCGHSG7URQwngFydmJOQ3U/edit">Show Notes</a></p>]]></content:encoded>
+            <enclosure length="13590144" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/49773521/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457268-44100-2-017645916a20b.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[第3話 ビブリオバトル]]></title>
+            <link>https://kentarokuribayashi.com/podcast/episode-1648523973000</link>
+            <guid>https://kentarokuribayashi.com/podcast/episode-1648523973000</guid>
+            <pubDate>Tue, 29 Mar 2022 03:19:33 GMT</pubDate>
+            <description><![CDATA[<p>このPodcastを始めるきっかけにもなった「ビブリオバトル」について紹介するとともに、Web系エンジニアにとってそれがどのように役に立ち得るのかについて話します。</p>
+<p>→ <a href="https://docs.google.com/document/d/163tBGl8VGucUGft3HR9wyJDn1PUBfei-BR4m61X52bk/edit">Show Notes</a></p>]]></description>
+            <content:encoded><![CDATA[<p>このPodcastを始めるきっかけにもなった「ビブリオバトル」について紹介するとともに、Web系エンジニアにとってそれがどのように役に立ち得るのかについて話します。</p>
+<p>→ <a href="https://docs.google.com/document/d/163tBGl8VGucUGft3HR9wyJDn1PUBfei-BR4m61X52bk/edit">Show Notes</a></p>]]></content:encoded>
+            <enclosure length="16013972" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/49773436/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457269-44100-2-2df8fe6747abe.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[第2話 瞑想について]]></title>
+            <link>https://kentarokuribayashi.com/podcast/episode-1648523825000</link>
+            <guid>https://kentarokuribayashi.com/podcast/episode-1648523825000</guid>
+            <pubDate>Tue, 29 Mar 2022 03:17:05 GMT</pubDate>
+            <description><![CDATA[<p>最近実践している「瞑想」について、ビジネス界隈で話題のマインドフルネスもからめて紹介します。</p>
+<p>→ <a href="https://docs.google.com/document/d/17qmsSGunLilOfjMt1TujQNjKaCVkuDVlP1wV4iVl8_k/edit">Show Notes</a></p>]]></description>
+            <content:encoded><![CDATA[<p>最近実践している「瞑想」について、ビジネス界隈で話題のマインドフルネスもからめて紹介します。</p>
+<p>→ <a href="https://docs.google.com/document/d/17qmsSGunLilOfjMt1TujQNjKaCVkuDVlP1wV4iVl8_k/edit">Show Notes</a></p>]]></content:encoded>
+            <enclosure length="13923810" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/49773338/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457274-44100-2-eb78f1d88a4ba.m4a"/>
+        </item>
+        <item>
+            <title><![CDATA[第1話 リー・クアンユー回顧録]]></title>
+            <link>https://kentarokuribayashi.com/podcast/episode-1648522994000</link>
+            <guid>https://kentarokuribayashi.com/podcast/episode-1648522994000</guid>
+            <pubDate>Tue, 29 Mar 2022 03:03:14 GMT</pubDate>
+            <description><![CDATA[<p>antipop.fm(あんちぽえふえむ)を始めます。第1回目は『<a href="http://www.amazon.co.jp/exec/obidos/ASIN/4532163625/antipop-22/">リー・クアンユー回顧録〈上〉 ザ・シンガポールストーリー</a>』の紹介。</p>
+<p>→ <a href="https://docs.google.com/document/d/1q_6Gp5_FFWBkf_G9g5cDDdYR_A3xZ1EHgVSsNVx_IQo/edit">Show Notes</a></p>]]></description>
+            <content:encoded><![CDATA[<p>antipop.fm(あんちぽえふえむ)を始めます。第1回目は『<a href="http://www.amazon.co.jp/exec/obidos/ASIN/4532163625/antipop-22/">リー・クアンユー回顧録〈上〉 ザ・シンガポールストーリー</a>』の紹介。</p>
+<p>→ <a href="https://docs.google.com/document/d/1q_6Gp5_FFWBkf_G9g5cDDdYR_A3xZ1EHgVSsNVx_IQo/edit">Show Notes</a></p>]]></content:encoded>
+            <enclosure length="17634918" type="audio/x-m4a" url="https://anchor.fm/s/6877a570/podcast/play/49771355/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256456815-44100-2-152e33fdcf1d1.m4a"/>
+        </item>
+    </channel>
+</rss>

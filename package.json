@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
-    "build": "npm run generate-rss && npm run generate-combined-feed && npm run generate-podcast-data && npm run generate-search-data && next build",
+    "build": "npm run generate-rss && npm run generate-combined-feed && npm run generate-podcast-data && npm run generate-podcast-feed && npm run generate-podcast-players && npm run generate-search-data && next build",
     "start": "next start",
     "lint": "next lint",
     "generate-rss": "ts-node --project tsconfig.node.json src/scripts/generate-rss.ts",
     "generate-combined-feed": "ts-node --project tsconfig.node.json src/scripts/generate-combined-feed.ts",
     "generate-podcast-data": "ts-node --project tsconfig.node.json src/scripts/generate-podcast-data.ts",
+    "generate-podcast-feed": "ts-node --project tsconfig.node.json src/scripts/generate-podcast-feed.ts",
+    "generate-podcast-players": "ts-node --project tsconfig.node.json src/scripts/generate-podcast-players.ts",
     "generate-search-data": "ts-node --project tsconfig.node.json src/scripts/generate-search-data.ts",
     "generate-embeddings": "NODE_NO_WARNINGS=1 ts-node --project tsconfig.node.json src/scripts/generate-embeddings.ts"
   },

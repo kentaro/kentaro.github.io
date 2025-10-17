@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>第4話 多言語社会 - 情報科学のまわり道</title>
+
+  <!-- OG tags for sharing -->
+  <meta property="og:title" content="第4話 多言語社会 - 情報科学のまわり道">
+  <meta property="og:description" content="台湾の現代文化について特集した「Pen+ 台湾カルチャー・クルーズ」の紹介と、2015年の上半期直木賞受賞作『流』に見る多言語社会の実際について話します。
+→ Show Notes">
+  <meta property="og:image" content="https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/17426716/17426716-1760623154352-910a7edb7b43c.jpg">
+  <meta property="og:type" content="music.song">
+  <meta property="og:audio" content="https://anchor.fm/s/6877a570/podcast/play/49773521/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457268-44100-2-017645916a20b.m4a">
+  <meta property="og:audio:type" content="audio/x-m4a">
+
+  <!-- Twitter Card tags -->
+  <meta name="twitter:card" content="player">
+  <meta name="twitter:title" content="第4話 多言語社会">
+  <meta name="twitter:description" content="台湾の現代文化について特集した「Pen+ 台湾カルチャー・クルーズ」の紹介と、2015年の上半期直木賞受賞作『流』に見る多言語社会の実際について話します。
+→ Show Notes">
+  <meta name="twitter:image" content="https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/17426716/17426716-1760623154352-910a7edb7b43c.jpg">
+  <meta name="twitter:player" content="https://kentarokuribayashi.com/podcast/player/episode-1648524084000">
+  <meta name="twitter:player:width" content="600">
+  <meta name="twitter:player:height" content="180">
+  <meta name="twitter:player:stream" content="https://anchor.fm/s/6877a570/podcast/play/49773521/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457268-44100-2-017645916a20b.m4a">
+  <meta name="twitter:player:stream:content_type" content="audio/x-m4a">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: #f9fafb;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .player-card {
+      width: 100%;
+      max-width: 600px;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      margin: 16px;
+    }
+
+    .player-content {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+    }
+
+    .image-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .podcast-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 56px;
+      height: 56px;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(8px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .play-button:hover {
+      background: rgba(0, 0, 0, 0.35);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .play-button svg {
+      width: 24px;
+      height: 24px;
+      color: white;
+    }
+
+    .play-button.playing svg.play-icon {
+      display: none;
+    }
+
+    .play-button svg.pause-icon {
+      display: none;
+    }
+
+    .play-button.playing svg.pause-icon {
+      display: block;
+    }
+
+    .episode-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .episode-title {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      color: #111827;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .episode-title a {
+      color: #111827;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .episode-title a:hover {
+      color: #3b82f6;
+    }
+
+    .podcast-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .podcast-title a {
+      color: #6b7280;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .podcast-title a:hover {
+      color: #3b82f6;
+    }
+
+    .episode-description {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #9ca3af;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    audio {
+      display: none;
+    }
+
+    /* 埋め込み用のコンパクト表示 */
+    @media (max-width: 600px) {
+      .player-card {
+        margin: 0;
+        border-radius: 0;
+      }
+
+      .player-content {
+        padding: 16px;
+        gap: 12px;
+      }
+
+      .image-container {
+        width: 100px;
+        height: 100px;
+      }
+
+      .play-button {
+        width: 48px;
+        height: 48px;
+      }
+
+      .play-button svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .episode-title {
+        font-size: 16px;
+      }
+
+      .podcast-title {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      .episode-description {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="player-card">
+    <div class="player-content">
+      <div class="image-container" onclick="togglePlay()">
+        <img
+          src="https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/17426716/17426716-1760623154352-910a7edb7b43c.jpg"
+          alt="情報科学のまわり道"
+          class="podcast-image"
+        />
+        <div class="play-button" id="playButton">
+          <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16"></rect>
+            <rect x="14" y="4" width="4" height="16"></rect>
+          </svg>
+        </div>
+      </div>
+      <div class="episode-info">
+        <h1 class="episode-title"><a href="https://kentarokuribayashi.com/podcast/episode-1648524084000">第4話 多言語社会</a></h1>
+        <p class="podcast-title"><a href="https://kentarokuribayashi.com/podcast">情報科学のまわり道</a></p>
+        <p class="episode-description">台湾の現代文化について特集した「Pen+ 台湾カルチャー・クルーズ」の紹介と、2015年の上半期直木賞受賞作『流』に見る多言語社会の実際について話します。
+→ Show Notes</p>
+      </div>
+    </div>
+    <audio id="audio" preload="metadata">
+      <source src="https://anchor.fm/s/6877a570/podcast/play/49773521/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2022-2-28%2F256457268-44100-2-017645916a20b.m4a" type="audio/x-m4a">
+    </audio>
+  </div>
+
+  <script>
+    const audio = document.getElementById('audio');
+    const playButton = document.getElementById('playButton');
+
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play();
+        playButton.classList.add('playing');
+      } else {
+        audio.pause();
+        playButton.classList.remove('playing');
+      }
+    }
+
+    // 音声が終了したらボタンを元に戻す
+    audio.addEventListener('ended', () => {
+      playButton.classList.remove('playing');
+    });
+
+    // 自動再生
+    audio.play().catch(() => {
+      // 自動再生がブロックされた場合は何もしない
+    });
+  </script>
+</body>
+</html>

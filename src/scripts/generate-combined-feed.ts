@@ -6,6 +6,7 @@ import { Feed } from "feed";
 import { remark } from "remark";
 import stripMarkdown from "strip-markdown";
 import { generateRssFeed } from "../lib/rss";
+import { fetchPodcastFeed } from "../lib/podcast";
 
 // フィードのソース一覧
 const FEED_SOURCES = [
@@ -483,12 +484,16 @@ async function generateCombinedFeed() {
 
 	console.log(`Generated combined feed with ${latestItems.length} items`);
 
-	// 全体フィード（作品、ブログ、日記をまとめた全体フィード）を生成
+	// 全体フィード（作品、ブログ、日記、ポッドキャストをまとめた全体フィード）を生成
 	// ブログと日記のRSSフィードを生成し、データを取得
 	const blogPosts = await generateRssFeed("blog");
 	const journalPosts = await generateRssFeed("journal");
 
-	// ブログ、日記、外部作品フィードを結合
+	// ポッドキャストのデータを取得（スラッグ付きでURLを生成）
+	const rssUrl = 'https://anchor.fm/s/6877a570/podcast/rss';
+	const podcastData = await fetchPodcastFeed(rssUrl);
+
+	// ブログ、日記、外部作品フィード、ポッドキャストを結合
 	type RootItem = {
 		title: string;
 		id: string;
@@ -497,6 +502,11 @@ async function generateCombinedFeed() {
 		content: string;
 		date: Date;
 		image?: string;
+		enclosure?: {
+			url: string;
+			type: string;
+			length: number;
+		};
 	};
 
 	// Markdownを除去する関数
@@ -540,6 +550,21 @@ async function generateCombinedFeed() {
 			date: item.date,
 			image: item.image || undefined,
 		})),
+		...podcastData.episodes.map((episode) => ({
+			title: episode.title,
+			id: `${SITE_URL}/podcast/${episode.slug}`,
+			link: `${SITE_URL}/podcast/${episode.slug}`,
+			description: episode.description,
+			content: episode.description,
+			date: new Date(episode.pubDate),
+			// ポッドキャストはimageではなくenclosureで音声ファイルを設定
+			image: undefined,
+			enclosure: episode.audioUrl ? {
+				url: episode.audioUrl,
+				type: episode.audioType || 'audio/mpeg',
+				length: episode.audioLength || 0,
+			} : undefined,
+		})),
 	];
 
 	// 日付でソート（新しい順）し、最新100件に制限
@@ -549,7 +574,7 @@ async function generateCombinedFeed() {
 	// 全体フィードを生成
 	const rootFeed = new Feed({
 		title: "栗林健太郎 全フィード",
-		description: "作品、ブログ、日記をまとめた全体フィード",
+		description: "作品、ブログ、日記、ポッドキャストをまとめた全体フィード",
 		id: SITE_URL,
 		link: SITE_URL,
 		language: "ja",
@@ -574,6 +599,7 @@ async function generateCombinedFeed() {
 			content: item.content,
 			date: item.date,
 			image: item.image,
+			enclosure: item.enclosure,
 		});
 	}
 

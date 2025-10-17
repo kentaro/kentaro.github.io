@@ -6,7 +6,9 @@ type SEOProps = {
   description?: string;
   ogImage?: string;
   ogType?: 'website' | 'article';
-  twitterCard?: 'summary' | 'summary_large_image';
+  twitterCard?: 'summary' | 'summary_large_image' | 'player';
+  audioUrl?: string;
+  audioType?: string;
 };
 
 export default function SEO({
@@ -15,6 +17,8 @@ export default function SEO({
   ogImage,
   ogType = 'website',
   twitterCard = 'summary_large_image',
+  audioUrl,
+  audioType,
 }: SEOProps) {
   const fullTitle = title === '栗林健太郎' ? title : `${title} | 栗林健太郎`;
   const router = useRouter();
@@ -52,12 +56,31 @@ export default function SEO({
       <meta property="og:site_name" content="栗林健太郎" />
       <meta property="og:locale" content="ja_JP" />
 
+      {/* OG Audio for podcast episodes */}
+      {audioUrl && (
+        <>
+          <meta property="og:audio" content={audioUrl} />
+          {audioType && <meta property="og:audio:type" content={audioType} />}
+        </>
+      )}
+
       {/* Twitter */}
       <meta name="twitter:card" content={twitterCard} />
       <meta name="twitter:site" content="@kentaro" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImageUrl} />
+
+      {/* Twitter Player for audio */}
+      {audioUrl && twitterCard === 'player' && (
+        <>
+          <meta name="twitter:player" content={audioUrl} />
+          <meta name="twitter:player:width" content="600" />
+          <meta name="twitter:player:height" content="180" />
+          <meta name="twitter:player:stream" content={audioUrl} />
+          {audioType && <meta name="twitter:player:stream:content_type" content={audioType} />}
+        </>
+      )}
 
       {/* RSS Feed */}
       {rssLink && (

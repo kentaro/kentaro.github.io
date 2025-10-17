@@ -26,7 +26,7 @@ function generatePlayerHTML(episode: any, podcastTitle: string, podcastImage: st
   <!-- OG tags for sharing -->
   <meta property="og:title" content="${episode.title} - ${podcastTitle}">
   <meta property="og:description" content="${description}">
-  <meta property="og:image" content="${podcastImage}">
+  <meta property="og:image" content="${SITE_URL}/assets/podcast-banner.png">
   <meta property="og:type" content="music.song">
   <meta property="og:audio" content="${episode.audioUrl}">
   <meta property="og:audio:type" content="${episode.audioType || 'audio/mpeg'}">
@@ -35,7 +35,7 @@ function generatePlayerHTML(episode: any, podcastTitle: string, podcastImage: st
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${episode.title}">
   <meta name="twitter:description" content="${description}">
-  <meta name="twitter:image" content="${podcastImage}">
+  <meta name="twitter:image" content="${SITE_URL}/assets/podcast-banner.png">
 
   <style>
     * {

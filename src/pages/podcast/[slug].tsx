@@ -83,7 +83,7 @@ export default function EpisodePage({ episode, podcastInfo }: EpisodePageProps) 
       <SEO
         title={`${episode.title} - ${podcastInfo.title}`}
         description={description}
-        ogImage={podcastInfo.imageUrl}
+        ogImage="https://kentarokuribayashi.com/assets/podcast-banner.png"
       />
 
       <article className="py-8 sm:py-12 md:py-16">

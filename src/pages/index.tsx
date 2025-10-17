@@ -209,14 +209,19 @@ export default function Home() {
               animate={{ opacity: 1, rotateY: 0 }}
               exit={{ opacity: 0, rotateY: -90 }}
               transition={{ duration: 0.5 }}
-              className="text-2xl sm:text-3xl md:text-4xl text-gray-700 space-y-10 [&_p]:leading-loose touch-pan-x"
+              className="text-2xl sm:text-3xl md:text-4xl text-gray-700 space-y-10 [&_p]:leading-loose"
               onTouchStart={(e) => {
                 const startX = e.touches[0].clientX;
+                const startY = e.touches[0].clientY;
                 const handleTouchEnd = (endEvent: TouchEvent) => {
                   const endX = endEvent.changedTouches[0].clientX;
-                  const diff = startX - endX;
-                  if (Math.abs(diff) > 50) {
-                    if (diff > 0) {
+                  const endY = endEvent.changedTouches[0].clientY;
+                  const diffX = startX - endX;
+                  const diffY = startY - endY;
+
+                  // 横方向の移動が縦方向より大きい場合のみ言語切り替え
+                  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                    if (diffX > 0) {
                       // スワイプ左（次へ）
                       if (language === 'ja') setLanguage('en');
                       else if (language === 'en') setLanguage('fr');

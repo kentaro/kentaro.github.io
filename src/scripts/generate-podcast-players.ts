@@ -32,15 +32,10 @@ function generatePlayerHTML(episode: any, podcastTitle: string, podcastImage: st
   <meta property="og:audio:type" content="${episode.audioType || 'audio/mpeg'}">
 
   <!-- Twitter Card tags -->
-  <meta name="twitter:card" content="player">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${episode.title}">
   <meta name="twitter:description" content="${description}">
   <meta name="twitter:image" content="${podcastImage}">
-  <meta name="twitter:player" content="${SITE_URL}/podcast/player/${episode.slug}">
-  <meta name="twitter:player:width" content="600">
-  <meta name="twitter:player:height" content="180">
-  <meta name="twitter:player:stream" content="${episode.audioUrl}">
-  <meta name="twitter:player:stream:content_type" content="${episode.audioType || 'audio/mpeg'}">
 
   <style>
     * {

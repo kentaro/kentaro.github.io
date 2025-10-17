@@ -69,7 +69,7 @@ export default function Home() {
                 className="mb-8"
               >
                 <p className="text-2xl sm:text-3xl md:text-4xl text-gray-800 mb-6 font-bold">
-                  概念と構造を制作する。
+                  概念と構造を制作する
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                   {["CTO", "技術戦略", "エンジニアリングマネジメント", "博士（情報科学）", "情報処理安全確保支援士"].map((tag, index) => (

@@ -77,16 +77,12 @@ function processHtml(html: string): string {
 
 export default function EpisodePage({ episode, podcastInfo }: EpisodePageProps) {
   const description = stripHtml(episode.description).slice(0, 160);
-  const playerUrl = `https://kentarokuribayashi.com/podcast/player/${episode.slug}`;
 
   return (
     <Layout>
       <SEO
         title={`${episode.title} - ${podcastInfo.title}`}
         description={description}
-        twitterCard="player"
-        audioUrl={playerUrl}
-        audioType={episode.audioType || 'audio/mpeg'}
         ogImage={podcastInfo.imageUrl}
       />
 

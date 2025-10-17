@@ -573,7 +573,7 @@ async function generateCombinedFeed() {
 
 	// 全体フィードを生成
 	const rootFeed = new Feed({
-		title: "栗林健太郎 全フィード",
+		title: "栗林健太郎の活動記録",
 		description: "作品、ブログ、日記、ポッドキャストをまとめた全体フィード",
 		id: SITE_URL,
 		link: SITE_URL,

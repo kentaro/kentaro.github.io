@@ -73,7 +73,6 @@ export default function WorksPage({ feedData }: WorksPageProps) {
       case 'slide': return '📊';
       case 'video': return '🎬';
       case 'music': return '🎵';
-      case 'podcast': return '🎙️';
       default: return '📄';
     }
   };
@@ -98,12 +97,12 @@ export default function WorksPage({ feedData }: WorksPageProps) {
     <Layout>
       <SEO
         title="制作物"
-        description="栗林健太郎のnote、技術ブログ、スライド、動画、音楽、ポッドキャストのまとめ"
+        description="栗林健太郎のnote、技術ブログ、スライド、動画、音楽のまとめ"
       />
 
       <PageHeader
         title="制作物一覧"
-        description="note、技術ブログ、スライド、動画、音楽、ポッドキャストなど、さまざまな形式での制作物をまとめています。"
+        description="note、技術ブログ、スライド、動画、音楽など、さまざまな形式での制作物をまとめています。"
         rssLink="/works/feed.xml"
       />
 

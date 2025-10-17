@@ -408,15 +408,16 @@ async function generateCombinedFeed() {
 	);
 	const allItemsArrays = await Promise.all(allItemsPromises);
 
-	// 全てのアイテムをフラット化
-	const allItems = allItemsArrays.flat();
+	// 全てのアイテムをフラット化（ポッドキャストを除外）
+	const allItems = allItemsArrays.flat().filter(item => item.source !== 'podcast');
 
 	// 日付でソート（新しい順）
 	allItems.sort((a, b) => b.date.getTime() - a.date.getTime());
 
-	// カテゴリごとのアイテムを保持
+	// カテゴリごとのアイテムを保持（ポッドキャストを除外）
 	const itemsByCategory: Record<string, FeedItem[]> = {};
 	for (const source of FEED_SOURCES) {
+		if (source.type === 'podcast') continue; // ポッドキャストは除外
 		const sourceItems = allItems.filter((item) => item.source === source.type);
 		itemsByCategory[source.type] = sourceItems;
 	}
@@ -428,7 +429,7 @@ async function generateCombinedFeed() {
 	const feed = new Feed({
 		title: "栗林健太郎の制作物",
 		description:
-			"栗林健太郎のnote、技術ブログ、スライド、動画、音楽、ポッドキャストのまとめ",
+			"栗林健太郎のnote、技術ブログ、スライド、動画、音楽のまとめ",
 		id: SITE_URL,
 		link: `${SITE_URL}/works`,
 		language: "ja",
@@ -471,7 +472,7 @@ async function generateCombinedFeed() {
 		items: latestItems,
 		allItems: allItems, // 全てのアイテム
 		itemsByCategory: itemsByCategory, // カテゴリごとのアイテム
-		sources: FEED_SOURCES,
+		sources: FEED_SOURCES.filter(source => source.type !== 'podcast'), // ポッドキャストを除外
 		lastUpdated: new Date().toISOString(),
 	};
 

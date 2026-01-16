@@ -47,3 +47,4 @@ next-env.d.ts
 /public/search-data.json
 /public/search-data-with-embeddings.json
 /public/search-data-with-embeddings.min.json
+CLAUDE.md

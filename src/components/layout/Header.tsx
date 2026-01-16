@@ -119,6 +119,11 @@ export default function Header() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/photo" className="block py-3 px-4 text-dark hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-300" onClick={() => setIsMenuOpen(false)}>
+                    写真
+                  </Link>
+                </li>
+                <li>
                   <Link href="/podcast" className="block py-3 px-4 text-dark hover:text-primary hover:bg-primary/10 rounded-xl transition-all duration-300" onClick={() => setIsMenuOpen(false)}>
                     ポッドキャスト
                   </Link>

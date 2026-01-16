@@ -14,12 +14,12 @@ export default function PhotoIndexPage({ galleries }: PhotoIndexPageProps) {
 	return (
 		<Layout>
 			<SEO
-				title="フォトギャラリー"
-				description="栗林健太郎のフォトギャラリー"
+				title="写真"
+				description="栗林健太郎の写真作品"
 			/>
 
 			<PageHeader
-				title="フォトギャラリー"
+				title="写真"
 				description="写真作品を公開しています。"
 			/>
 
@@ -56,9 +56,11 @@ export default function PhotoIndexPage({ galleries }: PhotoIndexPageProps) {
 												<h2 className="text-lg font-bold text-dark group-hover:text-primary transition-colors mb-1">
 													{gallery.title}
 												</h2>
-												<p className="text-sm text-gray-500">
-													{gallery.images.length}枚の写真
-												</p>
+												{gallery.date && (
+													<p className="text-sm text-gray-500">
+														{gallery.date}
+													</p>
+												)}
 											</div>
 										</div>
 									</Link>

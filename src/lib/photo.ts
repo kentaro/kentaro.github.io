@@ -9,6 +9,7 @@ export type PhotoGallery = {
 	title: string;
 	description: string;
 	images: string[];
+	date?: string;
 };
 
 // 画像URLを抽出する正規表現
@@ -37,8 +38,9 @@ export function getPhotoGallery(slug: string): PhotoGallery | null {
 	const fileContents = fs.readFileSync(filePath, "utf8");
 	const { data, content } = matter(fileContents);
 
-	// front matterからタイトルを取得
+	// front matterからタイトルと日付を取得
 	const title = data.title || slug;
+	const date = data.date || undefined;
 
 	// 画像URLを抽出
 	const images: string[] = [];
@@ -57,10 +59,20 @@ export function getPhotoGallery(slug: string): PhotoGallery | null {
 		title,
 		description,
 		images,
+		date,
 	};
 }
 
-// すべてのフォトギャラリーを取得
+// 日付文字列をDateに変換するヘルパー
+function parseJapaneseDate(dateStr: string): Date {
+	const match = dateStr.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+	if (match) {
+		return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+	}
+	return new Date(dateStr);
+}
+
+// すべてのフォトギャラリーを取得（日付の新しい順）
 export function getAllPhotoGalleries(): PhotoGallery[] {
 	const slugs = getAllPhotoSlugs();
 	const galleries: PhotoGallery[] = [];
@@ -71,6 +83,14 @@ export function getAllPhotoGalleries(): PhotoGallery[] {
 			galleries.push(gallery);
 		}
 	}
+
+	// 日付の新しい順にソート
+	galleries.sort((a, b) => {
+		if (!a.date && !b.date) return 0;
+		if (!a.date) return 1;
+		if (!b.date) return -1;
+		return parseJapaneseDate(b.date).getTime() - parseJapaneseDate(a.date).getTime();
+	});
 
 	return galleries;
 }

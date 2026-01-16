@@ -3,9 +3,9 @@ import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 import Layout from "@/components/layout/Layout";
 import SEO from "@/components/common/SEO";
+import { getAllPhotoSlugs, getPhotoGallery, type PhotoGallery as PhotoGalleryType } from "@/lib/photo";
 import PhotoGallery from "@/components/photo/PhotoGallery";
 import PhotoLightbox from "@/components/photo/PhotoLightbox";
-import { getAllPhotoSlugs, getPhotoGallery, type PhotoGallery as PhotoGalleryType } from "@/lib/photo";
 
 type PhotoPageProps = {
 	gallery: PhotoGalleryType;
@@ -15,8 +15,8 @@ export default function PhotoPage({ gallery }: PhotoPageProps) {
 	return (
 		<Layout>
 			<SEO
-				title={`${gallery.title} - フォトギャラリー`}
-				description={gallery.description || `フォトギャラリー: ${gallery.title}`}
+				title={gallery.title}
+				description={gallery.description || `写真: ${gallery.title}`}
 			/>
 
 			<article className="py-8 sm:py-12 md:py-16">
@@ -27,7 +27,7 @@ export default function PhotoPage({ gallery }: PhotoPageProps) {
 						className="inline-flex items-center gap-2 text-primary hover:underline mb-6"
 					>
 						<FaArrowLeft className="w-4 h-4" />
-						フォトギャラリー一覧に戻る
+						写真一覧に戻る
 					</Link>
 
 					{/* ギャラリー情報 */}
@@ -38,17 +38,12 @@ export default function PhotoPage({ gallery }: PhotoPageProps) {
 
 						{/* 説明文 */}
 						{gallery.description && (
-							<div className="prose prose-lg max-w-none mb-4 text-gray-700">
+							<div className="prose prose-lg max-w-none text-gray-700">
 								{gallery.description.split("\n").map((line, i) => (
 									<p key={i}>{line}</p>
 								))}
 							</div>
 						)}
-
-						{/* 画像枚数 */}
-						<p className="text-sm text-gray-500">
-							{gallery.images.length}枚の写真
-						</p>
 					</div>
 
 					{/* ギャラリーグリッド */}

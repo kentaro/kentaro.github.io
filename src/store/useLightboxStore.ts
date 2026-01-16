@@ -9,6 +9,7 @@ type LightboxState = {
 	next: () => void;
 	prev: () => void;
 	goTo: (index: number) => void;
+	reset: () => void;
 };
 
 export const useLightboxStore = create<LightboxState>((set, get) => ({
@@ -18,6 +19,7 @@ export const useLightboxStore = create<LightboxState>((set, get) => ({
 	open: (images: string[], index: number) =>
 		set({ isOpen: true, images, currentIndex: index }),
 	close: () => set({ isOpen: false }),
+	reset: () => set({ isOpen: false, currentIndex: 0, images: [] }),
 	next: () => {
 		const { currentIndex, images } = get();
 		if (currentIndex < images.length - 1) {

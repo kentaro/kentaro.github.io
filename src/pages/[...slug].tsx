@@ -75,11 +75,14 @@ export default function Post({ postData, isJournalPost, prevPost, nextPost }: Po
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const files = getAllMarkdownFiles();
-  
+
+  // photo/ は専用ページで処理するため除外
+  const filteredFiles = files.filter(({ slug }) => !slug.startsWith('photo/'));
+
   // デバッグ用に出力
-  console.log('Generated paths:', JSON.stringify(files, null, 2));
-  
-  const paths = files.map(({ slug }) => {
+  console.log('Generated paths:', JSON.stringify(filteredFiles, null, 2));
+
+  const paths = filteredFiles.map(({ slug }) => {
     // スラッグをパスのパラメータに変換
     return {
       params: {

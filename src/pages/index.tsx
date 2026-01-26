@@ -10,9 +10,6 @@ import {
   FaRocket,
   FaBolt,
   FaRobot,
-  FaGraduationCap,
-  FaBriefcase,
-  FaPalette,
   FaArrowRight,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -25,12 +22,11 @@ export default function Home() {
     <Layout>
       <SEO
         title="ホーム"
-        description="栗林健太郎のウェブサイト。GMOペパボ株式会社取締役CTO / 一般社団法人日本CTO協会理事 / 博士（情報科学）/ 情報処理安全確保支援士"
+        description="栗林健太郎のウェブサイト。概念と構造を制作する。GMOペパボ株式会社取締役CTO / 博士（情報科学）"
       />
 
       {/* ===== HERO ===== */}
       <section className="h-screen flex items-center justify-center bg-light relative overflow-hidden -mt-20">
-        {/* Background decoration */}
         <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-accent1/10 to-primary/10 rounded-full blur-3xl" />
 
@@ -65,20 +61,10 @@ export default function Home() {
               概念と構造を制作する
             </p>
 
-            <div className="flex flex-wrap justify-center gap-3 mb-12">
-              {[
-                "GMOペパボ取締役CTO",
-                "日本CTO協会理事",
-                "博士（情報科学）",
-              ].map((title) => (
-                <span
-                  key={title}
-                  className="bg-white/80 backdrop-blur border border-gray-200 text-dark px-5 py-2.5 rounded-full text-sm font-bold shadow-sm"
-                >
-                  {title}
-                </span>
-              ))}
-            </div>
+            <p className="text-base text-gray-400 max-w-xl mx-auto mb-12 leading-relaxed">
+              GMOペパボ取締役CTO。博士（情報科学）。<br />
+              技術と文化の両面から、概念を言語化し構造化する。
+            </p>
 
             <Link
               href="/profile"
@@ -105,31 +91,25 @@ export default function Home() {
               className="text-2xl sm:text-3xl md:text-4xl font-bold leading-relaxed"
               style={{ color: 'white' }}
             >
-              <span className="text-primary">概念</span>は、現実の裂け目から生じる。
+              ひとは生きていることそのことが<span className="text-primary">制作</span>であるはず。
             </p>
             <p
               className="text-2xl sm:text-3xl md:text-4xl font-bold leading-relaxed"
               style={{ color: 'white' }}
             >
-              <span className="text-primary">構造</span>は、概念を現実へと仮設する。
+              「傑作」を目指さないこと。ただ<span className="text-primary">運動</span>を続けていくこと。
             </p>
             <p
               className="text-2xl sm:text-3xl md:text-4xl font-bold leading-relaxed"
               style={{ color: 'white' }}
             >
-              迂遠、停滞、訂正を孕みながら、<span className="text-primary">制作</span>を反復し、差異が立ち現れる。
-            </p>
-            <p
-              className="text-2xl sm:text-3xl md:text-4xl font-bold leading-relaxed"
-              style={{ color: 'white' }}
-            >
-              世界がまた<span className="text-primary">生成</span>する。
+              それも多方向へと無目的に<span className="text-primary">展開</span>していくこと。
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* ===== THREE PILLARS ===== */}
+      {/* ===== WHAT I DO ===== */}
       <section className="py-24 bg-white">
         <div className="container max-w-6xl px-6">
           <motion.div
@@ -139,41 +119,37 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <div className="text-center mb-16">
-              <p className="text-primary font-bold tracking-[0.2em] text-sm mb-4 uppercase">Three Pillars</p>
+              <p className="text-primary font-bold tracking-[0.2em] text-sm mb-4 uppercase">What I Do</p>
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-dark">
-                活動の3つの軸
+                制作と仕事
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 gap-8">
               {[
                 {
-                  icon: <FaPalette className="text-4xl" />,
-                  title: "Culture",
-                  subtitle: "カルチャー",
-                  desc: "文芸、アート、サブカルチャー。技術と思想をつなぐ語り手。",
-                  items: ["年間200冊読書", "歌舞伎・現代アート", "ポッドキャスト配信", "多言語学習"],
+                  title: "技術と経営",
+                  desc: "GMOペパボ株式会社で取締役CTOとして、クリエイターを支えるプラットフォームの技術基盤を統括。ペパボ研究所長として研究開発も率いる。日本CTO協会理事。",
+                  color: "from-primary to-secondary",
+                },
+                {
+                  title: "研究",
+                  desc: "北陸先端科学技術大学院大学で博士（情報科学）を取得。IoTシステムの統合的アーキテクチャ、Elixir/Erlang/OTPの応用を研究。IEEE WF-IoT等の国際会議で発表。",
+                  color: "from-secondary to-accent2",
+                },
+                {
+                  title: "文化と批評",
+                  desc: "年間約200冊の読書。歴史、アート、思想、社会科学、サイエンス。批評もまた制作。2015年から毎日日記を書き続け、ポッドキャストを配信し、フランス語を学んでいる。",
                   color: "from-purple to-primary",
                 },
                 {
-                  icon: <FaBriefcase className="text-4xl" />,
-                  title: "Business",
-                  subtitle: "ビジネス",
-                  desc: "上場企業CTOとしてクリエイター支援プラットフォームを技術で支える。",
-                  items: ["GMOペパボ取締役CTO", "日本CTO協会理事", "GitHub 400+リポジトリ", "講演・執筆多数"],
-                  color: "from-primary to-orange",
+                  title: "生活と美学",
+                  desc: "公園を散歩し、美術館や博物館に通い、写真を撮り、毎日現像する。歌舞伎、現代アート、江戸前鮨、シーシャ。軽さと親密さ——大きなものより小さなもの、体系より手触り。",
+                  color: "from-accent1 to-orange",
                 },
-                {
-                  icon: <FaGraduationCap className="text-4xl" />,
-                  title: "Academia",
-                  subtitle: "アカデミア",
-                  desc: "JAIST博士課程修了。実務と研究の両輪で知見を深化。",
-                  items: ["博士（情報科学）", "IoTシステム研究", "Elixir/Erlang/OTP", "情報処理学会優秀論文賞"],
-                  color: "from-secondary to-accent2",
-                },
-              ].map((pillar, i) => (
+              ].map((item, i) => (
                 <motion.div
-                  key={pillar.title}
+                  key={item.title}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -181,20 +157,9 @@ export default function Home() {
                   className="group"
                 >
                   <div className="bg-gray-50 rounded-3xl p-8 h-full hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-primary/20">
-                    <div className={`w-20 h-20 bg-gradient-to-br ${pillar.color} rounded-2xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform shadow-lg`}>
-                      {pillar.icon}
-                    </div>
-                    <h3 className="text-3xl font-black text-dark mb-1">{pillar.title}</h3>
-                    <p className="text-gray-400 text-sm mb-4">{pillar.subtitle}</p>
-                    <p className="text-gray-600 mb-6 leading-relaxed">{pillar.desc}</p>
-                    <ul className="space-y-3">
-                      {pillar.items.map((item) => (
-                        <li key={item} className="text-sm text-gray-600 flex items-center gap-3">
-                          <span className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
+                    <div className={`w-3 h-16 bg-gradient-to-b ${item.color} rounded-full mb-6`} />
+                    <h3 className="text-3xl font-black text-dark mb-4">{item.title}</h3>
+                    <p className="text-gray-600 leading-relaxed text-lg">{item.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -203,7 +168,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== CAREER TIMELINE ===== */}
+      {/* ===== CAREER HIGHLIGHTS ===== */}
       <section className="py-24 bg-gray-50">
         <div className="container max-w-4xl px-6">
           <motion.div
@@ -213,24 +178,24 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <div className="text-center mb-16">
-              <p className="text-primary font-bold tracking-[0.2em] text-sm mb-4 uppercase">Career</p>
+              <p className="text-primary font-bold tracking-[0.2em] text-sm mb-4 uppercase">Journey</p>
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-dark">
-                キャリアの軌跡
+                これまでの道のり
               </h2>
             </div>
 
             <div className="relative">
-              {/* Timeline line */}
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent1 hidden md:block" />
 
               <div className="space-y-6">
                 {[
-                  { year: "1976", event: "奄美大島で誕生" },
-                  { year: "1995", event: "東京都立大学 法学部入学" },
-                  { year: "2000s", event: "奄美市役所勤務（約8年）" },
-                  { year: "2008", event: "はてな入社" },
-                  { year: "2012", event: "GMOペパボ入社" },
+                  { year: "1976", event: "奄美大島で生まれる" },
+                  { year: "1995", event: "東京都立大学法学部に入学。政治学科で日本政治史・行政学を学ぶ" },
+                  { year: "2002", event: "奄美市役所に入所。PHPでブログを自作し、プログラミングにハマる" },
+                  { year: "2008", event: "はてなにWebアプリケーションエンジニアとして入社" },
+                  { year: "2012", event: "GMOペパボに入社。技術基盤整備、開発プロセス改善に従事" },
                   { year: "2017", event: "取締役CTO就任" },
+                  { year: "2020", event: "北陸先端科学技術大学院大学に入学" },
                   { year: "2025", event: "博士（情報科学）取得" },
                 ].map((item, i) => (
                   <motion.div
@@ -257,7 +222,6 @@ export default function Home() {
 
       {/* ===== FUTURE FOCUS ===== */}
       <section className="py-24 bg-dark relative overflow-hidden">
-        {/* Background pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
         </div>
@@ -349,7 +313,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== PERSONALITY ===== */}
+      {/* ===== INTERESTS ===== */}
       <section className="py-24 bg-white">
         <div className="container max-w-5xl px-6">
           <motion.div
@@ -359,80 +323,42 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <div className="text-center mb-16">
-              <p className="text-primary font-bold tracking-[0.2em] text-sm mb-4 uppercase">Personality</p>
+              <p className="text-primary font-bold tracking-[0.2em] text-sm mb-4 uppercase">Interests</p>
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-dark">
-                人柄と思考様式
+                関心の地図
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-3xl p-8"
-              >
-                <h3 className="text-2xl font-black text-dark mb-6">穏やかさ × 好奇心</h3>
-                <ul className="space-y-4 text-gray-600">
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                    理論派に見えて実は人情派
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                    仕事は革新的、生活は保守的
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                    新コンセプト創出が最も楽しい
-                  </li>
-                </ul>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="bg-gradient-to-br from-accent1/10 to-orange/10 rounded-3xl p-8"
-              >
-                <h3 className="text-2xl font-black text-dark mb-6">強みと姿勢</h3>
-                <ul className="space-y-4 text-gray-600">
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                    概念を言語化し構造化する力
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                    リフレーミングによる成長
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
-                    普遍的スキル × 目の前の機会
-                  </li>
-                </ul>
-              </motion.div>
+            <div className="flex flex-wrap justify-center gap-3">
+              {[
+                { label: "ロラン・バルト", size: "text-xl px-7 py-4" },
+                { label: "Elixir/Erlang", size: "text-lg px-6 py-3" },
+                { label: "現代アート", size: "text-xl px-7 py-4" },
+                { label: "IoT", size: "text-base px-5 py-3" },
+                { label: "スカルラッティ", size: "text-lg px-6 py-3" },
+                { label: "歌舞伎", size: "text-base px-5 py-3" },
+                { label: "フランス語", size: "text-lg px-6 py-3" },
+                { label: "写真", size: "text-base px-5 py-3" },
+                { label: "哲学", size: "text-lg px-6 py-3" },
+                { label: "VRChat", size: "text-base px-5 py-3" },
+                { label: "批評", size: "text-xl px-7 py-4" },
+                { label: "社会科学", size: "text-lg px-6 py-3" },
+                { label: "落語", size: "text-base px-5 py-3" },
+                { label: "アマチュア無線", size: "text-base px-5 py-3" },
+                { label: "江戸前鮨", size: "text-base px-5 py-3" },
+                { label: "歴史", size: "text-lg px-6 py-3" },
+                { label: "語学", size: "text-base px-5 py-3" },
+                { label: "うつわ", size: "text-base px-5 py-3" },
+                { label: "シーシャ", size: "text-base px-5 py-3" },
+              ].map((tag) => (
+                <span
+                  key={tag.label}
+                  className={`${tag.size} bg-gray-50 text-gray-700 rounded-full font-medium hover:bg-primary hover:text-white transition-all cursor-default shadow-sm border border-gray-100`}
+                >
+                  {tag.label}
+                </span>
+              ))}
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="text-center"
-            >
-              <p className="text-sm font-bold text-gray-400 tracking-[0.2em] mb-6 uppercase">Interests</p>
-              <div className="flex flex-wrap justify-center gap-3">
-                {["歴史", "哲学", "現代アート", "歌舞伎", "K-POP", "写真展", "美術館巡り", "語学", "社会科学", "批評"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="bg-gray-100 text-gray-700 px-5 py-2.5 rounded-full font-medium hover:bg-primary hover:text-white transition-all cursor-default"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </section>

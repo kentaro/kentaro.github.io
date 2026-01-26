@@ -50,10 +50,10 @@ export default function Home() {
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-dark leading-none mb-6">
               栗林健太郎
             </h1>
-            <p className="text-xl md:text-2xl text-gray-500 mb-6">
+            <p className="text-2xl md:text-3xl text-gray-600 mb-6 font-medium">
               概念と構造を制作する
             </p>
-            <p className="text-base text-gray-400 max-w-lg mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-500 max-w-xl mx-auto leading-relaxed">
               「傑作」を目指さないこと。ただ運動を続けていくこと、<br className="hidden md:block" />
               それも多方向へと無目的に展開していくこと。
             </p>
@@ -62,7 +62,7 @@ export default function Home() {
       </section>
 
       {/* ===== ATTRACTIONS ===== */}
-      <section className="py-24 bg-white">
+      <section className="py-16 bg-white">
         <div className="container max-w-5xl px-6">
           <motion.div
             initial={{ opacity: 0 }}
@@ -70,14 +70,14 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="text-center mb-20">
+            <div className="text-center mb-12">
               <p className="text-primary font-bold tracking-[0.2em] text-sm mb-4 uppercase">Attractions</p>
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-dark">
                 惹かれるもの
               </h2>
             </div>
 
-            <div className="space-y-16">
+            <div className="space-y-8">
               {[
                 {
                   title: "軽さと親密さ",
@@ -134,7 +134,7 @@ export default function Home() {
       </section>
 
       {/* ===== KEYWORDS ===== */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-16 bg-gray-50">
         <div className="container max-w-4xl px-6">
           <motion.div
             initial={{ opacity: 0 }}
@@ -165,7 +165,7 @@ export default function Home() {
       </section>
 
       {/* ===== PROFILE LINK ===== */}
-      <section className="py-24 bg-dark">
+      <section className="py-16 bg-dark">
         <div className="container max-w-4xl px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -193,7 +193,7 @@ export default function Home() {
       </section>
 
       {/* ===== CONNECT ===== */}
-      <section className="py-32 bg-gradient-to-br from-primary/5 via-white to-secondary/5">
+      <section className="py-20 bg-gradient-to-br from-primary/5 via-white to-secondary/5">
         <div className="container max-w-4xl px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -203,7 +203,7 @@ export default function Home() {
             className="text-center"
           >
             <p className="text-primary font-bold tracking-[0.2em] text-sm mb-4 uppercase">Connect</p>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-dark mb-12">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-dark mb-8">
               つながる
             </h2>
 

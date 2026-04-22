@@ -1,96 +1,188 @@
 import type { GetStaticProps, GetStaticPaths } from 'next';
-import { getAllMarkdownFiles } from '@/lib/markdown';
+import Link from 'next/link';
+import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
-import { FaCalendarAlt } from 'react-icons/fa';
-import PageHeader from '@/components/common/PageHeader';
-import { Card } from '@/components/common/Card';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
 
-type YearPageProps = {
+type Entry = {
+  slug: string;
+  title: string;
+  excerpt: string;
   year: string;
-  months: {
-    month: string;
-    count: number;
-  }[];
+  month: string;
+  day: string;
 };
 
-export default function YearPage({ year, months }: YearPageProps) {
-  // 月の名前（日本語）
-  const monthNames = [
-    '1月', '2月', '3月', '4月', '5月', '6月',
-    '7月', '8月', '9月', '10月', '11月', '12月'
-  ];
+type YearStat = { year: string; count: number };
 
-  // アニメーション設定
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
+type Props = {
+  year: string;
+  entries: Entry[];
+  monthCounts: { month: string; count: number }[];
+  years: YearStat[];
+  totalCount: number;
+};
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
-  };
+const WEEKDAY = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+const MONTH_JA = ['', '睦月', '如月', '弥生', '卯月', '皐月', '水無月', '文月', '葉月', '長月', '神無月', '霜月', '師走'];
+const MONTH_EN = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function dateFromSlug(slug: string) {
+  const filename = slug.split('/').pop() || '';
+  const m = filename.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+  if (!m) return null;
+  return { year: m[1], month: m[2].padStart(2, '0'), day: m[3].padStart(2, '0') };
+}
+
+export default function YearPage({ year, entries, monthCounts, years, totalCount }: Props) {
+  const byMonth: Record<string, Entry[]> = {};
+  for (const e of entries) {
+    if (!byMonth[e.month]) byMonth[e.month] = [];
+    byMonth[e.month].push(e);
+  }
+  const monthList = Object.keys(byMonth).sort((a, b) => Number(b) - Number(a));
 
   return (
-    <Layout>
-      <SEO 
+    <Layout activeNav="journal">
+      <SEO
         title={`${year}年の日記`}
-        description={`${year}年の栗林健太郎の日記アーカイブ。月別に閲覧できます。`}
+        description={`${year}年の栗林健太郎の日記アーカイブ。`}
       />
-      
-      <PageHeader
-        title={`${year}年の日記`}
-        description={`${year}年の日記を月別に閲覧できます。`}
-      />
-      
-      <section className="py-8 sm:py-12 md:py-16 bg-white">
-        <div className="container max-w-5xl">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark text-center mb-10 sm:mb-12 relative pb-6">
-            月別アーカイブ
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-primary rounded-full" />
-          </h2>
-          
-          {months.length > 0 ? (
-            <motion.div 
-              className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-6 gap-4 sm:gap-6"
-              variants={container}
-              initial="hidden"
-              animate="show"
-            >
-              {months.map(({ month, count }) => (
-                <motion.div 
-                  key={month} 
-                  variants={item}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Card className="hover:scale-105 hover:shadow-lg">
-                    <Link 
-                      href={`/journal/${year}/${month}`}
-                      className="flex flex-col p-4 sm:p-6 h-full group text-center"
+
+      <section className="sub-hero">
+        <div className="wrap">
+          <div className="crumb">
+            <Link href="/">§00 ホーム</Link>
+            <span className="sep">/</span>
+            <Link href="/journal">§03 日記</Link>
+            <span className="sep">/</span>
+            <span>{year}</span>
+          </div>
+
+          <div className="sub-hero-grid">
+            <div>
+              <h1 className="giga">{year}</h1>
+              <p className="lede-en">
+                All entries of the year {year} — grouped by month.
+              </p>
+            </div>
+            <div className="meta-block">
+              <b>{entries.length}</b>
+              <em>entries · this year</em>
+              <span style={{ display: 'block', marginTop: '10px' }}>
+                全{totalCount.toLocaleString()}件の内 {entries.length} 件
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="wrap page-cols">
+        <aside className="side">
+          <h5>Years</h5>
+          <ul>
+            {years.map((y) => (
+              <li key={y.year} className={y.year === year ? 'active' : ''}>
+                <Link href={`/journal/${y.year}`}>{y.year}</Link>
+                <span className="c">{y.count}</span>
+              </li>
+            ))}
+          </ul>
+
+          <h5>Months — {year}</h5>
+          <ul>
+            {monthCounts.map((m) => (
+              <li key={m.month}>
+                <Link href={`/journal/${year}/${m.month}`}>
+                  {Number(m.month)}月 <em style={{ fontStyle: 'italic', color: 'var(--ink-mute)', fontSize: '12px', marginLeft: '6px' }}>{MONTH_EN[Number(m.month)]}</em>
+                </Link>
+                <span className="c">{m.count}</span>
+              </li>
+            ))}
+          </ul>
+        </aside>
+
+        <div className="main-col">
+          <div className="year-strip">
+            {years.map((y) => (
+              <Link key={y.year} href={`/journal/${y.year}`} className={y.year === year ? 'on' : ''}>
+                {y.year}
+                <span className="c">{y.count}</span>
+              </Link>
+            ))}
+          </div>
+
+          <h3 className="year-hd">
+            {year}
+            <em>annual ledger</em>
+          </h3>
+          <div className="year-rule">
+            <span>{entries.length} 編</span>
+            <span>
+              {monthCounts.length > 0 && `${Number(monthCounts[0].month)}月 → ${Number(monthCounts[monthCounts.length - 1].month)}月`}
+            </span>
+          </div>
+
+          {monthList.map((month) => {
+            const list = byMonth[month].sort((a, b) => Number(b.day) - Number(a.day));
+            const monthNum = Number(month);
+            return (
+              <div key={month} className="month-block" id={`m-${month}`}>
+                <div className="month-hd">
+                  <span className="mn">{MONTH_EN[monthNum]}</span>
+                  <span className="mj">
+                    {monthNum}月
+                    <span style={{ fontSize: '13px', fontStyle: 'italic', fontFamily: 'Fraunces, serif', color: 'var(--ink-mute)', marginLeft: '8px' }}>
+                      {MONTH_JA[monthNum]}
+                    </span>
+                  </span>
+                  <Link href={`/journal/${year}/${month}`} className="ct" style={{ color: 'var(--accent)' }}>
+                    {list.length}件 · 詳細 →
+                  </Link>
+                </div>
+
+                {list.map((e) => {
+                  const weekday = (() => {
+                    const d = new Date(Number(e.year), Number(e.month) - 1, Number(e.day));
+                    return WEEKDAY[d.getDay()];
+                  })();
+                  return (
+                    <Link
+                      key={e.slug}
+                      href={`/${e.slug}`}
+                      className="entry"
+                      style={{ textDecoration: 'none', color: 'inherit' }}
                     >
-                      <div className="flex flex-col items-center">
-                        <FaCalendarAlt className="text-primary text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-300 mb-2" />
-                        <span className="text-lg sm:text-xl font-bold group-hover:text-primary transition-colors">{monthNames[Number(month) - 1]}</span>
+                      <div className="day">
+                        <span className="d">{Number(e.day)}</span>
+                        <span className="w">{weekday}</span>
                       </div>
-                      <div className="text-xs sm:text-sm text-gray-600 mt-2">
-                        {count}件の日記
+                      <div className="body">
+                        <h4>
+                          <span>{e.title}</span>
+                        </h4>
+                        {e.excerpt && <p>{e.excerpt}</p>}
+                        <div className="tags">
+                          <span>{e.year}.{e.month}.{e.day}</span>
+                        </div>
+                      </div>
+                      <div className="aside">
+                        <span className="rt">read</span>
+                        <span className="nm">{weekday}</span>
+                        <span className="arr">→</span>
                       </div>
                     </Link>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
-          ) : (
-            <p className="text-center text-gray-600 text-lg py-12">この年の日記はありません</p>
-          )}
+                  );
+                })}
+              </div>
+            );
+          })}
+
+          <div className="page-nav">
+            <Link href={`/journal/${Number(year) - 1}`}>← {Number(year) - 1}年</Link>
+            <span className="mid">{year}</span>
+            <Link href={`/journal/${Number(year) + 1}`}>{Number(year) + 1}年 →</Link>
+          </div>
         </div>
       </section>
     </Layout>
@@ -98,60 +190,68 @@ export default function YearPage({ year, months }: YearPageProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // journalディレクトリ内のマークダウンファイルを取得
-  const allFiles = getAllMarkdownFiles();
-  const journalFiles = allFiles.filter(({ slug }) => slug.startsWith('journal/'));
-  
-  // 年の一覧を抽出（重複なし）
-  const years = Array.from(
-    new Set(
-      journalFiles.map(({ slug }) => {
-        const parts = slug.split('/');
-        return parts.length >= 2 ? parts[1] : null;
-      }).filter((year): year is string => year !== null)
-    )
-  );
-
-  const paths = years.map(year => ({
-    params: { year }
-  }));
-
+  const all = getAllMarkdownFiles();
+  const years = new Set<string>();
+  for (const { slug } of all) {
+    if (!slug.startsWith('journal/')) continue;
+    const parts = slug.split('/');
+    if (parts[1]) years.add(parts[1]);
+  }
   return {
-    paths,
-    fallback: false
+    paths: Array.from(years).map((y) => ({ params: { year: y } })),
+    fallback: false,
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const year = params?.year as string;
+  const all = getAllMarkdownFiles();
+  const journalFiles = all.filter(({ slug }) => slug.startsWith('journal/'));
 
-  // journalディレクトリ内のマークダウンファイルを取得
-  const allFiles = getAllMarkdownFiles();
-  const yearFiles = allFiles.filter(({ slug }) => {
+  const yearCounts: Record<string, number> = {};
+  for (const { slug } of journalFiles) {
     const parts = slug.split('/');
-    return parts.length >= 2 && parts[0] === 'journal' && parts[1] === year;
-  });
-  
-  // 月ごとの記事数をカウント
-  const monthCounts: Record<string, number> = {};
-  
-  for (const { slug } of yearFiles) {
-    const parts = slug.split('/');
-    if (parts.length >= 3) {
-      const month = parts[2];
-      monthCounts[month] = (monthCounts[month] || 0) + 1;
-    }
+    const y = parts[1];
+    if (y) yearCounts[y] = (yearCounts[y] || 0) + 1;
   }
-  
-  // 月の配列に変換（昇順）
-  const months = Object.entries(monthCounts)
+  const years: YearStat[] = Object.entries(yearCounts)
+    .map(([y, count]) => ({ year: y, count }))
+    .sort((a, b) => Number(b.year) - Number(a.year));
+
+  const yearFiles = journalFiles.filter(({ slug }) => slug.split('/')[1] === year);
+
+  const monthMap: Record<string, number> = {};
+  for (const { slug } of yearFiles) {
+    const d = dateFromSlug(slug);
+    if (!d) continue;
+    monthMap[d.month] = (monthMap[d.month] || 0) + 1;
+  }
+  const monthCounts = Object.entries(monthMap)
     .map(([month, count]) => ({ month, count }))
-    .sort((a, b) => Number(a.month) - Number(b.month));
+    .sort((a, b) => Number(b.month) - Number(a.month));
+
+  const entries: Entry[] = await Promise.all(
+    yearFiles.map(async ({ slug }) => {
+      const d = dateFromSlug(slug);
+      const data = await getMarkdownData(slug);
+      return {
+        slug,
+        title: (data?.title as string) || slug.split('/').pop() || '',
+        excerpt: ((data?.excerpt as string) || '').slice(0, 160),
+        year: d?.year || year,
+        month: d?.month || '',
+        day: d?.day || '',
+      };
+    })
+  );
 
   return {
     props: {
       year,
-      months,
+      entries,
+      monthCounts,
+      years,
+      totalCount: journalFiles.length,
     },
   };
-}; 
+};

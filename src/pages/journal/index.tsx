@@ -1,165 +1,273 @@
 import type { GetStaticProps } from 'next';
+import Link from 'next/link';
 import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
-import PageHeader from '@/components/common/PageHeader';
-import { Card } from '@/components/common/Card';
-import { FaCalendarAlt } from 'react-icons/fa';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import PostList from '@/components/content/PostList';
 
-type Post = {
+type Entry = {
   slug: string;
   title: string;
-  date?: string;
-  excerpt?: string;
+  date: string;
+  excerpt: string;
+  year: string;
+  month: string;
+  day: string;
 };
 
-type JournalPageProps = {
-  years: string[];
-  recentPosts: Post[];
+type YearStat = {
+  year: string;
+  count: number;
 };
 
-export default function JournalPage({ years, recentPosts }: JournalPageProps) {
-  // アニメーション設定
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
+type Props = {
+  entries: Entry[];
+  years: YearStat[];
+  totalCount: number;
+};
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
+const WEEKDAY = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+const MONTH_JA = ['', '睦月', '如月', '弥生', '卯月', '皐月', '水無月', '文月', '葉月', '長月', '神無月', '霜月', '師走'];
+const MONTH_EN = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function dateFromSlug(slug: string) {
+  const filename = slug.split('/').pop() || '';
+  const m = filename.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);
+  if (!m) return null;
+  return {
+    year: m[1],
+    month: m[2].padStart(2, '0'),
+    day: m[3].padStart(2, '0'),
   };
+}
+
+export default function JournalIndex({ entries, years, totalCount }: Props) {
+  const currentYear = years[0]?.year;
+
+  // Group entries by year then month
+  const grouped: Record<string, Record<string, Entry[]>> = {};
+  for (const e of entries) {
+    if (!grouped[e.year]) grouped[e.year] = {};
+    if (!grouped[e.year][e.month]) grouped[e.year][e.month] = [];
+    grouped[e.year][e.month].push(e);
+  }
+
+  const yearList = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
 
   return (
-    <Layout>
-      <SEO 
+    <Layout activeNav="journal">
+      <SEO
         title="日記"
         description="栗林健太郎の日記。日々の活動や考えを記録しています。"
       />
-      
-      <PageHeader
-        title="日記"
-        description="日々の活動や考えを記録しています。年別に閲覧できます。"
-        rssLink="/journal/feed.xml"
-      />
-      
-      <section className="py-8 sm:py-12 md:py-16 bg-white">
-        <div className="container max-w-5xl">
-          {/* 最新の日記12件 */}
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark text-center mb-10 sm:mb-12 relative pb-6">
-            最新の日記
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
-          </h2>
-          <PostList 
-            posts={recentPosts} 
-            emptyMessage="日記はまだありません"
-            limit={12}
-          />
-          
-          {/* 年別アーカイブ */}
-          <div className="mt-20 sm:mt-24">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark text-center mb-10 sm:mb-12 relative pb-6">
-              年別アーカイブ
-              <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
-            </h2>
+
+      <section className="sub-hero">
+        <div className="wrap">
+          <div className="crumb">
+            <Link href="/">§00 ホーム</Link>
+            <span className="sep">/</span>
+            <span>§03 日記</span>
           </div>
-          
-          {years.length > 0 ? (
-            <motion.div 
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6"
-              variants={container}
-              initial="hidden"
-              animate="show"
-            >
-              {years.map((year, index) => (
-                <motion.div 
-                  key={year} 
-                  variants={item}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                >
-                  <Card className="hover:scale-105 hover:shadow-lg">
-                    <Link 
-                      href={`/journal/${year}`}
-                      className="block text-center p-6 sm:p-8 group"
-                    >
-                      <FaCalendarAlt className="text-3xl sm:text-4xl text-primary mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
-                      <span className="text-xl sm:text-2xl font-bold text-dark group-hover:text-primary transition-colors">{year}年</span>
-                    </Link>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
-          ) : (
-            <p className="text-center text-gray-600 text-lg py-12">日記はまだありません</p>
-          )}
+
+          <div className="sub-hero-grid">
+            <div>
+              <h1 className="giga">日記</h1>
+              <p className="lede-en">
+                A running journal kept since junior high — read like newspaper columns.
+              </p>
+            </div>
+            <div className="meta-block">
+              <b>{totalCount.toLocaleString()}</b>
+              <em>entries</em>
+              <span style={{ display: 'block', marginTop: '10px' }}>
+                {years.length} 年分のアーカイブ
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="wrap page-cols">
+        <aside className="side">
+          <h5>Years</h5>
+          <ul>
+            {years.map((y) => (
+              <li key={y.year} className={y.year === currentYear ? 'active' : ''}>
+                <Link href={`/journal/${y.year}`}>{y.year}</Link>
+                <span className="c">{y.count}</span>
+              </li>
+            ))}
+          </ul>
+
+          <h5>This Journal</h5>
+          <div className="summary">
+            <b>{totalCount.toLocaleString()}</b>
+            件の記録。ほぼ毎日、起きたこと・考えたこと・読んだものを書き残しています。
+          </div>
+
+          <h5 style={{ marginTop: '32px' }}>By month–day</h5>
+          <p style={{ fontFamily: 'Fraunces, serif', fontStyle: 'italic', fontSize: '12px', color: 'var(--ink-mute)', lineHeight: 1.7 }}>
+            同じ月日のエントリーを年を横断して読めます。記事ページの日付 →{' '}
+            <code style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>/journal/date/MM/DD</code>
+          </p>
+        </aside>
+
+        <div className="main-col">
+          <div className="year-strip" role="navigation" aria-label="年別ナビゲーション">
+            {years.map((y) => (
+              <Link
+                key={y.year}
+                href={`/journal/${y.year}`}
+                className={y.year === currentYear ? 'on' : ''}
+              >
+                {y.year}
+                <span className="c">{y.count}</span>
+              </Link>
+            ))}
+          </div>
+
+          {yearList.slice(0, 2).map((year) => {
+            const monthsInYear = Object.keys(grouped[year]).sort((a, b) => Number(b) - Number(a));
+            return (
+              <div key={year}>
+                <h3 className="year-hd">
+                  {year}
+                  <em>ISSUE {year}</em>
+                </h3>
+                <div className="year-rule">
+                  <span>{grouped[year] && Object.values(grouped[year]).flat().length} 件の日記</span>
+                  <Link href={`/journal/${year}`} style={{ color: 'var(--accent)' }}>
+                    {year}年のすべてを見る →
+                  </Link>
+                </div>
+
+                {monthsInYear.map((month) => {
+                  const monthEntries = grouped[year][month];
+                  const monthNum = Number(month);
+                  return (
+                    <div key={`${year}-${month}`} className="month-block">
+                      <div className="month-hd">
+                        <span className="mn">{MONTH_EN[monthNum]}</span>
+                        <span className="mj">
+                          {year}年 {monthNum}月 <span style={{ fontSize: '13px', fontStyle: 'italic', fontFamily: 'Fraunces, serif', color: 'var(--ink-mute)', marginLeft: '8px' }}>
+                            {MONTH_JA[monthNum]}
+                          </span>
+                        </span>
+                        <span className="ct">{monthEntries.length} 編</span>
+                      </div>
+
+                      {monthEntries.slice(0, 8).map((e, i) => {
+                        const weekday = (() => {
+                          const d = new Date(Number(e.year), Number(e.month) - 1, Number(e.day));
+                          return WEEKDAY[d.getDay()];
+                        })();
+                        const featured = i === 0 && monthEntries.length > 3;
+                        return (
+                          <Link
+                            key={e.slug}
+                            href={`/${e.slug}`}
+                            className={`entry${featured ? ' featured' : ''}`}
+                            style={{ textDecoration: 'none', color: 'inherit', display: 'grid' }}
+                          >
+                            <div className="day">
+                              <span className="d">{Number(e.day)}</span>
+                              <span className="w">{weekday}</span>
+                            </div>
+                            <div className="body">
+                              <h4>
+                                <span>{e.title}</span>
+                              </h4>
+                              {e.excerpt && <p>{e.excerpt}</p>}
+                              <div className="tags">
+                                <span>{e.year}.{e.month}.{e.day}</span>
+                              </div>
+                            </div>
+                            {!featured && (
+                              <div className="aside">
+                                <span className="rt">read</span>
+                                <span className="nm">{weekday}</span>
+                                <span className="arr">→</span>
+                              </div>
+                            )}
+                          </Link>
+                        );
+                      })}
+
+                      {monthEntries.length > 8 && (
+                        <p style={{ marginTop: '16px', fontFamily: 'Fraunces, serif', fontStyle: 'italic', textAlign: 'right' }}>
+                          <Link href={`/journal/${year}/${month}`} style={{ color: 'var(--accent)' }}>
+                            {year}年{monthNum}月のすべて（{monthEntries.length}件）→
+                          </Link>
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+
+          <div className="page-nav">
+            <Link href="/">← §00 ホームへ戻る</Link>
+            <span className="mid">End of recent — older issues in the sidebar</span>
+            <Link href={`/journal/${yearList[yearList.length - 1] || ''}`}>
+              {yearList[yearList.length - 1]}年 アーカイブ →
+            </Link>
+          </div>
         </div>
       </section>
     </Layout>
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  // journalディレクトリ内のマークダウンファイルを取得
-  const allFiles = getAllMarkdownFiles();
-  const journalFiles = allFiles.filter(({ slug }) => slug.startsWith('journal/'));
-  
-  // 年の一覧を抽出（重複なし）
-  const years = Array.from(
-    new Set(
-      journalFiles.map(({ slug }) => {
-        const parts = slug.split('/');
-        return parts.length >= 2 ? parts[1] : null;
-      }).filter(Boolean)
-    )
-  ).sort((a, b) => Number(b) - Number(a)); // 降順（新しい年が上）
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const all = getAllMarkdownFiles();
+  const journalFiles = all.filter(({ slug }) => slug.startsWith('journal/'));
 
-  // 最新の日記10件を取得
-  const recentPostsPromises = journalFiles
-    .map(async ({ slug }) => {
+  // Build year counts first (cheap)
+  const yearCounts: Record<string, number> = {};
+  for (const { slug } of journalFiles) {
+    const parts = slug.split('/');
+    const y = parts[1];
+    if (y) yearCounts[y] = (yearCounts[y] || 0) + 1;
+  }
+  const years: YearStat[] = Object.entries(yearCounts)
+    .map(([year, count]) => ({ year, count }))
+    .sort((a, b) => Number(b.year) - Number(a.year));
+
+  // For the "recent entries" section, only load the last ~40 entries to keep getStaticProps fast
+  const sortable = journalFiles
+    .map(({ slug }) => ({ slug, d: dateFromSlug(slug) }))
+    .filter((x) => x.d !== null)
+    .sort((a, b) => {
+      const da = Number((a.d as NonNullable<typeof a.d>).year) * 10000 + Number((a.d as NonNullable<typeof a.d>).month) * 100 + Number((a.d as NonNullable<typeof a.d>).day);
+      const db = Number((b.d as NonNullable<typeof b.d>).year) * 10000 + Number((b.d as NonNullable<typeof b.d>).month) * 100 + Number((b.d as NonNullable<typeof b.d>).day);
+      return db - da;
+    })
+    .slice(0, 40);
+
+  const entries: Entry[] = await Promise.all(
+    sortable.map(async ({ slug, d }) => {
       const data = await getMarkdownData(slug);
-      
-      // 日付が確実に文字列または null になるようにする
-      let date = data?.date;
-      if (date instanceof Date) {
-        date = date.toISOString();
-      } else if (date && typeof date !== 'string') {
-        date = String(date);
-      } else if (date === undefined) {
-        date = null;
-      }
-      
+      let date = '';
+      if (data?.date instanceof Date) date = data.date.toISOString();
+      else if (typeof data?.date === 'string') date = data.date;
       return {
         slug,
-        title: data?.title || slug.split('/').pop() || '',
+        title: (data?.title as string) || slug.split('/').pop() || '',
         date,
-        excerpt: data?.excerpt,
+        excerpt: ((data?.excerpt as string) || '').slice(0, 160),
+        year: (d as NonNullable<typeof d>).year,
+        month: (d as NonNullable<typeof d>).month,
+        day: (d as NonNullable<typeof d>).day,
       };
-    });
-  
-  const allPosts = await Promise.all(recentPostsPromises);
-  
-  // 日付でソート（新しい順）
-  const sortedPosts = [...allPosts].sort((a, b) => {
-    if (!a.date) return 1;
-    if (!b.date) return -1;
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
-  
-  // 最新12件を取得
-  const recentPosts = sortedPosts.slice(0, 12);
+    })
+  );
 
   return {
     props: {
+      entries,
       years,
-      recentPosts,
+      totalCount: journalFiles.length,
     },
   };
-}; 
+};

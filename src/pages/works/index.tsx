@@ -1,17 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import type { GetStaticProps } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import fs from 'node:fs';
 import path from 'node:path';
-import Layout from '../../components/layout/Layout';
-import SEO from '../../components/common/SEO';
-import { FaRss } from 'react-icons/fa';
-import PageHeader from '@/components/common/PageHeader';
-import { WorkCard } from '@/components/common/Card';
-import { motion } from 'framer-motion';
+import Layout from '@/components/layout/Layout';
+import SEO from '@/components/common/SEO';
 
-// 型定義
 interface FeedItem {
   title: string;
   description: string;
@@ -32,150 +26,143 @@ interface FeedData {
   items: FeedItem[];
   sources: FeedSource[];
   lastUpdated: string;
-  allItems: FeedItem[]; // すべてのアイテム（制限なし）
-  itemsByCategory: Record<string, FeedItem[]>; // カテゴリごとのアイテム
+  allItems: FeedItem[];
+  itemsByCategory: Record<string, FeedItem[]>;
 }
 
-interface WorksPageProps {
+type Props = {
   feedData: FeedData;
+};
+
+function formatDate(dateString: string): string {
+  const d = new Date(dateString);
+  if (Number.isNaN(d.getTime())) return '';
+  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 }
 
-export default function WorksPage({ feedData }: WorksPageProps) {
-  const [activeTab, setActiveTab] = useState('all');
-  const [filteredItems, setFilteredItems] = useState<FeedItem[]>([]);
-  
-  // タブが変更されたときにアイテムをフィルタリング
-  useEffect(() => {
-    if (activeTab === 'all') {
-      // すべてタブは時間順で100件に制限
-      setFilteredItems(feedData.items);
-    } else {
-      // 各タブは全件表示（カテゴリごとのアイテムを使用）
-      setFilteredItems(feedData.itemsByCategory[activeTab] || []);
+export default function WorksPage({ feedData }: Props) {
+  const [tab, setTab] = useState<string>('all');
+
+  const filtered = useMemo<FeedItem[]>(() => {
+    if (tab === 'all') return feedData.items;
+    return feedData.itemsByCategory[tab] || [];
+  }, [tab, feedData]);
+
+  const grouped = useMemo<{ year: string; items: FeedItem[] }[]>(() => {
+    const map = new Map<string, FeedItem[]>();
+    for (const item of filtered) {
+      const year = String(new Date(item.date).getFullYear()) || 'unknown';
+      if (!map.has(year)) map.set(year, []);
+      map.get(year)!.push(item);
     }
-  }, [activeTab, feedData.items, feedData.itemsByCategory]);
-
-  // 日付をフォーマット
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  // ソースタイプに応じたアイコンを取得
-  const getSourceIcon = (sourceType: string) => {
-    switch (sourceType) {
-      case 'note': return '📝';
-      case 'tech-blog': return '💻';
-      case 'slide': return '📊';
-      case 'video': return '🎬';
-      case 'music': return '🎵';
-      default: return '📄';
-    }
-  };
-
-  // アニメーション設定
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemAnimation = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
-  };
+    return Array.from(map.entries())
+      .sort((a, b) => Number(b[0]) - Number(a[0]))
+      .map(([year, items]) => ({ year, items }));
+  }, [filtered]);
 
   return (
-    <Layout>
+    <Layout activeNav="works">
       <SEO
         title="制作物"
-        description="栗林健太郎のnote、技術ブログ、スライド、動画、音楽のまとめ"
+        description="栗林健太郎の note、技術ブログ、スライド、動画、音楽などの制作物のアーカイブ。"
       />
 
-      <PageHeader
-        title="制作物一覧"
-        description="note、技術ブログ、スライド、動画、音楽など、さまざまな形式での制作物をまとめています。"
-        rssLink="/works/feed.xml"
-      />
-
-      <section className="py-8 sm:py-12 md:py-16 bg-white">
-        <div className="container max-w-5xl">
-          {/* タブナビゲーション */}
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 sm:mb-12">
-            <button
-              type="button"
-              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 ${activeTab === 'all' ? 'bg-primary text-white shadow-md' : 'bg-gray-100 hover:bg-gray-200 hover:shadow-sm'}`}
-              onClick={() => setActiveTab('all')}
-            >
-              すべて
-            </button>
-            
-            {feedData.sources.map(source => (
-              <button
-                type="button"
-                key={source.type}
-                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 ${activeTab === source.type ? 'bg-primary text-white shadow-md' : 'bg-gray-100 hover:bg-gray-200 hover:shadow-sm'}`}
-                onClick={() => setActiveTab(source.type)}
-              >
-                <span className="mr-1">{getSourceIcon(source.type)}</span>
-                {source.name}
-              </button>
-            ))}
+      <section className="sub-hero">
+        <div className="wrap">
+          <div className="crumb">
+            <Link href="/">§00 ホーム</Link>
+            <span className="sep">/</span>
+            <span>§02 制作物</span>
           </div>
-
-          {/* アイテム一覧 */}
-          {filteredItems.length > 0 ? (
-            <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 auto-rows-fr"
-              variants={container}
-              initial="hidden"
-              animate="show"
-            >
-              {filteredItems.map((item, index) => (
-                <motion.div
-                  key={`${item.url}-${index}`}
-                  variants={itemAnimation}
-                  transition={{ duration: 0.3 }}
-                  className="relative"
-                >
-                  <WorkCard
-                    href={item.url}
-                    title={item.title}
-                    description={`${item.description} • ${formatDate(item.date)}`}
-                    image={item.image || undefined}
-                    isExternal={true}
-                    index={index}
-                  />
-                  <div className="absolute top-4 left-4 bg-primary text-white px-3 py-1.5 rounded-lg text-sm font-medium shadow-md z-10">
-                    {getSourceIcon(item.source)} {item.sourceName}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          ) : (
-            <div className="text-center py-16 text-gray-600 text-lg">
-              表示するアイテムがありません
+          <div className="sub-hero-grid">
+            <div>
+              <h1 className="giga">制作物</h1>
+              <p className="lede-en">
+                An editor&apos;s ledger of notes, essays, slides, audio, and video — across the web.
+              </p>
             </div>
-          )}
+            <div className="meta-block">
+              <b>{feedData.items.length}</b>
+              <em>recent · {feedData.sources.length} sources</em>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="wrap" style={{ paddingTop: '48px', paddingBottom: '96px' }}>
+        <div className="works-filter">
+          <button
+            type="button"
+            className={tab === 'all' ? 'on' : ''}
+            onClick={() => setTab('all')}
+          >
+            すべて
+            <span className="c">{feedData.items.length}</span>
+          </button>
+          {feedData.sources.map((s) => (
+            <button
+              key={s.type}
+              type="button"
+              className={tab === s.type ? 'on' : ''}
+              onClick={() => setTab(s.type)}
+            >
+              {s.name}
+              <span className="c">{(feedData.itemsByCategory[s.type] || []).length}</span>
+            </button>
+          ))}
+        </div>
+
+        {grouped.length === 0 ? (
+          <p style={{ color: 'var(--ink-mute)', padding: '48px 0' }}>表示する制作物がありません。</p>
+        ) : (
+          grouped.map((g) => (
+            <div key={g.year}>
+              <div className="works-year">
+                <span className="yn">{g.year}</span>
+                <span className="ylabel">
+                  {g.items.length} works · year {g.year}
+                </span>
+              </div>
+              <div className="ledger">
+                {g.items.map((item, i) => (
+                  <a
+                    key={`${item.url}-${i}`}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="lrow work-row"
+                  >
+                    <span className="n">№ {String(i + 1).padStart(2, '0')}</span>
+                    <span className="d">{formatDate(item.date)}</span>
+                    <span className="t">
+                      {item.title}
+                      {item.description && (
+                        <span className="sub">{item.description.slice(0, 100)}</span>
+                      )}
+                    </span>
+                    <span className="venue">{item.sourceName}</span>
+                    <span className="k">{item.source}</span>
+                    <span className="arr">→</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))
+        )}
+
+        <div className="page-nav">
+          <Link href="/">← §00 ホーム</Link>
+          <span className="mid">{feedData.lastUpdated && `updated: ${formatDate(feedData.lastUpdated)}`}</span>
+          <a href="/works/feed.xml">RSS Feed →</a>
         </div>
       </section>
     </Layout>
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<Props> = async () => {
   try {
     const dataFilePath = path.join(process.cwd(), 'public', 'works', 'feed-data.json');
-    
-    // ファイルが存在しない場合は空のデータを返す
     if (!fs.existsSync(dataFilePath)) {
       return {
         props: {
@@ -189,39 +176,28 @@ export const getStaticProps: GetStaticProps = async () => {
         },
       };
     }
-    
-    const fileContents = fs.readFileSync(dataFilePath, 'utf8');
-    const feedData: FeedData = JSON.parse(fileContents);
-    
-    // データサイズを削減するため、不要なフィールドを削除
-    const optimizedFeedData: FeedData = {
-      items: feedData.items.slice(0, 100), // 最新100件のみ
+    const raw = fs.readFileSync(dataFilePath, 'utf8');
+    const feedData: FeedData = JSON.parse(raw);
+    const optimized: FeedData = {
+      items: feedData.items.slice(0, 100),
       sources: feedData.sources,
       lastUpdated: feedData.lastUpdated,
-      allItems: [], // ページで使用していないので空配列に
-      itemsByCategory: Object.entries(feedData.itemsByCategory).reduce((acc, [key, items]) => {
-        acc[key] = items.slice(0, 50); // 各カテゴリ最新50件のみ
-        return acc;
-      }, {} as Record<string, FeedItem[]>),
-    };
-    
-    return {
-      props: {
-        feedData: optimizedFeedData,
-      },
-    };
-  } catch (error) {
-    console.error('Error loading feed data:', error);
-    return {
-      props: {
-        feedData: {
-          items: [],
-          sources: [],
-          lastUpdated: new Date().toISOString(),
-          allItems: [],
-          itemsByCategory: {},
+      allItems: [],
+      itemsByCategory: Object.entries(feedData.itemsByCategory).reduce(
+        (acc, [key, items]) => {
+          acc[key] = items.slice(0, 50);
+          return acc;
         },
+        {} as Record<string, FeedItem[]>
+      ),
+    };
+    return { props: { feedData: optimized } };
+  } catch (e) {
+    console.error('Works: feed load failed', e);
+    return {
+      props: {
+        feedData: { items: [], sources: [], lastUpdated: new Date().toISOString(), allItems: [], itemsByCategory: {} },
       },
     };
   }
-} 
+};

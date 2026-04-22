@@ -1,34 +1,62 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-  
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-dark text-white py-12">
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          {/* プロフィール情報 */}
-          <div className="flex items-center gap-3">
-            <div className="relative w-10 h-10 md:w-12 md:h-12 overflow-hidden rounded-full border-2 border-primary shadow-lg hover:scale-110 transition-transform duration-300">
-              <Image 
-                src="https://pbs.twimg.com/profile_images/1964961444673531905/wD3BXCk2_400x400.jpg"
-                alt="栗林健太郎"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <p className="text-white font-bold text-base md:text-lg">栗林健太郎</p>
-              <p className="text-sm text-gray-300 mt-1">GMOペパボ株式会社取締役CTO / 博士（情報科学）</p>
+    <footer className="cph">
+      <div className="wrap">
+        <div className="row">
+          <div>
+            <h5>Colophon</h5>
+            <p className="big">
+              栗林
+              <br />
+              健太郎
+            </p>
+            <p
+              className="set"
+              style={{ marginTop: '20px', color: 'color-mix(in srgb, var(--paper) 76%, transparent)' }}
+            >
+              概念と構造を制作する。
+              <br />
+              GMOペパボ株式会社 取締役CTO。
+              <br />
+              博士（情報科学）。
+            </p>
+          </div>
+
+          <div>
+            <h5>Sections</h5>
+            <div className="set">
+              <p><Link href="/">§00 ホーム</Link></p>
+              <p><Link href="/profile">§01 プロフィール</Link></p>
+              <p><Link href="/works">§02 制作物</Link></p>
+              <p><Link href="/journal">§03 日記</Link></p>
+              <p><Link href="/photo">§04 写真</Link></p>
+              <p><Link href="/podcast">§05 ポッドキャスト</Link></p>
             </div>
           </div>
-          
-          <p className="text-gray-300 text-sm md:text-base mt-2 md:mt-0">
-            © {currentYear} <span className="font-medium">栗林健太郎</span>. All rights reserved.
-          </p>
+
+          <div>
+            <h5>Channels</h5>
+            <div className="set">
+              <p><a href="https://x.com/kentaro" target="_blank" rel="noopener noreferrer">X / Twitter</a></p>
+              <p><a href="https://github.com/kentaro" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+              <p><a href="https://www.linkedin.com/in/kentaro-kuribayashi" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+              <p><a href="https://facebook.com/kentarok" target="_blank" rel="noopener noreferrer">Facebook</a></p>
+              <p><a href="https://discord.gg/SXyKFCyMd5" target="_blank" rel="noopener noreferrer">Discord</a></p>
+              <p><a href="mailto:kentarok@gmail.com">Email</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div className="meta">
+          <span>© {year} Kentaro Kuribayashi</span>
+          <span>Set in Zen Old Mincho &amp; Fraunces</span>
+          <span>Printed on the web</span>
         </div>
       </div>
     </footer>
   );
-} 
+}

@@ -9,11 +9,7 @@ export default function Footer() {
         <div className="row">
           <div>
             <h5>Colophon</h5>
-            <p className="big">
-              栗林
-              <br />
-              健太郎
-            </p>
+            <p className="big">栗林健太郎</p>
             <p
               className="set"
               style={{ marginTop: '20px', color: 'color-mix(in srgb, var(--paper) 76%, transparent)' }}

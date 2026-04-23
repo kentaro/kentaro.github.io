@@ -159,10 +159,11 @@ nav.top a .idx {
 .hero-grid { display: grid; grid-template-columns: 1fr; gap: 36px; }
 .giga {
   font-family: "Zen Old Mincho", "YuMincho", serif; font-weight: 900;
-  font-size: clamp(56px, 15vw, 220px); line-height: 0.92; letter-spacing: -0.02em;
+  font-size: clamp(44px, 7vw, 104px); line-height: 1.02; letter-spacing: -0.01em;
   color: var(--ink); margin: 0;
 }
 .giga .name-unit, .name-unit { display: inline-block; white-space: nowrap; }
+@media (max-width: 420px) { .giga { font-size: clamp(38px, 10vw, 56px); } }
 .giga-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
 @media (max-width: 720px) { .giga-row { flex-direction: column; align-items: stretch; gap: 20px; } }
 .giga-en {
@@ -390,7 +391,7 @@ footer.cph .meta {
 .sub-hero .crumb .sep { color: var(--accent); }
 .sub-hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: end; }
 @media (max-width: 860px) { .sub-hero-grid { grid-template-columns: 1fr; gap: 24px; } }
-.sub-hero h1.giga { font-size: clamp(56px, 10vw, 140px); }
+.sub-hero h1.giga { font-size: clamp(40px, 6vw, 88px); }
 .sub-hero .meta-block { text-align: right; font-family: "Fraunces", serif; font-size: 13px; color: var(--ink-mute); line-height: 1.8; }
 .sub-hero .meta-block b { display: block; font-family: "Zen Old Mincho", serif; font-weight: 900; font-size: 44px; color: var(--accent); line-height: 1; letter-spacing: -0.02em; }
 .sub-hero .meta-block em { font-style: italic; display: block; margin-top: 6px; letter-spacing: 0.12em; text-transform: uppercase; font-size: 11px; }

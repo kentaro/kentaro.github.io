@@ -82,7 +82,7 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
             </div>
             <div className="sub-hero-grid">
               <div>
-                <h1 className="giga">栗林健太郎</h1>
+                <h1 className="giga"><span className="name-unit">栗林健太郎</span></h1>
                 <p className="lede-en">Kentaro Kuribayashi — a brief biography in editorial form.</p>
               </div>
               <div className="meta-block">
@@ -101,7 +101,7 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
                 alt="栗林健太郎"
               />
             </div>
-            <div className="name">栗林健太郎</div>
+            <div className="name"><span className="name-unit">栗林健太郎</span></div>
             <div className="name-en">Kentaro Kuribayashi</div>
             <div className="role">
               GMOペパボ株式会社 取締役CTO

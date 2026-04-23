@@ -162,6 +162,7 @@ nav.top a .idx {
   font-size: clamp(56px, 15vw, 220px); line-height: 0.92; letter-spacing: -0.02em;
   color: var(--ink); margin: 0;
 }
+.giga .name-unit, .name-unit { display: inline-block; white-space: nowrap; }
 .giga-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
 @media (max-width: 720px) { .giga-row { flex-direction: column; align-items: stretch; gap: 20px; } }
 .giga-en {

@@ -181,11 +181,7 @@ export default function Home({ journals, works, photos, podcasts }: Props) {
 
           <div className="giga-row">
             <h1 className="giga mincho" aria-label="栗林健太郎">
-              <span className="char">栗</span>
-              <span className="char">林</span>
-              <span className="char">健</span>
-              <span className="char">太</span>
-              <span className="char">郎</span>
+              <span className="name-unit">栗林健太郎</span>
             </h1>
             <div className="giga-en">
               <b>Kentaro Kuribayashi</b>

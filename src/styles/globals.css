@@ -739,23 +739,161 @@ footer.cph .meta {
 .markdown-content th, .markdown-content td { border: 1px solid var(--hairline); padding: 10px 14px; text-align: left; }
 .markdown-content th { background: var(--paper-2); font-family: "Fraunces", serif; font-weight: 500; }
 
-/* Embed card (from markdown.ts transform) */
+/* ============================================================
+   EMBED CARD — generated from ```embed blocks in markdown.ts
+   Editorial style: warm paper, hairline rule, terracotta accent
+   ============================================================ */
+.markdown-content .embed-card,
 .embed-card {
-  margin: 2em 0; border: 1px solid var(--rule); background: var(--paper-2);
-  display: block; overflow: hidden; transition: background 0.2s;
+  display: block;
+  position: relative;
+  margin: 2.2em 0;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-left: 3px solid var(--hairline);
+  overflow: hidden;
+  transition: border-left-color 0.25s ease, background 0.25s ease,
+    transform 0.25s ease, box-shadow 0.25s ease;
 }
-.embed-card:hover { background: var(--paper); }
-@media (min-width: 768px) { .embed-card { display: flex; align-items: stretch; } }
-.embed-image-container { position: relative; overflow: hidden; height: 200px; flex-shrink: 0; }
-@media (min-width: 768px) { .embed-image-container { width: 240px; height: auto; } }
-.embed-img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(30%); }
-.embed-content { padding: 18px 22px; display: flex; flex-direction: column; }
-@media (min-width: 768px) { .embed-content { flex: 1; } }
-.embed-title { font-family: "Zen Old Mincho", serif; font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
-.embed-title-link { color: var(--ink); text-decoration: none; }
-.embed-title-link:hover { color: var(--accent); }
-.embed-description { color: var(--ink-mute); font-size: 13.5px; line-height: 1.7; margin-bottom: 8px; font-family: "Noto Sans JP", sans-serif; }
-.embed-url { color: var(--accent); font-family: "Fraunces", serif; font-style: italic; font-size: 12px; margin-top: auto; display: block; letter-spacing: 0.04em; }
+.markdown-content .embed-card:hover,
+.embed-card:hover {
+  background: var(--paper);
+  border-left-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px -22px rgba(26, 23, 20, 0.35),
+    0 2px 0 0 var(--hairline);
+}
+@media (min-width: 768px) {
+  .markdown-content .embed-card,
+  a.embed-card { display: flex; align-items: stretch; }
+}
+
+.embed-image-container {
+  position: relative;
+  overflow: hidden;
+  height: 180px;
+  flex-shrink: 0;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--hairline);
+}
+@media (min-width: 768px) {
+  .embed-image-container {
+    width: 220px;
+    height: auto;
+    min-height: 160px;
+    border-bottom: none;
+    border-right: 1px solid var(--hairline);
+  }
+}
+.embed-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.92) contrast(0.98);
+  transition: filter 0.3s ease, transform 0.5s ease;
+}
+.embed-card:hover .embed-img {
+  filter: saturate(1) contrast(1);
+  transform: scale(1.02);
+}
+
+.embed-content {
+  padding: 20px 24px 18px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+@media (min-width: 768px) { .embed-content { flex: 1; padding: 22px 26px 20px; } }
+
+.embed-title {
+  font-family: "Zen Old Mincho", "Hiragino Mincho ProN", serif;
+  font-weight: 700;
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0 0 8px;
+  letter-spacing: 0.01em;
+  /* clamp to 2 lines so very long titles don't blow up the card */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.2s ease;
+}
+.embed-card:hover .embed-title { color: var(--accent); }
+
+/* Title link expands to cover the entire card (whole-card click target) */
+.markdown-content .embed-card .embed-title-link,
+.embed-card .embed-title-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: none;
+  opacity: 1;
+}
+.markdown-content .embed-card .embed-title-link:hover,
+.embed-card .embed-title-link:hover {
+  color: inherit;
+  opacity: 1;
+}
+.embed-title-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.embed-description {
+  color: var(--ink-mute);
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 13px;
+  line-height: 1.75;
+  margin: 0 0 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.embed-meta {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px dotted var(--hairline);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+}
+.embed-meta::before {
+  content: "↗";
+  font-style: normal;
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0;
+}
+.embed-host {
+  text-transform: lowercase;
+  color: var(--accent);
+}
+
+/* No-image variant: tighter, more like a citation card */
+.embed-card.embed-card--no-image .embed-content {
+  padding: 18px 22px 16px;
+}
+.embed-card.embed-card--no-image .embed-title {
+  -webkit-line-clamp: 3;
+}
+
+@media (max-width: 480px) {
+  .embed-image-container { height: 160px; }
+  .embed-content { padding: 16px 18px 14px; }
+  .embed-title { font-size: 15.5px; }
+  .embed-description { font-size: 12.5px; -webkit-line-clamp: 2; }
+}
 
 /* Dialog reset */
 dialog { margin: 0; padding: 0; border: none; background: transparent; }

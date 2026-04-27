@@ -8,12 +8,30 @@ import remarkGfm from "remark-gfm";
 // プロジェクトルートからのパスを取得
 const obsidianPublicDir = path.join(process.cwd(), "obsidian/public");
 
+// HTMLエスケープ
+function escapeHtml(value: string): string {
+	return value
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#39;");
+}
+
+// URL からホスト名を抽出（先頭の www. は除去）
+function extractHost(url: string): string {
+	try {
+		return new URL(url).host.replace(/^www\./, "");
+	} catch {
+		return "";
+	}
+}
+
 // embedブロックをHTMLに変換する関数
 function processEmbedBlocks(content: string): string {
 	const embedRegex = /```embed\n([\s\S]*?)```/g;
 
-	return content.replace(embedRegex, (match, embedContent) => {
-		// embedの内容をパースする
+	return content.replace(embedRegex, (_match, embedContent) => {
 		const embedData: Record<string, string> = {};
 		const lines = embedContent.trim().split("\n");
 
@@ -21,7 +39,6 @@ function processEmbedBlocks(content: string): string {
 			const colonIndex = line.indexOf(":");
 			if (colonIndex > 0) {
 				const key = line.substring(0, colonIndex).trim();
-				// 値は引用符を取り除く
 				let value = line.substring(colonIndex + 1).trim();
 				if (value.startsWith('"') && value.endsWith('"')) {
 					value = value.substring(1, value.length - 1);
@@ -30,50 +47,38 @@ function processEmbedBlocks(content: string): string {
 			}
 		}
 
-		// より単純なdivベースのレイアウト
-		let html =
-			'<div style="display:flex; flex-direction:column; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden; margin:1.5rem 0; background-color:white; box-shadow:0 1px 2px rgba(0,0,0,0.05);">';
+		const url = embedData.url || "";
+		const title = embedData.title || url;
+		const description = embedData.description || "";
+		const image = embedData.image || "";
+		const host = extractHost(url);
 
-		// 画像部分
-		if (embedData.image) {
-			html += `<div style="padding:0; overflow:hidden;">
-				<img src="${embedData.image}" alt="${embedData.title || ""}" style="max-width:100%; height:auto; display:block; margin:0 auto;" />
-			</div>`;
-		}
+		const safeUrl = escapeHtml(url);
+		const safeTitle = escapeHtml(title);
+		const safeDesc = escapeHtml(description);
+		const safeImage = escapeHtml(image);
+		const safeHost = escapeHtml(host);
 
-		// コンテンツ部分
-		html += '<div style="padding:1rem;">';
+		const imageBlock = image
+			? `<div class="embed-image-container"><img class="embed-img" src="${safeImage}" alt="${safeTitle}" loading="lazy" /></div>`
+			: "";
 
-		// タイトル
-		if (embedData.title) {
-			if (embedData.url) {
-				html += `<a href="${embedData.url}" target="_blank" rel="noopener noreferrer" style="color:#3b82f6; text-decoration:none;">
-					<div style="font-size:1.125rem; font-weight:700; margin-bottom:0.5rem;">${embedData.title}</div>
-				</a>`;
-			} else {
-				html += `<div style="font-size:1.125rem; font-weight:700; margin-bottom:0.5rem;">${embedData.title}</div>`;
-			}
-		}
+		const titleInner = url
+			? `<a class="embed-title-link" href="${safeUrl}" target="_blank" rel="noopener noreferrer">${safeTitle}</a>`
+			: safeTitle;
+		const titleBlock = title
+			? `<div class="embed-title">${titleInner}</div>`
+			: "";
 
-		// 説明
-		if (embedData.description) {
-			html += `<div style="color:#4b5563; font-size:0.875rem;">${embedData.description}</div>`;
-		}
+		const descBlock = description
+			? `<div class="embed-description">${safeDesc}</div>`
+			: "";
 
-		// URLのみ（タイトルがない場合）
-		if (embedData.url && !embedData.title) {
-			html += `<a href="${embedData.url}" target="_blank" rel="noopener noreferrer" style="color:#3b82f6; font-size:0.875rem; display:block; margin-top:0.5rem;">${embedData.url}</a>`;
-		}
+		const metaBlock = host
+			? `<div class="embed-meta"><span class="embed-host">${safeHost}</span></div>`
+			: "";
 
-		html += "</div>"; // コンテンツdivの終了
-
-		// デスクトップ用のスタイル
-		html +=
-			"<style>@media (min-width: 768px) { .embed-card { flex-direction: row !important; } .embed-image { width: 240px !important; } }</style>";
-
-		html += "</div>"; // 最外部divの終了
-
-		return html;
+		return `<div class="embed-card${image ? "" : " embed-card--no-image"}">${imageBlock}<div class="embed-content">${titleBlock}${descBlock}${metaBlock}</div></div>`;
 	});
 }
 

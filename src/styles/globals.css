@@ -507,8 +507,8 @@ footer.cph .meta {
 /* ============================================================
    ARTICLE SHELL
    ============================================================ */
-.article-wrap { max-width: 780px; margin: 0 auto; padding: 72px 0 96px; }
-@media (max-width: 720px) { .article-wrap { padding: 40px 0 56px; } }
+.article-wrap { max-width: 780px; padding-top: 72px; padding-bottom: 96px; }
+@media (max-width: 720px) { .article-wrap { padding-top: 40px; padding-bottom: 56px; } }
 .article-meta-bar {
   display: flex; justify-content: space-between; align-items: baseline;
   padding: 10px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--hairline);

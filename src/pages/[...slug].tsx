@@ -167,23 +167,7 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
           </span>
         </div>
 
-        {isJournal && dayOfMonth && (
-          <div className="article-kicker">
-            {dayOfMonth.year} / {dayOfMonth.monthName} / {dayOfMonth.weekday}曜日
-          </div>
-        )}
-
-        {isJournal && dayOfMonth ? (
-          <div className="article-date">
-            <span className="big">{Number(dayOfMonth.day)}</span>
-            <span>
-              {dayOfMonth.year}年 {dayOfMonth.monthName} 第{Math.ceil(Number(dayOfMonth.day) / 7)}週 /{' '}
-              {dayOfMonth.weekday}曜
-            </span>
-          </div>
-        ) : null}
-
-        {!isJournal && <h1 className="article-title">{postData.title}</h1>}
+        <h1 className="article-title">{postData.title}</h1>
         {!isJournal && postData.excerpt && (
           <p className="article-subtitle">
             {postData.excerpt.slice(0, 160)}

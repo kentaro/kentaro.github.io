@@ -785,11 +785,15 @@ footer.cph .meta {
     border-right: 1px solid var(--hairline);
   }
 }
-.embed-img {
+.markdown-content .embed-card .embed-img,
+.embed-card .embed-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  margin: 0;
+  border: none;
+  max-width: none;
   filter: saturate(0.92) contrast(0.98);
   transition: filter 0.3s ease, transform 0.5s ease;
 }

@@ -183,7 +183,7 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
           </div>
         ) : null}
 
-        <h1 className="article-title">{postData.title}</h1>
+        {!isJournal && <h1 className="article-title">{postData.title}</h1>}
         {!isJournal && postData.excerpt && (
           <p className="article-subtitle">
             {postData.excerpt.slice(0, 160)}

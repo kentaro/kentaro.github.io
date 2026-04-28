@@ -403,6 +403,9 @@ footer.cph .meta {
 .page-cols { display: grid; grid-template-columns: 220px 1fr; gap: 64px; padding-top: 72px; padding-bottom: 96px; }
 @media (max-width: 1000px) { .page-cols { grid-template-columns: 1fr; gap: 32px; padding-top: 48px; padding-bottom: 72px; } }
 .side { position: sticky; top: 88px; align-self: start; font-size: 13px; }
+@media (max-width: 1000px) {
+  .side { position: static; top: auto; }
+}
 .side h5 {
   font-family: "Fraunces", serif; font-style: italic; font-weight: 400;
   font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
@@ -485,8 +488,9 @@ footer.cph .meta {
   color: var(--accent); letter-spacing: 0.22em; text-transform: uppercase;
 }
 
-.year-strip { display: flex; gap: 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin: 0 0 32px; overflow-x: auto; scrollbar-width: none; }
+.year-strip { display: flex; gap: 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin: 0 0 32px; overflow-x: auto; scrollbar-width: none; flex-wrap: wrap; }
 .year-strip::-webkit-scrollbar { display: none; }
+@media (max-width: 720px) { .year-strip { display: none; } }
 .year-strip a {
   flex: 1; min-width: 72px; text-align: center; padding: 18px 12px;
   font-family: "Fraunces", serif; font-size: 14px; color: var(--ink-mute);

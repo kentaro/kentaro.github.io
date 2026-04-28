@@ -402,10 +402,11 @@ footer.cph .meta {
    ============================================================ */
 .page-cols { display: grid; grid-template-columns: 220px 1fr; gap: 64px; padding-top: 72px; padding-bottom: 96px; }
 @media (max-width: 1000px) { .page-cols { grid-template-columns: 1fr; gap: 32px; padding-top: 48px; padding-bottom: 72px; } }
-.side { position: sticky; top: 88px; align-self: start; font-size: 13px; }
+.side { position: sticky; top: 88px; align-self: start; font-size: 13px; min-width: 0; }
 @media (max-width: 1000px) {
   .side { position: static; top: auto; }
 }
+.main-col { min-width: 0; }
 .side h5 {
   font-family: "Fraunces", serif; font-style: italic; font-weight: 400;
   font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
@@ -447,6 +448,7 @@ footer.cph .meta {
   gap: 28px; padding: 22px 0; border-bottom: 1px solid var(--hairline);
   align-items: start; transition: background 0.25s, padding 0.25s;
 }
+.entry .body { min-width: 0; overflow-wrap: anywhere; }
 .entry:hover { background: var(--paper-2); padding-left: 16px; padding-right: 16px; margin-left: -16px; margin-right: -16px; }
 .entry .day { text-align: left; padding-top: 4px; }
 .entry .day .d { font-family: "Zen Old Mincho", serif; font-weight: 900; font-size: 44px; line-height: 0.9; color: var(--accent); letter-spacing: -0.02em; }
@@ -643,7 +645,8 @@ footer.cph .meta {
    ============================================================ */
 .cv-grid { display: grid; grid-template-columns: 240px 1fr; gap: 64px; padding-top: 72px; padding-bottom: 96px; }
 @media (max-width: 1000px) { .cv-grid { grid-template-columns: 1fr; gap: 32px; padding-top: 48px; padding-bottom: 72px; } }
-.cv-side { position: sticky; top: 88px; align-self: start; }
+.cv-side { position: sticky; top: 88px; align-self: start; min-width: 0; }
+.cv-grid > * { min-width: 0; }
 .cv-side .portrait { width: 100%; aspect-ratio: 4/5; background: var(--paper-2); filter: grayscale(85%) contrast(1.05); margin-bottom: 20px; overflow: hidden; }
 .cv-side .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cv-side .name { font-family: "Zen Old Mincho", serif; font-weight: 900; font-size: 32px; letter-spacing: 0.01em; line-height: 1.1; margin: 0 0 6px; }

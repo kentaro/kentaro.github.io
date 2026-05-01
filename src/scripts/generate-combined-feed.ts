@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 import axios from "axios";
 import xml2js from "xml2js";
 import { Feed } from "feed";
@@ -105,9 +106,25 @@ async function fetchAndParseFeed(
 	console.log(`Fetching feed from ${source.url}...`);
 
 	try {
-		const response = await axios.get(source.url);
+		let xmlData: string;
+		if (source.url.includes("youtube.com")) {
+			// YouTube returns 500 to Node.js HTTP clients regardless of User-Agent;
+			// curl with a browser UA succeeds, so spawn it as a subprocess.
+			xmlData = execSync(
+				`curl -fsSL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" "${source.url}"`,
+				{ encoding: "utf8", timeout: 30000 },
+			);
+		} else {
+			const response = await axios.get(source.url, {
+				headers: {
+					"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+					"Accept": "application/atom+xml,application/rss+xml,application/xml;q=0.9,*/*;q=0.8",
+				},
+			});
+			xmlData = response.data;
+		}
 		// @ts-ignore
-		const result = await xml2js.parseStringPromise(response.data);
+		const result = await xml2js.parseStringPromise(xmlData);
 
 		// RSSとAtomのフォーマットに対応
 		let items: FeedItem[] = [];

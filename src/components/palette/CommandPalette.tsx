@@ -4,6 +4,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import { Search } from 'lucide-react';
 import {
   isWebMcpAvailable,
   onThisDay,
@@ -14,6 +15,7 @@ import {
   type OnThisDayEntry,
   type RecentUpdate,
   type SearchHit,
+  type SearchSort,
   type SiteStats,
 } from '@/lib/siteTools';
 
@@ -23,6 +25,12 @@ type View =
   | { kind: 'onThisDay'; month: number; day: number; entries: OnThisDayEntry[] }
   | { kind: 'recent'; updates: RecentUpdate[] }
   | { kind: 'stats'; stats: SiteStats };
+
+const SORT_OPTIONS: { value: SearchSort; label: string }[] = [
+  { value: 'new', label: '新しい順' },
+  { value: 'old', label: '古い順' },
+  { value: 'relevance', label: '関連度順' },
+];
 
 const SECTION_LABELS: Record<string, string> = {
   blog: 'ブログ',
@@ -48,6 +56,7 @@ export default function CommandPalette() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const [sort, setSort] = useState<SearchSort>('new');
   const [view, setView] = useState<View>({ kind: 'home' });
   const [isLoading, setIsLoading] = useState(false);
   const [hasWebMcp, setHasWebMcp] = useState(false);
@@ -103,13 +112,13 @@ export default function CommandPalette() {
     debounceRef.current = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const hits = await searchSite(trimmed, 12);
+        const hits = await searchSite(trimmed, 12, sort);
         setView({ kind: 'search', hits, query: trimmed });
       } finally {
         setIsLoading(false);
       }
     }, 180);
-  }, [query, isOpen]);
+  }, [query, isOpen, sort]);
 
   const runAction = useCallback(
     async (action: 'onThisDay' | 'random' | 'recent' | 'stats') => {
@@ -141,10 +150,11 @@ export default function CommandPalette() {
         type="button"
         onClick={() => setIsOpen(true)}
         aria-label="サイト内ツールを開く"
-        className="fixed bottom-5 right-5 z-[90] flex items-center gap-2 rounded-full border border-[var(--hairline)] bg-paper px-4 py-2 text-sm text-ink shadow-[0_10px_30px_-12px_rgba(0,0,0,0.35)] transition hover:border-ink"
+        className="fixed bottom-6 right-6 z-[90] flex items-center gap-2.5 rounded-full bg-accent px-5 py-3 text-base text-accent-ink shadow-[0_14px_40px_-10px_rgba(180,59,46,0.7)] transition hover:scale-105"
       >
-        <span className="mincho font-bold">探す・遊ぶ</span>
-        <kbd className="mono hidden text-[10px] text-ink-mute sm:inline">⌘K</kbd>
+        <Search size={18} strokeWidth={2.5} />
+        <span className="mincho font-bold">検索</span>
+        <kbd className="mono hidden text-[11px] opacity-70 sm:inline">⌘K</kbd>
       </button>
     );
   }
@@ -211,6 +221,23 @@ export default function CommandPalette() {
 
           {view.kind === 'search' && (
             <ul>
+              <li className="flex items-center gap-1 px-4 pb-1 pt-2">
+                <span className="mono mr-1 text-[10px] text-ink-mute">並び順:</span>
+                {SORT_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => setSort(option.value)}
+                    className={`rounded-full px-2.5 py-0.5 text-[11px] transition ${
+                      sort === option.value
+                        ? 'bg-ink text-paper'
+                        : 'text-ink-mute hover:text-ink'
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </li>
               {view.hits.length === 0 && (
                 <li className="px-4 py-6 text-center text-sm text-ink-mute">
                   「{view.query}」に一致するページはありませんでした

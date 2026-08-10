@@ -48,11 +48,14 @@ function buildSnippet(content: string, terms: string[]): string {
   return `${prefix}${content.slice(start, end).trim()}${suffix}`;
 }
 
+export type SearchSort = "new" | "old" | "relevance";
+
 export function searchDocuments(
   documents: IndexedSearchDocument[],
   query: string,
   limit: number,
   documentUrl: (doc: IndexedSearchDocument) => string,
+  sort: SearchSort = "new",
 ): SearchHit[] {
   const terms = query
     .toLowerCase()
@@ -89,6 +92,21 @@ export function searchDocuments(
     });
   }
 
-  hits.sort((a, b) => b.score - a.score);
+  sortHits(hits, sort);
   return hits.slice(0, limit);
+}
+
+// Undated documents (e.g. the profile) always rank after dated ones in the
+// date-based orders; relevance breaks ties within the same date.
+function sortHits(hits: SearchHit[], sort: SearchSort): void {
+  hits.sort((a, b) => {
+    if (sort === "relevance") return b.score - a.score;
+    if (!a.date && !b.date) return b.score - a.score;
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    const dateOrder =
+      sort === "old" ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date);
+    if (dateOrder !== 0) return dateOrder;
+    return b.score - a.score;
+  });
 }

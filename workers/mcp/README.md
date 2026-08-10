@@ -2,7 +2,7 @@
 
 kentarokuribayashi.com のコンテンツを AI エージェントから利用できるようにする、Cloudflare Workers 上のリモート MCP サーバ。
 
-- エンドポイント: `/mcp`（Streamable HTTP、stateless）
+- 本番エンドポイント: `https://site.kentarokuribayashi.com/mcp`（Streamable HTTP、stateless。`https://kentarokuribayashi.com/mcp` でも接続可）
 - 実装: [Agents SDK](https://developers.cloudflare.com/agents/) の `createMcpHandler` + MCP TypeScript SDK v2（MCP spec 2026-07-28 / 2025-11-25 の両クライアントに対応）
 - データソース: サイトのビルド時に生成される静的 JSON（`search-data.json` / `data/podcast.json` / `works/feed-data.json`）を本番サイトから取得し、15分キャッシュ。Worker 側に独自の状態は持たない
 

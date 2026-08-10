@@ -26,35 +26,18 @@ curl -s -X POST https://kentarokuribayashi-com-mcp.<account>.workers.dev/mcp \
   -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{},"clientInfo":{"name":"curl","version":"1.0.0"}}}'
 ```
 
-## 2. 本番 URL の割り当て（どちらか選択）
+## 2. 本番 URL（現在の構成）
 
-### 案A: `https://kentarokuribayashi.com/mcp`（推奨）
+以下の2つが有効になっている（`wrangler.jsonc` の `routes` に対応）:
 
-サイトは Cloudflare が前段にいる（GitHub Pages を proxy）ので、ゾーンルートで `/mcp` だけを Worker に向けられる。`wrangler.jsonc` のコメントアウトを外して再デプロイ:
-
-```jsonc
-"routes": [
-  { "pattern": "kentarokuribayashi.com/mcp", "zone_name": "kentarokuribayashi.com" }
-]
-```
-
-サイト本体（GitHub Pages）への他のパスには影響しない。
-
-### 案B: `https://mcp.kentarokuribayashi.com/mcp`
-
-Workers のカスタムドメイン機能でサブドメインを割り当てる（DNS レコードは Cloudflare が自動作成）:
-
-```jsonc
-"routes": [
-  { "pattern": "mcp.kentarokuribayashi.com", "custom_domain": true }
-]
-```
+- **`https://site.kentarokuribayashi.com/mcp`** — Workers カスタムドメイン（正式なエンドポイント）
+- `https://kentarokuribayashi.com/mcp` — ゾーンルート（`/mcp` と `/mcp/*` のみ Worker へ。サイト本体の他のパスには影響しない）
 
 ## 3. クライアント設定例
 
 ```sh
 # Claude Code
-claude mcp add --transport http kentarosite https://kentarokuribayashi.com/mcp
+claude mcp add --transport http kentarosite https://site.kentarokuribayashi.com/mcp
 ```
 
 Claude Desktop など Streamable HTTP 直接対応のないクライアントは `mcp-remote` プロキシ経由:
@@ -64,7 +47,7 @@ Claude Desktop など Streamable HTTP 直接対応のないクライアントは
   "mcpServers": {
     "kentarosite": {
       "command": "npx",
-      "args": ["mcp-remote", "https://kentarokuribayashi.com/mcp"]
+      "args": ["mcp-remote", "https://site.kentarokuribayashi.com/mcp"]
     }
   }
 }

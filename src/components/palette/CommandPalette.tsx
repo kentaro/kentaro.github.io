@@ -73,6 +73,34 @@ function typeLabel(type: string): string {
   return SECTION_LABELS[type] ?? type;
 }
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function Highlighted({ text, query }: { text: string; query: string }) {
+  const terms = query
+    .split(/\s+/)
+    .map((term) => term.trim())
+    .filter((term) => term.length > 0)
+    .map(escapeRegExp);
+  if (terms.length === 0) return <>{text}</>;
+  const parts = text.split(new RegExp(`(${terms.join('|')})`, 'gi'));
+  return (
+    <>
+      {parts.map((part, index) =>
+        index % 2 === 1 ? (
+          // biome-ignore lint/suspicious/noArrayIndexKey: static split result
+          <mark key={index} className="rounded bg-[#F2DD6E] px-0.5 font-semibold text-ink">
+            {part}
+          </mark>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
+
 function formatDate(value?: string): string {
   if (!value) return '';
   const date = new Date(value);
@@ -325,13 +353,15 @@ export default function CommandPalette() {
                       <span className="mono shrink-0 text-[10px] uppercase tracking-wide text-accent">
                         {SECTION_LABELS[hit.section] ?? hit.section}
                       </span>
-                      <span className="truncate font-bold text-ink">{hit.title}</span>
+                      <span className="truncate font-bold text-ink">
+                        <Highlighted text={hit.title} query={view.query} />
+                      </span>
                       <span className="mono ml-auto shrink-0 text-[10px] text-ink-mute">
                         {formatDate(hit.date)}
                       </span>
                     </div>
                     <div className="mt-1 line-clamp-2 text-xs leading-relaxed text-ink-mute">
-                      {hit.snippet}
+                      <Highlighted text={hit.snippet} query={view.query} />
                     </div>
                   </button>
                 </li>

@@ -176,7 +176,7 @@ function createServer() {
       title: "List journal entries",
       description:
         "List journal (diary) entries, newest first. The journal has near-" +
-        "daily entries since 2002. Optionally filter by year and month. Use " +
+        "daily entries since 2015. Optionally filter by year and month. Use " +
         "get_page with the returned path to read the full text.",
       inputSchema: z.object({
         year: z.number().int().min(2000).max(2100).optional(),
@@ -265,6 +265,255 @@ function createServer() {
         description: item.description?.slice(0, 300),
       }));
       return textResult({ total: items.length, category, items });
+    },
+  );
+
+  server.registerTool(
+    "get_journal_by_date",
+    {
+      title: "Get journal entry by date",
+      description:
+        "Get the journal (diary) entry for a specific date. The journal has " +
+        "near-daily entries since 2015.",
+      inputSchema: z.object({
+        date: z
+          .string()
+          .regex(/^\d{4}-\d{2}-\d{2}$/)
+          .describe("Date in YYYY-MM-DD format"),
+      }),
+    },
+    async ({ date }) => {
+      const documents = await getSearchDocuments();
+      const doc = documents.find(
+        (candidate) =>
+          sectionOf(candidate) === "journal" &&
+          candidate.date?.startsWith(date),
+      );
+      if (!doc) {
+        return errorResult(
+          `No journal entry found for ${date}. Use list_journal_entries to see which dates exist.`,
+        );
+      }
+      return textResult({
+        title: doc.title,
+        path: doc.path,
+        url: documentUrl(doc),
+        date: doc.date,
+        content: doc.content.slice(0, MAX_PAGE_CONTENT_CHARS),
+      });
+    },
+  );
+
+  server.registerTool(
+    "on_this_day",
+    {
+      title: "On this day in past years",
+      description:
+        "Get journal entries for the same month/day across all years since " +
+        "2015 - a time capsule view of what the author was doing on this " +
+        "date in past years. Defaults to today (JST) when month/day are " +
+        "omitted.",
+      inputSchema: z.object({
+        month: z.number().int().min(1).max(12).optional(),
+        day: z.number().int().min(1).max(31).optional(),
+        include_excerpt: z.boolean().default(true),
+      }),
+    },
+    async ({ month, day, include_excerpt }) => {
+      const now = new Date(Date.now() + 9 * 60 * 60 * 1000);
+      const targetMonth = month ?? now.getUTCMonth() + 1;
+      const targetDay = day ?? now.getUTCDate();
+      const suffix =
+        `-${String(targetMonth).padStart(2, "0")}` +
+        `-${String(targetDay).padStart(2, "0")}`;
+      const documents = await getSearchDocuments();
+      const entries = documents
+        .filter(
+          (doc) =>
+            sectionOf(doc) === "journal" &&
+            doc.date !== undefined &&
+            doc.date.slice(4, 10) === suffix,
+        )
+        .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""))
+        .map((doc) => ({
+          title: doc.title,
+          path: doc.path,
+          url: documentUrl(doc),
+          date: doc.date,
+          excerpt: include_excerpt
+            ? doc.content.slice(0, 200).trim()
+            : undefined,
+        }));
+      return textResult({
+        month: targetMonth,
+        day: targetDay,
+        total: entries.length,
+        entries,
+      });
+    },
+  );
+
+  server.registerTool(
+    "random_page",
+    {
+      title: "Get a random page",
+      description:
+        "Get a randomly chosen page from the site - blog posts since 2002 and " +
+        "near-daily journal entries since 2015. Useful for serendipity.",
+      inputSchema: z.object({
+        section: z.enum(["all", "blog", "journal"]).default("all"),
+      }),
+    },
+    async ({ section }) => {
+      const documents = await getSearchDocuments();
+      const pool = documents.filter((doc) => {
+        const docSection = sectionOf(doc);
+        if (section === "all") return docSection === "blog" || docSection === "journal";
+        return docSection === section;
+      });
+      if (pool.length === 0) return errorResult("No pages available.");
+      const doc = pool[Math.floor(Math.random() * pool.length)];
+      return textResult({
+        title: doc.title,
+        path: doc.path,
+        url: documentUrl(doc),
+        date: doc.date,
+        content: doc.content.slice(0, MAX_PAGE_CONTENT_CHARS),
+      });
+    },
+  );
+
+  server.registerTool(
+    "get_recent_updates",
+    {
+      title: "Get recent updates across the site",
+      description:
+        "Get the latest updates across all content types - blog posts, " +
+        "journal entries, podcast episodes, and external works - merged and " +
+        "sorted by date, newest first. A one-call overview of recent " +
+        "activity.",
+      inputSchema: z.object({
+        limit: z.number().int().min(1).max(50).default(15),
+      }),
+    },
+    async ({ limit }) => {
+      const [documents, podcast, works] = await Promise.all([
+        getSearchDocuments(),
+        getPodcastData(),
+        getWorksFeedData(),
+      ]);
+      const updates = [
+        ...documents
+          .filter((doc) => {
+            const section = sectionOf(doc);
+            return section === "blog" || section === "journal";
+          })
+          .map((doc) => ({
+            type: sectionOf(doc) as string,
+            title: doc.title,
+            url: documentUrl(doc),
+            date: doc.date ?? "",
+          })),
+        ...podcast.episodes.map((episode) => ({
+          type: "podcast",
+          title: episode.title,
+          url: `${ORIGIN}/podcast/${episode.slug}`,
+          date: new Date(episode.pubDate).toISOString(),
+        })),
+        ...works.allItems.map((item) => ({
+          type: `work:${item.source}`,
+          title: item.title,
+          url: item.url,
+          date: item.date,
+        })),
+      ]
+        .filter((update) => update.date)
+        .sort((a, b) => b.date.localeCompare(a.date))
+        .slice(0, limit);
+      return textResult({ total: updates.length, updates });
+    },
+  );
+
+  server.registerTool(
+    "search_podcast",
+    {
+      title: "Search podcast episodes",
+      description:
+        "Full-text search over podcast episode titles and descriptions.",
+      inputSchema: z.object({
+        query: z.string().min(1).describe("Search query (Japanese or English)"),
+        limit: z.number().int().min(1).max(50).default(10),
+      }),
+    },
+    async ({ query, limit }) => {
+      const podcast = await getPodcastData();
+      const terms = query
+        .toLowerCase()
+        .split(/\s+/)
+        .filter((term) => term.length > 0);
+      const hits = podcast.episodes
+        .map((episode) => {
+          const haystack =
+            `${episode.title} ${episode.description}`.toLowerCase();
+          const matched = terms.filter((term) => haystack.includes(term));
+          return { episode, score: matched.length };
+        })
+        .filter((hit) => hit.score > 0 && hit.score === terms.length)
+        .slice(0, limit)
+        .map(({ episode }) => ({
+          title: episode.title,
+          description: episode.description?.slice(0, 300),
+          pubDate: episode.pubDate,
+          url: `${ORIGIN}/podcast/${episode.slug}`,
+          audioUrl: episode.audioUrl,
+        }));
+      return textResult({ query, total: hits.length, episodes: hits });
+    },
+  );
+
+  server.registerTool(
+    "site_stats",
+    {
+      title: "Get site statistics",
+      description:
+        "Get an overview of the site's content: document counts per " +
+        "section, date ranges, podcast episode count, and works counts per " +
+        "category. Useful for orienting before deeper exploration.",
+      inputSchema: z.object({}),
+    },
+    async () => {
+      const [documents, podcast, works] = await Promise.all([
+        getSearchDocuments(),
+        getPodcastData(),
+        getWorksFeedData(),
+      ]);
+      const stats: Record<string, { count: number; first?: string; last?: string }> =
+        {};
+      for (const doc of documents) {
+        const section = sectionOf(doc);
+        const entry = (stats[section] ??= { count: 0 });
+        entry.count += 1;
+        if (doc.date) {
+          const day = doc.date.slice(0, 10);
+          if (!entry.first || day < entry.first) entry.first = day;
+          if (!entry.last || day > entry.last) entry.last = day;
+        }
+      }
+      const worksByCategory = Object.fromEntries(
+        Object.entries(works.itemsByCategory).map(([key, items]) => [
+          key,
+          items.length,
+        ]),
+      );
+      return textResult({
+        website: ORIGIN,
+        sections: stats,
+        podcast: {
+          title: podcast.title,
+          episodes: podcast.episodes.length,
+        },
+        works: worksByCategory,
+      });
     },
   );
 

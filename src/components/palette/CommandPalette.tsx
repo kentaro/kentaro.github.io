@@ -6,11 +6,16 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Search } from 'lucide-react';
 import {
+  getJournalByDate,
   isWebMcpAvailable,
+  loadPodcastData,
+  loadSearchData,
+  loadWorksData,
   onThisDay,
   randomPage,
   recentUpdates,
   searchSite,
+  sectionOf,
   siteStats,
   type OnThisDayEntry,
   type RecentUpdate,
@@ -23,8 +28,31 @@ type View =
   | { kind: 'home' }
   | { kind: 'search'; hits: SearchHit[]; query: string }
   | { kind: 'onThisDay'; month: number; day: number; entries: OnThisDayEntry[] }
-  | { kind: 'recent'; updates: RecentUpdate[] }
+  | { kind: 'list'; title: string; items: RecentUpdate[] }
   | { kind: 'stats'; stats: SiteStats };
+
+type QuickAction =
+  | 'onThisDay'
+  | 'random'
+  | 'recent'
+  | 'blog'
+  | 'journal'
+  | 'podcast'
+  | 'works'
+  | 'stats';
+
+const QUICK_ACTIONS: [QuickAction, string, string][] = [
+  ['onThisDay', '歴代の今日の日記', '同じ日付の日記を全年分さかのぼる'],
+  ['random', 'ランダムに1本読む', '3,800ページからどれかへ飛ぶ'],
+  ['recent', '最近の更新', '全コンテンツを日付順に横断'],
+  ['stats', 'このサイトの統計', '何がどれだけあるか'],
+  ['blog', 'ブログ記事一覧', '2002年からの記事を新しい順に'],
+  ['journal', '日記一覧', 'ほぼ毎日の日記を新しい順に'],
+  ['podcast', 'ポッドキャスト一覧', '「情報科学のまわり道」全エピソード'],
+  ['works', '制作物一覧', 'スライド・記事・音楽など外部発信'],
+];
+
+const DATE_QUERY = /^(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})日?$/;
 
 const SORT_OPTIONS: { value: SearchSort; label: string }[] = [
   { value: 'new', label: '新しい順' },
@@ -113,6 +141,21 @@ export default function CommandPalette() {
       setIsLoading(true);
       try {
         const hits = await searchSite(trimmed, 12, sort);
+        const dateMatch = trimmed.match(DATE_QUERY);
+        if (dateMatch) {
+          const isoDate = `${dateMatch[1]}-${dateMatch[2].padStart(2, '0')}-${dateMatch[3].padStart(2, '0')}`;
+          const journal = await getJournalByDate(isoDate);
+          if (journal) {
+            hits.unshift({
+              title: `${journal.title} の日記を開く`,
+              path: journal.path,
+              date: journal.date,
+              snippet: journal.content.slice(0, 160).trim(),
+              score: Number.MAX_SAFE_INTEGER,
+              section: 'journal',
+            });
+          }
+        }
         setView({ kind: 'search', hits, query: trimmed });
       } finally {
         setIsLoading(false);
@@ -121,7 +164,7 @@ export default function CommandPalette() {
   }, [query, isOpen, sort]);
 
   const runAction = useCallback(
-    async (action: 'onThisDay' | 'random' | 'recent' | 'stats') => {
+    async (action: QuickAction) => {
       setIsLoading(true);
       try {
         if (action === 'onThisDay') {
@@ -132,7 +175,42 @@ export default function CommandPalette() {
           if (doc) navigate(doc.path);
         } else if (action === 'recent') {
           const updates = await recentUpdates(15);
-          setView({ kind: 'recent', updates });
+          setView({ kind: 'list', title: '最近の更新', items: updates });
+        } else if (action === 'blog' || action === 'journal') {
+          const documents = await loadSearchData();
+          const items = documents
+            .filter((doc) => sectionOf(doc) === action)
+            .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
+            .slice(0, 30)
+            .map((doc) => ({
+              type: action,
+              title: doc.title,
+              path: doc.path,
+              date: doc.date ?? '',
+            }));
+          setView({
+            kind: 'list',
+            title: action === 'blog' ? 'ブログ記事（最新30件）' : '日記（最新30件）',
+            items,
+          });
+        } else if (action === 'podcast') {
+          const podcast = await loadPodcastData();
+          const items = podcast.episodes.map((episode) => ({
+            type: 'podcast',
+            title: episode.title,
+            path: `/podcast/${episode.slug}`,
+            date: new Date(episode.pubDate).toISOString(),
+          }));
+          setView({ kind: 'list', title: `${podcast.title} — 全${items.length}話`, items });
+        } else if (action === 'works') {
+          const works = await loadWorksData();
+          const items = works.allItems.slice(0, 30).map((item) => ({
+            type: `work:${item.source}`,
+            title: item.title,
+            path: item.url,
+            date: item.date,
+          }));
+          setView({ kind: 'list', title: '制作物（最新30件）', items });
         } else {
           const stats = await siteStats();
           setView({ kind: 'stats', stats });
@@ -195,20 +273,13 @@ export default function CommandPalette() {
 
         <div className="overflow-y-auto px-2 py-2">
           {view.kind === 'home' && (
-            <div className="grid grid-cols-1 gap-1 p-1 sm:grid-cols-2">
-              {(
-                [
-                  ['onThisDay', '歴代の今日の日記', '同じ日付の日記を全年分さかのぼる'],
-                  ['random', 'ランダムに1本読む', '3,800ページからどれかへ飛ぶ'],
-                  ['recent', '最近の更新', 'ブログ・日記・ポッドキャスト・制作物を横断'],
-                  ['stats', 'このサイトの統計', '何がどれだけあるか'],
-                ] as const
-              ).map(([action, title, desc]) => (
+            <div className="grid grid-cols-1 gap-0.5 p-1 sm:grid-cols-2">
+              {QUICK_ACTIONS.map(([action, title, desc]) => (
                 <button
                   key={action}
                   type="button"
                   onClick={() => runAction(action)}
-                  className="group rounded-lg px-4 py-3 text-left transition hover:bg-paper-2"
+                  className="group rounded-lg px-4 py-2.5 text-left transition hover:bg-paper-2"
                 >
                   <div className="mincho font-bold text-ink group-hover:text-accent">
                     {title}
@@ -296,28 +367,31 @@ export default function CommandPalette() {
             </div>
           )}
 
-          {view.kind === 'recent' && (
-            <ul>
-              {view.updates.map((update) => (
-                <li key={`${update.type}-${update.path}`}>
-                  <button
-                    type="button"
-                    onClick={() => navigate(update.path)}
-                    className="w-full rounded-lg px-4 py-3 text-left transition hover:bg-paper-2"
-                  >
-                    <div className="flex items-baseline gap-2">
-                      <span className="mono shrink-0 text-[10px] uppercase tracking-wide text-accent">
-                        {typeLabel(update.type)}
-                      </span>
-                      <span className="truncate font-bold text-ink">{update.title}</span>
-                      <span className="mono ml-auto shrink-0 text-[10px] text-ink-mute">
-                        {formatDate(update.date)}
-                      </span>
-                    </div>
-                  </button>
-                </li>
-              ))}
-            </ul>
+          {view.kind === 'list' && (
+            <div className="p-2">
+              <div className="mincho px-2 pb-2 text-sm font-bold text-ink">{view.title}</div>
+              <ul>
+                {view.items.map((item) => (
+                  <li key={`${item.type}-${item.path}`}>
+                    <button
+                      type="button"
+                      onClick={() => navigate(item.path)}
+                      className="w-full rounded-lg px-4 py-2.5 text-left transition hover:bg-paper-2"
+                    >
+                      <div className="flex items-baseline gap-2">
+                        <span className="mono shrink-0 text-[10px] uppercase tracking-wide text-accent">
+                          {typeLabel(item.type)}
+                        </span>
+                        <span className="truncate font-bold text-ink">{item.title}</span>
+                        <span className="mono ml-auto shrink-0 text-[10px] text-ink-mute">
+                          {formatDate(item.date)}
+                        </span>
+                      </div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
           {view.kind === 'stats' && (

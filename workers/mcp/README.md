@@ -17,6 +17,12 @@ kentarokuribayashi.com のコンテンツを AI エージェントから利用�
 | `list_journal_entries` | 日記一覧（`year`, `month`, `limit`） |
 | `list_podcast_episodes` | ポッドキャストエピソード一覧（`limit`） |
 | `list_works` | 外部発信（note・技術ブログ・スライド・動画・音楽）一覧（`category`, `limit`) |
+| `get_journal_by_date` | 日付指定で日記を取得（`date`: YYYY-MM-DD） |
+| `on_this_day` | 歴代の「この日」の日記を全年横断で取得（`month`, `day`。省略時はJSTの今日） |
+| `random_page` | ランダムに1ページ取得（`section`） |
+| `get_recent_updates` | ブログ・日記・ポッドキャスト・works横断の最新更新（`limit`） |
+| `search_podcast` | ポッドキャストのタイトル・説明を全文検索（`query`, `limit`） |
+| `site_stats` | サイト統計（セクション別件数・期間・エピソード数・worksカテゴリ別件数） |
 
 ## ローカル開発
 

@@ -7,7 +7,23 @@
 // lab sessions. Registration is a no-op on browsers without the API.
 //
 // The toolset mirrors the remote MCP server in workers/mcp one-to-one (plus
-// the browser-only open_page), backed by the same prebuilt static data files.
+// the browser-only open_page). Tool implementations live in siteTools.ts and
+// are shared with the human-facing command palette UI.
+
+import {
+  getJournalByDate,
+  getPage,
+  loadPodcastData,
+  loadSearchData,
+  loadWorksData,
+  onThisDay,
+  randomPage,
+  recentUpdates,
+  searchPodcast,
+  searchSite,
+  siteStats,
+  type SearchDocument,
+} from "./siteTools";
 
 interface WebMcpToolResult {
   content: { type: "text"; text: string }[];
@@ -24,48 +40,9 @@ interface ModelContext {
   registerTool: (tool: WebMcpTool) => Promise<void> | void;
 }
 
-interface SearchDocument {
-  id: string;
-  title: string;
-  path: string;
-  content: string;
-  date?: string;
-  excerpt?: string;
-}
-
-interface PodcastEpisode {
-  title: string;
-  description: string;
-  pubDate: string;
-  slug: string;
-  audioUrl: string;
-  duration?: string;
-}
-
-interface PodcastData {
-  title: string;
-  description: string;
-  episodes: PodcastEpisode[];
-}
-
-interface WorkItem {
-  title: string;
-  description: string;
-  url: string;
-  date: string;
-  source: string;
-  sourceName: string;
-}
-
-interface WorksFeedData {
-  allItems: WorkItem[];
-  itemsByCategory: Record<string, WorkItem[]>;
-}
-
 const MAX_PAGE_CONTENT_CHARS = 40_000;
 
 let registered = false;
-const dataPromises = new Map<string, Promise<unknown>>();
 
 function getModelContext(): ModelContext | null {
   if (typeof window === "undefined") return null;
@@ -76,32 +53,6 @@ function getModelContext(): ModelContext | null {
   const context = fromNavigator ?? fromDocument ?? null;
   if (!context || typeof context.registerTool !== "function") return null;
   return context;
-}
-
-function loadJson<T>(path: string): Promise<T> {
-  let promise = dataPromises.get(path) as Promise<T> | undefined;
-  if (!promise) {
-    promise = fetch(path).then((response) => {
-      if (!response.ok) {
-        dataPromises.delete(path);
-        throw new Error(`Failed to load ${path}: ${response.status}`);
-      }
-      return response.json() as Promise<T>;
-    });
-    dataPromises.set(path, promise);
-  }
-  return promise;
-}
-
-const loadSearchData = () => loadJson<SearchDocument[]>("/search-data.json");
-const loadPodcastData = () => loadJson<PodcastData>("/data/podcast.json");
-const loadWorksData = () => loadJson<WorksFeedData>("/works/feed-data.json");
-
-function sectionOf(doc: Pick<SearchDocument, "path">): string {
-  if (doc.path.startsWith("/blog/")) return "blog";
-  if (doc.path.startsWith("/journal/")) return "journal";
-  if (doc.path === "/profile") return "profile";
-  return "other";
 }
 
 function textResult(payload: unknown): WebMcpToolResult {
@@ -127,43 +78,6 @@ function pageResult(doc: SearchDocument): WebMcpToolResult {
 
 function clampLimit(value: unknown, fallback: number, max: number): number {
   return Math.min(Math.max(Number(value) || fallback, 1), max);
-}
-
-function searchDocuments(
-  documents: SearchDocument[],
-  query: string,
-  limit: number,
-): { title: string; path: string; date?: string; snippet: string; score: number }[] {
-  const terms = query
-    .toLowerCase()
-    .split(/\s+/)
-    .filter((term) => term.length > 0);
-  if (terms.length === 0) return [];
-
-  const hits = [];
-  for (const doc of documents) {
-    const title = doc.title.toLowerCase();
-    const content = doc.content.toLowerCase();
-    let score = 0;
-    for (const term of terms) {
-      if (title.includes(term)) score += 10;
-      let index = content.indexOf(term);
-      let count = 0;
-      while (index !== -1 && count < 20) {
-        count += 1;
-        index = content.indexOf(term, index + term.length);
-      }
-      score += count;
-    }
-    if (score === 0) continue;
-
-    const firstIndex = content.indexOf(terms[0]);
-    const start = Math.max(0, firstIndex - 90);
-    const snippet = doc.content.slice(start, start + 180).trim();
-    hits.push({ title: doc.title, path: doc.path, date: doc.date, snippet, score });
-  }
-  hits.sort((a, b) => b.score - a.score);
-  return hits.slice(0, limit);
 }
 
 const queryInput = {
@@ -192,8 +106,7 @@ const tools: WebMcpTool[] = [
     async execute(input) {
       const query = String(input.query ?? "");
       const limit = clampLimit(input.limit, 10, 50);
-      const documents = await loadSearchData();
-      const hits = searchDocuments(documents, query, limit);
+      const hits = await searchSite(query, limit);
       return textResult({ query, total: hits.length, hits });
     },
   },
@@ -203,8 +116,7 @@ const tools: WebMcpTool[] = [
       "Get the full profile of Kentaro Kuribayashi (site owner): bio, career history, research achievements, publications, and talks.",
     inputSchema: { type: "object", properties: {} },
     async execute() {
-      const documents = await loadSearchData();
-      const profile = documents.find((doc) => doc.path === "/profile");
+      const profile = await getPage("/profile");
       if (!profile) return textResult("Profile not found.");
       return textResult({ title: profile.title, content: profile.content });
     },
@@ -215,9 +127,8 @@ const tools: WebMcpTool[] = [
       "Get the full plain-text content of a page on this site by its path (as returned by search_site).",
     inputSchema: pathInput,
     async execute(input) {
-      const path = decodeURI(String(input.path ?? ""));
-      const documents = await loadSearchData();
-      const doc = documents.find((candidate) => candidate.path === path);
+      const path = String(input.path ?? "");
+      const doc = await getPage(path);
       if (!doc) return textResult(`No page found for path: ${path}`);
       return pageResult(doc);
     },
@@ -249,7 +160,7 @@ const tools: WebMcpTool[] = [
       const limit = clampLimit(input.limit, 20, 100);
       const documents = await loadSearchData();
       const posts = documents
-        .filter((doc) => sectionOf(doc) === "blog")
+        .filter((doc) => doc.path.startsWith("/blog/"))
         .filter((doc) =>
           year === undefined
             ? true
@@ -284,7 +195,7 @@ const tools: WebMcpTool[] = [
       const limit = clampLimit(input.limit, 20, 100);
       const documents = await loadSearchData();
       const entries = documents
-        .filter((doc) => sectionOf(doc) === "journal")
+        .filter((doc) => doc.path.startsWith("/journal/"))
         .filter((doc) => {
           if (year === undefined && month === undefined) return true;
           if (!doc.date) return false;
@@ -371,12 +282,7 @@ const tools: WebMcpTool[] = [
     },
     async execute(input) {
       const date = String(input.date ?? "");
-      const documents = await loadSearchData();
-      const doc = documents.find(
-        (candidate) =>
-          sectionOf(candidate) === "journal" &&
-          candidate.date?.startsWith(date),
-      );
+      const doc = await getJournalByDate(date);
       if (!doc) return textResult(`No journal entry found for ${date}.`);
       return pageResult(doc);
     },
@@ -393,27 +299,15 @@ const tools: WebMcpTool[] = [
       },
     },
     async execute(input) {
-      const now = new Date();
-      const month = input.month === undefined ? now.getMonth() + 1 : Number(input.month);
-      const day = input.day === undefined ? now.getDate() : Number(input.day);
-      const suffix =
-        `-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-      const documents = await loadSearchData();
-      const entries = documents
-        .filter(
-          (doc) =>
-            sectionOf(doc) === "journal" &&
-            doc.date !== undefined &&
-            doc.date.slice(4, 10) === suffix,
-        )
-        .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""))
-        .map((doc) => ({
-          title: doc.title,
-          path: doc.path,
-          date: doc.date,
-          excerpt: doc.content.slice(0, 200).trim(),
-        }));
-      return textResult({ month, day, total: entries.length, entries });
+      const month = input.month === undefined ? undefined : Number(input.month);
+      const day = input.day === undefined ? undefined : Number(input.day);
+      const result = await onThisDay(month, day);
+      return textResult({
+        month: result.month,
+        day: result.day,
+        total: result.entries.length,
+        entries: result.entries,
+      });
     },
   },
   {
@@ -430,17 +324,9 @@ const tools: WebMcpTool[] = [
       },
     },
     async execute(input) {
-      const section = String(input.section ?? "all");
-      const documents = await loadSearchData();
-      const pool = documents.filter((doc) => {
-        const docSection = sectionOf(doc);
-        if (section === "all") {
-          return docSection === "blog" || docSection === "journal";
-        }
-        return docSection === section;
-      });
-      if (pool.length === 0) return textResult("No pages available.");
-      const doc = pool[Math.floor(Math.random() * pool.length)];
+      const section = String(input.section ?? "all") as "all" | "blog" | "journal";
+      const doc = await randomPage(section);
+      if (!doc) return textResult("No pages available.");
       return pageResult(doc);
     },
   },
@@ -456,39 +342,7 @@ const tools: WebMcpTool[] = [
     },
     async execute(input) {
       const limit = clampLimit(input.limit, 15, 50);
-      const [documents, podcast, works] = await Promise.all([
-        loadSearchData(),
-        loadPodcastData(),
-        loadWorksData(),
-      ]);
-      const updates = [
-        ...documents
-          .filter((doc) => {
-            const section = sectionOf(doc);
-            return section === "blog" || section === "journal";
-          })
-          .map((doc) => ({
-            type: sectionOf(doc),
-            title: doc.title,
-            path: doc.path,
-            date: doc.date ?? "",
-          })),
-        ...podcast.episodes.map((episode) => ({
-          type: "podcast",
-          title: episode.title,
-          path: `/podcast/${episode.slug}`,
-          date: new Date(episode.pubDate).toISOString(),
-        })),
-        ...works.allItems.map((item) => ({
-          type: `work:${item.source}`,
-          title: item.title,
-          path: item.url,
-          date: item.date,
-        })),
-      ]
-        .filter((update) => update.date)
-        .sort((a, b) => b.date.localeCompare(a.date))
-        .slice(0, limit);
+      const updates = await recentUpdates(limit);
       return textResult({ total: updates.length, updates });
     },
   },
@@ -500,27 +354,14 @@ const tools: WebMcpTool[] = [
     async execute(input) {
       const query = String(input.query ?? "");
       const limit = clampLimit(input.limit, 10, 50);
-      const terms = query
-        .toLowerCase()
-        .split(/\s+/)
-        .filter((term) => term.length > 0);
-      const podcast = await loadPodcastData();
-      const hits = podcast.episodes
-        .map((episode) => {
-          const haystack =
-            `${episode.title} ${episode.description}`.toLowerCase();
-          const matched = terms.filter((term) => haystack.includes(term));
-          return { episode, score: matched.length };
-        })
-        .filter((hit) => hit.score > 0 && hit.score === terms.length)
-        .slice(0, limit)
-        .map(({ episode }) => ({
-          title: episode.title,
-          description: episode.description?.slice(0, 300),
-          pubDate: episode.pubDate,
-          path: `/podcast/${episode.slug}`,
-          audioUrl: episode.audioUrl,
-        }));
+      const episodes = await searchPodcast(query, limit);
+      const hits = episodes.map((episode) => ({
+        title: episode.title,
+        description: episode.description?.slice(0, 300),
+        pubDate: episode.pubDate,
+        path: `/podcast/${episode.slug}`,
+        audioUrl: episode.audioUrl,
+      }));
       return textResult({ query, total: hits.length, episodes: hits });
     },
   },
@@ -530,36 +371,7 @@ const tools: WebMcpTool[] = [
       "Get an overview of the site's content: document counts per section, date ranges, podcast episode count, and works counts per category.",
     inputSchema: { type: "object", properties: {} },
     async execute() {
-      const [documents, podcast, works] = await Promise.all([
-        loadSearchData(),
-        loadPodcastData(),
-        loadWorksData(),
-      ]);
-      const sections: Record<
-        string,
-        { count: number; first?: string; last?: string }
-      > = {};
-      for (const doc of documents) {
-        const section = sectionOf(doc);
-        const entry = (sections[section] ??= { count: 0 });
-        entry.count += 1;
-        if (doc.date) {
-          const day = doc.date.slice(0, 10);
-          if (!entry.first || day < entry.first) entry.first = day;
-          if (!entry.last || day > entry.last) entry.last = day;
-        }
-      }
-      const worksByCategory = Object.fromEntries(
-        Object.entries(works.itemsByCategory).map(([key, items]) => [
-          key,
-          items.length,
-        ]),
-      );
-      return textResult({
-        sections,
-        podcast: { title: podcast.title, episodes: podcast.episodes.length },
-        works: worksByCategory,
-      });
+      return textResult(await siteStats());
     },
   },
 ];

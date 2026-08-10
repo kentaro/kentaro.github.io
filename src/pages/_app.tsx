@@ -8,6 +8,7 @@ import { useSearchModalStore } from '@/store/useSearchModalStore';
 import { registerWebMcpTools } from '@/lib/webmcp';
 
 const SearchModal = dynamic(() => import('@/components/search/SearchModal'), { ssr: false });
+const CommandPalette = dynamic(() => import('@/components/palette/CommandPalette'), { ssr: false });
 
 function SearchModalPortal() {
   const isOpen = useSearchModalStore((s: { isOpen: boolean }) => s.isOpen);
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <GlobalPGliteProvider>
         <Component {...pageProps} />
         <SearchModalPortal />
+        <CommandPalette />
       </GlobalPGliteProvider>
     </>
   );

@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useSearchModalStore } from '@/store/useSearchModalStore';
+import { registerWebMcpTools } from '@/lib/webmcp';
 
 const SearchModal = dynamic(() => import('@/components/search/SearchModal'), { ssr: false });
 
@@ -18,6 +19,9 @@ function SearchModalPortal() {
 }
 
 export default function App({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    registerWebMcpTools();
+  }, []);
   return (
     <>
       <GlobalPGliteProvider>

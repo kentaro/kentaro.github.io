@@ -4,9 +4,9 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-08-01",
   "compatibility_flags": ["nodejs_compat"],
-  "workers_dev": true
-  // Production routing (enable after review; see DEPLOY.md):
-  // "routes": [
-  //   { "pattern": "kentarokuribayashi.com/mcp", "zone_name": "kentarokuribayashi.com" }
-  // ]
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "kentarokuribayashi.com/mcp", "zone_name": "kentarokuribayashi.com" },
+    { "pattern": "kentarokuribayashi.com/mcp/*", "zone_name": "kentarokuribayashi.com" }
+  ]
 }

@@ -78,8 +78,31 @@ async function fetchJsonCached<T>(path: string): Promise<T> {
   return value;
 }
 
-export function getSearchDocuments(): Promise<SearchDocument[]> {
-  return fetchJsonCached<SearchDocument[]>("/search-data.json");
+export interface IndexedSearchDocument extends SearchDocument {
+  titleLower: string;
+  contentLower: string;
+}
+
+// Lowercasing ~9MB of content per query is the dominant CPU cost of search,
+// so the lowered fields are computed once per fetched dataset and reused.
+let indexedDocuments: {
+  source: SearchDocument[];
+  docs: IndexedSearchDocument[];
+} | null = null;
+
+export async function getSearchDocuments(): Promise<IndexedSearchDocument[]> {
+  const raw = await fetchJsonCached<SearchDocument[]>("/search-data.json");
+  if (!indexedDocuments || indexedDocuments.source !== raw) {
+    indexedDocuments = {
+      source: raw,
+      docs: raw.map((doc) => ({
+        ...doc,
+        titleLower: doc.title.toLowerCase(),
+        contentLower: doc.content.toLowerCase(),
+      })),
+    };
+  }
+  return indexedDocuments.docs;
 }
 
 export function getPodcastData(): Promise<PodcastData> {

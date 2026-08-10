@@ -438,7 +438,8 @@ export default function CommandPalette() {
           />
           <span className="mono text-[10px] leading-relaxed text-ink-mute">
             このパネルと同じツールを MCP / WebMCP で AI エージェントにも公開中
-            {hasWebMcp ? '（このブラウザは WebMCP 有効）' : ''} — /mcp
+            {hasWebMcp ? '（このブラウザは WebMCP 有効）' : ''} —
+            site.kentarokuribayashi.com/mcp
           </span>
         </div>
       </div>

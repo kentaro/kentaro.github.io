@@ -6,6 +6,7 @@
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
   "routes": [
+    { "pattern": "site.kentarokuribayashi.com", "custom_domain": true },
     { "pattern": "kentarokuribayashi.com/mcp", "zone_name": "kentarokuribayashi.com" },
     { "pattern": "kentarokuribayashi.com/mcp/*", "zone_name": "kentarokuribayashi.com" }
   ]

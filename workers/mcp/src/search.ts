@@ -3,7 +3,7 @@
 // build time, so a simple term-frequency scoring works well for both Japanese
 // substring queries and space-separated multi-term queries.
 
-import type { SearchDocument } from "./site-data";
+import type { IndexedSearchDocument } from "./site-data";
 
 export interface SearchHit {
   title: string;
@@ -49,10 +49,10 @@ function buildSnippet(content: string, terms: string[]): string {
 }
 
 export function searchDocuments(
-  documents: SearchDocument[],
+  documents: IndexedSearchDocument[],
   query: string,
   limit: number,
-  documentUrl: (doc: SearchDocument) => string,
+  documentUrl: (doc: IndexedSearchDocument) => string,
 ): SearchHit[] {
   const terms = query
     .toLowerCase()
@@ -63,8 +63,8 @@ export function searchDocuments(
 
   const hits: SearchHit[] = [];
   for (const doc of documents) {
-    const title = doc.title.toLowerCase();
-    const content = doc.content.toLowerCase();
+    const title = doc.titleLower;
+    const content = doc.contentLower;
 
     let score = 0;
     let matchedTerms = 0;

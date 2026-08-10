@@ -89,6 +89,12 @@ export function searchDocuments(
     });
   }
 
-  hits.sort((a, b) => b.score - a.score);
+  // Newest first; relevance breaks ties within the same date. Undated
+  // documents (e.g. the profile) rank by relevance below dated ones.
+  hits.sort((a, b) => {
+    const dateOrder = (b.date ?? "").localeCompare(a.date ?? "");
+    if (dateOrder !== 0) return dateOrder;
+    return b.score - a.score;
+  });
   return hits.slice(0, limit);
 }

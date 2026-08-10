@@ -79,3 +79,32 @@ ALL WEBMCP HARNESS CHECKS PASSED
 
 あわせて `next dev` でトップページが正常描画されること（API未実装ブラウザで
 no-op になること）を確認。
+
+## 4. 本番デプロイ後の検証（2026-08-10）
+
+### リモートMCPサーバ（Cloudflare Workers）
+
+- `npx wrangler deploy` で workers.dev にデプロイ後、ゾーンルート
+  `kentarokuribayashi.com/mcp` / `kentarokuribayashi.com/mcp/*` を有効化
+- ルート伝播完了後、`https://kentarokuribayashi.com/mcp` への initialize /
+  tools/call を12連続で送信し全て 200 を確認。サイト本体（`/` 等）への影響なし
+- 実MCPクライアント（Claude Code）から本番URLに接続し、`get_profile` と
+  `search_site`（query: 奄美）の実行に成功
+
+### サイト側 WebMCP（ブラウザ実機）
+
+Chrome 151（`--enable-experimental-web-platform-features` +
+WebMCP features 有効）+ puppeteer-core で https://kentarokuribayashi.com を開き:
+
+```
+API check: {"navigatorModelContext":true,"documentModelContext":true,
+            "modelContextTesting":true,"chromeVersion":"151.0.0.0"}
+listTools(): get_page, get_profile, open_page, search_site の4ツールを確認
+executeTool("search_site", {query:"Elixir", limit:2}):
+  「『プログラミングElixir 第2版』を読んでいまこそElixirに入門しよう」等
+  2件をスコア・スニペット付きで返却
+```
+
+通常の Chrome（フラグ無効）では API が存在せず no-op となることも確認済み。
+なお手元の Chrome で試す場合は `chrome://flags/#enable-webmcp-testing` を
+Enabled にして再起動する。

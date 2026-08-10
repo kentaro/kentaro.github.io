@@ -99,7 +99,13 @@ export function sectionOf(doc: Pick<SearchDocument, "path">): string {
   return "other";
 }
 
-export async function searchSite(query: string, limit = 10): Promise<SearchHit[]> {
+export type SearchSort = "new" | "old" | "relevance";
+
+export async function searchSite(
+  query: string,
+  limit = 10,
+  sort: SearchSort = "new",
+): Promise<SearchHit[]> {
   const terms = query
     .toLowerCase()
     .split(/\s+/)
@@ -136,14 +142,23 @@ export async function searchSite(query: string, limit = 10): Promise<SearchHit[]
       section: sectionOf(doc),
     });
   }
-  // Newest first; relevance breaks ties within the same date. Undated
-  // documents (e.g. the profile) rank by relevance below dated ones.
+  sortHits(hits, sort);
+  return hits.slice(0, limit);
+}
+
+// Undated documents (e.g. the profile) always rank after dated ones in the
+// date-based orders; relevance breaks ties within the same date.
+function sortHits(hits: SearchHit[], sort: SearchSort): void {
   hits.sort((a, b) => {
-    const dateOrder = (b.date ?? "").localeCompare(a.date ?? "");
+    if (sort === "relevance") return b.score - a.score;
+    if (!a.date && !b.date) return b.score - a.score;
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    const dateOrder =
+      sort === "old" ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date);
     if (dateOrder !== 0) return dateOrder;
     return b.score - a.score;
   });
-  return hits.slice(0, limit);
 }
 
 export async function getPage(path: string): Promise<SearchDocument | undefined> {

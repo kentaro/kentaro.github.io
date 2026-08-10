@@ -83,25 +83,29 @@ function createServer() {
       description:
         "Full-text search over all site content (blog posts, journal/diary " +
         "entries, and profile). Supports Japanese substring queries and " +
-        "space-separated multi-term queries. Returns ranked hits with " +
-        "snippets.",
+        "space-separated multi-term queries. Returns hits with snippets, " +
+        "newest first by default.",
       inputSchema: z.object({
         query: z.string().min(1).describe("Search query (Japanese or English)"),
         section: z
           .enum(["all", "blog", "journal"])
           .default("all")
           .describe("Restrict the search to a site section"),
+        sort: z
+          .enum(["new", "old", "relevance"])
+          .default("new")
+          .describe("Sort order: newest first, oldest first, or by relevance"),
         limit: z.number().int().min(1).max(50).default(10),
       }),
     },
-    async ({ query, section, limit }) => {
+    async ({ query, section, sort, limit }) => {
       const documents = await getSearchDocuments();
       const scoped =
         section === "all"
           ? documents
           : documents.filter((doc) => sectionOf(doc) === section);
-      const hits = searchDocuments(scoped, query, limit, documentUrl);
-      return textResult({ query, section, total: hits.length, hits });
+      const hits = searchDocuments(scoped, query, limit, documentUrl, sort);
+      return textResult({ query, section, sort, total: hits.length, hits });
     },
   );
 

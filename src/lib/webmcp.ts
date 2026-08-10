@@ -101,13 +101,28 @@ const tools: WebMcpTool[] = [
   {
     name: "search_site",
     description:
-      "Full-text search over this site's content (blog posts, journal entries, and profile of Kentaro Kuribayashi). Returns ranked hits with path and snippet.",
-    inputSchema: queryInput,
+      "Full-text search over this site's content (blog posts, journal entries, and profile of Kentaro Kuribayashi). Returns hits with path and snippet, newest first by default.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "Search query (Japanese or English)" },
+        limit: { type: "number", description: "Maximum number of results" },
+        sort: {
+          type: "string",
+          enum: ["new", "old", "relevance"],
+          description: "Sort order: new (default), old, or relevance",
+        },
+      },
+      required: ["query"],
+    },
     async execute(input) {
       const query = String(input.query ?? "");
       const limit = clampLimit(input.limit, 10, 50);
-      const hits = await searchSite(query, limit);
-      return textResult({ query, total: hits.length, hits });
+      const sort = (["new", "old", "relevance"].includes(String(input.sort))
+        ? String(input.sort)
+        : "new") as "new" | "old" | "relevance";
+      const hits = await searchSite(query, limit, sort);
+      return textResult({ query, sort, total: hits.length, hits });
     },
   },
   {

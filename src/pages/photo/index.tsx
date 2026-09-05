@@ -21,20 +21,20 @@ function totalImages(galleries: PhotoGallery[]): number {
 export default function PhotoIndex({ galleries }: Props) {
   return (
     <Layout activeNav="photo">
-      <SEO title="写真" description="栗林健太郎の写真シリーズ。散歩と旅のスナップを編みもののように並べる。" />
+      <SEO title="写真" description="栗林健太郎の写真・イメージ作品。" />
 
       <section className="sub-hero">
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">§00 ホーム</Link>
+            <Link href="/">ホーム</Link>
             <span className="sep">/</span>
-            <span>§04 写真</span>
+            <span>写真</span>
           </div>
           <div className="sub-hero-grid">
             <div>
               <h1 className="giga">写真</h1>
               <p className="lede-en">
-                Photographic notebook — series from strolls, travels, and small rooms.
+                写真・イメージ作品のシリーズ一覧。
               </p>
             </div>
             <div className="meta-block">

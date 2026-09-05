@@ -63,9 +63,9 @@ export default function JournalIndex({ entries, years, totalCount }: Props) {
       <section className="sub-hero">
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">§00 ホーム</Link>
+            <Link href="/">ホーム</Link>
             <span className="sep">/</span>
-            <span>§03 日記</span>
+            <span>日記</span>
           </div>
 
           <div className="sub-hero-grid">
@@ -105,7 +105,7 @@ export default function JournalIndex({ entries, years, totalCount }: Props) {
           </div>
 
           <h5 style={{ marginTop: '32px' }}>By month–day</h5>
-          <p style={{ fontFamily: 'Fraunces, serif', fontStyle: 'italic', fontSize: '12px', color: 'var(--ink-mute)', lineHeight: 1.7 }}>
+          <p style={{ fontFamily: 'var(--font-sans)', fontStyle: 'normal', fontSize: '12px', color: 'var(--ink-mute)', lineHeight: 1.7 }}>
             同じ月日のエントリーを年を横断して読めます。記事ページの日付 →{' '}
             <code style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>/journal/date/MM/DD</code>
           </p>
@@ -148,7 +148,7 @@ export default function JournalIndex({ entries, years, totalCount }: Props) {
                       <div className="month-hd">
                         <span className="mn">{MONTH_EN[monthNum]}</span>
                         <span className="mj">
-                          {year}年 {monthNum}月 <span style={{ fontSize: '13px', fontStyle: 'italic', fontFamily: 'Fraunces, serif', color: 'var(--ink-mute)', marginLeft: '8px' }}>
+                          {year}年 {monthNum}月 <span style={{ fontSize: '13px', fontStyle: 'normal', fontFamily: 'var(--font-sans)', color: 'var(--ink-mute)', marginLeft: '8px' }}>
                             {MONTH_JA[monthNum]}
                           </span>
                         </span>
@@ -193,7 +193,7 @@ export default function JournalIndex({ entries, years, totalCount }: Props) {
                       })}
 
                       {monthEntries.length > 8 && (
-                        <p style={{ marginTop: '16px', fontFamily: 'Fraunces, serif', fontStyle: 'italic', textAlign: 'right' }}>
+                        <p style={{ marginTop: '16px', fontFamily: 'var(--font-sans)', fontStyle: 'normal', textAlign: 'right' }}>
                           <Link href={`/journal/${year}/${month}`} style={{ color: 'var(--accent)' }}>
                             {year}年{monthNum}月のすべて（{monthEntries.length}件）→
                           </Link>
@@ -207,7 +207,7 @@ export default function JournalIndex({ entries, years, totalCount }: Props) {
           })}
 
           <div className="page-nav">
-            <Link href="/">← §00 ホームへ戻る</Link>
+            <Link href="/">← ホームへ戻る</Link>
             <span className="mid">End of recent — older issues in the sidebar</span>
             <Link href={`/journal/${yearList[yearList.length - 1] || ''}`}>
               {yearList[yearList.length - 1]}年 アーカイブ →

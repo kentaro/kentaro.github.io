@@ -73,9 +73,9 @@ export default function EpisodePage({ episode, podcastInfo, prev, next }: Props)
       <section className="sub-hero">
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">§00 ホーム</Link>
+            <Link href="/">ホーム</Link>
             <span className="sep">/</span>
-            <Link href="/podcast">§05 ポッドキャスト</Link>
+            <Link href="/podcast">ポッドキャスト</Link>
             <span className="sep">/</span>
             <span>{episode.title}</span>
           </div>

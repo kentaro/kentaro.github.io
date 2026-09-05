@@ -54,7 +54,7 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
         <section className="sub-hero">
           <div className="wrap">
             <div className="crumb">
-              <Link href="/">§00 ホーム</Link>
+              <Link href="/">ホーム</Link>
               <span className="sep">/</span>
               <span>404</span>
             </div>
@@ -76,14 +76,14 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
         <section className="sub-hero">
           <div className="wrap">
             <div className="crumb">
-              <Link href="/">§00 ホーム</Link>
+              <Link href="/">ホーム</Link>
               <span className="sep">/</span>
-              <span>§01 プロフィール</span>
+              <span>プロフィール</span>
             </div>
             <div className="sub-hero-grid">
               <div>
                 <h1 className="giga"><span className="name-unit">栗林健太郎</span></h1>
-                <p className="lede-en">Kentaro Kuribayashi — a brief biography in editorial form.</p>
+                <p className="lede-en">栗林健太郎の経歴、研究、これまでの仕事。</p>
               </div>
               <div className="meta-block">
                 <b>{new Date().getFullYear() - 1976}</b>
@@ -156,12 +156,12 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
       <article className="wrap article-wrap">
         <div className="article-meta-bar">
           <span>
-            {isJournal ? '§03 Journal' : '§· Writing'}
+            {isJournal ? 'Journal' : 'Writing'}
             <span className="sep">·</span>
             {formatDateJP(postData.date)}
           </span>
           <span>
-            <Link href={isJournal ? '/journal' : '/'} style={{ color: 'var(--ink-mute)' }}>
+            <Link href={isJournal ? '/journal' : slugPath[0] === 'blog' ? '/blog' : '/'} style={{ color: 'var(--ink-mute)' }}>
               ← 一覧へ戻る
             </Link>
           </span>

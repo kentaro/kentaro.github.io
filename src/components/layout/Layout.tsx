@@ -12,8 +12,9 @@ interface LayoutProps {
 export default function Layout({ children, activeNav = 'home' }: LayoutProps) {
   return (
     <div className="page">
+      <a className="skip-link" href="#main-content">本文へ移動</a>
       <Header activeNav={activeNav} />
-      <main>{children}</main>
+      <main id="main-content" tabIndex={-1}>{children}</main>
       <Footer />
     </div>
   );

@@ -59,9 +59,9 @@ export default function PodcastIndex({ podcast }: Props) {
       <section className="sub-hero">
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">§00 ホーム</Link>
+            <Link href="/">ホーム</Link>
             <span className="sep">/</span>
-            <span>§05 ポッドキャスト</span>
+            <span>ポッドキャスト</span>
           </div>
         </div>
       </section>
@@ -85,7 +85,7 @@ export default function PodcastIndex({ podcast }: Props) {
             <h1 className="giga" style={{ fontSize: 'clamp(52px, 9vw, 120px)', marginBottom: '20px' }}>
               {podcast.title || 'Antipop FM'}
             </h1>
-            <p style={{ fontFamily: '"Zen Old Mincho", serif', fontSize: '17px', lineHeight: 1.9, color: 'var(--ink-soft)', maxWidth: '48ch' }}>
+            <p style={{ fontFamily: 'var(--font-sans)', fontSize: '17px', lineHeight: 1.9, color: 'var(--ink-soft)', maxWidth: '48ch' }}>
               {strip(podcast.description || '').split('。')[0]}。
             </p>
             <div className="subscribe-row">
@@ -126,7 +126,7 @@ export default function PodcastIndex({ podcast }: Props) {
         )}
 
         <div className="page-nav">
-          <Link href="/">← §00 ホームへ</Link>
+          <Link href="/">← ホームへ</Link>
           <span className="mid">Antipop FM</span>
           <a href="https://anchor.fm/s/6877a570/podcast/rss" target="_blank" rel="noopener noreferrer">
             RSS Feed →

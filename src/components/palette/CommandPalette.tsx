@@ -1,13 +1,10 @@
-// Command palette: human-facing UI over the same site tool layer that is
-// exposed to AI agents via MCP / WebMCP. Opens with Cmd+K / Ctrl+K or the
-// floating trigger button.
-
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useSearchModalStore } from '@/store/useSearchModalStore';
 import { useRouter } from 'next/router';
 import { Search } from 'lucide-react';
 import {
   getJournalByDate,
-  isWebMcpAvailable,
   loadPodcastData,
   loadSearchData,
   loadWorksData,
@@ -43,7 +40,7 @@ type QuickAction =
 
 const QUICK_ACTIONS: [QuickAction, string, string][] = [
   ['onThisDay', '歴代の今日の日記', '同じ日付の日記を全年分さかのぼる'],
-  ['random', 'ランダムに1本読む', '3,800ページからどれかへ飛ぶ'],
+  ['random', 'ランダムに1本読む', 'まだ読んでいない記録に出会う'],
   ['recent', '最近の更新', '全コンテンツを日付順に横断'],
   ['stats', 'このサイトの統計', '何がどれだけあるか'],
   ['blog', 'ブログ記事一覧', '2002年からの記事を新しい順に'],
@@ -90,7 +87,7 @@ function Highlighted({ text, query }: { text: string; query: string }) {
       {parts.map((part, index) =>
         index % 2 === 1 ? (
           // biome-ignore lint/suspicious/noArrayIndexKey: static split result
-          <mark key={index} className="rounded bg-[#F2DD6E] px-0.5 font-semibold text-ink">
+          <mark key={index} className="rounded bg-[#DCE7FF] px-0.5 font-semibold text-ink">
             {part}
           </mark>
         ) : (
@@ -110,28 +107,36 @@ function formatDate(value?: string): string {
 
 export default function CommandPalette() {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
+  const isOpen = useSearchModalStore((state) => state.isOpen);
+  const open = useSearchModalStore((state) => state.open);
+  const closeStore = useSearchModalStore((state) => state.close);
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<SearchSort>('new');
   const [view, setView] = useState<View>({ kind: 'home' });
   const [isLoading, setIsLoading] = useState(false);
-  const [hasWebMcp, setHasWebMcp] = useState(false);
+  const [error, setError] = useState('');
+  const [retry, setRetry] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const requestRef = useRef(0);
+  const lastActionRef = useRef<QuickAction | null>(null);
 
   const close = useCallback(() => {
-    setIsOpen(false);
+    requestRef.current += 1;
+    closeStore();
     setQuery('');
+    setError('');
+    setIsLoading(false);
     setView({ kind: 'home' });
-  }, []);
+  }, [closeStore]);
 
   const navigate = useCallback(
     (path: string) => {
       close();
       if (path.startsWith('http')) {
-        window.open(path, '_blank', 'noopener');
+        window.open(path, '_blank', 'noopener,noreferrer');
       } else {
-        router.push(path);
+        void router.push(path);
       }
     },
     [close, router],
@@ -141,39 +146,77 @@ export default function CommandPalette() {
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
-        setIsOpen((open) => !open);
-      } else if (event.key === 'Escape') {
-        close();
+        if (isOpen) close();
+        else open();
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [close]);
+  }, [isOpen, close, open]);
 
   useEffect(() => {
-    if (isOpen) {
-      setHasWebMcp(isWebMcpAvailable());
-      setTimeout(() => inputRef.current?.focus(), 30);
-    }
-  }, [isOpen]);
+    router.events.on('routeChangeStart', close);
+    return () => router.events.off('routeChangeStart', close);
+  }, [router.events, close]);
 
   useEffect(() => {
     if (!isOpen) return;
-    if (debounceRef.current) clearTimeout(debounceRef.current);
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    const background = document.getElementById('__next');
+    const previousInert = background?.inert ?? false;
+    document.body.style.overflow = 'hidden';
+    if (background) background.inert = true;
+    inputRef.current?.focus();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        close();
+      }
+      if (event.key !== 'Tab') return;
+      const controls = dialogRef.current?.querySelectorAll<HTMLElement>('input, button:not([disabled]), a[href]');
+      if (!controls?.length) return;
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !dialogRef.current?.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      requestRef.current += 1;
+      document.body.style.overflow = previousOverflow;
+      if (background) background.inert = previousInert;
+      document.removeEventListener('keydown', onKeyDown);
+      if (previousFocus?.isConnected && previousFocus !== document.body) previousFocus.focus();
+      else document.querySelector<HTMLButtonElement>('.bar-menu-btn')?.focus();
+    };
+  }, [isOpen, close]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const request = ++requestRef.current;
     const trimmed = query.trim();
+    setError('');
     if (trimmed === '') {
+      setIsLoading(false);
       setView((current) => (current.kind === 'search' ? { kind: 'home' } : current));
       return;
     }
-    debounceRef.current = setTimeout(async () => {
-      setIsLoading(true);
+    lastActionRef.current = null;
+    setIsLoading(true);
+    const timer = setTimeout(async () => {
       try {
         const hits = await searchSite(trimmed, 12, sort);
         const dateMatch = trimmed.match(DATE_QUERY);
         if (dateMatch) {
           const isoDate = `${dateMatch[1]}-${dateMatch[2].padStart(2, '0')}-${dateMatch[3].padStart(2, '0')}`;
           const journal = await getJournalByDate(isoDate);
-          if (journal) {
+          if (journal && !hits.some((hit) => hit.path === journal.path)) {
             hits.unshift({
               title: `${journal.title} の日記を開く`,
               path: journal.path,
@@ -184,26 +227,38 @@ export default function CommandPalette() {
             });
           }
         }
-        setView({ kind: 'search', hits, query: trimmed });
+        if (request === requestRef.current) setView({ kind: 'search', hits, query: trimmed });
+      } catch {
+        if (request === requestRef.current) setError('検索データを読み込めませんでした。接続を確認して、もう一度お試しください。');
       } finally {
-        setIsLoading(false);
+        if (request === requestRef.current) setIsLoading(false);
       }
     }, 180);
-  }, [query, isOpen, sort]);
+    return () => { clearTimeout(timer); requestRef.current += 1; };
+  }, [query, isOpen, sort, retry]);
 
   const runAction = useCallback(
     async (action: QuickAction) => {
+      const request = ++requestRef.current;
+      lastActionRef.current = action;
+      setError('');
       setIsLoading(true);
+      const show = (nextView: View) => {
+        if (request === requestRef.current) setView(nextView);
+      };
       try {
         if (action === 'onThisDay') {
           const result = await onThisDay();
-          setView({ kind: 'onThisDay', ...result });
+          show({ kind: 'onThisDay', ...result });
         } else if (action === 'random') {
           const doc = await randomPage('all');
-          if (doc) navigate(doc.path);
+          if (request === requestRef.current) {
+            if (doc) navigate(doc.path);
+            else setError('表示できるページが見つかりませんでした。');
+          }
         } else if (action === 'recent') {
           const updates = await recentUpdates(15);
-          setView({ kind: 'list', title: '最近の更新', items: updates });
+          show({ kind: 'list', title: '最近の更新', items: updates });
         } else if (action === 'blog' || action === 'journal') {
           const documents = await loadSearchData();
           const items = documents
@@ -216,7 +271,7 @@ export default function CommandPalette() {
               path: doc.path,
               date: doc.date ?? '',
             }));
-          setView({
+          show({
             kind: 'list',
             title: action === 'blog' ? 'ブログ記事（最新30件）' : '日記（最新30件）',
             items,
@@ -229,7 +284,7 @@ export default function CommandPalette() {
             path: `/podcast/${episode.slug}`,
             date: new Date(episode.pubDate).toISOString(),
           }));
-          setView({ kind: 'list', title: `${podcast.title} — 全${items.length}話`, items });
+          show({ kind: 'list', title: `${podcast.title} — 全${items.length}話`, items });
         } else if (action === 'works') {
           const works = await loadWorksData();
           const items = works.allItems.slice(0, 30).map((item) => ({
@@ -238,78 +293,77 @@ export default function CommandPalette() {
             path: item.url,
             date: item.date,
           }));
-          setView({ kind: 'list', title: '制作物（最新30件）', items });
+          show({ kind: 'list', title: '制作物（最新30件）', items });
         } else {
           const stats = await siteStats();
-          setView({ kind: 'stats', stats });
+          show({ kind: 'stats', stats });
         }
+      } catch {
+        if (request === requestRef.current) setError('データを読み込めませんでした。接続を確認して、もう一度お試しください。');
       } finally {
-        setIsLoading(false);
+        if (request === requestRef.current) setIsLoading(false);
       }
     },
     [navigate],
   );
+  if (!isOpen) return null;
 
-  if (!isOpen) {
-    return (
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        aria-label="サイト内ツールを開く"
-        className="fixed bottom-6 right-6 z-[90] flex items-center gap-2.5 rounded-full bg-accent px-5 py-3 text-base text-accent-ink shadow-[0_14px_40px_-10px_rgba(180,59,46,0.7)] transition hover:scale-105"
-      >
-        <Search size={18} strokeWidth={2.5} />
-        <span className="mincho font-bold">検索</span>
-        <kbd className="mono hidden text-[11px] opacity-70 sm:inline">⌘K</kbd>
-      </button>
-    );
-  }
-
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center bg-[rgba(26,23,20,0.45)] p-4 pt-[12vh] backdrop-blur-[2px]"
+      className="fixed inset-0 z-[100] flex items-start justify-center bg-[rgba(23,35,52,0.45)] p-4 pt-[8vh] backdrop-blur-[2px]"
       onClick={close}
       onKeyDown={() => {}}
       role="presentation"
     >
       <div
-        className="flex max-h-[72vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-[var(--hairline)] bg-paper shadow-[0_40px_120px_-30px_rgba(0,0,0,0.5)]"
+        ref={dialogRef}
+        className="flex max-h-[84dvh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-[var(--hairline)] bg-[#f2f3f0] text-[#20231e] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.5)]"
         onClick={(event) => event.stopPropagation()}
         onKeyDown={() => {}}
         role="dialog"
         aria-modal="true"
-        aria-label="サイト内ツール"
+        aria-label="サイト内検索"
       >
         <div className="flex items-center gap-3 border-b border-[var(--hairline)] px-5 py-4">
-          <span className="mono text-xs text-accent">&gt;</span>
+          <Search size={20} className="shrink-0 text-[#315c40]" aria-hidden="true" />
           <input
             ref={inputRef}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="検索 — ブログ・日記・プロフィールを横断"
-            className="w-full bg-transparent text-base text-ink outline-none placeholder:text-ink-mute"
+            type="search"
+            aria-label="検索キーワード"
+            placeholder="キーワードや日付で検索"
+            className="min-w-0 w-full rounded bg-transparent px-1 py-2 text-base text-ink placeholder:text-ink-mute focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#315c40]"
           />
-          {isLoading && <span className="mono animate-pulse text-xs text-ink-mute">…</span>}
+          {isLoading && <span role="status" className="shrink-0 text-xs text-ink-mute">検索中</span>}
           <button
             type="button"
             onClick={close}
-            className="mono text-xs text-ink-mute transition hover:text-ink"
+            aria-label="検索を閉じる"
+            className="min-h-11 shrink-0 px-2 text-sm text-ink-mute transition hover:text-ink"
           >
-            esc
+            閉じる
           </button>
         </div>
 
-        <div className="overflow-y-auto px-2 py-2">
-          {view.kind === 'home' && (
+        <div className="overflow-y-auto px-2 py-2" aria-busy={isLoading}>
+          {error && (
+            <div role="alert" className="m-3 rounded-lg border border-[#E2B5B5] bg-[#FFF2F2] p-4 text-sm text-[#7B2525]">
+              <p>{error}</p>
+              <button type="button" className="mt-3 min-h-11 font-bold underline" onClick={() => { if (lastActionRef.current) void runAction(lastActionRef.current); else setRetry((value) => value + 1); }}>もう一度読み込む</button>
+            </div>
+          )}
+          {view.kind === 'home' && !query.trim() && (
             <div className="grid grid-cols-1 gap-0.5 p-1 sm:grid-cols-2">
               {QUICK_ACTIONS.map(([action, title, desc]) => (
                 <button
                   key={action}
                   type="button"
-                  onClick={() => runAction(action)}
+                  onClick={() => { void runAction(action); }}
+                  disabled={isLoading}
                   className="group rounded-lg px-4 py-2.5 text-left transition hover:bg-paper-2"
                 >
-                  <div className="mincho font-bold text-ink group-hover:text-accent">
+                  <div className="font-bold text-ink group-hover:text-accent">
                     {title}
                   </div>
                   <div className="mt-0.5 text-xs text-ink-mute">{desc}</div>
@@ -321,13 +375,14 @@ export default function CommandPalette() {
           {view.kind === 'search' && (
             <ul>
               <li className="flex items-center gap-1 px-4 pb-1 pt-2">
-                <span className="mono mr-1 text-[10px] text-ink-mute">並び順:</span>
+                <span className="mr-1 text-[10px] text-ink-mute">並び順:</span>
                 {SORT_OPTIONS.map((option) => (
                   <button
                     key={option.value}
                     type="button"
                     onClick={() => setSort(option.value)}
-                    className={`rounded-full px-2.5 py-0.5 text-[11px] transition ${
+                    aria-pressed={sort === option.value}
+                    className={`min-h-11 rounded-full px-2.5 py-1 text-xs transition ${
                       sort === option.value
                         ? 'bg-ink text-paper'
                         : 'text-ink-mute hover:text-ink'
@@ -350,13 +405,13 @@ export default function CommandPalette() {
                     className="w-full rounded-lg px-4 py-3 text-left transition hover:bg-paper-2"
                   >
                     <div className="flex items-baseline gap-2">
-                      <span className="mono shrink-0 text-[10px] uppercase tracking-wide text-accent">
+                      <span className="shrink-0 text-[10px] uppercase tracking-wide text-accent">
                         {SECTION_LABELS[hit.section] ?? hit.section}
                       </span>
                       <span className="truncate font-bold text-ink">
                         <Highlighted text={hit.title} query={view.query} />
                       </span>
-                      <span className="mono ml-auto shrink-0 text-[10px] text-ink-mute">
+                      <span className="ml-auto shrink-0 text-[10px] text-ink-mute">
                         {formatDate(hit.date)}
                       </span>
                     </div>
@@ -371,7 +426,7 @@ export default function CommandPalette() {
 
           {view.kind === 'onThisDay' && (
             <div className="p-2">
-              <div className="mincho px-2 pb-2 text-sm font-bold text-ink">
+              <div className="px-2 pb-2 text-sm font-bold text-ink">
                 歴代の{view.month}月{view.day}日 — {view.entries.length}年分
               </div>
               <ul>
@@ -383,7 +438,7 @@ export default function CommandPalette() {
                       className="w-full rounded-lg px-4 py-3 text-left transition hover:bg-paper-2"
                     >
                       <div className="flex items-baseline gap-2">
-                        <span className="mono text-xs font-bold text-accent">
+                        <span className="text-xs font-bold text-accent">
                           {entry.date?.slice(0, 4)}
                         </span>
                         <span className="line-clamp-1 text-xs leading-relaxed text-ink-mute">
@@ -399,7 +454,7 @@ export default function CommandPalette() {
 
           {view.kind === 'list' && (
             <div className="p-2">
-              <div className="mincho px-2 pb-2 text-sm font-bold text-ink">{view.title}</div>
+              <div className="px-2 pb-2 text-sm font-bold text-ink">{view.title}</div>
               <ul>
                 {view.items.map((item) => (
                   <li key={`${item.type}-${item.path}`}>
@@ -409,11 +464,11 @@ export default function CommandPalette() {
                       className="w-full rounded-lg px-4 py-2.5 text-left transition hover:bg-paper-2"
                     >
                       <div className="flex items-baseline gap-2">
-                        <span className="mono shrink-0 text-[10px] uppercase tracking-wide text-accent">
+                        <span className="shrink-0 text-[10px] uppercase tracking-wide text-accent">
                           {typeLabel(item.type)}
                         </span>
                         <span className="truncate font-bold text-ink">{item.title}</span>
-                        <span className="mono ml-auto shrink-0 text-[10px] text-ink-mute">
+                        <span className="ml-auto shrink-0 text-[10px] text-ink-mute">
                           {formatDate(item.date)}
                         </span>
                       </div>
@@ -441,7 +496,7 @@ export default function CommandPalette() {
                   className="rounded-lg border border-[var(--hairline)] px-4 py-3"
                 >
                   <div className="text-xs text-ink-mute">{label}</div>
-                  <div className="mincho mt-1 text-xl font-bold text-ink">{value}</div>
+                  <div className="mt-1 text-xl font-bold text-ink">{value}</div>
                   <div className="mt-0.5 truncate text-[10px] text-ink-mute">{note}</div>
                 </div>
               ))}
@@ -453,26 +508,23 @@ export default function CommandPalette() {
           <button
             type="button"
             onClick={() => {
+              requestRef.current += 1;
+              setError('');
+              setIsLoading(false);
               setQuery('');
               setView({ kind: 'home' });
             }}
-            className="mono border-t border-[var(--hairline)] px-5 py-2 text-left text-[11px] text-ink-mute transition hover:text-ink"
+            className="border-t border-[var(--hairline)] px-5 py-2 text-left text-[11px] text-ink-mute transition hover:text-ink"
           >
             ← もどる
           </button>
         )}
 
-        <div className="flex items-center gap-2 border-t border-[var(--hairline)] bg-paper-2 px-5 py-2.5">
-          <span
-            className={`inline-block h-1.5 w-1.5 rounded-full ${hasWebMcp ? 'bg-emerald-600' : 'bg-ink-mute opacity-40'}`}
-          />
-          <span className="mono text-[10px] leading-relaxed text-ink-mute">
-            このパネルと同じツールを MCP / WebMCP で AI エージェントにも公開中
-            {hasWebMcp ? '（このブラウザは WebMCP 有効）' : ''} —
-            site.kentarokuribayashi.com/mcp
-          </span>
+        <div className="border-t border-[var(--hairline)] bg-[#EEF2F8] px-5 py-3 text-xs text-ink-mute">
+          日付でも検索できます。例：2025-01-01
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

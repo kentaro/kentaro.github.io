@@ -70,15 +70,15 @@ export default function WorksPage({ feedData }: Props) {
       <section className="sub-hero">
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">§00 ホーム</Link>
+            <Link href="/">ホーム</Link>
             <span className="sep">/</span>
-            <span>§02 制作物</span>
+            <span>制作物</span>
           </div>
           <div className="sub-hero-grid">
             <div>
               <h1 className="giga">制作物</h1>
               <p className="lede-en">
-                An editor&apos;s ledger of notes, essays, slides, audio, and video — across the web.
+                noteの記事、技術ブログ、スライド、音楽、動画の一覧。
               </p>
             </div>
             <div className="meta-block">
@@ -94,6 +94,7 @@ export default function WorksPage({ feedData }: Props) {
           <button
             type="button"
             className={tab === 'all' ? 'on' : ''}
+            aria-pressed={tab === 'all'}
             onClick={() => setTab('all')}
           >
             すべて
@@ -104,6 +105,7 @@ export default function WorksPage({ feedData }: Props) {
               key={s.type}
               type="button"
               className={tab === s.type ? 'on' : ''}
+              aria-pressed={tab === s.type}
               onClick={() => setTab(s.type)}
             >
               {s.name}
@@ -151,7 +153,7 @@ export default function WorksPage({ feedData }: Props) {
         )}
 
         <div className="page-nav">
-          <Link href="/">← §00 ホーム</Link>
+          <Link href="/">← ホーム</Link>
           <span className="mid">{feedData.lastUpdated && `updated: ${formatDate(feedData.lastUpdated)}`}</span>
           <a href="/works/feed.xml">RSS Feed →</a>
         </div>

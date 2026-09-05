@@ -78,10 +78,12 @@ function loadJson<T>(path: string): Promise<T> {
   if (!promise) {
     promise = fetch(path).then((response) => {
       if (!response.ok) {
-        dataPromises.delete(path);
         throw new Error(`Failed to load ${path}: ${response.status}`);
       }
       return response.json() as Promise<T>;
+    }).catch((error: unknown) => {
+      dataPromises.delete(path);
+      throw error;
     });
     dataPromises.set(path, promise);
   }

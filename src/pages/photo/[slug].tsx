@@ -38,9 +38,9 @@ export default function PhotoPage({ gallery, prev, next }: Props) {
       <section className="sub-hero">
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">§00 ホーム</Link>
+            <Link href="/">ホーム</Link>
             <span className="sep">/</span>
-            <Link href="/photo">§04 写真</Link>
+            <Link href="/photo">写真</Link>
             <span className="sep">/</span>
             <span>{gallery.title}</span>
           </div>

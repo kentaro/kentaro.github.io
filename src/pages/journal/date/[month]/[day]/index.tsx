@@ -34,9 +34,9 @@ export default function JournalDayPage({ entries, month, day, monthName, prevDay
       <section className="sub-hero">
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">§00 ホーム</Link>
+            <Link href="/">ホーム</Link>
             <span className="sep">/</span>
-            <Link href="/journal">§03 日記</Link>
+            <Link href="/journal">日記</Link>
             <span className="sep">/</span>
             <span>{month}/{day}</span>
           </div>

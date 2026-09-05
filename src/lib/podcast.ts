@@ -1,5 +1,6 @@
 import axios from 'axios';
 import xml2js from 'xml2js';
+import savedPodcast from '../../public/data/podcast.json';
 
 /**
  * タイトルからスラッグを生成（エピソード番号のみ）
@@ -41,9 +42,14 @@ export interface PodcastInfo {
  * ポッドキャストのRSSフィードを取得して解析
  */
 export async function fetchPodcastFeed(rssUrl: string): Promise<PodcastInfo> {
+  // The build script refreshes this snapshot before page generation.
+  if (rssUrl === 'https://anchor.fm/s/6877a570/podcast/rss' && savedPodcast.episodes.length) {
+    return savedPodcast as PodcastInfo;
+  }
   try {
     // RSSフィードを取得
     const response = await axios.get(rssUrl, {
+      timeout: 10000,
       headers: {
         'User-Agent': 'curl/7.64.1'
       }

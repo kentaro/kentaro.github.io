@@ -45,9 +45,9 @@ export default function MonthPage({ year, month, monthName, entries, monthsOfYea
       <section className="sub-hero">
         <div className="wrap">
           <div className="crumb">
-            <Link href="/">§00 ホーム</Link>
+            <Link href="/">ホーム</Link>
             <span className="sep">/</span>
-            <Link href="/journal">§03 日記</Link>
+            <Link href="/journal">日記</Link>
             <span className="sep">/</span>
             <Link href={`/journal/${year}`}>{year}</Link>
             <span className="sep">/</span>
@@ -76,7 +76,7 @@ export default function MonthPage({ year, month, monthName, entries, monthsOfYea
               <li key={m} className={m === month ? 'active' : ''}>
                 <Link href={`/journal/${year}/${m}`}>
                   {Number(m)}月{' '}
-                  <em style={{ fontStyle: 'italic', color: 'var(--ink-mute)', fontSize: '12px', marginLeft: '6px' }}>
+                  <em style={{ fontStyle: 'normal', color: 'var(--ink-mute)', fontSize: '12px', marginLeft: '6px' }}>
                     {MONTH_EN[Number(m)]}
                   </em>
                 </Link>
@@ -90,7 +90,7 @@ export default function MonthPage({ year, month, monthName, entries, monthsOfYea
             全{entries.length}件の{monthName}記。他の月は左のリストから。
           </div>
 
-          <p style={{ marginTop: '24px', fontFamily: 'Fraunces, serif', fontStyle: 'italic', fontSize: '13px' }}>
+          <p style={{ marginTop: '24px', fontFamily: 'var(--font-sans)', fontStyle: 'normal', fontSize: '13px' }}>
             <Link href={`/journal/${year}`} style={{ color: 'var(--accent)' }}>
               ← {year}年の全体へ
             </Link>

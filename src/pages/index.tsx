@@ -128,9 +128,6 @@ export default function Home({
 			/>
             <div className="editorial">
             <section className="magazine-front" aria-label="エッセイ連載のお知らせ">
-                <header className="magazine-mast wrap">
-                    <div className="magazine-dateline"><span>KENTARO KURIBAYASHI</span><span>WORDS / CODE / IMAGES / SOUND</span></div>
-                </header>
                 <div className="cover-caption wrap">
                     <div className="essay-feature">
                         <p className="essay-kicker">エッセイ集、連載中</p>
@@ -138,7 +135,6 @@ export default function Home({
                         <p className="essay-lede">AIが世界を変えるあいだ、私たちは何を食べ、誰を育て、何を忘れ、どう働いていたのか。</p>
                         <a href="https://note.com/kentarok/m/m6938ee37aa8e" className="quiet-link">noteで読む<Arrow diagonal /></a>
                     </div>
-                    <a href="#writing" className="cover-down">日記を読む<span aria-hidden="true">↓</span></a>
                 </div>
             </section>
             <section className="profile-summary wrap" aria-labelledby="profile-heading">

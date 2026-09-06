@@ -127,13 +127,17 @@ export default function Home({
 				description="栗林健太郎（あんちぽ）のホームページ。日記、ブログ、制作物、写真、ポッドキャストを掲載しています。"
 			/>
             <div className="editorial">
-            <section className="magazine-front" aria-label="表紙">
+            <section className="magazine-front" aria-label="エッセイ連載のお知らせ">
                 <header className="magazine-mast wrap">
                     <div className="magazine-dateline"><span>KENTARO KURIBAYASHI</span><span>WORDS / CODE / IMAGES / SOUND</span></div>
-                    <div className="magazine-name" aria-hidden="true">antipop</div>
                 </header>
                 <div className="cover-caption wrap">
-                    <div><h1>栗林健太郎</h1><p>エンジニア、研究者。</p><Link href="/profile" className="quiet-link">プロフィール<Arrow diagonal /></Link></div>
+                    <div className="essay-feature">
+                        <p className="essay-kicker">エッセイ集、連載中</p>
+                        <h1><span>あの頃みんな</span><span>AIの話ばかりしてたね</span></h1>
+                        <p className="essay-lede">AIが世界を変えるあいだ、私たちは何を食べ、誰を育て、何を忘れ、どう働いていたのか。</p>
+                        <a href="https://note.com/kentarok/m/m6938ee37aa8e" className="quiet-link">noteで読む<Arrow diagonal /></a>
+                    </div>
                     <a href="#writing" className="cover-down">日記を読む<span aria-hidden="true">↓</span></a>
                 </div>
             </section>

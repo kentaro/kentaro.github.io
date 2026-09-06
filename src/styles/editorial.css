@@ -1,11 +1,10 @@
 /* Home: an image-led editorial grid with a continuous rectangular silhouette. */
 .editorial { --accent:#bc2823; --ink:#171717; --ink-soft:#444444; --ink-mute:#666666; --rule:#d6d6d6; background:#ffffff; color:var(--ink); }
 .editorial .wrap { max-width:1600px; padding-left:40px; padding-right:40px; }
-/* Generated cover artwork is decorative; it is never a photo-gallery link. */
-.magazine-front { position:relative; isolation:isolate; min-height:760px; height:calc(100svh - 88px); max-height:1100px; display:flex; flex-direction:column; justify-content:space-between; color:#fff; background:#050d22 url('/images/editorial/cover-silk-and-chrome.png') center 46% / cover no-repeat; }
-.magazine-front::before { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg,rgba(0,0,0,.22),transparent 42%,rgba(0,0,0,.65)); }
+/* Artwork for the featured essay series. */
+.magazine-front { position:relative; isolation:isolate; min-height:760px; height:calc(100svh - 88px); max-height:1100px; display:flex; flex-direction:column; justify-content:space-between; color:#fff; background:#050d22 url('/images/editorial/essay-cover.png') center 22% / cover no-repeat; }
+.magazine-front::before { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.06) 34%,rgba(0,0,0,.8)); }
 .magazine-dateline { display:flex; justify-content:space-between; gap:24px; font-size:10px; letter-spacing:.1em; padding-top:25px; }
-.magazine-name { font-family:Didot,"Bodoni MT","Times New Roman",serif; font-size:clamp(100px,23vw,345px); letter-spacing:-.085em; line-height:1.04; font-weight:400; text-align:center; padding-bottom:30px; }
 .cover-caption { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; padding-bottom:44px; }
 .cover-caption h1 { font-family:"Hiragino Mincho ProN","Yu Mincho",serif; font-size:clamp(32px,4vw,56px); font-weight:500; margin:0 0 14px; }
 .cover-caption p { font-size:13px; margin:0 0 12px; }
@@ -61,7 +60,6 @@
 .editorial .wrap { padding-left:18px; padding-right:18px; }
 .magazine-dateline { font-size:8px; gap:12px; padding-top:20px; }
 .magazine-dateline > span:last-child { max-width:135px; text-align:right; }
-.magazine-name { font-size:25vw; text-align:left; padding-top:12px; padding-bottom:18px; }
 .editorial .section-heading { grid-template-columns:1fr auto; }
 .editorial .section-heading .section-caption { grid-column:1; grid-row:1; }
 .editorial .section-heading > .quiet-link { grid-column:2; grid-row:1; }
@@ -91,8 +89,7 @@
 }
 
 @media (max-width:700px) {
-.magazine-front { min-height:650px; height:calc(100svh - 68px); max-height:900px; background-position:center; }
-.magazine-front .magazine-name { font-size:25vw; padding-top:12px; text-align:center; }
+.magazine-front { min-height:650px; height:calc(100svh - 68px); max-height:900px; background-image:url('/images/editorial/essay-cover-square.png'); background-position:center 30%; }
 .cover-caption { padding-bottom:28px; }
 .cover-caption h1 { font-size:32px; }
 .cover-down { flex-direction:column; gap:8px; font-size:10px; }
@@ -111,4 +108,16 @@
 .profile-heading h2 { margin-bottom:12px; }
 .profile-text p { font-size:13px; }
 .profile-details { grid-template-columns:1fr; gap:20px; }
+}
+
+.essay-feature { max-width:900px; }
+.essay-feature .essay-kicker { font-size:clamp(16px,1.5vw,22px); letter-spacing:.18em; margin:0 0 22px; }
+.essay-feature h1 { font-size:clamp(36px,5.2vw,74px); line-height:1.3; letter-spacing:.02em; margin:0 0 18px; text-shadow:0 2px 24px rgba(0,0,0,.45); }
+/* Keep each clause whole so the title never breaks mid-phrase; each clause carries its own brushed underline. */
+.essay-feature h1 span { display:inline-block; padding:0 .08em .12em; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 24' preserveAspectRatio='none'%3E%3Cpath d='M2 9 C40 3 92 13 150 8 C212 3 282 12 398 6 L399 14 C300 20 222 12 152 17 C96 21 44 11 3 17 Z' fill='%23eadfb4' opacity='.9'/%3E%3Cpath d='M14 19 C120 15 230 22 380 17 L381 21 C240 25 120 19 15 22 Z' fill='%23eadfb4' opacity='.45'/%3E%3C/svg%3E") no-repeat left bottom / 100% .34em; }
+.essay-feature .essay-lede { font-size:14px; line-height:1.9; max-width:36em; margin:0 0 20px; }
+@media (max-width:700px) {
+.essay-feature .essay-kicker { font-size:14px; letter-spacing:.14em; margin-bottom:14px; }
+.essay-feature h1 { font-size:30px; line-height:1.4; margin-bottom:12px; }
+.essay-feature .essay-lede { font-size:12px; line-height:1.85; margin-bottom:16px; }
 }

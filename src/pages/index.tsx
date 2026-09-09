@@ -226,62 +226,6 @@ export default function Home({
 						))}
 					</div>
 				</section>
-				<section
-					className="ed-criticism ed-wrap"
-					aria-labelledby="criticism-title"
-				>
-					<div>
-						<span className="ed-label">READING NOTES</span>
-						<h2 id="criticism-title">最近の読書</h2>
-						<p>
-							読んだ本と、そこから考えたこと。
-							<br />
-							日記から紹介します。
-						</p>
-						<Link href="/journal" className="ed-link">
-							日記を読む
-							<Arrow />
-						</Link>
-					</div>
-					<div className="ed-archive-list">
-						<Link href="/journal/2026/08/2026年8月9日">
-							<span>
-								<time dateTime="2026-08-09">2026.08.09</time> の日記より
-							</span>
-							<h3>
-								『機械ぎらい』とセルフレジ
-								<Arrow diagonal />
-							</h3>
-							<p>
-								速水健朗『機械ぎらい』を読み、セルフレジの処理フローとメンタルモデルについて考える。
-							</p>
-						</Link>
-						<Link href="/journal/2026/07/2026年7月14日">
-							<span>
-								<time dateTime="2026-07-14">2026.07.14</time> の日記より
-							</span>
-							<h3>
-								『こちらあみ子』を読み直す
-								<Arrow diagonal />
-							</h3>
-							<p>
-								今村夏子の小説を再読し、以前は救いのない話と読んだ物語に、希望の読み筋を見つける。
-							</p>
-						</Link>
-						<Link href="/journal/2026/06/2026年6月23日">
-							<span>
-								<time dateTime="2026-06-23">2026.06.23</time> の日記より
-							</span>
-							<h3>
-								『古文と漢文』から丸山眞男へ
-								<Arrow diagonal />
-							</h3>
-							<p>
-								書き言葉の歴史を手がかりに、丸山眞男の「つぎつぎになりゆくいきほひ」を捉え直す。
-							</p>
-						</Link>
-					</div>
-				</section>
 				<section className="ed-diary" id="writing">
 					<div className="ed-diary-art">
 						<img

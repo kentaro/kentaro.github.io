@@ -1,11 +1,11 @@
 # Homepage editorial design
 
-文芸、現代思想、アート、音楽、技術にまたがる執筆・制作を紹介する個人サイト。エッセイ集から書評、日記、制作物、写真、音声へ進める。
+文芸、現代思想、アート、音楽、技術にまたがる執筆・制作を紹介する個人サイト。エッセイ集から日記、制作物、写真、音声へ進める。
 
 - 白と黒、青のリンク。明朝見出しとサンセリフ本文。
 - ヒーロー全面画像と透明メニュー。下部では白背景の固定メニュー。
 - 画像は装飾用の生成写真であり、本人の撮影・所有物・実在の店とは表示しない。
-- エッセイと制作物は既存フィード、読書欄は2026年の公開日記本文、日記・音声は既存データから掲載。
+- エッセイと制作物は既存フィード、日記・音声は既存データから掲載。
 - 2列のエッセイ、左右の写真と記事、長方形の写真グリッド。700px以下は縦に並べる。
 - メニュー、切替ボタン、リンクはキーボード操作可。フォーカス表示と動きを抑える設定に対応。
 
@@ -39,4 +39,4 @@ Use case: photorealistic-natural. Asset type: landscape 3:2 editorial photo for 
 
 ## Validation
 
-TypeScript and lint passed (existing img-element warnings). Desktop 1440px and mobile 390px/320px checked in browser. Hero starts at viewport top; transparent header has no visible border and becomes white below hero. Mobile menu and journal/blog switch tested. Three selected 2026 journal URLs returned HTTP 200. Journal/blog panels share the height of the taller panel, keeping the image crop and following section position unchanged. Production compilation also passed. Full archive export was not completed during the interactive design edits. The final text edit was checked again with TypeScript.
+TypeScript and lint passed (existing img-element warnings). Desktop 1440px and mobile 390px/320px checked in browser. Hero starts at viewport top; transparent header has no visible border and becomes white below hero. Mobile menu and journal/blog switch tested. Journal/blog panels share the height of the taller panel, keeping the image crop and following section position unchanged. Production compilation also passed. Full archive export was not completed during the interactive design edits. The final text edit was checked again with TypeScript.

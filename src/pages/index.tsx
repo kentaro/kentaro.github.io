@@ -71,27 +71,19 @@ function stripTags(s: string): string {
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
 	return <span aria-hidden="true">{diagonal ? "↗" : "→"}</span>;
 }
-function SectionHeading({
-	number,
+function Heading({
 	label,
 	title,
 	href,
 	link,
-}: {
-	number: string;
-	label: string;
-	title: string;
-	href: string;
-	link: string;
-}) {
+}: { label: string; title: string; href: string; link: string }) {
 	return (
-		<div className="section-heading">
-			<div className="section-caption">
-				<span>{number}</span>
-				<span>{label}</span>
+		<div className="ed-heading">
+			<div>
+				<span className="ed-label">{label}</span>
+				<h2>{title}</h2>
 			</div>
-			<h2>{title}</h2>
-			<Link href={href} className="quiet-link">
+			<Link href={href} className="ed-link">
 				{link}
 				<Arrow />
 			</Link>
@@ -110,6 +102,18 @@ export default function Home({
 }: Props) {
 	const [writing, setWriting] = useState<"journal" | "blog">("journal");
 	const entries = writing === "journal" ? journals : blogs;
+	const essays = works
+		.filter((w) => w.source === "note" || w.sourceName === "note")
+		.slice(0, 4);
+	const creations = works
+		.filter((w) => w.sourceName !== "note")
+		.filter(
+			(w, i, all) =>
+				all.findIndex(
+					(other) => other.title.normalize("NFC") === w.title.normalize("NFC"),
+				) === i,
+		)
+		.slice(0, 3);
 	const frames = photos
 		.flatMap((p) =>
 			p.images.map((src, i) => ({
@@ -119,195 +123,337 @@ export default function Home({
 				number: i + 1,
 			})),
 		)
-		.slice(0, 6);
+		.slice(1, 5);
 	return (
 		<Layout activeNav="home">
 			<SEO
 				title="栗林健太郎のホームページ"
-				description="栗林健太郎（あんちぽ）のホームページ。日記、ブログ、制作物、写真、ポッドキャストを掲載しています。"
+				description="栗林健太郎のエッセイ、日記、制作物、写真、ポッドキャスト。エッセイ集『あの頃みんなAIの話ばかりしてたね』を連載中。"
 			/>
-            <div className="editorial">
-            <section className="magazine-front" aria-label="エッセイ連載のお知らせ">
-                <div className="cover-caption wrap">
-                    <div className="essay-feature">
-                        <p className="essay-kicker">エッセイ集、連載中</p>
-                        <h1><span>あの頃みんな</span><span>AIの話ばかりしてたね</span></h1>
-                        <p className="essay-lede">AIが世界を変えるあいだ、私たちは何を食べ、誰を育て、何を忘れ、どう働いていたのか。</p>
-                        <a href="https://note.com/kentarok/m/m6938ee37aa8e" className="quiet-link">noteで読む<Arrow diagonal /></a>
-                    </div>
-                </div>
-            </section>
-            <section className="profile-summary wrap" aria-labelledby="profile-heading">
-                <div className="profile-heading">
-                    <span className="section-caption">PROFILE</span>
-                    <h2 id="profile-heading">栗林健太郎<span>あんちぽ / Kentaro Kuribayashi</span></h2>
-                    <Link href="/profile" className="quiet-link">経歴・研究実績・登壇など<Arrow diagonal /></Link>
-                </div>
-                <div className="profile-text">
-                    <p>1976年生まれ、奄美大島育ち。東京都立大学で政治学を学び、卒業後は奄美市役所に勤務。PHPでブログを自作したのをきっかけに、プログラミングにのめり込む。2008年にはてな、2012年に現在のGMOペパボへ入社。</p>
-                    <p>GMOペパボの取締役CTOとして、技術基盤やエンジニア組織のマネジメントに携わる。ペパボ研究所長、日本CTO協会理事、人間中心のAIコンソーシアム理事も務める。</p>
-                    <dl className="profile-details">
-                        <div><dt>研究</dt><dd>IoTシステムの開発を簡単にするための基盤技術。ElixirやErlang/OTPの応用を研究し、2025年に北陸先端科学技術大学院大学で博士（情報科学）を取得。</dd></div>
-                        <div><dt>関心</dt><dd>読書、アート、うつわ、歌舞伎、落語、語学、ソーシャルVR、アマチュア無線。歴史・思想から情報科学まで、本を年間約200冊読む。</dd></div>
-                    </dl>
-                </div>
-            </section>
-			<section className="writing-section wrap" id="writing">
-				<SectionHeading
-					number="01"
-					label="WRITING"
-					title={writing === "journal" ? "日記" : "ブログ"}
-					href={`/${writing}`}
-					link="すべて読む"
-				/>
-				<div className="writing-toolbar">
-					<div role="group" aria-label="表示する文章">
-						<button
-							type="button"
-							aria-pressed={writing === "journal"}
-							onClick={() => setWriting("journal")}
-						>
-							日記<span>{journalCount.toLocaleString("ja-JP")}</span>
-						</button>
-						<button
-							type="button"
-							aria-pressed={writing === "blog"}
-							onClick={() => setWriting("blog")}
-						>
-							ブログ<span>{blogCount.toLocaleString("ja-JP")}</span>
-						</button>
+			<div className="editorial">
+				<section className="ed-cover" aria-labelledby="essay-title">
+					<img
+						className="ed-cover-image"
+						src="/images/editorial/bookshop.webp"
+						alt=""
+						width="1536"
+						height="1024"
+						fetchPriority="high"
+					/>
+					<div className="ed-cover-top">
+						<span>LITERATURE / CULTURE / TECHNOLOGY</span>
 					</div>
-					<span>新着順</span>
-				</div>
-				<div className="writing-grid" aria-live="polite">
-					{entries.length ? (
-						entries.map((entry, i) => (
-							<article className="writing-item" key={entry.slug}>
-								<Link href={`/${entry.slug}`}>
-									<div className="writing-meta">
+					<div className="ed-cover-copy">
+						<p className="ed-label">栗林健太郎 エッセイ集</p>
+						<h1 id="essay-title">
+							<span>あの頃みんな</span>
+							<span>AIの話ばかり</span>
+							<span>してたね</span>
+						</h1>
+						<p className="ed-cover-lede">
+							AIが世界を変えるあいだ、私たちは何を食べ、
+							<br className="ed-desktop-break" />
+							誰を育て、何を忘れ、どう働いていたのか。
+						</p>
+						<a
+							className="ed-button"
+							href="https://note.com/kentarok/m/m6938ee37aa8e"
+						>
+							エッセイを読む <Arrow diagonal />
+						</a>
+					</div>
+					<div className="ed-cover-bottom">
+						<span>文・栗林健太郎</span>
+						<a href="#essays">SCROLL TO READ ↓</a>
+					</div>
+				</section>
+				<nav className="ed-index" aria-label="トップページの目次">
+					<a href="#essays">
+						<span>01</span>エッセイ
+						<Arrow />
+					</a>
+					<a href="#writing">
+						<span>02</span>日記・ブログ
+						<Arrow />
+					</a>
+					<a href="#creations">
+						<span>03</span>制作物
+						<Arrow />
+					</a>
+					<a href="#images">
+						<span>04</span>写真・イメージ
+						<Arrow />
+					</a>
+				</nav>
+				<section className="ed-section ed-wrap" id="essays">
+					<Heading
+						label="01 / ESSAYS"
+						title="最近のエッセイ"
+						href="https://note.com/kentarok/m/m6938ee37aa8e"
+						link="連載を読む"
+					/>
+					<div className="ed-essay-grid">
+						{essays.map((w, i) => (
+							<article key={w.url}>
+								<a href={w.url} className="ed-essay-card">
+									<div className="ed-card-image">
+										{w.image && (
+											<img
+												src={w.image}
+												alt=""
+												loading="lazy"
+												width="800"
+												height="450"
+											/>
+										)}
+										<span className="ed-number">
+											{String(i + 1).padStart(2, "0")}
+										</span>
+									</div>
+									<div className="ed-card-meta">
+										<span>ESSAY</span>
+										<time dateTime={w.date}>{formatDateJP(w.date)}</time>
+									</div>
+									<h3>
+										{w.title}
+										<Arrow diagonal />
+									</h3>
+								</a>
+							</article>
+						))}
+					</div>
+				</section>
+				<section
+					className="ed-criticism ed-wrap"
+					aria-labelledby="criticism-title"
+				>
+					<div>
+						<span className="ed-label">FROM THE ARCHIVE</span>
+						<h2 id="criticism-title">書評・批評</h2>
+						<p>
+							文芸、現代思想、インターネット。
+							<br />
+							これまでに書いた文章から。
+						</p>
+						<Link href="/blog" className="ed-link">
+							ブログのアーカイブ
+							<Arrow />
+						</Link>
+					</div>
+					<div className="ed-archive-list">
+						<Link href="/blog/2015/12/『身体と親密圏の変容』(岩波講座 現代 第7巻)">
+							<span>2015 / 思想</span>
+							<h3>
+								『身体と親密圏の変容』
+								<Arrow diagonal />
+							</h3>
+							<p>身体、自由意思、親密圏をめぐる読書。</p>
+						</Link>
+						<Link href="/blog/2015/12/温又柔『台湾生まれ 日本語育ち』">
+							<span>2015 / 文芸</span>
+							<h3>
+								温又柔『台湾生まれ 日本語育ち』
+								<Arrow diagonal />
+							</h3>
+							<p>家族の言葉、多言語で生きること。</p>
+						</Link>
+						<Link href="/blog/2006/11/映画・音楽・文学のように不可欠なもの、あるいは Web の新作を心待ちにすること">
+							<span>2006 / カルチャーと技術</span>
+							<h3>
+								映画・音楽・文学のように不可欠なもの、あるいは Web
+								の新作を心待ちにすること
+								<Arrow diagonal />
+							</h3>
+							<p>好きなアーティストの新作を待つように、Webを待つ。</p>
+						</Link>
+					</div>
+				</section>
+				<section className="ed-diary" id="writing">
+					<div className="ed-diary-art">
+						<img
+							src="/images/editorial/reading-desk.webp"
+							alt=""
+							width="1536"
+							height="1024"
+							loading="lazy"
+						/>
+						<div>
+							<span>02 / JOURNAL & BLOG</span>
+							<p>日記とブログ</p>
+						</div>
+					</div>
+					<div className="ed-diary-copy">
+						<div className="ed-diary-head">
+							<h2>日記とブログ</h2>
+							<Link href={`/${writing}`} className="ed-link">
+								すべて読む
+								<Arrow />
+							</Link>
+						</div>
+						<div className="ed-tabs" role="group" aria-label="表示する文章">
+							<button
+								type="button"
+								aria-pressed={writing === "journal"}
+								onClick={() => setWriting("journal")}
+							>
+								日記 <span>{journalCount.toLocaleString("ja-JP")}</span>
+							</button>
+							<button
+								type="button"
+								aria-pressed={writing === "blog"}
+								onClick={() => setWriting("blog")}
+							>
+								ブログ <span>{blogCount.toLocaleString("ja-JP")}</span>
+							</button>
+						</div>
+						<div className="ed-entries" aria-live="polite">
+							{entries.map((entry) => (
+								<article key={entry.slug}>
+									<Link href={`/${entry.slug}`}>
 										<time dateTime={entry.date || undefined}>
 											{formatDateJP(entry.date)}
 										</time>
-										<span>{String(i + 1).padStart(2, "0")}</span>
-									</div>
-									<h3>{entry.title}</h3>
-									<p>{entry.excerpt}</p>
-									<span className="writing-read">
-										続きを読む
-										<Arrow diagonal />
-									</span>
-								</Link>
-							</article>
-						))
-					) : (
-						<p className="empty-state">まだ記事がありません。</p>
-					)}
-				</div>
-			</section>
-			<section className="making-section">
-				<div className="wrap">
-					<SectionHeading
-						number="02"
-						label="MAKING"
-						title="制作物"
+										<h3>
+											{entry.title}
+											<Arrow diagonal />
+										</h3>
+										<p>{entry.excerpt}</p>
+									</Link>
+								</article>
+							))}
+							{!entries.length && <p>まだ記事がありません。</p>}
+						</div>
+					</div>
+				</section>
+				<section className="ed-section ed-wrap" id="creations">
+					<Heading
+						label="03 / WORKS"
+						title="つくったもの"
 						href="/works"
 						link="制作物の一覧"
 					/>
-					<p className="section-intro">
-						noteの記事、技術ブログ、スライド、音楽、動画。
-					</p>
-					<div className="making-list">
-						{works.map((w, i) => (
-							<a
-								href={w.url}
-								key={`${w.url}-${i}`}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-                                <div className="work-art">
-                                    {w.image ? <img src={w.image} alt="" loading="lazy" /> : <span className="work-type">{w.sourceName}<span>{String(i + 1).padStart(2, "0")}</span></span>}
-                                    <span className="work-number">{String(i + 1).padStart(2, "0")}</span>
-                                </div>
-								<div>
-									<span className="work-source">{w.sourceName}</span>
-									<h3>{w.title}</h3>
-								</div>
-								<time dateTime={w.date}>{formatDateJP(w.date)}</time>
-								<span className="work-arrow" aria-label="外部サイトを開く">
-									↗
-								</span>
-							</a>
+					<div className="ed-work-grid">
+						{creations.map((w) => (
+							<article key={w.url}>
+								<a href={w.url}>
+									<div className="ed-card-image">
+										{w.image ? (
+											<img
+												src={w.image}
+												alt=""
+												loading="lazy"
+												width="800"
+												height="600"
+											/>
+										) : (
+											<span className="ed-work-placeholder">
+												{w.sourceName}
+											</span>
+										)}
+									</div>
+									<div className="ed-card-meta">
+										<span>{w.sourceName}</span>
+										<time dateTime={w.date}>{formatDateJP(w.date)}</time>
+									</div>
+									<h3>
+										{w.title}
+										<Arrow diagonal />
+									</h3>
+								</a>
+							</article>
 						))}
 					</div>
-					{!works.length && (
-						<p className="empty-state">制作物はまだありません。</p>
-					)}
-				</div>
-			</section>
-			<section className="visual-section wrap">
-				<SectionHeading
-					number="03"
-					label="IMAGES"
-					title="写真・イメージ"
-					href="/photo"
-					link="写真・イメージを見る"
-				/>
-				<div className="visual-grid">
-					{frames.slice(1, 5).map((frame, i) => (
-						<Link
-							href={`/photo/${frame.slug}`}
-							key={frame.src}
-							className={`visual-frame visual-frame-${i}`}
-						>
-							<img
-								src={frame.src}
-								alt={`${frame.title} ${frame.number}`}
-								loading="lazy"
-							/>
-							<div>
-								<span>{frame.title}</span>
-								<span>{String(frame.number).padStart(2, "0")} ↗</span>
-							</div>
-						</Link>
-					))}
-				</div>
-				{!frames.length && (
-					<p className="empty-state">写真・イメージはまだありません。</p>
-				)}
-			</section>
-			<section className="sound-section wrap">
-				<div className="sound-intro">
-					<div className="section-caption">
-						<span>04</span>
-						<span>LISTENING</span>
+				</section>
+				<section className="ed-visual" id="images">
+					<div className="ed-wrap">
+						<Heading
+							label="04 / PHOTOGRAPHY & IMAGES"
+							title="写真・イメージ"
+							href="/photo"
+							link="すべて見る"
+						/>
 					</div>
-					<h2>ポッドキャスト</h2>
-					<Link href="/podcast" className="quiet-link">
-						ポッドキャストを聴く
-						<Arrow />
-					</Link>
-				</div>
-				<div className="sound-episodes">
-					{podcasts.map((ep) => (
-						<Link href={`/podcast/${ep.slug}`} key={ep.slug}>
-							<span className="sound-play" aria-hidden="true">
-								▶
-							</span>
-							<div>
-								<time dateTime={ep.pubDate}>{formatDateJP(ep.pubDate)}</time>
-								<h3>{ep.title}</h3>
-								<p>{ep.description}</p>
-							</div>
-							<Arrow diagonal />
+					<div className="ed-visual-grid">
+						{frames.map((frame, i) => (
+							<Link
+								href={`/photo/${frame.slug}`}
+								key={frame.src}
+								className={`ed-frame ed-frame-${i}`}
+							>
+								<img
+									src={frame.src}
+									alt={`${frame.title} ${frame.number}`}
+									loading="lazy"
+								/>
+								<div>
+									<span>{frame.title}</span>
+									<span>{String(frame.number).padStart(2, "0")} ↗</span>
+								</div>
+							</Link>
+						))}
+					</div>
+				</section>
+				<section className="ed-listening" id="listening">
+					<div className="ed-listening-art">
+						<img
+							src="/images/editorial/records.webp"
+							alt=""
+							width="1536"
+							height="1024"
+							loading="lazy"
+						/>
+						<div>
+							<span>05 / PODCAST</span>
+							<h2>ポッドキャスト</h2>
+							<Link href="/podcast" className="ed-button">
+								ポッドキャストを聴く
+								<Arrow />
+							</Link>
+						</div>
+					</div>
+					<div className="ed-podcasts">
+						<span className="ed-label">LATEST EPISODES</span>
+						{podcasts.map((ep) => (
+							<Link href={`/podcast/${ep.slug}`} key={ep.slug}>
+								<span className="ed-play" aria-hidden="true">
+									▶
+								</span>
+								<div>
+									<time dateTime={ep.pubDate}>{formatDateJP(ep.pubDate)}</time>
+									<h3>{ep.title}</h3>
+									<p>{ep.description}</p>
+								</div>
+								<Arrow diagonal />
+							</Link>
+						))}
+					</div>
+				</section>
+				<section
+					className="ed-profile ed-wrap"
+					aria-labelledby="profile-heading"
+				>
+					<div>
+						<span className="ed-label">ABOUT THE AUTHOR</span>
+						<h2 id="profile-heading">栗林健太郎</h2>
+						<p className="ed-profile-roman">Kentaro Kuribayashi / あんちぽ</p>
+						<Link href="/profile" className="ed-link">
+							プロフィール・研究・登壇
+							<Arrow />
 						</Link>
-					))}
-					{!podcasts.length && (
-						<p className="empty-state">エピソードはまだありません。</p>
-					)}
-				</div>
-			</section>
-
-            </div>
+					</div>
+					<div className="ed-profile-body">
+						<p>
+							1976年生まれ、奄美大島育ち。東京都立大学で政治学を学び、卒業後は奄美市役所に勤務。PHPでブログを自作したのをきっかけに、プログラミングにのめり込む。2008年にはてな、2012年にGMOペパボへ入社。
+						</p>
+						<p>
+							GMOペパボ取締役CTO・ペパボ研究所長。日本CTO協会理事、人間中心のAIコンソーシアム理事。2025年、北陸先端科学技術大学院大学で博士（情報科学）を取得。IoTシステムとElixir、Erlang/OTPを研究。
+						</p>
+						<p>
+							本、アート、うつわ、歌舞伎、落語、語学、ソーシャルVR、アマチュア無線。歴史・思想から情報科学まで、本を年間約200冊読む。
+						</p>
+					</div>
+				</section>
+			</div>
 		</Layout>
 	);
 }
@@ -385,7 +531,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 		console.error("Top: journal load failed", e);
 	}
 
-	// Works — top 6
+	// Works — enough entries for essays and a varied selection of other media.
 	let works: WorkSummary[] = [];
 	try {
 		const feedPath = path.join(
@@ -406,7 +552,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 					image?: string | null;
 				}>;
 			};
-			works = feed.items.slice(0, 6).map((i) => ({
+			works = feed.items.slice(0, 16).map((i) => ({
 				title: i.title,
 				url: i.url,
 				date: i.date,

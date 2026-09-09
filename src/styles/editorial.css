@@ -91,3 +91,8 @@
 .ed-diary-art p{font-size:clamp(32px,9vw,56px);white-space:nowrap}.ed-listening-art h2{font-size:clamp(27px,8vw,36px);white-space:nowrap}
 .ed-diary-head h2{white-space:nowrap;font-size:clamp(22px,6.2vw,26px)}
 }
+
+/* Keep both panels in one grid cell so their shared height is stable across tabs. */
+.ed-entries{display:grid}
+.ed-entry-panel{grid-area:1/1;align-self:start;min-width:0}
+.ed-entry-panel[data-active="false"]{visibility:hidden;pointer-events:none}

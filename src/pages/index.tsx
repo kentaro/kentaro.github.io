@@ -101,7 +101,10 @@ export default function Home({
 	blogCount,
 }: Props) {
 	const [writing, setWriting] = useState<"journal" | "blog">("journal");
-	const entries = writing === "journal" ? journals : blogs;
+	const writingPanels = [
+		{ kind: "journal", items: journals },
+		{ kind: "blog", items: blogs },
+	] as const;
 	const essays = works
 		.filter((w) => w.source === "note" || w.sourceName === "note")
 		.slice(0, 4);
@@ -134,7 +137,7 @@ export default function Home({
 				<section className="ed-cover" aria-labelledby="essay-title">
 					<img
 						className="ed-cover-image"
-						src="/images/editorial/bookshop.webp"
+						src="/images/editorial/bookshop-interior.webp"
 						alt=""
 						width="1536"
 						height="1024"
@@ -228,43 +231,54 @@ export default function Home({
 					aria-labelledby="criticism-title"
 				>
 					<div>
-						<span className="ed-label">FROM THE ARCHIVE</span>
-						<h2 id="criticism-title">書評・批評</h2>
+						<span className="ed-label">READING NOTES</span>
+						<h2 id="criticism-title">最近の読書</h2>
 						<p>
-							文芸、現代思想、インターネット。
+							読んだ本と、そこから考えたこと。
 							<br />
-							これまでに書いた文章から。
+							日記から紹介します。
 						</p>
-						<Link href="/blog" className="ed-link">
-							ブログのアーカイブ
+						<Link href="/journal" className="ed-link">
+							日記を読む
 							<Arrow />
 						</Link>
 					</div>
 					<div className="ed-archive-list">
-						<Link href="/blog/2015/12/『身体と親密圏の変容』(岩波講座 現代 第7巻)">
-							<span>2015 / 思想</span>
+						<Link href="/journal/2026/08/2026年8月9日">
+							<span>
+								<time dateTime="2026-08-09">2026.08.09</time> の日記より
+							</span>
 							<h3>
-								『身体と親密圏の変容』
+								『機械ぎらい』とセルフレジ
 								<Arrow diagonal />
 							</h3>
-							<p>身体、自由意思、親密圏をめぐる読書。</p>
+							<p>
+								速水健朗『機械ぎらい』を読み、セルフレジの処理フローとメンタルモデルについて考える。
+							</p>
 						</Link>
-						<Link href="/blog/2015/12/温又柔『台湾生まれ 日本語育ち』">
-							<span>2015 / 文芸</span>
+						<Link href="/journal/2026/07/2026年7月14日">
+							<span>
+								<time dateTime="2026-07-14">2026.07.14</time> の日記より
+							</span>
 							<h3>
-								温又柔『台湾生まれ 日本語育ち』
+								『こちらあみ子』を読み直す
 								<Arrow diagonal />
 							</h3>
-							<p>家族の言葉、多言語で生きること。</p>
+							<p>
+								今村夏子の小説を再読し、以前は救いのない話と読んだ物語に、希望の読み筋を見つける。
+							</p>
 						</Link>
-						<Link href="/blog/2006/11/映画・音楽・文学のように不可欠なもの、あるいは Web の新作を心待ちにすること">
-							<span>2006 / カルチャーと技術</span>
+						<Link href="/journal/2026/06/2026年6月23日">
+							<span>
+								<time dateTime="2026-06-23">2026.06.23</time> の日記より
+							</span>
 							<h3>
-								映画・音楽・文学のように不可欠なもの、あるいは Web
-								の新作を心待ちにすること
+								『古文と漢文』から丸山眞男へ
 								<Arrow diagonal />
 							</h3>
-							<p>好きなアーティストの新作を待つように、Webを待つ。</p>
+							<p>
+								書き言葉の歴史を手がかりに、丸山眞男の「つぎつぎになりゆくいきほひ」を捉え直す。
+							</p>
 						</Link>
 					</div>
 				</section>
@@ -307,21 +321,31 @@ export default function Home({
 							</button>
 						</div>
 						<div className="ed-entries" aria-live="polite">
-							{entries.map((entry) => (
-								<article key={entry.slug}>
-									<Link href={`/${entry.slug}`}>
-										<time dateTime={entry.date || undefined}>
-											{formatDateJP(entry.date)}
-										</time>
-										<h3>
-											{entry.title}
-											<Arrow diagonal />
-										</h3>
-										<p>{entry.excerpt}</p>
-									</Link>
-								</article>
+							{writingPanels.map(({ kind, items }) => (
+								<div
+									key={kind}
+									className="ed-entry-panel"
+									data-active={writing === kind}
+									aria-hidden={writing !== kind}
+									inert={writing !== kind}
+								>
+									{items.map((entry) => (
+										<article key={entry.slug}>
+											<Link href={`/${entry.slug}`}>
+												<time dateTime={entry.date || undefined}>
+													{formatDateJP(entry.date)}
+												</time>
+												<h3>
+													{entry.title}
+													<Arrow diagonal />
+												</h3>
+												<p>{entry.excerpt}</p>
+											</Link>
+										</article>
+									))}
+									{!items.length && <p>まだ記事がありません。</p>}
+								</div>
 							))}
-							{!entries.length && <p>まだ記事がありません。</p>}
 						</div>
 					</div>
 				</section>

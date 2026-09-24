@@ -27,6 +27,7 @@
 .ed-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:36px}
 .ed-heading .ed-label{margin-bottom:12px;color:var(--ed-blue)}
 .ed-heading h2{font-family:var(--ed-serif);font-weight:500;font-size:clamp(32px,4vw,56px);line-height:1.4;letter-spacing:-.04em}
+#essays{--ed-blue:#171717}
 .ed-essay-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 28px}
 .ed-card-image{position:relative;overflow:hidden;background:#ededed}
 .ed-card-image img{display:block;object-fit:cover;width:100%;height:100%;transition:transform .55s cubic-bezier(.2,.65,.3,1)}

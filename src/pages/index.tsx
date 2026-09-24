@@ -185,7 +185,7 @@ export default function Home({
 						<Arrow />
 					</a>
 					<a href="#images">
-						<span>04</span>写真・イメージ
+						<span>04</span>写真
 						<Arrow />
 					</a>
 				</nav>
@@ -229,7 +229,10 @@ export default function Home({
 					</div>
 					<div className="ed-diary-copy">
 						<div className="ed-diary-head">
-							<h2>日記とブログ</h2>
+							<div>
+								<span className="ed-label">02 / JOURNAL & BLOG</span>
+								<h2>日記とブログ</h2>
+							</div>
 							<Link href={`/${writing}`} className="ed-link">
 								すべて読む
 								<Arrow />
@@ -322,8 +325,8 @@ export default function Home({
 				<section className="ed-visual" id="images">
 					<div className="ed-wrap">
 						<Heading
-							label="04 / PHOTOGRAPHY & IMAGES"
-							title="写真・イメージ"
+							label="04 / PHOTOGRAPHY"
+							title="写真"
 							href="/photo"
 							link="すべて見る"
 						/>

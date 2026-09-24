@@ -196,23 +196,9 @@ export default function Home({
 						link="連載を読む"
 					/>
 					<div className="ed-essay-grid">
-						{essays.map((w, i) => (
+						{essays.map((w) => (
 							<article key={w.url}>
 								<a href={w.url} className="ed-essay-card">
-									<div className="ed-card-image">
-										{w.image && (
-											<img
-												src={w.image}
-												alt=""
-												loading="lazy"
-												width="800"
-												height="450"
-											/>
-										)}
-										<span className="ed-number">
-											{String(i + 1).padStart(2, "0")}
-										</span>
-									</div>
 									<div className="ed-card-meta">
 										<span>ESSAY</span>
 										<time dateTime={w.date}>{formatDateJP(w.date)}</time>

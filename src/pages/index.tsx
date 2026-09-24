@@ -16,6 +16,7 @@ type JournalSummary = {
 	excerpt: string;
 };
 type WorkSummary = {
+	description: string;
 	title: string;
 	url: string;
 	date: string;
@@ -196,17 +197,18 @@ export default function Home({
 						link="連載を読む"
 					/>
 					<div className="ed-essay-grid">
-						{essays.map((w) => (
+						{essays.map((w, i) => (
 							<article key={w.url}>
 								<a href={w.url} className="ed-essay-card">
 									<div className="ed-card-meta">
-										<span>ESSAY</span>
+										<span className="ed-essay-number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
 										<time dateTime={w.date}>{formatDateJP(w.date)}</time>
 									</div>
 									<h3>
 										{w.title}
 										<Arrow diagonal />
 									</h3>
+									<p className="ed-essay-excerpt">{w.description}</p>
 								</a>
 							</article>
 						))}
@@ -498,6 +500,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 			const raw = fs.readFileSync(feedPath, "utf8");
 			const feed = JSON.parse(raw) as {
 				items: Array<{
+					description?: string;
 					title: string;
 					url: string;
 					date: string;
@@ -508,6 +511,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 			};
 			works = feed.items.slice(0, 16).map((i) => ({
 				title: i.title,
+				description: stripTags(i.description || "").replace(/続きをみる$/, "").slice(0, 150),
 				url: i.url,
 				date: i.date,
 				sourceName: i.sourceName,

@@ -229,10 +229,7 @@ export default function Home({
 					</div>
 					<div className="ed-diary-copy">
 						<div className="ed-diary-head">
-							<div>
-								<span className="ed-label">02 / JOURNAL & BLOG</span>
-								<h2>日記とブログ</h2>
-							</div>
+							<h2>日記とブログ</h2>
 							<Link href={`/${writing}`} className="ed-link">
 								すべて読む
 								<Arrow />

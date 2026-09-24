@@ -359,15 +359,17 @@ export default function Home({
 						/>
 						<div>
 							<span>05 / PODCAST</span>
-							<h2>ポッドキャスト</h2>
-							<Link href="/podcast" className="ed-button">
-								ポッドキャストを聴く
-								<Arrow />
-							</Link>
+							<p>ポッドキャスト</p>
 						</div>
 					</div>
 					<div className="ed-podcasts">
-						<span className="ed-label">LATEST EPISODES</span>
+						<div className="ed-diary-head">
+							<h2>ポッドキャスト</h2>
+							<Link href="/podcast" className="ed-link">
+								すべて聴く
+								<Arrow />
+							</Link>
+						</div>
 						{podcasts.map((ep) => (
 							<Link href={`/podcast/${ep.slug}`} key={ep.slug}>
 								<span className="ed-play" aria-hidden="true">

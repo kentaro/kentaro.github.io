@@ -33,7 +33,6 @@
 .ed-card-image img{display:block;object-fit:cover;width:100%;height:100%;transition:transform .55s cubic-bezier(.2,.65,.3,1)}
 .ed-essay-card{display:block;border-top:1px solid var(--ed-line);padding-top:20px;height:100%}
 .ed-essay-card .ed-card-meta{margin-top:0;align-items:center}
-.ed-essay-number{font:italic 42px/1 Georgia,serif;letter-spacing:-.05em}
 .ed-essay-excerpt{font-size:13px;line-height:2;color:#555;margin-top:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .ed-essay-card{padding-bottom:8px}
 .ed-essay-grid .ed-essay-card h3{margin-top:18px}

@@ -197,11 +197,10 @@ export default function Home({
 						link="連載を読む"
 					/>
 					<div className="ed-essay-grid">
-						{essays.map((w, i) => (
+						{essays.map((w) => (
 							<article key={w.url}>
 								<a href={w.url} className="ed-essay-card">
 									<div className="ed-card-meta">
-										<span className="ed-essay-number" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
 										<time dateTime={w.date}>{formatDateJP(w.date)}</time>
 									</div>
 									<h3>

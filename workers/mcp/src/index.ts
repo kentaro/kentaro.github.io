@@ -95,7 +95,7 @@ function createServer() {
           .enum(["new", "old", "relevance"])
           .default("new")
           .describe("Sort order: newest first, oldest first, or by relevance"),
-        limit: z.number().int().min(1).max(50).default(10),
+        limit: z.number().int().min(1).max(100).default(10),
       }),
     },
     async ({ query, section, sort, limit }) => {
@@ -397,7 +397,7 @@ function createServer() {
         "sorted by date, newest first. A one-call overview of recent " +
         "activity.",
       inputSchema: z.object({
-        limit: z.number().int().min(1).max(50).default(15),
+        limit: z.number().int().min(1).max(100).default(15),
       }),
     },
     async ({ limit }) => {
@@ -446,7 +446,7 @@ function createServer() {
         "Full-text search over podcast episode titles and descriptions.",
       inputSchema: z.object({
         query: z.string().min(1).describe("Search query (Japanese or English)"),
-        limit: z.number().int().min(1).max(50).default(10),
+        limit: z.number().int().min(1).max(100).default(10),
       }),
     },
     async ({ query, limit }) => {

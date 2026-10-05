@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kentarokuribayashi-com-deploy-cron",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-01",
+  "workers_dev": false,
+  // GitHub Actions の schedule は間引かれて1日数回しか発火しないため、
+  // Cloudflare の Cron Trigger から deploy.yml を workflow_dispatch で起動する
+  "triggers": {
+    "crons": ["23 * * * *"]
+  }
+}

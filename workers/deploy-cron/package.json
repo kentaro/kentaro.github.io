@@ -1,0 +1,16 @@
+{
+  "name": "kentarokuribayashi-com-deploy-cron",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hourly trigger for the kentaro.github.io deploy workflow",
+  "scripts": {
+    "dev": "wrangler dev --test-scheduled",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260810.1",
+    "typescript": "^5.4.2",
+    "wrangler": "^4.0.0"
+  }
+}

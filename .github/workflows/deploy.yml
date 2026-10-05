@@ -4,7 +4,8 @@ on:
   push:
     branches: ["main"]
   schedule:
-    # 毎時0分付近は混雑して間引かれやすいので避ける
+    # GitHub の schedule は間引かれて1日数回しか来ないので、主系は Cloudflare Worker
+    # (workers/deploy-cron) からの workflow_dispatch。これは予備として残す
     - cron: '23 * * * *'
   workflow_dispatch:
 

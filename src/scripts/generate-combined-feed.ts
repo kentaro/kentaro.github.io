@@ -8,6 +8,7 @@ import { remark } from "remark";
 import stripMarkdown from "strip-markdown";
 import { generateRssFeed } from "../lib/rss";
 import { fetchPodcastFeed } from "../lib/podcast";
+import { getMediaItems, isMusicVideo, mergeMediaItems, saveMediaItems } from "../lib/media";
 
 // フィードのソース一覧
 const FEED_SOURCES = [
@@ -134,17 +135,7 @@ async function fetchAndParseFeed(
 			const rssItems = result.rss.channel[0].item || [];
 			// @ts-ignore
 			items = rssItems
-				.filter((item: RssItem) => {
-					// YouTubeフィードの場合、「#数字n桁」で始まるタイトルを除外
-					if (source.type === "video") {
-						const title = item.title?.[0] || "";
-						// #で始まり、その後に数字が続くパターンをチェック
-						if (/^#\d+/.test(title)) {
-							return false;
-						}
-					}
-					return true;
-				})
+				.filter((item: RssItem) => source.type !== "video" || !/^#\d+/.test(item.title?.[0] || ""))
 				.map((item: RssItem) => {
 					const pubDate = new Date(item.pubDate?.[0] || new Date());
 
@@ -288,18 +279,8 @@ async function fetchAndParseFeed(
 			// @ts-ignore
 			items = atomItems
 				.filter((item: AtomItem) => {
-					// YouTubeフィードの場合、「#数字n桁」で始まるタイトルを除外
-					if (source.type === "video") {
-						const title =
-							typeof item.title?.[0] === "object"
-								? item.title[0]._
-								: item.title?.[0] || "";
-						// #で始まり、その後に数字が続くパターンをチェック
-						if (/^#\d+/.test(title)) {
-							return false;
-						}
-					}
-					return true;
+					const title = typeof item.title?.[0] === "object" ? item.title[0]._ : item.title?.[0] || "";
+					return source.type !== "video" || !/^#\d+/.test(title);
 				})
 				.map((item: AtomItem) => {
 					const pubDate = new Date(
@@ -419,6 +400,8 @@ async function fetchAndParseFeed(
 // メイン処理
 async function generateCombinedFeed() {
 	console.log("Generating combined feed...");
+	// Read history before fetching or replacing any generated feed files.
+	const archivedMedia = getMediaItems();
 
 	// 全てのフィードを取得
 	const allItemsPromises = FEED_SOURCES.map((source) =>
@@ -427,7 +410,16 @@ async function generateCombinedFeed() {
 	const allItemsArrays = await Promise.all(allItemsPromises);
 
 	// 全てのアイテムをフラット化（ポッドキャストを除外）
-	const allItems = allItemsArrays.flat().filter(item => item.source !== 'podcast');
+	const freshItems = allItemsArrays.flat().filter(item => item.source !== 'podcast');
+	const mediaItems = mergeMediaItems(archivedMedia, freshItems.map(item => ({
+		...item,
+		date: item.date.toISOString(),
+	})));
+	saveMediaItems(mediaItems);
+	const allItems: FeedItem[] = [
+		...freshItems.filter(item => item.source !== 'music' && (item.source !== 'video' || !isMusicVideo(item.url))),
+		...mediaItems.filter(item => item.date).map(item => ({ ...item, date: new Date(item.date) })),
+	];
 
 	// 日付でソート（新しい順）
 	allItems.sort((a, b) => b.date.getTime() - a.date.getTime());

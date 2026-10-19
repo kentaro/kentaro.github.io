@@ -17,6 +17,7 @@ export default function Footer() {
               <p><Link href="/journal">日記</Link></p>
               <p><Link href="/blog">ブログ</Link></p>
               <p><Link href="/works">制作物</Link></p>
+              <p><Link href="/music">音楽</Link></p>
               <p><Link href="/photo">写真</Link></p>
               <p><Link href="/podcast">音声</Link></p>
               <p><Link href="/profile">プロフィール</Link></p>

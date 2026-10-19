@@ -3,6 +3,8 @@ import type { GetStaticProps } from "next";
 import Link from "next/link";
 import fs from "node:fs";
 import path from "node:path";
+import MediaGrid from "@/components/media/MediaGrid";
+import { getMediaItems, type MediaItem } from "@/lib/media";
 import Layout from "@/components/layout/Layout";
 import SEO from "@/components/common/SEO";
 import { getAllMarkdownFiles, getMarkdownData } from "@/lib/markdown";
@@ -39,6 +41,7 @@ type PodcastSummary = {
 	description: string;
 };
 type Props = {
+	music: MediaItem[];
 	journals: JournalSummary[];
 	blogs: JournalSummary[];
 	works: WorkSummary[];
@@ -93,6 +96,7 @@ function Heading({
 }
 
 export default function Home({
+	music,
 	journals,
 	blogs,
 	works,
@@ -132,7 +136,7 @@ export default function Home({
 		<Layout activeNav="home">
 			<SEO
 				title="栗林健太郎のホームページ"
-				description="栗林健太郎のエッセイ、日記、制作物、写真、ポッドキャスト。エッセイ集『あの頃みんなAIの話ばかりしてたね』を連載中。"
+				description="栗林健太郎のエッセイ、日記、制作物、写真、音楽、ポッドキャスト。エッセイ集『あの頃みんなAIの話ばかりしてたね』を連載中。"
 			/>
 			<div className="editorial">
 				<section className="ed-cover" aria-labelledby="essay-title">
@@ -184,8 +188,9 @@ export default function Home({
 						<span>03</span>制作物
 						<Arrow />
 					</a>
+					<a href="#music"><span>04</span>音楽<Arrow /></a>
 					<a href="#images">
-						<span>04</span>写真
+						<span>05</span>写真
 						<Arrow />
 					</a>
 				</nav>
@@ -319,10 +324,15 @@ export default function Home({
 						))}
 					</div>
 				</section>
+				<section className="ed-section ed-wrap music-preview" id="music">
+                    <Heading label="04 / MUSIC" title="音楽" href="/music" link="すべて聴く" />
+                    <p className="music-preview-intro">つくった曲、演奏、音楽の映像。YouTubeとSoundCloudから。</p>
+                    <MediaGrid items={music} />
+                </section>
 				<section className="ed-visual" id="images">
 					<div className="ed-wrap">
 						<Heading
-							label="04 / PHOTOGRAPHY"
+							label="05 / PHOTOGRAPHY"
 							title="写真"
 							href="/photo"
 							link="すべて見る"
@@ -358,7 +368,7 @@ export default function Home({
 							loading="lazy"
 						/>
 						<div>
-							<span>05 / PODCAST</span>
+							<span>06 / PODCAST</span>
 							<p>ポッドキャスト</p>
 						</div>
 					</div>
@@ -555,8 +565,14 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 		console.error("Top: podcast load failed", e);
 	}
 
+	const archive = getMediaItems();
+	const music = [
+		...archive.filter((item) => item.source === "video").slice(0, 2),
+		...archive.filter((item) => item.source === "music").slice(0, 2),
+	];
 	return {
 		props: {
+			music,
 			journals,
 			blogs,
 			journalCount,

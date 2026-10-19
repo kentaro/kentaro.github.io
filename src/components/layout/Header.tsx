@@ -9,6 +9,7 @@ const NAV: { key: NavKey; href: string; label: string }[] = [
 	{ key: "journal", href: "/journal", label: "日記" },
 	{ key: "blog", href: "/blog", label: "ブログ" },
 	{ key: "works", href: "/works", label: "制作物" },
+	{ key: "music", href: "/music", label: "音楽" },
 	{ key: "photo", href: "/photo", label: "写真" },
 	{ key: "podcast", href: "/podcast", label: "音声" },
 	{ key: "profile", href: "/profile", label: "プロフィール" },

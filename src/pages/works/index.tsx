@@ -90,6 +90,7 @@ export default function WorksPage({ feedData }: Props) {
       </section>
 
       <section className="wrap" style={{ paddingTop: '48px', paddingBottom: '96px' }}>
+        <p style={{ marginBottom: "32px", fontSize: "14px" }}><Link href="/music" className="quiet-link">音楽作品を画像とプレイヤーで見る →</Link></p>
         <div className="works-filter">
           <button
             type="button"

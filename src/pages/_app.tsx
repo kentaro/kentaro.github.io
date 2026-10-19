@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import '@/styles/archive.css';
 import '@/styles/editorial.css';
+import '@/styles/music.css';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';

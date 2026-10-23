@@ -117,7 +117,7 @@ const tools: WebMcpTool[] = [
     },
     async execute(input) {
       const query = String(input.query ?? "");
-      const limit = clampLimit(input.limit, 10, 50);
+      const limit = clampLimit(input.limit, 10, 100);
       const sort = (["new", "old", "relevance"].includes(String(input.sort))
         ? String(input.sort)
         : "new") as "new" | "old" | "relevance";
@@ -356,7 +356,7 @@ const tools: WebMcpTool[] = [
       },
     },
     async execute(input) {
-      const limit = clampLimit(input.limit, 15, 50);
+      const limit = clampLimit(input.limit, 15, 100);
       const updates = await recentUpdates(limit);
       return textResult({ total: updates.length, updates });
     },
@@ -368,7 +368,7 @@ const tools: WebMcpTool[] = [
     inputSchema: queryInput,
     async execute(input) {
       const query = String(input.query ?? "");
-      const limit = clampLimit(input.limit, 10, 50);
+      const limit = clampLimit(input.limit, 10, 100);
       const episodes = await searchPodcast(query, limit);
       const hits = episodes.map((episode) => ({
         title: episode.title,

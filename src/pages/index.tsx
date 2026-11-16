@@ -211,7 +211,7 @@ export default function Home({
 				<section className="ed-diary" id="writing">
 					<div className="ed-diary-art">
 						<img
-							src="/images/editorial/reading-desk.webp"
+							src="/images/editorial/reading-desk-v2.webp"
 							alt=""
 							width="1536"
 							height="1024"

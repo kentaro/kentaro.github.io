@@ -1,6 +1,7 @@
 import type { GetStaticProps } from "next";
 import Link from "next/link";
 import { isCreatorWork, NOTE_URL } from "@/lib/creator-content";
+import { SITE_NAME } from "@/lib/site";
 import fs from "node:fs";
 import path from "node:path";
 import MediaGrid from "@/components/media/MediaGrid";
@@ -124,7 +125,7 @@ export default function Home({
 	return (
 		<Layout activeNav="home">
 			<SEO
-				title="栗林健太郎のホームページ"
+				title={SITE_NAME}
 				description="栗林健太郎のエッセイ、日記、制作物、写真、音楽、ポッドキャスト。エッセイ集『あの頃みんなAIの話ばかりしてたね』を連載中。"
 			/>
 			<div className="editorial">

@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { SITE_NAME } from '@/lib/site';
 
 type SEOProps = {
   title?: string;
@@ -12,7 +13,7 @@ type SEOProps = {
 };
 
 export default function SEO({
-  title = '栗林健太郎',
+  title = SITE_NAME,
   description = '栗林健太郎のエッセイ、日記、音楽、写真、映像、ポッドキャスト。文章と作品、日々の記録をまとめています。',
   ogImage,
   ogType = 'website',
@@ -20,7 +21,7 @@ export default function SEO({
   audioUrl,
   audioType,
 }: SEOProps) {
-  const fullTitle = title === '栗林健太郎' ? title : `${title} | 栗林健太郎`;
+  const fullTitle = title === SITE_NAME ? SITE_NAME : `${title} | ${SITE_NAME}`;
   const router = useRouter();
 
   // デフォルトアイコンURL
@@ -29,7 +30,7 @@ export default function SEO({
   // 日記記事ではタイトルに著者名を重ねない。
   const isJournalPost = router.pathname.startsWith('/journal/') && router.pathname !== '/journal';
   const ogTitle = isJournalPost ? title : fullTitle;
-  const ogImageUrl = ogImage || `https://ogen-sigma.vercel.app/api/og?title=${encodeURIComponent(ogTitle)}&username=栗林健太郎&iconUrl=${encodeURIComponent(defaultIconUrl)}`;
+  const ogImageUrl = ogImage || `https://ogen-sigma.vercel.app/api/og?title=${encodeURIComponent(ogTitle)}&username=${encodeURIComponent(SITE_NAME)}&iconUrl=${encodeURIComponent(defaultIconUrl)}`;
 
   // RSSフィードのリンクを決定
   let rssLink = null;
@@ -49,7 +50,7 @@ export default function SEO({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImageUrl} />
       <meta property="og:type" content={ogType} />
-      <meta property="og:site_name" content="栗林健太郎" />
+      <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:locale" content="ja_JP" />
 
       {/* OG Audio for podcast episodes */}

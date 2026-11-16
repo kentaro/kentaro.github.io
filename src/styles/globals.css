@@ -135,9 +135,10 @@ dialog::backdrop { background:rgba(0,0,0,.3); }
 }
 @media (max-width:800px) {
   .wrap { padding-left:24px; padding-right:24px; }
-  .bar-inner { height:68px; }
+  .bar .bar-inner { height:68px; gap:8px; }
+  .mast .title { font-size:clamp(14px,4.2vw,18px); }
   nav.top { display:none; }
-  .bar-menu-btn { display:block; }
+  .bar-menu-btn { display:block; flex-shrink:0; white-space:nowrap; padding-inline:14px; }
   .cover-label { font-size:9px; padding:24px 0; }
   .cover-grid { grid-template-columns:1fr 1fr; gap:20px; }
   .cover-copy { padding-top:8px; }

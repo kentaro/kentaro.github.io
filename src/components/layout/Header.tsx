@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { FiSearch } from "react-icons/fi";
 import { useSearchModalStore } from "@/store/useSearchModalStore";
 import { NOTE_URL } from "@/lib/creator-content";
+import { SITE_NAME } from "@/lib/site";
 import type { NavKey } from "./Layout";
 
 const NAV: { key: NavKey; href: string; label: string }[] = [
@@ -113,11 +114,11 @@ export default function Header({ activeNav = "home" }: Props) {
 					<Link
 						href="/"
 						className="mast"
-						aria-label="栗林健太郎 ホーム"
+						aria-label={`${SITE_NAME} ホーム`}
 						aria-current={activeNav === "home" ? "page" : undefined}
 					>
-						<span className="title">栗林健太郎</span>
-						<span className="sub">Kéntareaux Kuribayashi</span>
+						<span className="title">{SITE_NAME}</span>
+						<span className="sub">栗林健太郎</span>
 					</Link>
 					<nav className="top" aria-label="メインナビゲーション">
 						{NAV.map((item) => {

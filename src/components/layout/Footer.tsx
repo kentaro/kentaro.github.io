@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { NOTE_URL } from '@/lib/creator-content';
+import { SITE_NAME } from '@/lib/site';
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -9,7 +10,7 @@ export default function Footer() {
       <div className="wrap">
         <div className="row">
           <div>
-            <p className="big">栗林健太郎</p>
+            <p className="big">{SITE_NAME}</p>
             <p className="set footer-description">文章、音楽、写真と日々の記録。</p>
           </div>
           <nav aria-label="フッターナビゲーション">
@@ -34,7 +35,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="meta">
-          <span>© {year} Kéntareaux Kuribayashi</span>
+          <span>© {year} {SITE_NAME}</span>
           <Link href="/">ホームへ戻る ↑</Link>
         </div>
       </div>

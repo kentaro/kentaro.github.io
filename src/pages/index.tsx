@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { GetStaticProps } from "next";
 import Link from "next/link";
+import { PROFILE_URL } from "@/lib/profile";
 import fs from "node:fs";
 import path from "node:path";
 import MediaGrid from "@/components/media/MediaGrid";
@@ -403,10 +404,10 @@ export default function Home({
 						<span className="ed-label">ABOUT THE AUTHOR</span>
 						<h2 id="profile-heading">栗林健太郎</h2>
 						<p className="ed-profile-roman">Kentaro Kuribayashi / あんちぽ</p>
-						<Link href="/profile" className="ed-link">
+						<a href={PROFILE_URL} className="ed-link">
 							プロフィール・研究・登壇
 							<Arrow />
-						</Link>
+						</a>
 					</div>
 					<div className="ed-profile-body">
 						<p>

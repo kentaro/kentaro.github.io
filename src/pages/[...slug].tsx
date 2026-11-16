@@ -17,7 +17,7 @@ type NavRef = { slug: string; title: string } | null;
 
 type Props = {
   postData: PostData | null;
-  mode: 'journal' | 'profile' | 'article';
+  mode: 'journal' | 'article';
   dayOfMonth: { year: string; month: string; day: string; weekday: string; monthName: string } | null;
   prevPost: NavRef;
   nextPost: NavRef;
@@ -60,82 +60,6 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
             </div>
             <h1 className="giga">404</h1>
             <p className="lede-en">お探しのページは存在しないか、移動した可能性があります。</p>
-          </div>
-        </section>
-      </Layout>
-    );
-  }
-
-  if (mode === 'profile') {
-    return (
-      <Layout activeNav="profile">
-        <SEO
-          title="プロフィール"
-          description={postData.excerpt || 'GMOペパボ取締役CTO / 博士（情報科学）/ 情報処理安全確保支援士'}
-        />
-        <section className="sub-hero">
-          <div className="wrap">
-            <div className="crumb">
-              <Link href="/">ホーム</Link>
-              <span className="sep">/</span>
-              <span>プロフィール</span>
-            </div>
-            <div className="sub-hero-grid">
-              <div>
-                <h1 className="giga"><span className="name-unit">栗林健太郎</span></h1>
-                <p className="lede-en">栗林健太郎の経歴、研究、これまでの仕事。</p>
-              </div>
-              <div className="meta-block">
-                <b>{new Date().getFullYear() - 1976}</b>
-                <em>years · since 1976</em>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="wrap cv-grid">
-          <aside className="cv-side">
-            <div className="portrait">
-              <img
-                src="https://pbs.twimg.com/profile_images/1964961444673531905/wD3BXCk2_400x400.jpg"
-                alt="栗林健太郎"
-              />
-            </div>
-            <div className="name"><span className="name-unit">栗林健太郎</span></div>
-            <div className="name-en">Kentaro Kuribayashi</div>
-            <div className="role">
-              GMOペパボ株式会社 取締役CTO
-              <br />
-              博士（情報科学）
-              <br />
-              情報処理安全確保支援士
-            </div>
-            <div className="contact">
-              <div className="k">Writes</div>
-              <Link href="/journal">日記</Link>
-              <Link href="/works">制作物</Link>
-
-              <div className="k">Sounds</div>
-              <Link href="/podcast">Antipop FM</Link>
-
-              <div className="k">Images</div>
-              <Link href="/photo">写真</Link>
-
-              <div className="k">Channels</div>
-              <a href="https://x.com/kentaro" target="_blank" rel="noopener noreferrer">X / Twitter</a>
-              <a href="https://github.com/kentaro" target="_blank" rel="noopener noreferrer">GitHub</a>
-              <a href="https://www.linkedin.com/in/kentaro-kuribayashi" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-              <a href="mailto:kentarok@gmail.com">kentarok@gmail.com</a>
-            </div>
-          </aside>
-
-          <div>
-            <div className="cv-block">
-              <article className="prose markdown-content">
-                {/* eslint-disable-next-line react/no-danger */}
-                <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
-              </article>
-            </div>
           </div>
         </section>
       </Layout>
@@ -217,7 +141,7 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const files = getAllMarkdownFiles();
-  const filtered = files.filter(({ slug }) => !slug.startsWith('photo/'));
+  const filtered = files.filter(({ slug }) => slug !== 'profile' && !slug.startsWith('photo/'));
   const paths = filtered.map(({ slug }) => ({
     params: { slug: slug.split('/').filter(Boolean) },
   }));
@@ -228,7 +152,6 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const slugPath = (params?.slug as string[]) || [];
   const slug = slugPath.join('/');
   const isJournal = slugPath[0] === 'journal';
-  const isProfile = slugPath[0] === 'profile';
 
   const postData = await getMarkdownData(slug);
   if (!postData) {
@@ -301,7 +224,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
         date,
         excerpt: (postData.excerpt as string) || '',
       },
-      mode: isJournal ? 'journal' : isProfile ? 'profile' : 'article',
+      mode: isJournal ? 'journal' : 'article',
       dayOfMonth,
       prevPost,
       nextPost,

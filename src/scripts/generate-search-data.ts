@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { getAllMarkdownFiles } from "../lib/markdown";
+import { PROFILE_DESCRIPTION, PROFILE_TITLE, PROFILE_URL } from "../lib/profile";
 import { remark } from "remark";
 import html from "remark-html";
 import remarkGfm from "remark-gfm";
@@ -123,6 +124,17 @@ async function generateSearchData() {
 
 	// 各ファイルを処理
 	for (const { slug, dirPath } of markdownFiles) {
+		// Keep the /profile data contract without republishing its retired content.
+		if (slug === "profile") {
+			searchDocuments.push({
+				id: slug,
+				title: PROFILE_TITLE,
+				path: "/profile",
+				content: `${PROFILE_DESCRIPTION} ${PROFILE_URL}`,
+				excerpt: PROFILE_DESCRIPTION,
+			});
+			continue;
+		}
 		try {
 			// ファイルパスを構築
 			const filePath = path.join(dirPath, `${slug.split("/").pop()}.md`);

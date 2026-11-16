@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FiSearch } from 'react-icons/fi';
 import { useSearchModalStore } from '@/store/useSearchModalStore';
+import { PROFILE_URL } from '@/lib/profile';
 
 export default function Navigation() {
   const router = useRouter();
@@ -38,8 +39,8 @@ export default function Navigation() {
             </Link>
           </li>
           <li>
-            <Link 
-              href="/profile" 
+            <a
+              href={PROFILE_URL}
               className={`py-2 px-2 sm:px-3 md:px-4 lg:px-5 font-medium transition-all duration-300 rounded-full text-xs sm:text-sm md:text-base whitespace-nowrap ${
                 isActive('/profile') 
                   ? 'bg-primary text-white shadow-md hover:bg-primary-dark hover:text-white' 
@@ -49,7 +50,7 @@ export default function Navigation() {
               <span className="hidden lg:inline">プロフィール</span>
               <span className="lg:hidden hidden sm:inline">プロフ</span>
               <span className="sm:hidden">👤</span>
-            </Link>
+            </a>
           </li>
           <li>
             <Link 
@@ -117,4 +118,4 @@ export default function Navigation() {
       </nav>
     </>
   );
-} 
+}

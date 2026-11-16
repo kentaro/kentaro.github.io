@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FiSearch } from "react-icons/fi";
 import { useSearchModalStore } from "@/store/useSearchModalStore";
+import { PROFILE_URL } from "@/lib/profile";
 import type { NavKey } from "./Layout";
 
 const NAV: { key: NavKey; href: string; label: string }[] = [
@@ -12,7 +13,7 @@ const NAV: { key: NavKey; href: string; label: string }[] = [
 	{ key: "music", href: "/music", label: "音楽" },
 	{ key: "photo", href: "/photo", label: "写真" },
 	{ key: "podcast", href: "/podcast", label: "音声" },
-	{ key: "profile", href: "/profile", label: "プロフィール" },
+	{ key: "profile", href: PROFILE_URL, label: "プロフィール" },
 ];
 
 interface Props {
@@ -120,16 +121,19 @@ export default function Header({ activeNav = "home" }: Props) {
 						<span className="sub">Kentaro Kuribayashi</span>
 					</Link>
 					<nav className="top" aria-label="メインナビゲーション">
-						{NAV.map((item) => (
-							<Link
-								key={item.key}
-								href={item.href}
-								className={activeNav === item.key ? "active" : ""}
-								aria-current={activeNav === item.key ? "page" : undefined}
-							>
-								{item.label}
-							</Link>
-						))}
+						{NAV.map((item) => {
+							const NavigationLink = item.key === "profile" ? "a" : Link;
+							return (
+								<NavigationLink
+									key={item.key}
+									href={item.href}
+									className={activeNav === item.key ? "active" : ""}
+									aria-current={activeNav === item.key ? "page" : undefined}
+								>
+									{item.label}
+								</NavigationLink>
+							);
+						})}
 						<button
 							type="button"
 							onClick={openSearch}
@@ -182,18 +186,21 @@ export default function Header({ activeNav = "home" }: Props) {
 									ホーム
 								</Link>
 							</li>
-							{NAV.map((item) => (
-								<li key={item.key}>
-									<Link
-										href={item.href}
-										onClick={() => setMenuOpen(false)}
-										className={activeNav === item.key ? "active" : ""}
-										aria-current={activeNav === item.key ? "page" : undefined}
-									>
-										{item.label}
-									</Link>
-								</li>
-							))}
+							{NAV.map((item) => {
+								const NavigationLink = item.key === "profile" ? "a" : Link;
+								return (
+									<li key={item.key}>
+										<NavigationLink
+											href={item.href}
+											onClick={() => setMenuOpen(false)}
+											className={activeNav === item.key ? "active" : ""}
+											aria-current={activeNav === item.key ? "page" : undefined}
+										>
+											{item.label}
+										</NavigationLink>
+									</li>
+								);
+							})}
 							<li>
 								<button
 									type="button"

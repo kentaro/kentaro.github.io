@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { PROFILE_URL } from '@/lib/profile';
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -20,7 +21,7 @@ export default function Footer() {
               <p><Link href="/music">音楽</Link></p>
               <p><Link href="/photo">写真</Link></p>
               <p><Link href="/podcast">音声</Link></p>
-              <p><Link href="/profile">プロフィール</Link></p>
+              <p><a href={PROFILE_URL}>プロフィール</a></p>
             </div>
           </nav>
           <div>

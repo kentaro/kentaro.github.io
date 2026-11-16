@@ -24,6 +24,7 @@ import {
   siteStats,
   type SearchDocument,
 } from "./siteTools";
+import { PROFILE_DESCRIPTION, PROFILE_TITLE, PROFILE_URL } from "./profile";
 
 interface WebMcpToolResult {
   content: { type: "text"; text: string }[];
@@ -101,7 +102,7 @@ const tools: WebMcpTool[] = [
   {
     name: "search_site",
     description:
-      "Full-text search over this site's content (blog posts, journal entries, and profile of Kentaro Kuribayashi). Returns hits with path and snippet, newest first by default.",
+      "Full-text search over this site's content (blog posts, journal entries, and a link to Kentaro Kuribayashi's independent profile site). Returns hits with path and snippet, newest first by default.",
     inputSchema: {
       type: "object",
       properties: {
@@ -128,12 +129,14 @@ const tools: WebMcpTool[] = [
   {
     name: "get_profile",
     description:
-      "Get the full profile of Kentaro Kuribayashi (site owner): bio, career history, research achievements, publications, and talks.",
+      "Get the URL of Kentaro Kuribayashi's independent profile site, with his biography, career history, research, publications, and talks.",
     inputSchema: { type: "object", properties: {} },
     async execute() {
-      const profile = await getPage("/profile");
-      if (!profile) return textResult("Profile not found.");
-      return textResult({ title: profile.title, content: profile.content });
+      return textResult({
+        title: PROFILE_TITLE,
+        content: `${PROFILE_DESCRIPTION} ${PROFILE_URL}`,
+        url: PROFILE_URL,
+      });
     },
   },
   {

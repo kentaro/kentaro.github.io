@@ -1,7 +1,7 @@
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { getAllMarkdownFiles, getMarkdownData } from '@/lib/markdown';
+import { isRetiredContentPath } from '@/lib/creator-content';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 
@@ -46,7 +46,6 @@ function formatDateJP(date: string | null | undefined) {
 }
 
 export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, slugPath }: Props) {
-  const router = useRouter();
 
   if (!postData) {
     return (
@@ -67,10 +66,10 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
   }
 
   const isJournal = mode === 'journal';
-  const navActive = isJournal ? 'journal' : slugPath[0] === 'blog' ? 'blog' : 'home';
+  const navActive = isJournal ? 'journal' : 'home';
 
   return (
-    <Layout activeNav={navActive as 'journal' | 'blog' | 'home'}>
+    <Layout activeNav={navActive}>
       <SEO
         title={postData.title}
         description={postData.excerpt || postData.title}
@@ -85,7 +84,7 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
             {formatDateJP(postData.date)}
           </span>
           <span>
-            <Link href={isJournal ? '/journal' : slugPath[0] === 'blog' ? '/blog' : '/'} style={{ color: 'var(--ink-mute)' }}>
+            <Link href={isJournal ? '/journal' : '/'} style={{ color: 'var(--ink-mute)' }}>
               ← 一覧へ戻る
             </Link>
           </span>
@@ -141,7 +140,7 @@ export default function Post({ postData, mode, dayOfMonth, prevPost, nextPost, s
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const files = getAllMarkdownFiles();
-  const filtered = files.filter(({ slug }) => slug !== 'profile' && !slug.startsWith('photo/'));
+  const filtered = files.filter(({ slug }) => !isRetiredContentPath(slug) && !slug.startsWith('photo/'));
   const paths = filtered.map(({ slug }) => ({
     params: { slug: slug.split('/').filter(Boolean) },
   }));
@@ -152,6 +151,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const slugPath = (params?.slug as string[]) || [];
   const slug = slugPath.join('/');
   const isJournal = slugPath[0] === 'journal';
+
+  if (isRetiredContentPath(slug)) return { notFound: true };
 
   const postData = await getMarkdownData(slug);
   if (!postData) {

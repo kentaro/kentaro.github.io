@@ -80,7 +80,7 @@ export default function PodcastIndex({ podcast }: Props) {
           </div>
           <div>
             <div className="article-kicker" style={{ marginBottom: '12px' }}>
-              A podcast by Kentaro Kuribayashi
+              A podcast by Kéntareaux Kuribayashi
             </div>
             <h1 className="giga" style={{ fontSize: 'clamp(52px, 9vw, 120px)', marginBottom: '20px' }}>
               {podcast.title || 'Antipop FM'}

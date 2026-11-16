@@ -24,7 +24,7 @@ export default function MusicPage({ items }: Props) {
       <div className="music-page">
         <section className="music-intro wrap">
           <div className="crumb"><Link href="/">ホーム</Link><span className="sep">/</span><span>音楽</span></div>
-          <span className="music-kicker">MUSIC / KENTARO KURIBAYASHI</span>
+          <span className="music-kicker">MUSIC / Kéntareaux Kuribayashi</span>
           <h1>音楽</h1>
           <p>つくった曲、ピアノの演奏、音楽の映像。</p>
           <p>YouTubeとSoundCloudで公開している作品を、ここから聴けます。</p>

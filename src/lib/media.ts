@@ -57,7 +57,13 @@ function normalizeMediaItem(value: unknown): MediaItem | null {
 		? new Date(item.date).toISOString() : "";
 	return {
 		title: item.title.trim(),
-		description: typeof item.description === "string" ? item.description : "",
+		description: typeof item.description === "string"
+			? item.description
+				.replace(/Kentaro Kuribayashi/g, "Kéntareaux Kuribayashi")
+				.replace(/https:\/\/(?:x|twitter)\.com\/kentaro(?=$|[\s"<])/g, "https://x.com/kentareaux")
+				.replace(/^.*(?:discord\.gg\/SXyKFCyMd5|facebook\.com\/kentarok).*$/gm, "")
+				.trim()
+			: "",
 		url,
 		date,
 		source,

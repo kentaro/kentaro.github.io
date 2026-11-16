@@ -3,6 +3,8 @@
 // and served as static JSON from the site itself, so this worker only needs
 // read-only fetch access with in-isolate caching.
 
+import { filterCreatorWorksFeed, isRetiredContentPath } from "../../../src/lib/creator-content";
+
 export const ORIGIN = "https://kentarokuribayashi.com";
 
 const CACHE_TTL_MS = 15 * 60 * 1000;
@@ -95,7 +97,7 @@ export async function getSearchDocuments(): Promise<IndexedSearchDocument[]> {
   if (!indexedDocuments || indexedDocuments.source !== raw) {
     indexedDocuments = {
       source: raw,
-      docs: raw.map((doc) => ({
+      docs: raw.filter(doc => !isRetiredContentPath(doc.path)).map((doc) => ({
         ...doc,
         titleLower: doc.title.toLowerCase(),
         contentLower: doc.content.toLowerCase(),
@@ -109,19 +111,19 @@ export function getPodcastData(): Promise<PodcastData> {
   return fetchJsonCached<PodcastData>("/data/podcast.json");
 }
 
-export function getWorksFeedData(): Promise<WorksFeedData> {
-  return fetchJsonCached<WorksFeedData>("/works/feed-data.json");
+export async function getWorksFeedData(): Promise<WorksFeedData> {
+  const feed = await fetchJsonCached<WorksFeedData>("/works/feed-data.json");
+  const filtered = filterCreatorWorksFeed(feed);
+  return { ...feed, ...filtered, sources: feed.sources.filter(source => ["note", "music", "video", "podcast"].includes(source.type)) };
 }
 
 export function documentUrl(doc: Pick<SearchDocument, "path">): string {
   return `${ORIGIN}${encodeURI(doc.path)}`;
 }
 
-export type SiteSection = "blog" | "journal" | "profile" | "other";
+export type SiteSection = "journal" | "other";
 
 export function sectionOf(doc: Pick<SearchDocument, "path">): SiteSection {
-  if (doc.path.startsWith("/blog/")) return "blog";
   if (doc.path.startsWith("/journal/")) return "journal";
-  if (doc.path === "/profile") return "profile";
   return "other";
 }

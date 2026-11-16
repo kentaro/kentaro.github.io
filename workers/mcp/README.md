@@ -10,19 +10,19 @@ kentarokuribayashi.com のコンテンツを AI エージェントから利用�
 
 | ツール | 説明 |
 |---|---|
-| `get_profile` | プロフィール全文（経歴・研究業績・著作等） |
-| `search_site` | サイト全文検索（`query`, `section`: all/blog/journal, `limit`） |
+| `search_site` | 日記・創作コンテンツの検索（`query`, `section`: all/journal, `limit`） |
 | `get_page` | パス指定でページ本文を取得（`path`） |
-| `list_blog_posts` | ブログ記事一覧（`year`, `limit`） |
 | `list_journal_entries` | 日記一覧（`year`, `month`, `limit`） |
 | `list_podcast_episodes` | ポッドキャストエピソード一覧（`limit`） |
-| `list_works` | 外部発信（note・技術ブログ・スライド・動画・音楽）一覧（`category`, `limit`) |
+| `list_works` | 創作物（note・音楽動画・音楽）一覧（`category`, `limit`) |
 | `get_journal_by_date` | 日付指定で日記を取得（`date`: YYYY-MM-DD） |
 | `on_this_day` | 歴代の「この日」の日記を全年横断で取得（`month`, `day`。省略時はJSTの今日） |
 | `random_page` | ランダムに1ページ取得（`section`） |
-| `get_recent_updates` | ブログ・日記・ポッドキャスト・works横断の最新更新（`limit`） |
+| `get_recent_updates` | 日記・ポッドキャスト・創作物横断の最新更新（`limit`） |
 | `search_podcast` | ポッドキャストのタイトル・説明を全文検索（`query`, `limit`） |
 | `site_stats` | サイト統計（セクション別件数・期間・エピソード数・worksカテゴリ別件数） |
+
+旧ブログと仕事プロフィールの本文は検索JSON・RSS・各ツールから除外します。旧 `/blog`・`/profile`・`/about` は公開ルートを廃止し、他サイトへの転送や案内はしません。動画は音楽アーカイブで選んだものだけを扱います。古い検索・作品データがキャッシュに残っていても、読み込み時に同じ公開範囲へ絞ります。
 
 ## ローカル開発
 

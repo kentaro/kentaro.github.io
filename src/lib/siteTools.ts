@@ -4,6 +4,8 @@
 // for AI agents) and the human-facing command palette UI. They operate on the
 // same prebuilt static data files the site already ships.
 
+import { filterCreatorWorksFeed, isRetiredContentPath } from "./creator-content";
+
 export interface SearchDocument {
   id: string;
   title: string;
@@ -90,14 +92,13 @@ function loadJson<T>(path: string): Promise<T> {
   return promise;
 }
 
-export const loadSearchData = () => loadJson<SearchDocument[]>("/search-data.json");
+export const loadSearchData = async () => (await loadJson<SearchDocument[]>("/search-data.json"))
+  .filter(doc => !isRetiredContentPath(doc.path));
 export const loadPodcastData = () => loadJson<PodcastData>("/data/podcast.json");
-export const loadWorksData = () => loadJson<WorksFeedData>("/works/feed-data.json");
+export const loadWorksData = async () => filterCreatorWorksFeed(await loadJson<WorksFeedData>("/works/feed-data.json"));
 
 export function sectionOf(doc: Pick<SearchDocument, "path">): string {
-  if (doc.path.startsWith("/blog/")) return "blog";
   if (doc.path.startsWith("/journal/")) return "journal";
-  if (doc.path === "/profile") return "profile";
   return "other";
 }
 
@@ -148,7 +149,7 @@ export async function searchSite(
   return hits.slice(0, limit);
 }
 
-// Undated documents (e.g. the profile) always rank after dated ones in the
+// Undated documents always rank after dated ones in the
 // date-based orders; relevance breaks ties within the same date.
 function sortHits(hits: SearchHit[], sort: SearchSort): void {
   hits.sort((a, b) => {
@@ -208,12 +209,12 @@ export async function onThisDay(
 }
 
 export async function randomPage(
-  section: "all" | "blog" | "journal" = "all",
+  section: "all" | "journal" = "all",
 ): Promise<SearchDocument | undefined> {
   const documents = await loadSearchData();
   const pool = documents.filter((doc) => {
     const docSection = sectionOf(doc);
-    if (section === "all") return docSection === "blog" || docSection === "journal";
+    if (section === "all") return docSection === "journal";
     return docSection === section;
   });
   if (pool.length === 0) return undefined;
@@ -230,7 +231,7 @@ export async function recentUpdates(limit = 15): Promise<RecentUpdate[]> {
     ...documents
       .filter((doc) => {
         const section = sectionOf(doc);
-        return section === "blog" || section === "journal";
+        return section === "journal";
       })
       .map((doc) => ({
         type: sectionOf(doc),

@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
+import { isCreatorWork } from '@/lib/creator-content';
 
 interface FeedItem {
   title: string;
@@ -64,7 +65,7 @@ export default function WorksPage({ feedData }: Props) {
     <Layout activeNav="works">
       <SEO
         title="制作物"
-        description="栗林健太郎の note、技術ブログ、スライド、動画、音楽などの制作物のアーカイブ。"
+        description="栗林健太郎のエッセイ、音楽、映像、ポッドキャストなどの制作物のアーカイブ。"
       />
 
       <section className="sub-hero">
@@ -78,7 +79,7 @@ export default function WorksPage({ feedData }: Props) {
             <div>
               <h1 className="giga">制作物</h1>
               <p className="lede-en">
-                noteの記事、技術ブログ、スライド、音楽、動画の一覧。
+                noteのエッセイ、音楽、映像、ポッドキャストの一覧。
               </p>
             </div>
             <div className="meta-block">
@@ -182,13 +183,15 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     const raw = fs.readFileSync(dataFilePath, 'utf8');
     const feedData: FeedData = JSON.parse(raw);
     const optimized: FeedData = {
-      items: feedData.items.slice(0, 100),
-      sources: feedData.sources,
+      items: feedData.items.filter(isCreatorWork).slice(0, 100),
+      sources: feedData.sources.filter((source) => ['note', 'music', 'video', 'podcast'].includes(source.type)),
       lastUpdated: feedData.lastUpdated,
       allItems: [],
       itemsByCategory: Object.entries(feedData.itemsByCategory).reduce(
         (acc, [key, items]) => {
-          acc[key] = items.slice(0, 50);
+          if (['note', 'music', 'video', 'podcast'].includes(key)) {
+            acc[key] = items.filter(isCreatorWork).slice(0, 50);
+          }
           return acc;
         },
         {} as Record<string, FeedItem[]>

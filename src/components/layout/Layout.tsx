@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-export type NavKey = 'home' | 'profile' | 'works' | 'journal' | 'photo' | 'podcast' | 'blog' | 'music';
+export type NavKey = 'home' | 'note' | 'works' | 'journal' | 'photo' | 'podcast' | 'music';
 
 interface LayoutProps {
   children: ReactNode;

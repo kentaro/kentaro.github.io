@@ -8,13 +8,10 @@ import { getAllMarkdownFiles, getMarkdownData } from "./markdown";
 const SITE_URL = "https://kentarokuribayashi.com";
 const AUTHOR_NAME = "栗林健太郎";
 
-export async function generateRssFeed(type: "blog" | "journal") {
+export async function generateRssFeed(type: "journal") {
 	const feed = new Feed({
-		title: type === "blog" ? "栗林健太郎のブログ" : "栗林健太郎の日記",
-		description:
-			type === "blog"
-				? "技術、マネジメント、読書などについての記事を掲載しています。"
-				: "日々の活動や考えを記録しています。",
+		title: "栗林健太郎の日記",
+		description: "日々の活動や考えを記録しています。",
 		id: SITE_URL,
 		link: SITE_URL,
 		language: "ja",

@@ -24,7 +24,6 @@ import {
   siteStats,
   type SearchDocument,
 } from "./siteTools";
-import { PROFILE_DESCRIPTION, PROFILE_TITLE, PROFILE_URL } from "./profile";
 
 interface WebMcpToolResult {
   content: { type: "text"; text: string }[];
@@ -102,7 +101,7 @@ const tools: WebMcpTool[] = [
   {
     name: "search_site",
     description:
-      "Full-text search over this site's content (blog posts, journal entries, and a link to Kentaro Kuribayashi's independent profile site). Returns hits with path and snippet, newest first by default.",
+      "Full-text search over Kéntareaux Kuribayashi's creator site (journal entries and creative work). Returns hits with path and snippet, newest first by default.",
     inputSchema: {
       type: "object",
       properties: {
@@ -127,19 +126,6 @@ const tools: WebMcpTool[] = [
     },
   },
   {
-    name: "get_profile",
-    description:
-      "Get the URL of Kentaro Kuribayashi's independent profile site, with his biography, career history, research, publications, and talks.",
-    inputSchema: { type: "object", properties: {} },
-    async execute() {
-      return textResult({
-        title: PROFILE_TITLE,
-        content: `${PROFILE_DESCRIPTION} ${PROFILE_URL}`,
-        url: PROFILE_URL,
-      });
-    },
-  },
-  {
     name: "get_page",
     description:
       "Get the full plain-text content of a page on this site by its path (as returned by search_site).",
@@ -160,39 +146,6 @@ const tools: WebMcpTool[] = [
       const path = String(input.path ?? "/");
       window.location.href = path;
       return textResult(`Navigating to ${path}`);
-    },
-  },
-  {
-    name: "list_blog_posts",
-    description:
-      "List blog posts (since 2002), newest first. Optionally filter by year.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        year: { type: "number", description: "Filter by year" },
-        limit: { type: "number", description: "Maximum number of results" },
-      },
-    },
-    async execute(input) {
-      const year = input.year === undefined ? undefined : Number(input.year);
-      const limit = clampLimit(input.limit, 20, 100);
-      const documents = await loadSearchData();
-      const posts = documents
-        .filter((doc) => doc.path.startsWith("/blog/"))
-        .filter((doc) =>
-          year === undefined
-            ? true
-            : doc.date !== undefined && new Date(doc.date).getFullYear() === year,
-        )
-        .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""))
-        .slice(0, limit)
-        .map((doc) => ({
-          title: doc.title,
-          path: doc.path,
-          date: doc.date,
-          excerpt: doc.excerpt,
-        }));
-      return textResult({ total: posts.length, posts });
     },
   },
   {
@@ -230,7 +183,7 @@ const tools: WebMcpTool[] = [
   },
   {
     name: "list_podcast_episodes",
-    description: "List episodes of Kentaro Kuribayashi's podcast, newest first.",
+    description: "List episodes of Kéntareaux Kuribayashi's podcast, newest first.",
     inputSchema: {
       type: "object",
       properties: {
@@ -257,13 +210,13 @@ const tools: WebMcpTool[] = [
   {
     name: "list_works",
     description:
-      "List recent works aggregated from external sources: note articles, tech blog posts, slides, videos, and music. Optionally filter by category (note, tech-blog, slide, video, music).",
+      "List recent works aggregated from external sources: note essays, curated music videos, and music. Optionally filter by category (note, video, music).",
     inputSchema: {
       type: "object",
       properties: {
         category: {
           type: "string",
-          description: "Category filter: all, note, tech-blog, slide, video, music",
+          description: "Category filter: all, note, video, music",
         },
         limit: { type: "number", description: "Maximum number of results" },
       },
@@ -331,18 +284,18 @@ const tools: WebMcpTool[] = [
   {
     name: "random_page",
     description:
-      "Get a randomly chosen page from the site - blog posts since 2002 and near-daily journal entries since 2015. Useful for serendipity.",
+      "Get a randomly chosen journal entry from the creator site. Useful for serendipity.",
     inputSchema: {
       type: "object",
       properties: {
         section: {
           type: "string",
-          description: "Section to pick from: all, blog, journal",
+          description: "Section to pick from: all, journal",
         },
       },
     },
     async execute(input) {
-      const section = String(input.section ?? "all") as "all" | "blog" | "journal";
+      const section = String(input.section ?? "all") as "all" | "journal";
       const doc = await randomPage(section);
       if (!doc) return textResult("No pages available.");
       return pageResult(doc);
@@ -351,7 +304,7 @@ const tools: WebMcpTool[] = [
   {
     name: "get_recent_updates",
     description:
-      "Get the latest updates across all content types - blog posts, journal entries, podcast episodes, and external works - merged and sorted by date, newest first.",
+      "Get the latest journal entries, podcast episodes, and creative works, merged and sorted by date, newest first.",
     inputSchema: {
       type: "object",
       properties: {

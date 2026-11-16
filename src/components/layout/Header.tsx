@@ -3,17 +3,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FiSearch } from "react-icons/fi";
 import { useSearchModalStore } from "@/store/useSearchModalStore";
-import { PROFILE_URL } from "@/lib/profile";
+import { NOTE_URL } from "@/lib/creator-content";
 import type { NavKey } from "./Layout";
 
 const NAV: { key: NavKey; href: string; label: string }[] = [
 	{ key: "journal", href: "/journal", label: "日記" },
-	{ key: "blog", href: "/blog", label: "ブログ" },
+	{ key: "note", href: NOTE_URL, label: "note ↗" },
 	{ key: "works", href: "/works", label: "制作物" },
 	{ key: "music", href: "/music", label: "音楽" },
 	{ key: "photo", href: "/photo", label: "写真" },
 	{ key: "podcast", href: "/podcast", label: "音声" },
-	{ key: "profile", href: PROFILE_URL, label: "プロフィール" },
 ];
 
 interface Props {
@@ -118,11 +117,11 @@ export default function Header({ activeNav = "home" }: Props) {
 						aria-current={activeNav === "home" ? "page" : undefined}
 					>
 						<span className="title">栗林健太郎</span>
-						<span className="sub">Kentaro Kuribayashi</span>
+						<span className="sub">Kéntareaux Kuribayashi</span>
 					</Link>
 					<nav className="top" aria-label="メインナビゲーション">
 						{NAV.map((item) => {
-							const NavigationLink = item.key === "profile" ? "a" : Link;
+							const NavigationLink = item.key === "note" ? "a" : Link;
 							return (
 								<NavigationLink
 									key={item.key}
@@ -187,7 +186,7 @@ export default function Header({ activeNav = "home" }: Props) {
 								</Link>
 							</li>
 							{NAV.map((item) => {
-								const NavigationLink = item.key === "profile" ? "a" : Link;
+								const NavigationLink = item.key === "note" ? "a" : Link;
 								return (
 									<li key={item.key}>
 										<NavigationLink

@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
 import remarkGfm from "remark-gfm";
+import { isRetiredContentPath } from "./creator-content";
 
 // プロジェクトルートからのパスを取得
 const obsidianPublicDir = path.join(process.cwd(), "obsidian/public");
@@ -122,6 +123,7 @@ export async function getMarkdownData(
 	slug: string,
 	dirPath = obsidianPublicDir,
 ) {
+	if (isRetiredContentPath(slug)) return null;
 	try {
 		// スラッグからファイルパスを構築
 		const slugPath = `${slug}.md`;

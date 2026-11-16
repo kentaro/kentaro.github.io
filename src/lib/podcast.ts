@@ -38,13 +38,29 @@ export interface PodcastInfo {
   episodes: PodcastEpisode[];
 }
 
+// The creator site publishes the episodes without the professional bio and
+// contact footer supplied by the external feed.
+function forCreatorSite(podcast: PodcastInfo): PodcastInfo {
+  return {
+    ...podcast,
+    description: '栗林健太郎が、日々の思考や暮らし、本、アートなどについて話すポッドキャストです。',
+    episodes: podcast.episodes.map(episode => ({
+      ...episode,
+      description: episode.description
+        .split(/(?:<p[^>]*>\s*)?【栗林健太郎とは】/)[0]
+        .replace(/(?:\s*<p>(?:\s|<br\s*\/?\s*>|----)*<\/p>)+\s*$/g, '')
+        .trim(),
+    })),
+  };
+}
+
 /**
  * ポッドキャストのRSSフィードを取得して解析
  */
 export async function fetchPodcastFeed(rssUrl: string): Promise<PodcastInfo> {
   // The build script refreshes this snapshot before page generation.
   if (rssUrl === 'https://anchor.fm/s/6877a570/podcast/rss' && savedPodcast.episodes.length) {
-    return savedPodcast as PodcastInfo;
+    return forCreatorSite(savedPodcast as PodcastInfo);
   }
   try {
     // RSSフィードを取得
@@ -86,12 +102,12 @@ export async function fetchPodcastFeed(rssUrl: string): Promise<PodcastInfo> {
       };
     });
 
-    return {
+    return forCreatorSite({
       title: channel.title || '',
       description: channel.description || '',
       imageUrl: channel['itunes:image']?.$ ? channel['itunes:image'].$.href : channel.image?.url || '',
       episodes,
-    };
+    });
   } catch (error) {
     console.error('Error fetching podcast feed:', error);
     throw error;

@@ -13,7 +13,7 @@ type SEOProps = {
 
 export default function SEO({
   title = '栗林健太郎',
-  description = 'GMOペパボ株式会社取締役CTO / 一般社団法人日本CTO協会理事 / 博士（情報科学）/ 情報処理安全確保支援士',
+  description = '栗林健太郎のエッセイ、日記、音楽、写真、映像、ポッドキャスト。文章と作品、日々の記録をまとめています。',
   ogImage,
   ogType = 'website',
   twitterCard = 'summary_large_image',
@@ -26,18 +26,14 @@ export default function SEO({
   // デフォルトアイコンURL
   const defaultIconUrl = 'https://pbs.twimg.com/profile_images/1964961444673531905/wD3BXCk2_400x400.jpg';
 
-  // OGイメージURLの生成（ブログ記事と日記記事のみタイトルは「｜栗林健太郎」なしで、その他のページでは「｜栗林健太郎」を含める）
-  const isBlogPostOrJournalPost = (router.pathname.startsWith('/blog/') && router.pathname !== '/blog') ||
-    (router.pathname.startsWith('/journal/') && router.pathname !== '/journal');
-
-  const ogTitle = isBlogPostOrJournalPost ? title : fullTitle;
+  // 日記記事ではタイトルに著者名を重ねない。
+  const isJournalPost = router.pathname.startsWith('/journal/') && router.pathname !== '/journal';
+  const ogTitle = isJournalPost ? title : fullTitle;
   const ogImageUrl = ogImage || `https://ogen-sigma.vercel.app/api/og?title=${encodeURIComponent(ogTitle)}&username=栗林健太郎&iconUrl=${encodeURIComponent(defaultIconUrl)}`;
 
   // RSSフィードのリンクを決定
   let rssLink = null;
-  if (router.pathname === '/blog' || router.pathname.startsWith('/blog/')) {
-    rssLink = '/blog/feed';
-  } else if (router.pathname === '/journal' || router.pathname.startsWith('/journal/')) {
+  if (router.pathname === '/journal' || router.pathname.startsWith('/journal/')) {
     rssLink = '/journal/feed';
   }
 
@@ -66,7 +62,7 @@ export default function SEO({
 
       {/* Twitter */}
       <meta name="twitter:card" content={twitterCard} />
-      <meta name="twitter:site" content="@kentaro" />
+      <meta name="twitter:site" content="@kentareaux" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImageUrl} />
@@ -94,4 +90,4 @@ export default function SEO({
       <link rel="icon" href="/favicon.ico" />
     </Head>
   );
-} 
+}

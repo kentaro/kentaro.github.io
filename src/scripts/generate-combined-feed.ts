@@ -8,6 +8,7 @@ import { remark } from "remark";
 import stripMarkdown from "strip-markdown";
 import { generateRssFeed } from "../lib/rss";
 import { fetchPodcastFeed } from "../lib/podcast";
+import { isCreatorWork } from "../lib/creator-content";
 import { getMediaItems, isMusicVideo, mergeMediaItems, saveMediaItems } from "../lib/media";
 
 // フィードのソース一覧
@@ -16,16 +17,6 @@ const FEED_SOURCES = [
 		url: "https://note.com/kentarok/rss",
 		type: "note",
 		name: "note",
-	},
-	{
-		url: "https://zenn.dev/kentarok/feed",
-		type: "tech-blog",
-		name: "技術ブログ",
-	},
-	{
-		url: "https://speakerdeck.com/kentaro.rss",
-		type: "slide",
-		name: "スライド",
 	},
 	{
 		url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCePhLXeZjDdNEosOqpmD19A",
@@ -410,7 +401,7 @@ async function generateCombinedFeed() {
 	const allItemsArrays = await Promise.all(allItemsPromises);
 
 	// 全てのアイテムをフラット化（ポッドキャストを除外）
-	const freshItems = allItemsArrays.flat().filter(item => item.source !== 'podcast');
+	const freshItems = allItemsArrays.flat().filter(item => item.source !== 'podcast' && isCreatorWork(item));
 	const mediaItems = mergeMediaItems(archivedMedia, freshItems.map(item => ({
 		...item,
 		date: item.date.toISOString(),
@@ -439,7 +430,7 @@ async function generateCombinedFeed() {
 	const feed = new Feed({
 		title: "栗林健太郎の制作物",
 		description:
-			"栗林健太郎のnote、技術ブログ、スライド、動画、音楽のまとめ",
+			"栗林健太郎のエッセイ、音楽、映像のまとめ",
 		id: SITE_URL,
 		link: `${SITE_URL}/works`,
 		language: "ja",
@@ -493,16 +484,14 @@ async function generateCombinedFeed() {
 
 	console.log(`Generated combined feed with ${latestItems.length} items`);
 
-	// 全体フィード（作品、ブログ、日記、ポッドキャストをまとめた全体フィード）を生成
-	// ブログと日記のRSSフィードを生成し、データを取得
-	const blogPosts = await generateRssFeed("blog");
+	// 全体フィード（作品、日記、ポッドキャスト）を生成
 	const journalPosts = await generateRssFeed("journal");
 
 	// ポッドキャストのデータを取得（スラッグ付きでURLを生成）
 	const rssUrl = 'https://anchor.fm/s/6877a570/podcast/rss';
 	const podcastData = await fetchPodcastFeed(rssUrl);
 
-	// ブログ、日記、外部作品フィード、ポッドキャストを結合
+	// 日記、外部作品フィード、ポッドキャストを結合
 	type RootItem = {
 		title: string;
 		id: string;
@@ -530,16 +519,6 @@ async function generateCombinedFeed() {
 	};
 
 	const rootItems: RootItem[] = [
-		...(await Promise.all(
-			blogPosts.map(async (post) => ({
-				title: post.title,
-				id: `${SITE_URL}/${post.slug}`,
-				link: `${SITE_URL}/${post.slug}`,
-				description: await stripMarkdownText(post.excerpt),
-				content: post.contentHtml,
-				date: post.date,
-			})),
-		)),
 		...(await Promise.all(
 			journalPosts.map(async (post) => ({
 				title: post.title,
@@ -583,7 +562,7 @@ async function generateCombinedFeed() {
 	// 全体フィードを生成
 	const rootFeed = new Feed({
 		title: "栗林健太郎の活動記録",
-		description: "作品、ブログ、日記、ポッドキャストをまとめた全体フィード",
+		description: "作品、日記、ポッドキャストをまとめた全体フィード",
 		id: SITE_URL,
 		link: SITE_URL,
 		language: "ja",

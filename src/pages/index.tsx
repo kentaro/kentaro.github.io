@@ -1,7 +1,6 @@
-import { useState } from "react";
 import type { GetStaticProps } from "next";
 import Link from "next/link";
-import { PROFILE_URL } from "@/lib/profile";
+import { isCreatorWork, NOTE_URL } from "@/lib/creator-content";
 import fs from "node:fs";
 import path from "node:path";
 import MediaGrid from "@/components/media/MediaGrid";
@@ -44,12 +43,9 @@ type PodcastSummary = {
 type Props = {
 	music: MediaItem[];
 	journals: JournalSummary[];
-	blogs: JournalSummary[];
 	works: WorkSummary[];
 	photos: PhotoSummary[];
 	podcasts: PodcastSummary[];
-	journalCount: number;
-	blogCount: number;
 };
 
 function formatDateJP(date: string | null | undefined): string {
@@ -99,23 +95,15 @@ function Heading({
 export default function Home({
 	music,
 	journals,
-	blogs,
 	works,
 	photos,
 	podcasts,
-	journalCount,
-	blogCount,
 }: Props) {
-	const [writing, setWriting] = useState<"journal" | "blog">("journal");
-	const writingPanels = [
-		{ kind: "journal", items: journals },
-		{ kind: "blog", items: blogs },
-	] as const;
 	const essays = works
 		.filter((w) => w.source === "note" || w.sourceName === "note")
 		.slice(0, 4);
 	const creations = works
-		.filter((w) => w.sourceName !== "note")
+		.filter((w) => w.source !== "note" && w.sourceName !== "note")
 		.filter(
 			(w, i, all) =>
 				all.findIndex(
@@ -150,7 +138,7 @@ export default function Home({
 						fetchPriority="high"
 					/>
 					<div className="ed-cover-top">
-						<span>LITERATURE / CULTURE / TECHNOLOGY</span>
+						<span>WRITING / MUSIC / PHOTOGRAPHY</span>
 					</div>
 					<div className="ed-cover-copy">
 						<p className="ed-label">栗林健太郎 エッセイ集</p>
@@ -182,7 +170,7 @@ export default function Home({
 						<Arrow />
 					</a>
 					<a href="#writing">
-						<span>02</span>日記・ブログ
+						<span>02</span>日記
 						<Arrow />
 					</a>
 					<a href="#creations">
@@ -229,60 +217,31 @@ export default function Home({
 							loading="lazy"
 						/>
 						<div>
-							<span>02 / JOURNAL & BLOG</span>
-							<p>日記とブログ</p>
+							<span>02 / JOURNAL</span>
+							<p>日記</p>
 						</div>
 					</div>
 					<div className="ed-diary-copy">
 						<div className="ed-diary-head">
-							<h2>日記とブログ</h2>
-							<Link href={`/${writing}`} className="ed-link">
+							<h2>日記</h2>
+							<Link href="/journal" className="ed-link">
 								すべて読む
 								<Arrow />
 							</Link>
 						</div>
-						<div className="ed-tabs" role="group" aria-label="表示する文章">
-							<button
-								type="button"
-								aria-pressed={writing === "journal"}
-								onClick={() => setWriting("journal")}
-							>
-								日記 <span>{journalCount.toLocaleString("ja-JP")}</span>
-							</button>
-							<button
-								type="button"
-								aria-pressed={writing === "blog"}
-								onClick={() => setWriting("blog")}
-							>
-								ブログ <span>{blogCount.toLocaleString("ja-JP")}</span>
-							</button>
-						</div>
-						<div className="ed-entries" aria-live="polite">
-							{writingPanels.map(({ kind, items }) => (
-								<div
-									key={kind}
-									className="ed-entry-panel"
-									data-active={writing === kind}
-									aria-hidden={writing !== kind}
-									inert={writing !== kind}
-								>
-									{items.map((entry) => (
-										<article key={entry.slug}>
-											<Link href={`/${entry.slug}`}>
-												<time dateTime={entry.date || undefined}>
-													{formatDateJP(entry.date)}
-												</time>
-												<h3>
-													{entry.title}
-													<Arrow diagonal />
-												</h3>
-												<p>{entry.excerpt}</p>
-											</Link>
-										</article>
-									))}
-									{!items.length && <p>まだ記事がありません。</p>}
-								</div>
+						<div className="ed-entries">
+							{journals.map((entry) => (
+								<article key={entry.slug}>
+									<Link href={`/${entry.slug}`}>
+										<time dateTime={entry.date || undefined}>
+											{formatDateJP(entry.date)}
+										</time>
+										<h3>{entry.title}<Arrow diagonal /></h3>
+										<p>{entry.excerpt}</p>
+									</Link>
+								</article>
 							))}
+							{!journals.length && <p>まだ日記がありません。</p>}
 						</div>
 					</div>
 				</section>
@@ -398,26 +357,23 @@ export default function Home({
 				</section>
 				<section
 					className="ed-profile ed-wrap"
-					aria-labelledby="profile-heading"
+					aria-labelledby="creator-heading"
 				>
 					<div>
 						<span className="ed-label">ABOUT THE AUTHOR</span>
-						<h2 id="profile-heading">栗林健太郎</h2>
-						<p className="ed-profile-roman">Kentaro Kuribayashi / あんちぽ</p>
-						<a href={PROFILE_URL} className="ed-link">
-							プロフィール・研究・登壇
-							<Arrow />
+						<h2 id="creator-heading">栗林健太郎</h2>
+						<p className="ed-profile-roman">Kéntareaux Kuribayashi / あんちぽ</p>
+						<a href={NOTE_URL} className="ed-link">
+							noteで読む
+							<Arrow diagonal />
 						</a>
 					</div>
 					<div className="ed-profile-body">
 						<p>
-							1976年生まれ、奄美大島育ち。東京都立大学で政治学を学び、卒業後は奄美市役所に勤務。PHPでブログを自作したのをきっかけに、プログラミングにのめり込む。2008年にはてな、2012年にGMOペパボへ入社。
+							文章を書き、音楽をつくり、写真を撮っています。エッセイや日記、曲、映像、ポッドキャストをこのサイトにまとめています。
 						</p>
 						<p>
-							GMOペパボ取締役CTO・ペパボ研究所長。日本CTO協会理事、人間中心のAIコンソーシアム理事。2025年、北陸先端科学技術大学院大学で博士（情報科学）を取得。IoTシステムとElixir、Erlang/OTPを研究。
-						</p>
-						<p>
-							本、アート、うつわ、歌舞伎、落語、語学、ソーシャルVR、アマチュア無線。歴史・思想から情報科学まで、本を年間約200冊読む。
+							本、アート、うつわ、歌舞伎、落語、語学などに関心があります。
 						</p>
 					</div>
 				</section>
@@ -427,42 +383,6 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-	// Latest writing and the size of the public archive.
-	const allFiles = getAllMarkdownFiles();
-	const journalCount = allFiles.filter(({ slug }) =>
-		slug.startsWith("journal/"),
-	).length;
-	const blogCount = allFiles.filter(({ slug }) =>
-		slug.startsWith("blog/"),
-	).length;
-	const latestBlogFiles = allFiles.filter(({ slug }) =>
-		slug.startsWith("blog/"),
-	);
-	const blogEntries = await Promise.all(
-		latestBlogFiles.map(async ({ slug }) => {
-			const d = await getMarkdownData(slug);
-			return {
-				slug,
-				title: String(d?.title || slug.split("/").pop()),
-				date:
-					d?.date instanceof Date
-						? d.date.toISOString()
-						: typeof d?.date === "string"
-							? d.date
-							: null,
-				excerpt: stripTags(String(d?.contentHtml || d?.excerpt || "")).slice(
-					0,
-					180,
-				),
-			};
-		}),
-	);
-	const blogs = blogEntries
-		.sort(
-			(a, b) =>
-				new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime(),
-		)
-		.slice(0, 3);
 	// Journals — latest 3
 	let journals: JournalSummary[] = [];
 	try {
@@ -521,7 +441,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 					image?: string | null;
 				}>;
 			};
-			works = feed.items.slice(0, 16).map((i) => ({
+			works = feed.items.filter(isCreatorWork).slice(0, 16).map((i) => ({
 				title: i.title,
 				description: stripTags(i.description || "").replace(/続きをみる$/, "").slice(0, 150),
 				url: i.url,
@@ -575,9 +495,6 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 		props: {
 			music,
 			journals,
-			blogs,
-			journalCount,
-			blogCount,
 			works,
 			photos,
 			podcasts,

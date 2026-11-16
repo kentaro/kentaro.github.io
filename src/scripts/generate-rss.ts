@@ -1,12 +1,15 @@
 import { generateRssFeed } from "../lib/rss";
+import { rmSync } from "node:fs";
+import path from "node:path";
 
 async function main() {
 	console.log("Generating RSS feeds...");
 
 	try {
-		// ブログのRSSフィードを生成
-		const blogPosts = await generateRssFeed("blog");
-		console.log(`Generated blog RSS feed with ${blogPosts.length} posts`);
+		// Remove only generated retired feeds; original Markdown stays archived.
+		for (const dir of ["public", "build"]) {
+			rmSync(path.join(process.cwd(), dir, "blog/feed.xml"), { force: true });
+		}
 
 		// ジャーナルのRSSフィードを生成
 		const journalPosts = await generateRssFeed("journal");

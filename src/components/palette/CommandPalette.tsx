@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useSearchModalStore } from '@/store/useSearchModalStore';
 import { useRouter } from 'next/router';
 import { Search } from 'lucide-react';
+import { NOTE_URL } from '@/lib/creator-content';
 import {
   getJournalByDate,
   loadPodcastData,
@@ -32,7 +33,7 @@ type QuickAction =
   | 'onThisDay'
   | 'random'
   | 'recent'
-  | 'blog'
+  | 'note'
   | 'journal'
   | 'podcast'
   | 'works'
@@ -40,13 +41,13 @@ type QuickAction =
 
 const QUICK_ACTIONS: [QuickAction, string, string][] = [
   ['onThisDay', '歴代の今日の日記', '同じ日付の日記を全年分さかのぼる'],
-  ['random', 'ランダムに1本読む', 'まだ読んでいない記録に出会う'],
+  ['random', '日記をランダムに読む', 'まだ読んでいない記録に出会う'],
   ['recent', '最近の更新', '全コンテンツを日付順に横断'],
   ['stats', 'このサイトの統計', '何がどれだけあるか'],
-  ['blog', 'ブログ記事一覧', '2002年からの記事を新しい順に'],
+  ['note', 'noteで読む ↗', 'エッセイをnoteで読む'],
   ['journal', '日記一覧', 'ほぼ毎日の日記を新しい順に'],
-  ['podcast', 'ポッドキャスト一覧', '「情報科学のまわり道」全エピソード'],
-  ['works', '制作物一覧', 'スライド・記事・音楽など外部発信'],
+  ['podcast', 'ポッドキャスト一覧', '音声の記録を新しい順に'],
+  ['works', '制作物一覧', 'エッセイ・音楽・映像など'],
 ];
 
 const DATE_QUERY = /^(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})日?$/;
@@ -58,9 +59,7 @@ const SORT_OPTIONS: { value: SearchSort; label: string }[] = [
 ];
 
 const SECTION_LABELS: Record<string, string> = {
-  blog: 'ブログ',
   journal: '日記',
-  profile: 'プロフィール',
   podcast: 'ポッドキャスト',
   other: 'その他',
 };
@@ -247,7 +246,9 @@ export default function CommandPalette() {
         if (request === requestRef.current) setView(nextView);
       };
       try {
-        if (action === 'onThisDay') {
+        if (action === 'note') {
+          navigate(NOTE_URL);
+        } else if (action === 'onThisDay') {
           const result = await onThisDay();
           show({ kind: 'onThisDay', ...result });
         } else if (action === 'random') {
@@ -259,7 +260,7 @@ export default function CommandPalette() {
         } else if (action === 'recent') {
           const updates = await recentUpdates(15);
           show({ kind: 'list', title: '最近の更新', items: updates });
-        } else if (action === 'blog' || action === 'journal') {
+        } else if (action === 'journal') {
           const documents = await loadSearchData();
           const items = documents
             .filter((doc) => sectionOf(doc) === action)
@@ -273,7 +274,7 @@ export default function CommandPalette() {
             }));
           show({
             kind: 'list',
-            title: action === 'blog' ? 'ブログ記事（最新30件）' : '日記（最新30件）',
+            title: '日記（最新30件）',
             items,
           });
         } else if (action === 'podcast') {
@@ -480,15 +481,14 @@ export default function CommandPalette() {
           )}
 
           {view.kind === 'stats' && (
-            <div className="grid grid-cols-2 gap-2 p-3 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-2 p-3 sm:grid-cols-3">
               {[
-                ['ブログ', `${view.stats.sections.blog?.count ?? 0}本`, `${view.stats.sections.blog?.first?.slice(0, 4)}年〜`],
                 ['日記', `${view.stats.sections.journal?.count ?? 0}本`, `${view.stats.sections.journal?.first?.slice(0, 4)}年〜`],
                 ['ポッドキャスト', `${view.stats.podcast.episodes}話`, view.stats.podcast.title],
                 [
                   '制作物',
                   `${Object.values(view.stats.works).reduce((a, b) => a + b, 0)}点`,
-                  'スライド・記事・音楽ほか',
+                  'エッセイ・音楽・映像ほか',
                 ],
               ].map(([label, value, note]) => (
                 <div

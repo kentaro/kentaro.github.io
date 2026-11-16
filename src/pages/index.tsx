@@ -363,7 +363,7 @@ export default function Home({
 					<div>
 						<span className="ed-label">ABOUT THE AUTHOR</span>
 						<h2 id="creator-heading">栗林健太郎</h2>
-						<p className="ed-profile-roman">Kéntareaux Kuribayashi / あんちぽ</p>
+						<p className="ed-profile-roman">{SITE_NAME}</p>
 						<a href={NOTE_URL} className="ed-link">
 							noteで読む
 							<Arrow diagonal />

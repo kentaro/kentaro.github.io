@@ -91,7 +91,7 @@ export function getAllMarkdownFiles(
 	slug: string;
 	dirPath: string;
 }[] {
-	if (!fs.existsSync(dirPath)) {
+	if (isRetiredContentPath(basePath) || !fs.existsSync(dirPath)) {
 		return [];
 	}
 
@@ -101,6 +101,8 @@ export function getAllMarkdownFiles(
 	for (const file of files) {
 		const filePath = path.join(dirPath, file);
 		const relativePath = path.join(basePath, file);
+		// Skip retired trees before walking or reading their Markdown files.
+		if (isRetiredContentPath(relativePath.replace(/\.md$/, ""))) continue;
 		const stat = fs.statSync(filePath);
 
 		if (stat.isDirectory()) {

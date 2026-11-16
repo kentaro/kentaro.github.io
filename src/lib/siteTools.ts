@@ -1,8 +1,5 @@
-// Shared site tool layer.
-//
-// These functions power both the WebMCP tool registration (src/lib/webmcp.ts,
-// for AI agents) and the human-facing command palette UI. They operate on the
-// same prebuilt static data files the site already ships.
+// Browser-side search and browsing helpers for the command palette.
+// All data comes from the site's prebuilt static JSON files.
 
 import { filterCreatorWorksFeed, isRetiredContentPath } from "./creator-content";
 
@@ -300,14 +297,4 @@ export async function siteStats(): Promise<SiteStats> {
     podcast: { title: podcast.title, episodes: podcast.episodes.length },
     works: worksByCategory,
   };
-}
-
-export function isWebMcpAvailable(): boolean {
-  if (typeof window === "undefined") return false;
-  const nav = navigator as unknown as {
-    modelContext?: unknown;
-    modelContextTesting?: unknown;
-  };
-  const doc = document as unknown as { modelContext?: unknown };
-  return Boolean(nav.modelContext ?? nav.modelContextTesting ?? doc.modelContext);
 }

@@ -4,13 +4,14 @@ import path from "node:path";
 import { remark } from "remark";
 import stripMarkdown from "strip-markdown";
 import { getAllMarkdownFiles, getMarkdownData } from "./markdown";
+import { SITE_NAME } from "./site";
 
 const SITE_URL = "https://kentarokuribayashi.com";
 const AUTHOR_NAME = "栗林健太郎";
 
 export async function generateRssFeed(type: "journal") {
 	const feed = new Feed({
-		title: "栗林健太郎の日記",
+		title: `日記 | ${SITE_NAME}`,
 		description: "日々の活動や考えを記録しています。",
 		id: SITE_URL,
 		link: SITE_URL,

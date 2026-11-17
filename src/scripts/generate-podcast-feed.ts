@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Feed } from 'feed';
 import { fetchPodcastFeed } from '../lib/podcast';
+import { SITE_NAME } from '../lib/site';
 
 const SITE_URL = 'https://kentarokuribayashi.com';
 const AUTHOR_NAME = '栗林健太郎';
@@ -16,7 +17,7 @@ async function generatePodcastFeed() {
 
     // フィードを生成
     const feed = new Feed({
-      title: podcastData.title,
+      title: `ポッドキャスト | ${SITE_NAME}`,
       description: podcastData.description,
       id: `${SITE_URL}/podcast`,
       link: `${SITE_URL}/podcast`,

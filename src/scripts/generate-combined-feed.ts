@@ -4,10 +4,7 @@ import { execSync } from "node:child_process";
 import axios from "axios";
 import xml2js from "xml2js";
 import { Feed } from "feed";
-import { remark } from "remark";
-import stripMarkdown from "strip-markdown";
-import { generateRssFeed } from "../lib/rss";
-import { fetchPodcastFeed } from "../lib/podcast";
+import { SITE_NAME } from "../lib/site";
 import { isCreatorWork } from "../lib/creator-content";
 import { getMediaItems, isMusicVideo, mergeMediaItems, saveMediaItems } from "../lib/media";
 
@@ -428,9 +425,9 @@ async function generateCombinedFeed() {
 
 	// RSSフィードを生成
 	const feed = new Feed({
-		title: "栗林健太郎の制作物",
+		title: `制作物 | ${SITE_NAME}`,
 		description:
-			"栗林健太郎のエッセイ、音楽、映像のまとめ",
+			`${SITE_NAME}のエッセイ、音楽、映像のまとめ`,
 		id: SITE_URL,
 		link: `${SITE_URL}/works`,
 		language: "ja",
@@ -484,119 +481,8 @@ async function generateCombinedFeed() {
 
 	console.log(`Generated combined feed with ${latestItems.length} items`);
 
-	// 全体フィード（作品、日記、ポッドキャスト）を生成
-	const journalPosts = await generateRssFeed("journal");
-
-	// ポッドキャストのデータを取得（スラッグ付きでURLを生成）
-	const rssUrl = 'https://anchor.fm/s/6877a570/podcast/rss';
-	const podcastData = await fetchPodcastFeed(rssUrl);
-
-	// 日記、外部作品フィード、ポッドキャストを結合
-	type RootItem = {
-		title: string;
-		id: string;
-		link: string;
-		description: string;
-		content: string;
-		date: Date;
-		image?: string;
-		enclosure?: {
-			url: string;
-			type: string;
-			length: number;
-		};
-	};
-
-	// Markdownを除去する関数
-	const stripMarkdownText = async (text: string): Promise<string> => {
-		try {
-			const processed = await remark().use(stripMarkdown).process(text);
-			return processed.toString().trim();
-		} catch (e) {
-			console.error("Error stripping markdown:", e);
-			return text;
-		}
-	};
-
-	const rootItems: RootItem[] = [
-		...(await Promise.all(
-			journalPosts.map(async (post) => ({
-				title: post.title,
-				id: `${SITE_URL}/${post.slug}`,
-				link: `${SITE_URL}/${post.slug}`,
-				description: await stripMarkdownText(post.excerpt),
-				content: post.contentHtml,
-				date: post.date,
-			})),
-		)),
-		...latestItems.map((item) => ({
-			title: item.title,
-			id: item.url,
-			link: item.url,
-			description: item.description,
-			content: item.description,
-			date: item.date,
-			image: item.image || undefined,
-		})),
-		...podcastData.episodes.map((episode) => ({
-			title: episode.title,
-			id: `${SITE_URL}/podcast/${episode.slug}`,
-			link: `${SITE_URL}/podcast/${episode.slug}`,
-			description: episode.description,
-			content: episode.description,
-			date: new Date(episode.pubDate),
-			// ポッドキャストはimageではなくenclosureで音声ファイルを設定
-			image: undefined,
-			enclosure: episode.audioUrl ? {
-				url: episode.audioUrl,
-				type: episode.audioType || 'audio/mpeg',
-				length: episode.audioLength || 0,
-			} : undefined,
-		})),
-	];
-
-	// 日付でソート（新しい順）し、最新100件に制限
-	rootItems.sort((a, b) => b.date.getTime() - a.date.getTime());
-	const rootLatestItems = rootItems.slice(0, 100);
-
-	// 全体フィードを生成
-	const rootFeed = new Feed({
-		title: "栗林健太郎の活動記録",
-		description: "作品、日記、ポッドキャストをまとめた全体フィード",
-		id: SITE_URL,
-		link: SITE_URL,
-		language: "ja",
-		image: `${SITE_URL}/images/profile.jpg`,
-		favicon: `${SITE_URL}/favicon.ico`,
-		copyright: `All rights reserved ${new Date().getFullYear()}, ${AUTHOR_NAME}`,
-		updated: new Date(),
-		feedLinks: {
-			rss2: `${SITE_URL}/feed.xml`,
-		},
-		author: {
-			name: AUTHOR_NAME,
-			link: SITE_URL,
-		},
-	});
-	for (const item of rootLatestItems) {
-		rootFeed.addItem({
-			title: item.title,
-			id: item.id,
-			link: item.link,
-			description: item.description,
-			content: item.content,
-			date: item.date,
-			image: item.image,
-			enclosure: item.enclosure,
-		});
-	}
-
-	// 全体フィードを書き込み
-	const rootOutputDir = path.join(process.cwd(), "public");
-	if (!fs.existsSync(rootOutputDir)) {
-		fs.mkdirSync(rootOutputDir, { recursive: true });
-	}
-	fs.writeFileSync(path.join(rootOutputDir, "feed.xml"), rootFeed.rss2());
+	// public/feed.xml is a frozen copy of the published all-in-one feed.
+	// Keep it unchanged; only the category feeds are updated.
 }
 
 // 実行

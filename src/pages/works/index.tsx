@@ -65,7 +65,7 @@ export default function WorksPage({ feedData }: Props) {
     <Layout activeNav="works">
       <SEO
         title="制作物"
-        description="栗林健太郎のエッセイ、音楽、映像、ポッドキャストなどの制作物のアーカイブ。"
+        description="栗林健太郎のエッセイ、音楽、映像。"
       />
 
       <section className="sub-hero">
@@ -79,7 +79,7 @@ export default function WorksPage({ feedData }: Props) {
             <div>
               <h1 className="giga">制作物</h1>
               <p className="lede-en">
-                noteのエッセイ、音楽、映像、ポッドキャストの一覧。
+                noteのエッセイと、YouTube・SoundCloudの作品。
               </p>
             </div>
             <div className="meta-block">
@@ -91,7 +91,7 @@ export default function WorksPage({ feedData }: Props) {
       </section>
 
       <section className="wrap" style={{ paddingTop: '48px', paddingBottom: '96px' }}>
-        <p style={{ marginBottom: "32px", fontSize: "14px" }}><Link href="/music" className="quiet-link">音楽作品を画像とプレイヤーで見る →</Link></p>
+        <p style={{ marginBottom: "32px", fontSize: "14px" }}><Link href="/music" className="quiet-link">音楽を聴く →</Link></p>
         <div className="works-filter">
           <button
             type="button"

@@ -12,7 +12,7 @@ const AUTHOR_NAME = "栗林健太郎";
 export async function generateRssFeed(type: "journal") {
 	const feed = new Feed({
 		title: `日記 | ${SITE_NAME}`,
-		description: "日々の活動や考えを記録しています。",
+		description: "栗林健太郎の日記。",
 		id: SITE_URL,
 		link: SITE_URL,
 		language: "ja",

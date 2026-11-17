@@ -149,9 +149,7 @@ export default function Home({
 							<span>してたね</span>
 						</h1>
 						<p className="ed-cover-lede">
-							AIが世界を変えるあいだ、私たちは何を食べ、
-							<br className="ed-desktop-break" />
-							誰を育て、何を忘れ、どう働いていたのか。
+							noteで連載中のエッセイ集です。
 						</p>
 						<a
 							className="ed-button"
@@ -287,7 +285,6 @@ export default function Home({
 				</section>
 				<section className="ed-section ed-wrap music-preview" id="music">
                     <Heading label="04 / MUSIC" title="音楽" href="/music" link="すべて聴く" />
-                    <p className="music-preview-intro">つくった曲、演奏、音楽の映像。YouTubeとSoundCloudから。</p>
                     <MediaGrid items={music} />
                 </section>
 				<section className="ed-visual" id="images">
@@ -371,10 +368,7 @@ export default function Home({
 					</div>
 					<div className="ed-profile-body">
 						<p>
-							文章を書き、音楽をつくり、写真を撮っています。エッセイや日記、曲、映像、ポッドキャストをこのサイトにまとめています。
-						</p>
-						<p>
-							本、アート、うつわ、歌舞伎、落語、語学などに関心があります。
+							日記と制作物を載せています。エッセイはnoteで公開しています。
 						</p>
 					</div>
 				</section>

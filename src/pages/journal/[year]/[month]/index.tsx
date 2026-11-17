@@ -57,7 +57,7 @@ export default function MonthPage({ year, month, monthName, entries, monthsOfYea
             <div>
               <h1 className="giga">{year}.{month}</h1>
               <p className="lede-en">
-                {MONTH_EN[monthNum]} — {MONTH_JA[monthNum]} · month {monthNum} of {year}.
+                {year}年{monthName}の日記。
               </p>
             </div>
             <div className="meta-block">
@@ -87,7 +87,7 @@ export default function MonthPage({ year, month, monthName, entries, monthsOfYea
           <h5>Year</h5>
           <div className="summary">
             <b>{year}</b>
-            全{entries.length}件の{monthName}記。他の月は左のリストから。
+            {monthName}の日記{entries.length}件。
           </div>
 
           <p style={{ marginTop: '24px', fontFamily: 'var(--font-sans)', fontStyle: 'normal', fontSize: '13px' }}>

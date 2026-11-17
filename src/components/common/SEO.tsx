@@ -14,7 +14,7 @@ type SEOProps = {
 
 export default function SEO({
   title = SITE_NAME,
-  description = '栗林健太郎のエッセイ、日記、音楽、写真、映像、ポッドキャスト。文章と作品、日々の記録をまとめています。',
+  description = '栗林健太郎の日記、エッセイ、音楽、写真、ポッドキャスト。',
   ogImage,
   ogType = 'website',
   twitterCard = 'summary_large_image',

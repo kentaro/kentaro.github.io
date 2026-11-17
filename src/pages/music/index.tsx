@@ -20,14 +20,13 @@ export default function MusicPage({ items }: Props) {
 
   return (
     <Layout activeNav="music">
-      <SEO title="音楽" description="栗林健太郎の音楽作品、演奏、ミュージックビデオ。YouTubeとSoundCloudで公開している作品を聴く。" />
+      <SEO title="音楽" description="栗林健太郎の曲、演奏、ミュージックビデオ。" />
       <div className="music-page">
         <section className="music-intro wrap">
           <div className="crumb"><Link href="/">ホーム</Link><span className="sep">/</span><span>音楽</span></div>
           <span className="music-kicker">MUSIC / Kéntareaux Kuribayashi</span>
           <h1>音楽</h1>
-          <p>つくった曲、ピアノの演奏、音楽の映像。</p>
-          <p>YouTubeとSoundCloudで公開している作品を、ここから聴けます。</p>
+          <p>YouTubeとSoundCloudで公開した曲や演奏。</p>
           <div className="music-channels">
             <a href="https://www.youtube.com/channel/UCePhLXeZjDdNEosOqpmD19A" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
             <a href="https://soundcloud.com/kentarok" target="_blank" rel="noopener noreferrer">SoundCloud ↗</a>

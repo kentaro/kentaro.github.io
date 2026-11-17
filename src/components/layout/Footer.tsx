@@ -11,7 +11,6 @@ export default function Footer() {
         <div className="row">
           <div>
             <p className="big">{SITE_NAME}</p>
-            <p className="set footer-description">文章、音楽、写真と日々の記録。</p>
           </div>
           <nav aria-label="フッターナビゲーション">
             <p className="footer-label">このサイト</p>
@@ -25,7 +24,7 @@ export default function Footer() {
             </div>
           </nav>
           <div>
-            <p className="footer-label">つながる</p>
+            <p className="footer-label">リンク</p>
             <div className="set">
               <p><a href="https://x.com/kentareaux">X / Twitter ↗</a></p>
               <p><a href="https://www.youtube.com/@kentarok">YouTube ↗</a></p>

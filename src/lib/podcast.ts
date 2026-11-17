@@ -43,7 +43,7 @@ export interface PodcastInfo {
 function forCreatorSite(podcast: PodcastInfo): PodcastInfo {
   return {
     ...podcast,
-    description: '栗林健太郎が、日々の思考や暮らし、本、アートなどについて話すポッドキャストです。',
+    description: '栗林健太郎のポッドキャスト。',
     episodes: podcast.episodes.map(episode => ({
       ...episode,
       description: episode.description

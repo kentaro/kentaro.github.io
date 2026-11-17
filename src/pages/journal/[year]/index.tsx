@@ -63,7 +63,7 @@ export default function YearPage({ year, entries, monthCounts, years, totalCount
             <div>
               <h1 className="giga">{year}</h1>
               <p className="lede-en">
-                All entries of the year {year} — grouped by month.
+                {year}年の日記。
               </p>
             </div>
             <div className="meta-block">
@@ -114,7 +114,7 @@ export default function YearPage({ year, entries, monthCounts, years, totalCount
 
           <h3 className="year-hd">
             {year}
-            <em>annual ledger</em>
+            <em>日記</em>
           </h3>
           <div className="year-rule">
             <span>{entries.length} 編</span>

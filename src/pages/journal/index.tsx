@@ -57,7 +57,7 @@ export default function JournalIndex({ entries, years, totalCount }: Props) {
     <Layout activeNav="journal">
       <SEO
         title="日記"
-        description="栗林健太郎の日記。日々の活動や考えを記録しています。"
+        description="栗林健太郎の日記。"
       />
 
       <section className="sub-hero">
@@ -71,9 +71,6 @@ export default function JournalIndex({ entries, years, totalCount }: Props) {
           <div className="sub-hero-grid">
             <div>
               <h1 className="giga">日記</h1>
-              <p className="lede-en">
-                A running journal kept since junior high — read like newspaper columns.
-              </p>
             </div>
             <div className="meta-block">
               <b>{totalCount.toLocaleString()}</b>
@@ -98,16 +95,15 @@ export default function JournalIndex({ entries, years, totalCount }: Props) {
             ))}
           </ul>
 
-          <h5>This Journal</h5>
+          <h5>日記について</h5>
           <div className="summary">
             <b>{totalCount.toLocaleString()}</b>
-            件の記録。ほぼ毎日、起きたこと・考えたこと・読んだものを書き残しています。
+            件の日記。
           </div>
 
-          <h5 style={{ marginTop: '32px' }}>By month–day</h5>
+          <h5 style={{ marginTop: '32px' }}>同じ日の日記</h5>
           <p style={{ fontFamily: 'var(--font-sans)', fontStyle: 'normal', fontSize: '12px', color: 'var(--ink-mute)', lineHeight: 1.7 }}>
-            同じ月日のエントリーを年を横断して読めます。記事ページの日付 →{' '}
-            <code style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: '11px' }}>/journal/date/MM/DD</code>
+            記事ページの「毎年の○月○日」から、過去の同じ日の日記を読めます。
           </p>
         </aside>
 
@@ -208,7 +204,7 @@ export default function JournalIndex({ entries, years, totalCount }: Props) {
 
           <div className="page-nav">
             <Link href="/">← ホームへ戻る</Link>
-            <span className="mid">End of recent — older issues in the sidebar</span>
+            <span className="mid">過去の日記は年別の一覧から</span>
             <Link href={`/journal/${yearList[yearList.length - 1] || ''}`}>
               {yearList[yearList.length - 1]}年 アーカイブ →
             </Link>

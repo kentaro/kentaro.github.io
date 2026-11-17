@@ -28,7 +28,7 @@ export default function JournalDayPage({ entries, month, day, monthName, prevDay
     <Layout activeNav="journal">
       <SEO
         title={`${monthName}${day}日の日記一覧`}
-        description={`${monthName}${day}日の栗林健太郎の日記を年を横断して読む。`}
+        description={`各年の${monthName}${day}日に書いた栗林健太郎の日記。`}
       />
 
       <section className="sub-hero">
@@ -44,7 +44,7 @@ export default function JournalDayPage({ entries, month, day, monthName, prevDay
             <div>
               <h1 className="giga">{pad(month)}.{pad(day)}</h1>
               <p className="lede-en">
-                Same calendar day, across the years. {monthName}{day}日.
+                各年の{monthName}{day}日の日記。
               </p>
             </div>
             <div className="meta-block">

@@ -1,1 +1,1 @@
-export const SITE_NAME = "Kéntareaux Kuribayashi";
+export const SITE_NAME = "Kéntareaux Kouribayashi";

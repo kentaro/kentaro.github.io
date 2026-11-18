@@ -5,6 +5,7 @@ import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import MediaGrid from '@/components/media/MediaGrid';
 import { getMediaItems, type MediaItem } from '@/lib/media';
+import { SITE_NAME } from '@/lib/site';
 
 type Props = { items: MediaItem[] };
 type Filter = 'all' | 'video' | 'music';
@@ -24,7 +25,7 @@ export default function MusicPage({ items }: Props) {
       <div className="music-page">
         <section className="music-intro wrap">
           <div className="crumb"><Link href="/">ホーム</Link><span className="sep">/</span><span>音楽</span></div>
-          <span className="music-kicker">MUSIC / Kéntareaux Kuribayashi</span>
+          <span className="music-kicker">MUSIC / {SITE_NAME}</span>
           <h1>音楽</h1>
           <p>YouTubeとSoundCloudで公開した曲や演奏。</p>
           <div className="music-channels">

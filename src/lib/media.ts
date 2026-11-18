@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import musicVideoIds from "./music-videos.json";
+import { SITE_NAME } from "./site";
 
 export interface MediaItem {
 	title: string;
@@ -59,7 +60,7 @@ function normalizeMediaItem(value: unknown): MediaItem | null {
 		title: item.title.trim(),
 		description: typeof item.description === "string"
 			? item.description
-				.replace(/Kentaro Kuribayashi/g, "Kéntareaux Kuribayashi")
+				.replace(/(?:Kentaro|Kéntareaux) Kuribayashi/g, SITE_NAME)
 				.replace(/https:\/\/(?:x|twitter)\.com\/kentaro(?=$|[\s"<])/g, "https://x.com/kentareaux")
 				.replace(/^.*(?:discord\.gg\/SXyKFCyMd5|facebook\.com\/kentarok).*$/gm, "")
 				.trim()

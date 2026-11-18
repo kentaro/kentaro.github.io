@@ -25,7 +25,7 @@ export default function SEO({
   const router = useRouter();
 
   // デフォルトアイコンURL
-  const defaultIconUrl = 'https://pbs.twimg.com/profile_images/1964961444673531905/wD3BXCk2_400x400.jpg';
+  const defaultIconUrl = 'https://pbs.twimg.com/profile_images/2122540793881886720/lyAKlKjy_400x400.jpg';
 
   // 日記記事ではタイトルに著者名を重ねない。
   const isJournalPost = router.pathname.startsWith('/journal/') && router.pathname !== '/journal';

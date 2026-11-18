@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Layout from '@/components/layout/Layout';
 import SEO from '@/components/common/SEO';
 import { fetchPodcastFeed, type PodcastInfo } from '@/lib/podcast';
+import { SITE_NAME } from '@/lib/site';
 
 type Props = {
   podcast: PodcastInfo;
@@ -80,7 +81,7 @@ export default function PodcastIndex({ podcast }: Props) {
           </div>
           <div>
             <div className="article-kicker" style={{ marginBottom: '12px' }}>
-              A podcast by Kéntareaux Kuribayashi
+              A podcast by {SITE_NAME}
             </div>
             <h1 className="giga" style={{ fontSize: 'clamp(52px, 9vw, 120px)', marginBottom: '20px' }}>
               {podcast.title || 'Antipop FM'}

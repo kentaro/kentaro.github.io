@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
-        <title>ポッドキャスト | Kéntareaux Kuribayashi</title>
+        <title>ポッドキャスト | Kéntareaux Kouribayashi</title>
         <link>https://kentarokuribayashi.com/podcast</link>
         <description>栗林健太郎のポッドキャスト。</description>
-        <lastBuildDate>Tue, 17 Nov 2026 07:12:53 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 18 Nov 2026 14:49:56 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>ja</language>
         <image>
-            <title>ポッドキャスト | Kéntareaux Kuribayashi</title>
+            <title>ポッドキャスト | Kéntareaux Kouribayashi</title>
             <url>https://d3t3ozftmdmh3i.cloudfront.net/staging/podcast_uploaded_nologo/17426716/17426716-1763827030691-3f59550b6fe3b.jpg</url>
             <link>https://kentarokuribayashi.com/podcast</link>
         </image>
